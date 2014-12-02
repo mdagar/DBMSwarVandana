@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddressRequired" xml:space="preserve">
+    <value>Please enter address.</value>
+  </data>
+  <data name="CentreExists" xml:space="preserve">
+    <value>Centre already exists.</value>
+  </data>
+  <data name="CentreIdRequired" xml:space="preserve">
+    <value>Please enter centre ID.</value>
+  </data>
+  <data name="CentreNameRequired" xml:space="preserve">
+    <value>Please enter centre name.</value>
+  </data>
+  <data name="CentreOpenDateRequired" xml:space="preserve">
+    <value>Please enter Centre Open Date.</value>
+  </data>
+  <data name="CityIdRequired" xml:space="preserve">
+    <value>Please enter city ID.</value>
+  </data>
+  <data name="CityRequired" xml:space="preserve">
+    <value>Please enter city.</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Please enter confirm password.</value>
+  </data>
+  <data name="DisciplineRequired" xml:space="preserve">
+    <value>Please enter discipline.</value>
+  </data>
+  <data name="DOJRequired" xml:space="preserve">
+    <value>Please enter doj.</value>
+  </data>
+  <data name="EmailIdRequired" xml:space="preserve">
+    <value>Please enter email ID.</value>
+  </data>
+  <data name="FNameRequired" xml:space="preserve">
+    <value>Please enter first name.</value>
+  </data>
+  <data name="InvalidLogin" xml:space="preserve">
+    <value>Invalid user name or password.</value>
+  </data>
+  <data name="InvalidPassword" xml:space="preserve">
+    <value>Invalid current password.</value>
+  </data>
+  <data name="LNameRequired" xml:space="preserve">
+    <value>Please enter last name.</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>Please enter new password.</value>
+  </data>
+  <data name="PasswordChanged" xml:space="preserve">
+    <value>Password is successfully changed.</value>
+  </data>
+  <data name="PasswordNotMatched" xml:space="preserve">
+    <value>Password not match.</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Please enter password.</value>
+  </data>
+  <data name="RoleIdRequired" xml:space="preserve">
+    <value>Please enter role ID.</value>
+  </data>
+  <data name="SourceExists" xml:space="preserve">
+    <value>Source already exists.</value>
+  </data>
+  <data name="SourceRequired" xml:space="preserve">
+    <value>Please enter source name.</value>
+  </data>
+  <data name="StateIdRequired" xml:space="preserve">
+    <value>Please enter state ID.</value>
+  </data>
+  <data name="StateRequired" xml:space="preserve">
+    <value>Please enter state.</value>
+  </data>
+  <data name="SubmitCentre" xml:space="preserve">
+    <value>Centre is successfully submitted.</value>
+  </data>
+  <data name="SubmitSource" xml:space="preserve">
+    <value>Source is successfully submitted.</value>
+  </data>
+  <data name="SubmitUsers" xml:space="preserve">
+    <value>User is successfully submitted.</value>
+  </data>
+  <data name="UserExists" xml:space="preserve">
+    <value>User already exists.</value>
+  </data>
+  <data name="UserNameRequired" xml:space="preserve">
+    <value>Please enter user name.</value>
+  </data>
+  <data name="UserNotExists" xml:space="preserve">
+    <value>Invalid user name or password.</value>
+  </data>
+  <data name="DisciplineExists" xml:space="preserve">
+    <value>Discipline already exists.</value>
+  </data>
+  <data name="SubmitDisipline" xml:space="preserve">
+    <value>Discipline is successfully submitted.</value>
+  </data>
+  <data name="ContactNumberRequired" xml:space="preserve">
+    <value>Please enter contact number.</value>
+  </data>
+  <data name="DateOfEnquiryRequired" xml:space="preserve">
+    <value>Please enter date of enquiry.</value>
+  </data>
+  <data name="NameRequired" xml:space="preserve">
+    <value>Please enter name.</value>
+  </data>
+  <data name="RemarksRequired" xml:space="preserve">
+    <value>Please enter remarks.</value>
+  </data>
+  <data name="StatusIdRequired" xml:space="preserve">
+    <value>Please enter status.</value>
+  </data>
+  <data name="AttendedByRequired" xml:space="preserve">
+    <value>Please enter attended by.</value>
+  </data>
+  <data name="ExquiryExists" xml:space="preserve">
+    <value>Enquiry already exists.</value>
+  </data>
+  <data name="SubmitEnquiry" xml:space="preserve">
+    <value>Enquiry is successfully submitted.</value>
+  </data>
+  <data name="GenderRequired" xml:space="preserve">
+    <value>Please enter gender.</value>
+  </data>
+  <data name="SalaryRequired" xml:space="preserve">
+    <value>Please enter salary.</value>
+  </data>
+  <data name="YearExpRequired" xml:space="preserve">
+    <value>Please enter year of experience.</value>
+  </data>
+  <data name="FacultyExists" xml:space="preserve">
+    <value>Faculty already exists.</value>
+  </data>
+  <data name="SubmitFaculty" xml:space="preserve">
+    <value>Faculty is successfully submitted.</value>
+  </data>
+  <data name="EndDateRequired" xml:space="preserve">
+    <value>Please enter end date.</value>
+  </data>
+  <data name="FacultyIdRequired" xml:space="preserve">
+    <value>Please enter faculty.</value>
+  </data>
+  <data name="StartDateRequired" xml:space="preserve">
+    <value>Please enter start date.</value>
+  </data>
+  <data name="ClassExists" xml:space="preserve">
+    <value>Class detail already exists.</value>
+  </data>
+  <data name="SubmitClass" xml:space="preserve">
+    <value>Class detail is successfully submitted.</value>
+  </data>
+</root>

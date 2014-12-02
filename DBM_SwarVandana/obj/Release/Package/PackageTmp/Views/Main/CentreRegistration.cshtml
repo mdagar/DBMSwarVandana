@@ -1,0 +1,74 @@
+﻿@model ViewModel.CentresViewModel
+@using Code;
+@{
+    ViewBag.Title = "CentreRegistration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Centre Registration</h2>
+<script>
+
+    function GetCitiesByStateId() {
+        $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
+            $("#CityId").html('');
+            $("#CityId").append('<option value="">-- Select City --</option>');
+            $.each(cities, function (i, City) {
+                $("#CityId").append('<option value="' + City.CityId + '">' +
+                     City.CityName + '</option>');
+                // here we are adding option for States
+
+            });
+        });
+    }
+</script>
+
+<!-- start container -->
+<div class="container">
+
+    <!-- registration-form -->
+    <div class="registration-form">
+        @using (Html.BeginForm("CentreRegistration", "Main", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div>
+                @if (!string.IsNullOrEmpty(ViewBag.Success))
+                {
+                    @ViewBag.Success
+                }
+                else
+                {
+                    @ViewBag.Error
+                }
+            </div>
+            <h3>Add Centre</h3>
+            <div class="row">
+                <label for="Password">Centre Name :</label>
+                @Html.TextBoxFor(x => x.CentreName, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.CentreName)
+            </div>
+            <div class="row">
+                <label for="Password">Address :</label>
+                @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
+                @Html.ValidationMessageFor(x => x.Address)
+            </div>
+            <div class="row">
+                <label for="Password">State :</label>
+                @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" })
+                @Html.ValidationMessageFor(x => x.StateId)
+            </div>
+            <div class="row">
+                <label for="Password">City :</label>
+                @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select" })
+                @Html.ValidationMessageFor(x => x.CityId)
+            </div>
+            <div class="row">
+                <label for="Password">Centre Open Date :</label>
+                @Html.TextBoxFor(x => x.CentreOpenDate, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.CentreOpenDate)
+            </div>
+            <div class="rowbutton">
+                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
+            </div>
+    
+        }
+
+    </div>
+</div>

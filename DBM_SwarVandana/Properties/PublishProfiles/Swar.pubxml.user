@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <LastUsedBuildConfiguration>Release</LastUsedBuildConfiguration>
+    <LastUsedPlatform>Any CPU</LastUsedPlatform>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/DBM_SwarVandana.dll">
+      <publishTime>11/30/2014 21:25:25</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>11/15/2014 20:02:35</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>11/15/2014 20:02:34</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>11/15/2014 20:02:36</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>11/15/2014 20:02:37</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>11/15/2014 20:02:35</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>11/15/2014 20:02:36</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>11/15/2014 20:02:36</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>11/15/2014 20:02:36</publishTime>
+    </File>
+    <File Include="Content/css/colorbox.css">
+      <publishTime>11/22/2014 06:52:19</publishTime>
+    </File>
+    <File Include="Content/css/css3.css">
+      <publishTime>11/22/2014 06:52:19</publishTime>
+    </File>
+    <File Include="Content/css/ie.css">
+      <publishTime>11/22/2014 06:52:19</publishTime>
+    </File>
+    <File Include="Content/css/ie7.css">
+      <publishTime>11/22/2014 06:52:19</publishTime>
+    </File>
+    <File Include="Content/css/ie8.css">
+      <publishTime>11/22/2014 06:52:19</publishTime>
+    </File>
+    <File Include="Content/css/style.css">
+      <publishTime>11/25/2014 18:26:28</publishTime>
+    </File>
+    <File Include="Content/images/bd_pop_up.jpg">
+      <publishTime>11/25/2014 20:10:34</publishTime>
+    </File>
+    <File Include="Content/images/bg_body.jpg">
+      <publishTime>11/25/2014 20:10:34</publishTime>
+    </File>
+    <File Include="Content/images/bg_button.png">
+      <publishTime>11/25/2014 20:10:34</publishTime>
+    </File>
+    <File Include="Content/images/bg_login_box.png">
+      <publishTime>11/25/2014 20:10:34</publishTime>
+    </File>
+    <File Include="Content/images/bg_table.png">
+      <publishTime>11/25/2014 20:10:34</publishTime>
+    </File>
+    <File Include="Content/images/border.png">
+      <publishTime>11/25/2014 20:10:34</publishTime>
+    </File>
+    <File Include="Content/images/controls.png">
+      <publishTime>11/25/2014 20:10:34</publishTime>
+    </File>
+    <File Include="Content/images/god_pic.jpg">
+      <publishTime>11/25/2014 20:10:34</publishTime>
+    </File>
+    <File Include="Content/images/ico_edit.png">
+      <publishTime>11/25/2014 20:10:34</publishTime>
+    </File>
+    <File Include="Content/images/ico_list.png">
+      <publishTime>11/25/2014 20:10:34</publishTime>
+    </File>
+    <File Include="Content/images/ico_lock.png">
+      <publishTime>11/25/2014 20:10:34</publishTime>
+    </File>
+    <File Include="Content/images/ico_mail.png">
+      <publishTime>11/25/2014 20:10:34</publishTime>
+    </File>
+    <File Include="Content/images/ico_play.png">
+      <publishTime>11/25/2014 20:10:34</publishTime>
+    </File>
+    <File Include="Content/images/ico_profile.png">
+      <publishTime>11/25/2014 20:10:34</publishTime>
+    </File>
+    <File Include="Content/images/loading.gif">
+      <publishTime>11/25/2014 20:10:34</publishTime>
+    </File>
+    <File Include="Content/images/loading_background.png">
+      <publishTime>11/25/2014 20:10:34</publishTime>
+    </File>
+    <File Include="Content/images/login_tag.png">
+      <publishTime>11/25/2014 20:10:34</publishTime>
+    </File>
+    <File Include="Content/images/logo.png">
+      <publishTime>11/25/2014 20:10:34</publishTime>
+    </File>
+    <File Include="Content/images/overlay.png">
+      <publishTime>11/25/2014 20:10:34</publishTime>
+    </File>
+    <File Include="Content/js/jquery-1.11.1.js">
+      <publishTime>11/19/2014 21:28:55</publishTime>
+    </File>
+    <File Include="Content/js/jquery.colorbox.js">
+      <publishTime>11/22/2014 06:52:49</publishTime>
+    </File>
+    <File Include="Content/js/Jquery.validate.js">
+      <publishTime>11/25/2014 18:46:42</publishTime>
+    </File>
+    <File Include="Content/js/jquery.validate.unobtrusive.js">
+      <publishTime>11/25/2014 18:48:51</publishTime>
+    </File>
+    <File Include="Content/js/script.js">
+      <publishTime>11/22/2014 06:52:49</publishTime>
+    </File>
+    <File Include="Content/Pictures/ico_profile.png">
+      <publishTime>11/25/2014 20:45:40</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>11/15/2014 20:02:20</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>11/15/2014 20:02:39</publishTime>
+    </File>
+    <File Include="Views/Class/ClassDetails.cshtml">
+      <publishTime>11/25/2014 18:43:29</publishTime>
+    </File>
+    <File Include="Views/Enquiries/PhysicalEnquiry.cshtml">
+      <publishTime>11/25/2014 18:40:04</publishTime>
+    </File>
+    <File Include="Views/Enquiries/TelephonicEnquiry.cshtml">
+      <publishTime>11/25/2014 18:32:15</publishTime>
+    </File>
+    <File Include="Views/Faculty/FacultyRegistration.cshtml">
+      <publishTime>11/25/2014 18:23:41</publishTime>
+    </File>
+    <File Include="Views/Home/Index.cshtml">
+      <publishTime>11/22/2014 07:15:54</publishTime>
+    </File>
+    <File Include="Views/Main/AddDiscipline.cshtml">
+      <publishTime>11/25/2014 20:43:29</publishTime>
+    </File>
+    <File Include="Views/Main/AddSource.cshtml">
+      <publishTime>11/25/2014 18:15:12</publishTime>
+    </File>
+    <File Include="Views/Main/CentreRegistration.cshtml">
+      <publishTime>11/25/2014 18:12:59</publishTime>
+    </File>
+    <File Include="Views/Main/ChangePassword.cshtml">
+      <publishTime>11/25/2014 18:12:06</publishTime>
+    </File>
+    <File Include="Views/Main/Index.cshtml">
+      <publishTime>11/22/2014 10:27:30</publishTime>
+    </File>
+    <File Include="Views/Main/ManageDiscipline.cshtml">
+      <publishTime>11/25/2014 20:20:26</publishTime>
+    </File>
+    <File Include="Views/Main/UserRegistration.cshtml">
+      <publishTime>11/25/2014 18:15:21</publishTime>
+    </File>
+    <File Include="Views/Shared/_Layout.cshtml">
+      <publishTime>11/30/2014 14:36:28</publishTime>
+    </File>
+    <File Include="Views/Web.config">
+      <publishTime>11/15/2014 20:02:20</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>11/30/2014 21:25:26</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

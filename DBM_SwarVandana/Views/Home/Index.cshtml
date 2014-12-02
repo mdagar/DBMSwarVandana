@@ -1,0 +1,131 @@
+﻿@model ViewModel.UsersViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Svar Vandana</title>
+    <link href="~/Content/css/loginstyle.css" rel="stylesheet" />
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <link href="~/Content/css/colorbox.css" rel="stylesheet" />
+    
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css' />
+    <!--[if IE 7]><link rel="stylesheet" type="text/css" href="css/ie7.css" media="screen" /><![endif]-->
+    <!--[if IE 8]><link rel="stylesheet" type="text/css" href="css/ie8.css" media="screen" /><![endif]-->
+    <!--[if IE 9]><link rel="stylesheet" type="text/css" href="css/ie.css" media="screen" /><![endif]-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+    <script src="~/Content/js/jquery.colorbox.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".inline").colorbox({ inline: true, width: "50%" });
+        });
+    </script>
+</head>
+<body class="login-page">
+    <!-- start box -->
+    <div class="box">
+        <!-- start header -->
+        <div class="header">
+            <!-- start logo -->
+            <div class="logo">
+                <a href="index.html" title="Svar Vandana">
+                    <img src="~/Content/images/logo.png" alt="Svar Vandana" /></a>
+            </div>
+            <!-- end logo -->
+        </div>
+        <!-- end header -->
+        <!-- atsrt container -->
+        <div class="container">
+            <!-- start login-box -->
+            <div class="login-box">
+                <div class="top">
+                    <div class="login-tag"></div>
+                </div>
+                <!-- content -->
+                <div class="content">
+                    <h3>Happiness@@ Music</h3>
+                    @using (Html.BeginForm())
+                    {
+                        <div>@Html.ValidationSummary(false)</div>
+                        <div class="form">
+                            <div class="row">
+                                @Html.TextBoxFor(x => x.UserName, new { @class = "input", value = "username", onfocus = "if(this.value == 'Username') { this.value = ''; }", onblur = "if(this.value == '') { this.value = 'Username'; }" })
+                            </div>
+                            <div class="row lock">
+                                @Html.PasswordFor(x => x.Password, new { @class = "input", value = "Password", onfocus = "if(this.value == 'Password') { this.value = ''; }", onblur = "if(this.value == '') { this.value = 'Password'; }" })
+                                @*<input type="text" name="field" value="Password" class="input" onfocus="if(this.value == 'Password') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Password'; }" />*@
+                            </div>
+                        </div>
+                        <input type="submit" id="btnLogin" value="Login" class="button" />
+                    }
+                </div>
+                <!-- content -->
+            </div>
+            <!-- end login-box -->
+            <a href="#inline_content" title="Forgot your password?" class="link inline">Forgot your password?</a>
+            <!-- pop up -->
+            <div style='display: none'>
+                <div id='inline_content'>
+                    <!-- start login-box -->
+                    <div class="login-box">
+                        <!-- content -->
+                        <div class="content">
+                            <h3>Happiness@@ Music</h3>
+                            <form action="#">
+                                <div class="form">
+                                    <div class="row">
+                                        @Html.TextBoxFor(x => x.UserName, new { @class = "input", onfocus = "if(this.value == 'Username') { this.value = ''; }", onblur = "if(this.value == '') { this.value = 'Username'; }" })
+                                    </div>
+                                    <div class="row lock">
+                                        @Html.PasswordFor(x => x.Password, new { @class = "input", onfocus = "if(this.value == 'Password') { this.value = ''; }", onblur = "if(this.value == '') { this.value = 'Password'; }" })
+                                        @*<input type="text" name="field" value="Password" class="input" onfocus="if(this.value == 'Password') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Password'; }" />*@
+                                    </div>
+                                </div>
+                                <input type="submit" id="btnForget" value="Get Password" class="button" />
+                            </form>
+                        </div>
+                        <!-- content -->
+                    </div>
+                    <!-- end login-box -->
+                </div>
+            </div>
+            <!-- pop up -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end box -->
+</body>
+@*<body>
+    <div>
+        @using (Html.BeginForm())
+        {
+            <div>
+                @Html.ValidationSummary(false)
+            </div>
+            <table>
+                <tr>
+                    <td>User Name :</td>
+                    <td>
+                        @Html.TextBoxFor(x => x.UserName)
+                    </td>
+                </tr>
+                <tr>
+                    <td>Password :</td>
+                    <td>
+                        @Html.PasswordFor(x => x.Password)
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" id="btnLogin" value="Login" />
+                    </td>
+                </tr>
+            </table>
+        }
+    </div>
+</body>*@
+</html>

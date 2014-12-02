@@ -1,0 +1,131 @@
+﻿@using Code;
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <script src="~/Content/JS/jquery-1.11.1.js"></script>
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <link href="~/Content/css/colorbox.css" rel="stylesheet" />
+    <script src="~/Content/js/Jquery.validate.js"></script>
+    <script src="~/Content/js/jquery.validate.unobtrusive.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css' />
+    <!--[if IE 7]><link rel="stylesheet" type="text/css" href="css/ie7.css" media="screen" /><![endif]-->
+    <!--[if IE 8]><link rel="stylesheet" type="text/css" href="css/ie8.css" media="screen" /><![endif]-->
+    <!--[if IE 9]><link rel="stylesheet" type="text/css" href="css/ie.css" media="screen" /><![endif]-->
+
+</head>
+<body>
+    <!-- start wrap -->
+    <div class="wrap">
+        <!-- start box -->
+        <div class="box">
+            <!-- start header -->
+            <div class="header">
+                <!-- start logo -->
+                <div class="logo">
+                    <a href="index.html" title="Svar Vandana">
+                        <img src="~/Content/images/logo.png" alt="Svar Vandana" /></a>
+                </div>
+                <!-- end logo -->
+                <!-- start header-right -->
+                <div class="header-right">
+                    <!-- start top-bar -->
+                    <div class="top-bar">
+                        <ul>
+                            <li><a href="#" title="User" style="min-width: 115px">@SessionWrapper.User.FirstName&nbsp;@SessionWrapper.User.LastName</a></li>
+                            <li><a href="@Url.Action("LogOut", "Home")">Logout</a></li>
+                        </ul>
+                    </div>
+                    <!-- end top-bar -->
+                    @if (SessionWrapper.User.RoleId == 3)
+                    {
+                        <!-- start navigation -->
+                        <div class="navigation">
+                            <ul>
+                                <li><a href="@Url.Action("Index", "Main")">Home</a></li>
+                                <li><a href="#" title="Masters">Masters</a>
+                                    <ul>
+                                        <li><a href="@Url.Action("ChangePassword", "Main")">Change Password</a></li>
+                                        <li><a href="@Url.Action("CentreRegistration", "Main")">Centre Registration</a></li>
+                                        @*<li><a href="@Url.Action("CentreRegistration", "Main")">Manage Centre</a></li>*@
+                                        <li><a href="@Url.Action("UserRegistration", "Main")">User Registration</a></li>
+                                        @*<li><a href="@Url.Action("CentreRegistration", "Main")">Manage User</a></li>*@
+                                        <li><a href="@Url.Action("AddSource", "Main")">Add Source</a></li>
+                                        @*<li><a href="@Url.Action("CentreRegistration", "Main")">Manage Source</a></li>*@
+                                        <li><a href="@Url.Action("AddDiscipline", "Main")">Add Discipline</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#" title="Enquiries">Enquiries</a>
+                                    <ul>
+                                        <li><a href="@Url.Action("TelephonicEnquiry", "Enquiries")">Telephonic Enquiry</a></li>
+                                        <li><a href="@Url.Action("PhysicalEnquiry", "Enquiries")">Physical Enquiry</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="@Url.Action("Index", "Main")">Class Management</a>
+                                    <ul>
+                                        <li><a href="@Url.Action("ClassDetails", "Class")">Register Class</a></li>
+                                        <li><a href="@Url.Action("Index", "Main")">Class Pattern</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="@Url.Action("Index", "Main")">Student Enrollment</a></li>
+                                <li><a href="@Url.Action("Index", "Main")">Admin</a>
+                                    <ul>
+                                        <li><a href="@Url.Action("FacultyRegistration", "Faculty")">Add Faculty</a></li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <!-- end navigation -->
+                    }
+                    else if (SessionWrapper.User.RoleId == 2)
+                    {
+
+                    }
+                    else
+                    {
+                        
+                    }
+                </div>
+                <!-- end header-right -->
+            </div>
+            <!-- end header -->
+            <!-- start container -->
+            @RenderBody()
+            <!-- end container -->
+        </div>
+        <!-- end box --->
+    </div>
+    <!-- end wrap -->
+    <!-- start footer -->
+    <div class="footer">
+        <!-- start box -->
+        <div class="box">
+            Copyright &copy; 2014
+        </div>
+        <!-- end box -->
+    </div>
+    <!-- end footer -->
+</body>
+
+@*<body>
+
+    <div>
+        <div style="float:left;"><a href="@Url.Action("Index", "Main")">Home</a>&nbsp;&nbsp;&nbsp;</div>
+        <div style="float:left;"><a href="@Url.Action("ChangePassword", "Main")">Change Password</a>&nbsp;&nbsp;&nbsp;</div>
+        <div style="float:left;"><a href="@Url.Action("CentreRegistration", "Main")">Centre Registration</a>&nbsp;&nbsp;&nbsp;</div>
+        <div style="float:left;"><a href="@Url.Action("UserRegistration", "Main")">User Registration</a>&nbsp;&nbsp;&nbsp;</div>
+        <div style="float:left;"><a href="@Url.Action("AddSource", "Main")">Add Source</a>&nbsp;&nbsp;&nbsp;</div>
+        <div style="float:left;"><a href="@Url.Action("AddDiscipline", "Main")">Add Discipline</a>&nbsp;&nbsp;&nbsp;</div>
+        <div style="float:left;"><a href="@Url.Action("LogOut", "Home")">Logout</a>&nbsp;&nbsp;&nbsp;</div>
+    </div>
+
+    <div>
+        <div id="RenderBody">
+            @RenderBody()
+        </div>
+    </div>
+</body>*@
+</html>

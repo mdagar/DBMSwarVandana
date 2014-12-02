@@ -1,0 +1,53 @@
+﻿@model ViewModel.ClassDetailViewModel
+@using Code;
+@{
+    ViewBag.Title = "ClassDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start container -->
+<div class="container">
+
+    <!-- registration-form -->
+    <div class="registration-form">
+        @using (Html.BeginForm("ClassDetails", "Class", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div>
+                @if (!string.IsNullOrEmpty(ViewBag.Success))
+                {
+                    @ViewBag.Success
+                }
+                else
+                {
+                    @ViewBag.Error
+                }
+            </div>
+            <h3>Physical Enquiry</h3>
+            <div class="row">
+                <label for="Password">Discipline :</label>
+                @Html.DropDownListFor(x => x.DisciplineId, new ListBound(Model.DisciplineId, "Disciplines").Disciplines, "-- Select Discipline --", new { @class = "select" })
+                @Html.ValidationMessageFor(x => x.DisciplineId)
+            </div>
+            <div class="row">
+                <label for="Password">Faculty :</label>
+                @Html.DropDownListFor(x => x.FacultyId, new ListBound(Model.FacultyId, "Faculties").Faculties, "-- Select Faculty --", new { @class = "select" })
+                @Html.ValidationMessageFor(x => x.FacultyId)
+            </div>
+            <div class="row">
+                <label for="Password">Start Date :</label>
+                @Html.TextBoxFor(x => x.StartDate, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.StartDate)
+            </div>
+            <div class="row">
+                <label for="Password">End Date :</label>
+                @Html.TextBoxFor(x => x.EndDate, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.EndDate)
+            </div>
+            <div class="rowbutton">
+                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
+            </div>
+    
+        }
+    </div>
+
+</div>

@@ -1,0 +1,49 @@
+﻿@model ViewModel.DisciplineViewModel
+@{
+    ViewBag.Title = "AddDiscipline";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start container -->
+<div class="container">
+
+    <!-- registration-form -->
+    <div class="registration-form">
+        @using (Html.BeginForm("AddDiscipline", "Main", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div>
+                @if (!string.IsNullOrEmpty(ViewBag.Success))
+                {
+                    @ViewBag.Success
+                }
+                else
+                {
+                    @ViewBag.Error
+                }
+            </div>
+            @Html.HiddenFor(x => x.DisciplineId)
+            <h3>Add Discipline</h3>
+            <div class="row">
+                <label for="Password">Discipline Name :</label>
+                @Html.TextBoxFor(x => x.Discipline, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.Discipline)
+            </div>
+            <div class="row">
+                <label for="Password">Description :</label>
+                @Html.TextAreaFor(x => x.Description, new { @class = "textarea" })
+                @Html.ValidationMessageFor(x => x.Description)
+            </div>
+            <div class="rowbutton">
+                <a href="@Url.Action("ManageDiscipline", "Main")" class="submit-btn gap">Manage</a>
+                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
+                @*<input name="submit" type="submit" value="CANCEL" class="submit-btn gap" />
+                    <input name="submit" type="submit" value="SUBMIT" class="submit-btn" />*@
+            </div>
+        }
+    </div>
+    <!-- registration-form -->
+</div>
+<!-- end container -->
+
+
+

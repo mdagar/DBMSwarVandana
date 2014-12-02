@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Models.Disciplines>
+@using Code;
+@{
+    ViewBag.Title = "ManageDiscipline";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start container -->
+<div class="container">
+    <!-- table-info -->
+    <div class="table-info">
+        <!-- start table-form -->
+        <div class="table-form">
+                @*<form action="#">
+                    <label for="From">From Date</label>
+                    <input type="text" name="field" value="" class="input" />
+                    <label for="From">From Date</label>
+                    <input type="text" name="field" value="" class="input" />
+                    <select name="field" id="Inventory" class="select"><option></option></select>
+                    <input name="submit" type="submit" value="Excel Button" class="submit-btn" />
+                </form>*@
+            </div>
+        <!-- end table-form -->
+        <!-- start table -->
+        <div class="table">
+            <!-- start row -->
+            <div class="row-first">
+                <div class="td td1">&nbsp;</div>
+                <div class="td">Discipline</div>
+                <div class="td">Description</div>
+                <div class="td">Action</div>
+            </div>
+            <!-- end row -->
+            @foreach (var v in Model)
+            {
+                <!-- start row -->
+                <div class="row">
+                    <div class="td td1">@v.DisciplineId</div>
+                    <div class="td">@v.Discipline</div>
+                    <div class="td">@v.Description</div>
+                    <div class="td edit"><a href="@Url.Action("AddDiscipline", "Main", new { DisciplineId = v.DisciplineId })" title="Edit">Edit</a></div>
+                </div>
+                <!-- end row -->
+            }
+            <!-- start row -->
+            <div class="row-last">
+                <div class="td td2">1 - 8 of 8 items</div>
+                <div class="td td3">
+                    <ul>
+                        <li><a href="#"></a></li>
+                        <li><a href="#"></a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#"></a></li>
+                        <li><a href="#"></a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end table -->
+    </div>
+    <!-- end table-info -->
+</div>
+<!-- end container -->

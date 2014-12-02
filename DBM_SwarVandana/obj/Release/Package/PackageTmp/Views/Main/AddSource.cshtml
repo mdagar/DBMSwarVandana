@@ -1,0 +1,46 @@
+﻿@model ViewModel.SourceViewModel
+@{
+    ViewBag.Title = "AddSource";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start container -->
+<div class="container">
+
+    <!-- registration-form -->
+    <div class="registration-form">
+        @using (Html.BeginForm("AddSource", "Main", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div>
+                @if (!string.IsNullOrEmpty(ViewBag.Success))
+                {
+                    @ViewBag.Success
+                }
+                else
+                {
+                    @ViewBag.Error
+                }
+            </div>
+            <h3>Add Source</h3>
+            <div class="row">
+                <label for="Password">Source Name :</label>
+                @Html.TextBoxFor(x => x.Source, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.Source)
+            </div>
+            <div class="row">
+                <label for="Password">Description :</label>
+                @Html.TextAreaFor(x => x.Description, new { @class = "textarea" })
+                @Html.ValidationMessageFor(x => x.Description)
+            </div>
+            <div class="rowbutton">
+                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
+                @*<input name="submit" type="submit" value="CANCEL" class="submit-btn gap" />
+                    <input name="submit" type="submit" value="SUBMIT" class="submit-btn" />*@
+            </div>
+        }
+    </div>
+    <!-- registration-form -->
+</div>
+<!-- end container -->
+
+
