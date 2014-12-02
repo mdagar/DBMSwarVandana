@@ -1,18 +1,18 @@
 ﻿@model IEnumerable<Models.Enquiries>
 @{
-    ViewBag.Title = "Telephonic Enquiry List";
+    ViewBag.Title = "PhysicalEnquiryList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!-- start container -->
 <div class="container">
 
-    <!-- Telephonic Enquiry List -->
-    <h3 style="color: #ff9903; font-size: 30px; font-weight: 600; padding-bottom: 30px; padding-left: 50px; text-align: center;">Telephonic Enquiry List</h3>
+    <!-- Physical Enquiry List -->
+    <h3 style="color: #ff9903; font-size: 30px; font-weight: 600; padding-bottom: 30px; padding-left: 50px; text-align: center; ">Physical Enquiry List</h3>
     <div class="row" style="margin-top: 20px;">
         <div>
-            <a href="@Url.Action("TelephonicEnquiry", "Enquiries")" style=" background: none repeat scroll 0 0 #ff6a00; border-radius: 5px;color: #fff !important; padding: 5px 7px;">
-                <span></span>&nbsp;Add New Enquiry
+            <a href="@Url.Action("PhysicalEnquiry", "Enquiries")" style=" background: none repeat scroll 0 0 #ff6a00; border-radius: 5px;color: #fff !important; padding: 5px 7px;">
+                <span style="content:'+' ;"></span>&nbsp;Add New Enquiry
             </a>
         </div>
     </div>
@@ -68,7 +68,7 @@
                         <td>@v.StatusId</td>
                         <td>@v.RemarksByFaculty</td>
                         <td>
-                            <a href="@Url.Action("TelephonicEnquiry", "Enquiries", new { enquiryId = v.EnquiryId })" title="Edit"><span>Edit</span></a>
+                            <a href="@Url.Action("PhysicalEnquiry", "Enquiries", new { enquiryId = v.EnquiryId })" title="Edit"><span>Edit</span></a>
                         </td>
                     </tr>
                 }

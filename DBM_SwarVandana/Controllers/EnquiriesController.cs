@@ -70,10 +70,19 @@ namespace DBM_SwarVandana.Controllers
             return View(en);
         }
 
+        //[Authenticate]
+        public ActionResult PhysicalEnquiryList()
+        {
+            List<Enquiries> enq = _allenquiry.ListEnquuiry(0, 1);
+            return View(enq);
+        }
+
         [Authenticate]
-        public ActionResult PhysicalEnquiry()
+        public ActionResult PhysicalEnquiry(int? enquiryId)
         {
             EnquiryViewModel en = new EnquiryViewModel();
+            if (enquiryId.HasValue)
+                en = new EnquiryViewModel(_allenquiry.FindByEnquirieID(enquiryId.Value));
             return View(en);
         }
 
