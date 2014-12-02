@@ -263,6 +263,7 @@
     <None Include="Properties\PublishProfiles\Swar.pubxml" />
     <Content Include="Views\Class\ClassDetails.cshtml" />
     <Content Include="Views\Main\ManageDiscipline.cshtml" />
+    <Content Include="Views\Home\ForgotPassword.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

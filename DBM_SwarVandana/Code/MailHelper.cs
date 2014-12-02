@@ -2,6 +2,7 @@
 using Code;
 using System.Web.Mail;
 using System.Web.Helpers;
+using System;
 public class MailHelper
 {
     public static void SendMail(string to, string subject, string body, string fileAttachment = "")
@@ -17,7 +18,9 @@ public class MailHelper
             WebMail.EnableSsl = true;
             WebMail.Send(to: to, subject: subject, body: body);
         }
-        catch
-        { }
+        catch (Exception e)
+        {
+            throw e;
+        }
     }
 }
