@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Models.Enquiries>
+@{
+    ViewBag.Title = "Telephonic Enquiry List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start container -->
+<div class="container">
+
+    <!-- Telephonic Enquiry List -->
+    <div style="margin-top: 20px;">
+        <div>
+            <a href="@Url.Action("TelephonicEnquiry", "Enquiries")" style=" background: none repeat scroll 0 0 #ff6a00; border-radius: 5px;color: #fff !important; padding: 5px 7px;">
+                <span class="glyphicon glyphicon-white glyphicon-plus"></span>&nbsp;Add New Enquiry
+            </a>
+    </div>
+    </div>
+    <div class="registration-form">
+        <table cellspacing="0" id="RootMainContent" style="margin-top: 20px; width: 100%; font-size: 12px; border: 1px solid">
+            <thead style="background:#DA7403">
+                <tr align="left" class="active">
+                    <th scope="col">
+                        <span>Name</span>
+                    </th>
+                    <th scope="col">
+                        <span>Discipline</span>
+                    </th>
+                    <th scope="col">
+                        <span>Contact Number </span>
+                    </th>
+                    <th scope="col">
+                        <span>Date of Enquiry</span>
+                    </th>
+                    <th scope="col">
+                        <span>Source </span>
+                    </th>
+                    <th scope="col">
+                        <span>Address</span>
+                    </th>
+                    <th scope="col">
+                        <span>State</span>
+                    </th>
+                    <th scope="col">
+                        <span>City</span>
+                    </th>
+                    <th scope="col">
+                        <span>Status</span>
+                    </th>
+                    <th scope="col">
+                        <span>Remarks</span>
+                    </th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var v in Model)
+                {
+                    <tr align="left">
+                        <td> @v.Name</td>
+                        <td>@v.Discipline</td>
+                        <td>@v.ContactNumber</td>
+                        <td>@string.Format("{0:dd MMM yyyy}", v.DateOfEnquiry)</td>
+                        <td>@v.SourceId</td>
+                        <td>@v.Address</td>
+                        <td>@v.StateId</td>
+                        <td>@v.CityId</td>
+                        <td>@v.StatusId</td>
+                        <td>@v.RemarksByFaculty</td>
+                        <td>
+                            <a href="@Url.Action("TelephonicEnquiry", "Enquiries", new { enquiryId = v.EnquiryId })" class="iconsDiv" title="Edit"><span class="glyphicon glyphicon-edit"></span></a>
+                        </td>
+                    </tr>
+                }
+                @{if (Model.Count() == 0)
+                {
+                    <tr>
+                        <td colspan="11" style="text-align: center">No record found.</td>
+                    </tr>
+                }}
+            </tbody>
+        </table>
+
+    </div>
+</div>
