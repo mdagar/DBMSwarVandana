@@ -37,6 +37,17 @@ namespace Repositories
             else
                 return ds.Tables[0].TableToList<Enquiries>();
         }
+        public Enquiries FindByEnquirieID(int enquiryId)
+        {
+            string query = "SELECT EnquiryId,SourceId,EnquiryTypeId,ContactNumber,Name,DateOfEnquiry,Discipline,StateId,CityId,Address,AttendedBy,Demo,RemarksByFaculty,StatusId,ProbableStudentFor,Gender,Age,Occupation,FinalComments,NoOfClasses,Package,RegistrationAmount,CentreId,IsEnquiryClosed,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive,IsDeleted FROM enquiries WHERE enquiryid='" + enquiryId + "'";
+            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, query);
+            if (ds == null)
+                return new Enquiries();
+            else
+                return ds.Tables[0].TableToList<Enquiries>().FirstOrDefault();
+
+
+        }
 
     }
 }
