@@ -24,6 +24,11 @@ namespace Repositories
             return Convert.ToInt32(d);
         }
 
+        public List<ClassDetails> ListClassDetails(int centerId)
+        {
+            return new List<ClassDetails>();
+        }
+
         public ClassDetails FindById(long ClassId)
         {
             string Query = "SELECT ClassId,DisciplineId,FacultyId,StudentLimit,StartDate,EndDate,CentreId,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive,IsDeleted FROM [dbo].[Classdetails] WHERE ClassId = " + ClassId;

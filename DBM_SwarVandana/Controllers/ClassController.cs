@@ -30,6 +30,13 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
+        public ActionResult ClassDetailsList()
+        {
+            List<ClassDetails> cls = _allclass.ListClassDetails(SessionWrapper.User.CentreId);
+            return View(cls);
+        }
+
+        [Authenticate]
         [HttpPost]
         public ActionResult ClassDetails(ClassDetailViewModel cls)
         {
@@ -104,7 +111,7 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult TimeCollection(int flag = 4, long PatternId = 0, long classId = 0,string startTime="",string endTime="",string randNo="")
+        public ActionResult TimeCollection(int flag = 4, long PatternId = 0, long classId = 0, string startTime = "", string endTime = "", string randNo = "")
         {
             //if 1 then add if 2 then remove if 3 get from database
             if (flag == 1)
