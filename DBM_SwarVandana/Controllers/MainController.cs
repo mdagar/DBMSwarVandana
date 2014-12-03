@@ -24,7 +24,13 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult Index()
         {
-            return View();
+            CentresViewModel c = new CentresViewModel();
+            return View(c);
+        }
+
+        public void FillCenterIdSession(int CentreId)
+        {
+            SessionWrapper.User.CentreId = CentreId;
         }
 
         [Authenticate]

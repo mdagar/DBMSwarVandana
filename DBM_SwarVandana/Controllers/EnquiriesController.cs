@@ -73,7 +73,7 @@ namespace DBM_SwarVandana.Controllers
         //[Authenticate]
         public ActionResult PhysicalEnquiryList()
         {
-            List<Enquiries> enq = _allenquiry.ListEnquuiry(0, 1);
+            List<Enquiries> enq = _allenquiry.ListEnquuiry(0, 2);
             return View(enq);
         }
 

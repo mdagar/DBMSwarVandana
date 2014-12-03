@@ -1,4 +1,5 @@
-﻿@using Code;
+﻿@model ViewModel.CentresViewModel
+@using Code;
 <!DOCTYPE html>
 
 <html>
@@ -14,7 +15,12 @@
     <!--[if IE 7]><link rel="stylesheet" type="text/css" href="css/ie7.css" media="screen" /><![endif]-->
     <!--[if IE 8]><link rel="stylesheet" type="text/css" href="css/ie8.css" media="screen" /><![endif]-->
     <!--[if IE 9]><link rel="stylesheet" type="text/css" href="css/ie.css" media="screen" /><![endif]-->
-
+    <script>
+        function AsignCenterIdSessionValue() {
+            
+            $.post('@Url.Action("FillCenterIdSession", "Main")', { CentreId: $("#indexcentreid").val() });
+        }
+    </script>
 </head>
 <body>
     <!-- start wrap -->
@@ -34,8 +40,13 @@
                     <!-- start top-bar -->
                     <div class="top-bar">
                         <ul>
+
                             <li><a href="#" title="User" style="min-width: 115px">@SessionWrapper.User.FirstName&nbsp;@SessionWrapper.User.LastName</a></li>
                             <li><a href="@Url.Action("LogOut", "Home")">Logout</a></li>
+                            <li>
+                                @Html.DropDownListFor(x => x.CentreId, new ListBound(Model.CentreId, "Centres").Centres, new { id = "indexcentreid", onchange = "javascript:AsignCenterIdSessionValue();" })
+
+                            </li>
                         </ul>
                     </div>
                     <!-- end top-bar -->
@@ -86,7 +97,7 @@
                     }
                     else
                     {
-                        
+
                     }
                 </div>
                 <!-- end header-right -->

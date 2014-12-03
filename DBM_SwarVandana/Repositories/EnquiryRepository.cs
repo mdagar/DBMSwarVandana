@@ -23,14 +23,14 @@ namespace Repositories
                                     e.DateOfEnquiry, e.Discipline, e.StateId, e.CityId, e.Address, e.AttendedBy,
                                     e.Demo,e.RemarksByFaculty, e.StatusId,e.ProbableStudentFor,e.Gender,e.Age,e.Occupation,
                                     e.FinalComments,e.NoOfClasses,e.Package,e.RegistrationAmount,e.CentreId,e.IsEnquiryClosed,
-                                    e.AddDate, e.AddedBy, e.ModifyDate, e.ModifyBy, e.IsActive };
+                                    e.AddDate, e.AddedBy, e.ModifyDate, e.ModifyBy, e.IsActive,e.IsDeleted };
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_Enquiries_IUD, objParam);
             return Convert.ToInt32(d);
         }
 
         public List<Enquiries> ListEnquuiry(int centerId, int centerType)
         {
-            object[] objParam = { centerId, centerType };
+            object[] objParam = { centerId, centerType, "" };
             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), "GetEnquiry", objParam);
             if (ds == null)
                 return new List<Enquiries>();
