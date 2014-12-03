@@ -9,6 +9,7 @@ using System.Reflection;
 using SqlRepositories;
 using ListConversion;
 using Code;
+using System.Data;
 
 namespace Repositories
 {
@@ -21,6 +22,10 @@ namespace Repositories
                                     cls.EndDate, cls.CentreId, cls.AddDate, cls.AddedBy, cls.ModifyDate, cls.ModifyBy, cls.IsActive };
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_ClassDetails_IUD, objParam);
             return Convert.ToInt32(d);
+        }
+        public List<ClassDetails> ListClassDetails(int centerId)
+        {
+            return new List<ClassDetails>();
         }
     }
 }

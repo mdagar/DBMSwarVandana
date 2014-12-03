@@ -8,6 +8,7 @@ using ViewModel;
 using Repositories;
 using DBM_SwarVandana.Resources;
 using System.IO;
+using Models;
 
 namespace DBM_SwarVandana.Controllers
 {
@@ -21,15 +22,17 @@ namespace DBM_SwarVandana.Controllers
             return View();
         }
 
-        public ActionResult GetfaculityList()
+        public ActionResult GetFaculityList()
         {
-            FacultyViewModel f = new FacultyViewModel();
-            return View(f);
+            List<Faculties> fac = _allfaculty.GetFacultyByCentreId(SessionWrapper.User.CentreId);
+            return View(fac);
         }
 
-        public ActionResult FacultyRegistration()
+        public ActionResult FacultyRegistration(int? facultyId)
         {
             FacultyViewModel f = new FacultyViewModel();
+            if (facultyId.HasValue)
+                f = new FacultyViewModel(_allfaculty.GetFacultyByFacultyId(facultyId.Value));
             return View(f);
         }
 

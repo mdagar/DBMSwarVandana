@@ -9,6 +9,7 @@ using System.Reflection;
 using SqlRepositories;
 using ListConversion;
 using Code;
+using System.Data;
 
 namespace Repositories
 {
@@ -44,6 +45,16 @@ namespace Repositories
             object[] objParam = { CentreId };
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.USP_FacultyGetByCenterId, objParam);
             return ConvertList.TableToList<Faculties>(d.Tables[0]);
+        }
+
+        public Faculties GetFacultyByFacultyId(int FacultyId)
+        {
+            string query = "SELECT FacultyId,NameOfFaculty,EmailID,ContactNumber,Address,StateId,CityId,DOJ,Gender,Salary,SalaryRevision,DisciplineId,YearOfExperience,CentreId,Picture,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive FROM [dbo].[Faculties] WHERE FacultyId=" + FacultyId + "";
+            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, query);
+            if (ds == null)
+                return new Faculties();
+            else
+                return ds.Tables[0].TableToList<Faculties>().FirstOrDefault();
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using ViewModel;
 using Repositories;
 using DBM_SwarVandana.Resources;
+using Models;
 
 namespace DBM_SwarVandana.Controllers
 {
@@ -20,6 +21,12 @@ namespace DBM_SwarVandana.Controllers
             return View();
         }
 
+
+        public ActionResult ClassDetailsList()
+        {
+            List<ClassDetails> cls = _allclass.ListClassDetails(SessionWrapper.User.CentreId);
+            return View(cls);
+        }
         public ActionResult ClassDetails()
         {
             ClassDetailViewModel cls = new ClassDetailViewModel();

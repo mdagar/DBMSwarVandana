@@ -14,9 +14,9 @@
         <div class="table-form">
             <form action="#">
                 <label for="From">From Date</label>
-                <input type="text" name="field" value="" class="input" />
-                <label for="From">From Date</label>
-                <input type="text" name="field" value="" class="input" />
+                <input type="text" name="fromdate" value="" class="input" />
+                <label for="From">To Date</label>
+                <input type="text" name="todate" value="" class="input" />
                 <select name="field" id="Inventory" class="select">
                     <option></option>
                 </select>
@@ -72,5 +72,10 @@
     </div>
 </div>
 <script type="text/javascript">
-    function Export();
+    function Export()
+    {
+        alert('HI');        
+        window.location.href = '@Url.Action("ExportTelephonicEnq", "Enquiries")';
+        alert('123');
+    }
 </script>

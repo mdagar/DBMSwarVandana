@@ -9,6 +9,7 @@ using System.Reflection;
 using SqlRepositories;
 using ListConversion;
 using Code;
+using System.Data;
 
 namespace Repositories
 {
@@ -33,6 +34,15 @@ namespace Repositories
             object[] objParam = { c.ActionId, c.CentreId, c.CentreName, c.Address, c.StateId, c.CityId, c.CentreOpenDate, c.AddDate, c.AddedBy, c.ModifyDate, c.ModifyBy, c.IsActive };
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_Centres_IUD, objParam);
             return Convert.ToInt32(d);
+        }
+        public List<Centres> GetAllCentres()
+        {
+            object[] objParam = {  };
+            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), "USP_CentresGetAll", objParam);
+            if (ds == null)
+                return new List<Centres>();
+            else
+                return ds.Tables[0].TableToList<Centres>();
         }
     }
 }

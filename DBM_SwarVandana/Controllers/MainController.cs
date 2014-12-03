@@ -7,7 +7,8 @@ using System.Web.Mvc;
 using ViewModel;
 using Repositories;
 using DBM_SwarVandana.Resources;
-using Code;
+using Models;
+
 namespace DBM_SwarVandana.Controllers
 {
     [Authenticate]
@@ -61,6 +62,12 @@ namespace DBM_SwarVandana.Controllers
         {
             var result = _allcentre.GetCitiesByStateId(StateId);
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CentreList()
+        {
+            List<Centres> cls = _allcentre.GetAllCentres();
+            return View(cls);
         }
 
         [Authenticate]
@@ -171,6 +178,7 @@ namespace DBM_SwarVandana.Controllers
             return View(src);
         }
 
+       
         [Authenticate]
         public ActionResult AddDiscipline(int? DisciplineId)
         {
