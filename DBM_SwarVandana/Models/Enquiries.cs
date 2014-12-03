@@ -8,7 +8,7 @@ namespace Models
     public class Enquiries
     {
         public virtual int ActionId { get; set; }
-        public virtual int EnquiryId { get; set; }
+        public virtual long EnquiryId { get; set; }
         public virtual int SourceId { get; set; }
         public virtual int EnquiryTypeId { get; set; }
         public virtual string ContactNumber { get; set; }

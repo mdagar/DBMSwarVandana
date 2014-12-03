@@ -23,10 +23,10 @@ namespace DBM_SwarVandana.Controllers
             return View();
         }
 
-        //[Authenticate]
+        [Authenticate]
         public ActionResult TelephonicEnquiryList()
         {
-            List<Enquiries> enq = _allenquiry.ListEnquuiry(0, 1);
+            List<Enquiries> enq = _allenquiry.ListEnquuiry(SessionWrapper.User.CentreId,(int)EnquiryType.TE);
             return View(enq);
         }
 

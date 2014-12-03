@@ -52,7 +52,7 @@ namespace ViewModel
         }
 
         public override int ActionId { get; set; }
-        public override int EnquiryId { get; set; }
+        public override long EnquiryId { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "SourceRequired")]
         public override int SourceId { get; set; }
         public override int EnquiryTypeId { get; set; }
