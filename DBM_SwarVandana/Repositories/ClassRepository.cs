@@ -9,6 +9,7 @@ using System.Reflection;
 using SqlRepositories;
 using ListConversion;
 using Code;
+using System.Data;
 
 namespace Repositories
 {
@@ -21,6 +22,18 @@ namespace Repositories
                                     cls.EndDate, cls.CentreId, cls.AddDate, cls.AddedBy, cls.ModifyDate, cls.ModifyBy, cls.IsActive };
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_ClassDetails_IUD, objParam);
             return Convert.ToInt32(d);
+        }
+
+        public ClassDetails FindById(long ClassId)
+        {
+            string Query = "SELECT ClassId,DisciplineId,FacultyId,StudentLimit,StartDate,EndDate,CentreId,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive,IsDeleted FROM [dbo].[Classdetails] WHERE ClassId = " + ClassId;
+            DataSet d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+
+            if (d != null)
+                return d.Tables[0].TableToList<ClassDetails>().FirstOrDefault();
+            else
+                return new ClassDetails();
+
         }
     }
 }
