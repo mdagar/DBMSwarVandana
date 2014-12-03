@@ -99,6 +99,29 @@ namespace Code
             return source.Concat(items);
         }
 
+        //Convert Array to data Table
+        public static DataTable AsDataTable<T>(this IEnumerable<T> enumberable)
+        {
+            DataTable table = new DataTable("Generated");
+            T first = enumberable.FirstOrDefault();
+            if (first == null)
+                return table;
+
+            PropertyInfo[] properties = first.GetType().GetProperties();
+            foreach (PropertyInfo pi in properties)
+                table.Columns.Add(pi.Name, pi.PropertyType);
+
+            foreach (T t in enumberable)
+            {
+                DataRow row = table.NewRow();
+                foreach (PropertyInfo pi in properties)
+                    row[pi.Name] = t.GetType().InvokeMember(pi.Name, BindingFlags.GetProperty, null, t, null);
+                table.Rows.Add(row);
+            }
+
+            return table;
+        }
+
         public static string HtmlStrip(this string input)
         {
             if (string.IsNullOrWhiteSpace(input))

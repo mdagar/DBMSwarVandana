@@ -82,16 +82,12 @@ namespace DBM_SwarVandana.Controllers
                     }
                     else
                         message = "Invalid username";
-
                 }
-                else
-                    message = "Please enter username";
             }
             catch (Exception e)
             {
                 message = e.Message;
             }
-
             return Json(message, JsonRequestBehavior.AllowGet);
 
         }

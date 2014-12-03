@@ -70,7 +70,7 @@ namespace DBM_SwarVandana.Controllers
             return View(en);
         }
 
-        //[Authenticate]
+        [Authenticate]
         public ActionResult PhysicalEnquiryList()
         {
             List<Enquiries> enq = _allenquiry.ListEnquuiry(0, 2);
@@ -120,5 +120,44 @@ namespace DBM_SwarVandana.Controllers
             return View(en);
         }
 
+        [Authenticate]
+        public ActionResult ExportTelephonicEnq()
+        {
+            var rec = (_allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.TE).Select(s => new { 
+                Name= s.Name,
+                Discipline= s.Discipline,
+                source=s.SourceId,
+                Contact= s.ContactNumber,
+                DateOfEnquiry= s.DateOfEnquiry,
+                AttendedBy = s.AttendedBy,
+                Status= s.StateId
+            }).ToArray()).AsDataTable();
+
+            var data = ExcelHelper.Export(rec, "Telephonic Enquiry");
+            return File(data.ToArray(), "application/vnd.ms-excel", "TelephonicEnquiry.xls");
+        }
+
+        [Authenticate]
+        public ActionResult ExportPhysicalEnq()
+        {
+            var rec = (_allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.PE).Select(s => new
+            {
+                Name = s.Name,
+                Discipline = s.Discipline,
+                source = s.SourceId,
+                Contact = s.ContactNumber,
+                DateOfEnquiry = s.DateOfEnquiry,
+                AttendedBy = s.AttendedBy,
+                Demo= s.Demo,                
+                ProbableStudent = s.ProbableStudentFor,
+                Gender = s.Gender,
+                Age = s.Age,
+                Remarks= s.RemarksByFaculty,
+                Status = s.StateId
+            }).ToArray()).AsDataTable();
+
+            var data = ExcelHelper.Export(rec, "Physical Enquiry");
+            return File(data.ToArray(), "application/vnd.ms-excel", "PhysicalEnquiry.xls");
+        }
     }
 }
