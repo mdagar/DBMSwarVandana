@@ -24,7 +24,6 @@ namespace Models
 
         public ClassDetails()
         {
-
            this.ClassId        =0; 
            this.DisciplineId   =0;
            this.FacultyId      =0;

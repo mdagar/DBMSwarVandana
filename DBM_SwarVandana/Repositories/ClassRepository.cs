@@ -23,9 +23,17 @@ namespace Repositories
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_ClassDetails_IUD, objParam);
             return Convert.ToInt32(d);
         }
-        public List<ClassDetails> ListClassDetails(int centerId)
+
+        public ClassDetails FindById(long ClassId)
         {
-            return new List<ClassDetails>();
+            string Query = "SELECT ClassId,DisciplineId,FacultyId,StudentLimit,StartDate,EndDate,CentreId,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive,IsDeleted FROM [dbo].[Classdetails] WHERE ClassId = " + ClassId;
+            DataSet d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+
+            if (d != null)
+                return d.Tables[0].TableToList<ClassDetails>().FirstOrDefault();
+            else
+                return new ClassDetails();
+
         }
     }
 }
