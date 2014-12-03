@@ -13,13 +13,22 @@ namespace Code
         {
             UsersRepository _user = new UsersRepository();
             RouteData routeData = filterContext.RouteData;
-            if (CookieWrapper.UniqueId > 0)
+            if (SessionWrapper.User == null)
             {
-                var u = _user.UsersGetByUserId(CookieWrapper.UniqueId);
-                SessionWrapper.User = u;
+                if (CookieWrapper.UniqueId > 0)
+                {
+                    var u = _user.UsersGetByUserId(CookieWrapper.UniqueId);
+                    SessionWrapper.User = u;
+                    if (u.RoleId == (int)UserRole.SuperAdmin)
+                    {
+                        var center = (new UsersRepository().GetAllCentres());
+                        if (center.Count > 0)
+                            SessionWrapper.User.CentreId = center[0].CentreId;
+                    }
+                }
+                else
+                    filterContext.Result = new System.Web.Mvc.RedirectResult("~/Home");
             }
-            else
-                filterContext.Result = new System.Web.Mvc.RedirectResult("~/Home");
         }
     }
 }

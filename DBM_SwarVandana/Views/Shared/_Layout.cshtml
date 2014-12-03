@@ -1,5 +1,4 @@
-﻿@model ViewModel.CentresViewModel
-@using Code;
+﻿@using Code;
 <!DOCTYPE html>
 
 <html>
@@ -17,7 +16,7 @@
     <!--[if IE 9]><link rel="stylesheet" type="text/css" href="css/ie.css" media="screen" /><![endif]-->
     <script>
         function AsignCenterIdSessionValue() {
-            
+
             $.post('@Url.Action("FillCenterIdSession", "Main")', { CentreId: $("#indexcentreid").val() });
         }
     </script>
@@ -32,7 +31,8 @@
                 <!-- start logo -->
                 <div class="logo">
                     <a href="index.html" title="Svar Vandana">
-                        <img src="~/Content/images/logo.png" alt="Svar Vandana" /></a>
+                        <img src="~/Content/images/logo.png" alt="Svar Vandana" />
+                    </a>
                 </div>
                 <!-- end logo -->
                 <!-- start header-right -->
@@ -44,8 +44,8 @@
                             <li><a href="#" title="User" style="min-width: 115px">@SessionWrapper.User.FirstName&nbsp;@SessionWrapper.User.LastName</a></li>
                             <li><a href="@Url.Action("LogOut", "Home")">Logout</a></li>
                             <li>
-                                @Html.DropDownListFor(x => x.CentreId, new ListBound(Model.CentreId, "Centres").Centres, new { id = "indexcentreid", onchange = "javascript:AsignCenterIdSessionValue();" })
-
+                                @Html.DropDownList("ddlCenters", new ListBound(SessionWrapper.User.CentreId, "Centres").Centres, new { onchange = "UpdateCenter(this);" })
+                                
                             </li>
                         </ul>
                     </div>
@@ -56,32 +56,33 @@
                         <div class="navigation">
                             <ul>
                                 <li><a href="@Url.Action("Index", "Main")">Home</a></li>
-                                <li><a href="#" title="Masters">Masters</a>
+                                <li>
+                                    <a href="#" title="Masters">Masters</a>
                                     <ul>
                                         <li><a href="@Url.Action("ChangePassword", "Main")">Change Password</a></li>
                                         <li><a href="@Url.Action("CentreRegistration", "Main")">Centre Registration</a></li>
-                                        @*<li><a href="@Url.Action("CentreRegistration", "Main")">Manage Centre</a></li>*@
                                         <li><a href="@Url.Action("UserRegistration", "Main")">User Registration</a></li>
-                                        @*<li><a href="@Url.Action("CentreRegistration", "Main")">Manage User</a></li>*@
                                         <li><a href="@Url.Action("AddSource", "Main")">Add Source</a></li>
-                                        @*<li><a href="@Url.Action("CentreRegistration", "Main")">Manage Source</a></li>*@
                                         <li><a href="@Url.Action("AddDiscipline", "Main")">Add Discipline</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="#" title="Enquiries">Enquiries</a>
+                                <li>
+                                    <a href="#" title="Enquiries">Enquiries</a>
                                     <ul>
                                         <li><a href="@Url.Action("TelephonicEnquiryList", "Enquiries")">Telephonic Enquiry</a></li>
                                         <li><a href="@Url.Action("PhysicalEnquiryList", "Enquiries")">Physical Enquiry</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="@Url.Action("Index", "Main")">Class Management</a>
+                                <li>
+                                    <a href="@Url.Action("Index", "Main")">Class Management</a>
                                     <ul>
                                         <li><a href="@Url.Action("ClassDetails", "Class")">Register Class</a></li>
                                         <li><a href="@Url.Action("Index", "Main")">Class Pattern</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="@Url.Action("Index", "Main")">Student Enrollment</a></li>
-                                <li><a href="@Url.Action("Index", "Main")">Admin</a>
+                                <li>
+                                    <a href="@Url.Action("Index", "Main")">Admin</a>
                                     <ul>
                                         <li><a href="@Url.Action("FacultyRegistration", "Faculty")">Add Faculty</a></li>
                                     </ul>
@@ -120,23 +121,21 @@
     </div>
     <!-- end footer -->
 </body>
-
-@*<body>
-
-    <div>
-        <div style="float:left;"><a href="@Url.Action("Index", "Main")">Home</a>&nbsp;&nbsp;&nbsp;</div>
-        <div style="float:left;"><a href="@Url.Action("ChangePassword", "Main")">Change Password</a>&nbsp;&nbsp;&nbsp;</div>
-        <div style="float:left;"><a href="@Url.Action("CentreRegistration", "Main")">Centre Registration</a>&nbsp;&nbsp;&nbsp;</div>
-        <div style="float:left;"><a href="@Url.Action("UserRegistration", "Main")">User Registration</a>&nbsp;&nbsp;&nbsp;</div>
-        <div style="float:left;"><a href="@Url.Action("AddSource", "Main")">Add Source</a>&nbsp;&nbsp;&nbsp;</div>
-        <div style="float:left;"><a href="@Url.Action("AddDiscipline", "Main")">Add Discipline</a>&nbsp;&nbsp;&nbsp;</div>
-        <div style="float:left;"><a href="@Url.Action("LogOut", "Home")">Logout</a>&nbsp;&nbsp;&nbsp;</div>
-    </div>
-
-    <div>
-        <div id="RenderBody">
-            @RenderBody()
-        </div>
-    </div>
-</body>*@
 </html>
+<script type="text/javascript">
+    function UpdateCenter(o) {
+        var centerId = $(o).val();
+
+        $.ajax({
+            url: '@Url.Action("UpdateCenter", "Home")?centerId=' + centerId + "&number=" + Math.random(),
+            async:false,
+            context: document.body
+        }).done(function () {
+        });
+
+        @*$.get('@Url.Action("UpdateCenter", "Home")?centerId=' + centerId + "&number=" + Math.random(), function (data) { });*@
+        window.location.href =  window.location.pathname;
+
+    }
+
+</script>

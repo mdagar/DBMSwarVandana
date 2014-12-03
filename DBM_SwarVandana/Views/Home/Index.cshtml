@@ -58,7 +58,6 @@
                             </div>
                             <div class="row lock">
                                 @Html.PasswordFor(x => x.Password, new { @class = "input", value = "Password", onfocus = "if(this.value == 'Password') { this.value = ''; }", onblur = "if(this.value == '') { this.value = 'Password'; }" })
-                                @*<input type="text" name="field" value="Password" class="input" onfocus="if(this.value == 'Password') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Password'; }" />*@
                             </div>
                         </div>
                         <input type="submit" id="btnLogin" value="Login" class="button" />

@@ -55,6 +55,14 @@ namespace DBM_SwarVandana.Controllers
             return View();
         }
 
+        [Authenticate]
+        public ActionResult UpdateCenter(int centerId,string number)
+        {
+            if (SessionWrapper.User.RoleId == (int)UserRole.SuperAdmin)
+                SessionWrapper.User.CentreId = centerId;
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult SendPassword(string username)
         {
             string message = "";
