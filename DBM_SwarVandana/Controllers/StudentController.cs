@@ -17,6 +17,8 @@ namespace DBM_SwarVandana.Controllers
         // GET: /Student/
 
         StudentsRepository _allstudents = new StudentsRepository();
+
+        #region Enrollment
         [Authenticate]
         public ActionResult Index()
         {
@@ -75,6 +77,15 @@ namespace DBM_SwarVandana.Controllers
         {
             return View();
         }
+        #endregion
+
+        #region Attendence
+        [Authenticate]
+        public ActionResult MakeAttendence()
+        {
+            return View();
+        }
+        #endregion
 
     }
 }
