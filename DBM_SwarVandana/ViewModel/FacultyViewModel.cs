@@ -39,7 +39,7 @@ namespace ViewModel
         }
 
         public override int ActionId { get; set; }
-        public override int FacultyId { get; set; }
+        public override long FacultyId { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "NameRequired")]
         public override string NameOfFaculty { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "EmailIdRequired")]

@@ -22,7 +22,7 @@
                     @ViewBag.Error
                 }
             </div>
-            <h3>Physical Enquiry</h3>
+            <h3>Class Details</h3>
             <div class="row">
                 <label for="Password">Discipline :</label>
                 @Html.DropDownListFor(x => x.DisciplineId, new ListBound(Model.DisciplineId, "Disciplines").Disciplines, "-- Select Discipline --", new { @class = "select" })

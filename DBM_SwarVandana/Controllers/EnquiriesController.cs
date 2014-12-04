@@ -31,9 +31,11 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult TelephonicEnquiry()
+        public ActionResult TelephonicEnquiry(int? enquiryId)
         {
             EnquiryViewModel en = new EnquiryViewModel();
+            if (enquiryId.HasValue)
+                en = new EnquiryViewModel(_allenquiry.FindByEnquirieID(enquiryId.Value));
             return View(en);
         }
 

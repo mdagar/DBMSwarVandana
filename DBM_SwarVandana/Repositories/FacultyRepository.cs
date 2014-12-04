@@ -47,7 +47,7 @@ namespace Repositories
             return ConvertList.TableToList<Faculties>(d.Tables[0]);
         }
 
-        public Faculties GetFacultyByFacultyId(int FacultyId)
+        public Faculties GetFacultyByFacultyId(long FacultyId)
         {
             string query = "SELECT FacultyId,NameOfFaculty,EmailID,ContactNumber,Address,StateId,CityId,DOJ,Gender,Salary,SalaryRevision,DisciplineId,YearOfExperience,CentreId,Picture,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive FROM [dbo].[Faculties] WHERE FacultyId=" + FacultyId + "";
             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, query);

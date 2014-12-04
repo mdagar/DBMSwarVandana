@@ -22,12 +22,14 @@ namespace DBM_SwarVandana.Controllers
             return View();
         }
 
+        [Authenticate]
         public ActionResult GetFaculityList()
         {
             List<Faculties> fac = _allfaculty.GetFacultyByCentreId(SessionWrapper.User.CentreId);
             return View(fac);
         }
 
+        [Authenticate]
         public ActionResult FacultyRegistration(int? facultyId)
         {
             FacultyViewModel f = new FacultyViewModel();
@@ -36,19 +38,35 @@ namespace DBM_SwarVandana.Controllers
             return View(f);
         }
 
+        [Authenticate]
         [HttpPost]
         public ActionResult FacultyRegistration(FacultyViewModel fl)
         {
             var result = 0;
+            FacultyViewModel fac=new FacultyViewModel();
             if (ModelState.IsValid)
             {
-                fl.ActionId = 0;
-                fl.CentreId = SessionWrapper.User.CentreId;
-                fl.AddDate = DateTime.Now;
-                fl.AddedBy = SessionWrapper.User.UserId;
-                fl.ModifyBy = SessionWrapper.User.UserId;
-                fl.ModifyDate = DateTime.Now;
-                fl.IsActive = true;
+                if (fl.FacultyId != 0)
+                    fac = new FacultyViewModel(_allfaculty.GetFacultyByFacultyId(fl.FacultyId));
+                fac.ActionId=0;
+                fac.NameOfFaculty=fl.NameOfFaculty;
+                fac.EmailID = fl.EmailID;
+                fac.ContactNumber  =fl.ContactNumber;   
+                fac.Address=fl.Address;
+                fac.StateId=fl.StateId;
+                fac.CityId=fl.CityId;
+                fac.DOJ=fl.DOJ;
+                fac.Gender=fl.Gender;
+                fac.Salary=fl.Salary;
+                fac.SalaryRevision=fl.SalaryRevision;
+                fac.DisciplineId=fl.DisciplineId;
+                fac.YearOfExperience=fl.YearOfExperience;
+                fac.CentreId = SessionWrapper.User.CentreId;
+                fac.AddDate = DateTime.Now;
+                fac.AddedBy = SessionWrapper.User.UserId;
+                fac.ModifyBy = SessionWrapper.User.UserId;
+                fac.ModifyDate = DateTime.Now;
+                fac.IsActive = true;
                 string FilePath = ConfigurationWrapper.Pictures;
                 if (fl.Image != null && fl.Image.ContentLength > 0)
                 {
@@ -56,7 +74,7 @@ namespace DBM_SwarVandana.Controllers
                         Directory.CreateDirectory(Server.MapPath(FilePath));
                     if (!string.IsNullOrEmpty(fl.Picture))
                         System.IO.File.Delete(Server.MapPath(FilePath + "/" + fl.Picture));
-                    fl.Picture = Guid.NewGuid().ToString() + fl.Image.FileName.Substring(fl.Image.FileName.LastIndexOf('.')).ToLower();
+                    fac.Picture = Guid.NewGuid().ToString() + fl.Image.FileName.Substring(fl.Image.FileName.LastIndexOf('.')).ToLower();
                     string _filename = FilePath + "/" + fl.Picture;
                     fl.Image.SaveAs(Server.MapPath(_filename));
                 }

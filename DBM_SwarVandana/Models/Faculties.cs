@@ -8,7 +8,7 @@ namespace Models
     public class Faculties
     {
         public virtual int ActionId { get; set; }
-        public virtual int FacultyId { get; set; }
+        public virtual long FacultyId { get; set; }
         public virtual string NameOfFaculty { get; set; }
         public virtual string EmailID { get; set; }
         public virtual string ContactNumber { get; set; }
