@@ -14,19 +14,23 @@
                                            };
 }
 
-<script>
-    function GetCitiesByStateId() {
-        $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
-            $("#CityId").html('');
-            $("#CityId").append('<option value="">-- Select City --</option>');
-            $.each(cities, function (i, City) {
-                $("#CityId").append('<option value="' + City.CityId + '">' +
-                     City.CityName + '</option>');
-                // here we are adding option for States
+<script >
+    
+        function GetCitiesByStateId() {
+                $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
+                $("#CityId").html('');
+                $("#CityId").append('<option value="">-- Select City --</option>');
+                $.each(cities, function (i, City) {
+                    $("#CityId").append('<option value="' + City.CityId + '">' +
+                         City.CityName + '</option>');
+                    // here we are adding option for States
 
+                });
             });
-        });
-    }
+        }
+
+   
+
 </script>
 
 <!-- start container -->
@@ -34,87 +38,89 @@
 
     <!-- registration-form -->
     <div class="registration-form">
-    @using (Html.BeginForm("FacultyRegistration", "Faculty", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        <div>
-            @if (!string.IsNullOrEmpty(ViewBag.Success))
-            {
-                @ViewBag.Success
-            }
-            else
-            {
-                @ViewBag.Error
-            }
-        </div>
-        <h3>Add/Edit Faculty</h3>
+        @using (Html.BeginForm("FacultyRegistration", "Faculty", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div>
+                @if (!string.IsNullOrEmpty(ViewBag.Success))
+                {
+                    @ViewBag.Success
+                }
+                else
+                {
+                    @ViewBag.Error
+                }
+            </div>
+            <h3>Add/Edit Faculty</h3>
             <div class="row">
                 <label for="Password">Name of Faculty :</label>
-                    @Html.TextBoxFor(x => x.NameOfFaculty, new { @class = "input" })
-                    @Html.ValidationMessageFor(x => x.NameOfFaculty)
-                </div>
+                @Html.TextBoxFor(x => x.NameOfFaculty, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.NameOfFaculty)
+                @Html.HiddenFor(x => x.FacultyId);
+            </div>
             <div class="row">
                 <label for="Password">Email ID :</label>
-                    @Html.TextBoxFor(x => x.EmailID, new { @class = "input" })
-                    @Html.ValidationMessageFor(x => x.EmailID)
-                </div>
+                @Html.TextBoxFor(x => x.EmailID, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.EmailID)
+            </div>
             <div class="row">
                 <label for="Password">Contact Number :</label>
-                    @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input" })
-                    @Html.ValidationMessageFor(x => x.ContactNumber)
-                </div>
-           <div class="row">
+                @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.ContactNumber)
+            </div>
+            <div class="row">
                 <label for="Password">Date of Joining :</label>
-                    @Html.TextBoxFor(x => x.DOJ, new { @class = "input" })
-                    @Html.ValidationMessageFor(x => x.DOJ)
-                </div>
+                @Html.TextBoxFor(x => x.DOJ, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.DOJ)
+            </div>
             <div class="row">
                 <label for="Password">Discipline :</label>
-                    @Html.DropDownListFor(x => x.DisciplineId, new ListBound(Model.DisciplineId, "Disciplines").Disciplines, "-- Select Discipline --", new { @class = "select" })
-                    @Html.ValidationMessageFor(x => x.DisciplineId)
-                </div>
+                @Html.DropDownListFor(x => x.DisciplineId, new ListBound(Model.DisciplineId, "Disciplines").Disciplines, "-- Select Discipline --", new { @class = "select" })
+                @Html.ValidationMessageFor(x => x.DisciplineId)
+            </div>
             <div class="row">
                 <label for="Password">Year of Experience :</label>
-                    @Html.TextBoxFor(x => x.YearOfExperience, new { @class = "input" })
-                    @Html.ValidationMessageFor(x => x.YearOfExperience)
-                </div>
+                @Html.TextBoxFor(x => x.YearOfExperience, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.YearOfExperience)
+            </div>
             <div class="row">
                 <label for="Password">Address :</label>
-                    @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
-                    @Html.ValidationMessageFor(x => x.Address)
-                </div>
+                @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
+                @Html.ValidationMessageFor(x => x.Address)
+            </div>
             <div class="row">
                 <label for="Password">State :</label>
-                    @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class="select" })
-                    @Html.ValidationMessageFor(x => x.StateId)
-                </div>
+                @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" })
+                @Html.ValidationMessageFor(x => x.StateId)
+            </div>
             <div class="row">
                 <label for="Password">City :</label>
-                    @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class="select" })
-                    @Html.ValidationMessageFor(x => x.CityId)
-                </div>
+                @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select" })
+                @Html.ValidationMessageFor(x => x.CityId)
+            </div>
             <div class="row">
                 <label for="Password">Gender :</label>
-                    @Html.DropDownListFor(x => x.Gender, gendermf, "-- Select Gender --", new { @class = "select" })
-                    @Html.ValidationMessageFor(x => x.Gender)
-             </div>
+                @Html.DropDownListFor(x => x.Gender, gendermf, "-- Select Gender --", new { @class = "select" })
+                @Html.ValidationMessageFor(x => x.Gender)
+            </div>
             <div class="row">
                 <label for="Password">Salary :</label>
-                    @Html.TextBoxFor(x => x.Salary, new { @class = "input" })
-                    @Html.ValidationMessageFor(x => x.Salary)
-              </div>
+                @Html.TextBoxFor(x => x.Salary, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.Salary)
+            </div>
             <div class="row">
                 <label for="Password">Salary Revision :</label>
-                    @Html.TextBoxFor(x => x.SalaryRevision, new { @class = "input" })
-                    @Html.ValidationMessageFor(x => x.SalaryRevision)
-             </div>
+                @Html.TextBoxFor(x => x.SalaryRevision, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.SalaryRevision)
+            </div>
             <div class="row">
                 <label for="Password">Picture :</label>
-                    <input type="file" name="Image" class = "input"/>
-                </div>
+                <input type="file" name="Image" class="input" />
+            </div>
             <div class="rowbutton">
-                    <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
-                </div>
-    
-    }
-</div>
+                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
+                <a class="submit-btn" style="text-align: center; text-decoration: none;" href="@Url.Action("FacultyRegistration", "Faculty")">Clear</a>
+            </div>
+
+        }
     </div>
+</div>

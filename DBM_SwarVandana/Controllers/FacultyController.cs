@@ -46,9 +46,12 @@ namespace DBM_SwarVandana.Controllers
             FacultyViewModel fac=new FacultyViewModel();
             if (ModelState.IsValid)
             {
+                fac.ActionId = 0;
                 if (fl.FacultyId != 0)
+                {
                     fac = new FacultyViewModel(_allfaculty.GetFacultyByFacultyId(fl.FacultyId));
-                fac.ActionId=0;
+                    fac.ActionId = 1;
+                }
                 fac.NameOfFaculty=fl.NameOfFaculty;
                 fac.EmailID = fl.EmailID;
                 fac.ContactNumber  =fl.ContactNumber;   
@@ -78,14 +81,14 @@ namespace DBM_SwarVandana.Controllers
                     string _filename = FilePath + "/" + fl.Picture;
                     fl.Image.SaveAs(Server.MapPath(_filename));
                 }
-                result = _allfaculty.FacultyRegistration(fl);
-                if (result > 0)
+                result = _allfaculty.FacultyRegistration(fac);
+                if (result > -1)
                 {
-                    ViewBag.Success = Messages.SubmitEnquiry;
+                    ViewBag.Success = Messages.SubmitFaculty;
                 }
                 else
                 {
-                    ViewBag.Error = Messages.ExquiryExists;
+                    ViewBag.Error = Messages.FacultyExists;
                 }
             }
             else
