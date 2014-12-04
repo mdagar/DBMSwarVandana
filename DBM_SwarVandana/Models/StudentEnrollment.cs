@@ -11,6 +11,7 @@ namespace Models
         {
             this.EnrollmentId = 0;
             this.StudentId = 0;
+            this.DisciplineId = 0;
             this.ClassId = 0;
             this.CourseAmount = 0;
             this.RegistratonAmount = 0;
@@ -26,6 +27,7 @@ namespace Models
 
         public virtual long EnrollmentId { get; set; }
         public virtual long StudentId { get; set; }
+        public virtual long DisciplineId { get; set; }
         public virtual long ClassId { get; set; }
         public virtual double CourseAmount { get; set; }
         public virtual double RegistratonAmount { get; set; }

@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="GetEnquiry" xml:space="preserve">
+    <value>GetEnquiry</value>
+  </data>
+  <data name="GetEnquiryById" xml:space="preserve">
+    <value>GetEnquiryById</value>
+  </data>
+  <data name="GetStudents" xml:space="preserve">
+    <value>GetStudents</value>
+  </data>
   <data name="USP_CentresGetAll" xml:space="preserve">
     <value>USP_CentresGetAll</value>
   </data>
@@ -161,6 +170,12 @@
   </data>
   <data name="USP_StatesGetAll" xml:space="preserve">
     <value>USP_StatesGetAll</value>
+  </data>
+  <data name="USP_StudentEntrollment_IUD" xml:space="preserve">
+    <value>USP_StudentEntrollment_IUD</value>
+  </data>
+  <data name="USP_Students_IUD" xml:space="preserve">
+    <value>USP_Students_IUD</value>
   </data>
   <data name="USP_UsersGetAll" xml:space="preserve">
     <value>USP_UsersGetAll</value>

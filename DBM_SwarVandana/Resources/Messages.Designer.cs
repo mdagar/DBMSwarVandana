@@ -412,6 +412,15 @@ namespace DBM_SwarVandana.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Student already exists..
+        /// </summary>
+        internal static string StudentExists {
+            get {
+                return ResourceManager.GetString("StudentExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Centre is successfully submitted..
         /// </summary>
         internal static string SubmitCentre {
@@ -462,6 +471,15 @@ namespace DBM_SwarVandana.Resources {
         internal static string SubmitSource {
             get {
                 return ResourceManager.GetString("SubmitSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Student detail is successfully submitted..
+        /// </summary>
+        internal static string SubmitStudent {
+            get {
+                return ResourceManager.GetString("SubmitStudent", resourceCulture);
             }
         }
         

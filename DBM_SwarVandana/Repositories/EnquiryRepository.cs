@@ -31,7 +31,7 @@ namespace Repositories
         public List<Enquiries> ListEnquuiry(int centerId, int centerType)
         {
             object[] objParam = { centerId, centerType, "" };
-            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), "GetEnquiry", objParam);
+            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetEnquiry, objParam);
             if (ds == null)
                 return new List<Enquiries>();
             else
@@ -39,8 +39,8 @@ namespace Repositories
         }
         public Enquiries FindByEnquirieID(int enquiryId)
         {
-            string query = "SELECT EnquiryId,SourceId,EnquiryTypeId,ContactNumber,Name,DateOfEnquiry,Discipline,StateId,CityId,Address,AttendedBy,Demo,RemarksByFaculty,StatusId,ProbableStudentFor,Gender,Age,Occupation,FinalComments,NoOfClasses,Package,RegistrationAmount,CentreId,IsEnquiryClosed,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive,IsDeleted FROM enquiries WHERE enquiryid='" + enquiryId + "'";
-            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, query);
+            object[] objParam = { enquiryId };
+            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetEnquiryById, objParam);
             if (ds == null)
                 return new Enquiries();
             else

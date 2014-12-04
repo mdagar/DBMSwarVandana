@@ -61,6 +61,33 @@ namespace DBM_SwarVandana.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GetEnquiry.
+        /// </summary>
+        internal static string GetEnquiry {
+            get {
+                return ResourceManager.GetString("GetEnquiry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GetEnquiryById.
+        /// </summary>
+        internal static string GetEnquiryById {
+            get {
+                return ResourceManager.GetString("GetEnquiryById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GetStudents.
+        /// </summary>
+        internal static string GetStudents {
+            get {
+                return ResourceManager.GetString("GetStudents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to USP_Centres_IUD.
         /// </summary>
         internal static string USP_Centres_IUD {
@@ -192,6 +219,24 @@ namespace DBM_SwarVandana.Resources {
         internal static string USP_StatesGetAll {
             get {
                 return ResourceManager.GetString("USP_StatesGetAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USP_StudentEntrollment_IUD.
+        /// </summary>
+        internal static string USP_StudentEntrollment_IUD {
+            get {
+                return ResourceManager.GetString("USP_StudentEntrollment_IUD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USP_Students_IUD.
+        /// </summary>
+        internal static string USP_Students_IUD {
+            get {
+                return ResourceManager.GetString("USP_Students_IUD", resourceCulture);
             }
         }
         

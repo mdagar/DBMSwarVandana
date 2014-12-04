@@ -10,6 +10,8 @@ namespace Models
         public Students()
         {
             this.Id = 0;
+            this.ActionId = 0;
+            this.UniqueKey = string.Empty;
             this.Name = string.Empty;
             this.CenterId = 0;
             this.DOB = null;
@@ -21,15 +23,19 @@ namespace Models
             this.Address = string.Empty;
             this.GuardianName = string.Empty;
             this.Occupation = string.Empty;
+            this.HasTransportFacility = false;
             this.IsActive = false;
             this.CreatedBy = 0;
             this.CreatedDate = null;
             this.ModifyBy = 0;
             this.ModifyDate = null;
             this.IsDeleted = false;
+            
         }
 
         public virtual int Id { get; set; }
+        public virtual int ActionId { get; set; }
+        public virtual string UniqueKey { get; set; }
         public virtual string Name { get; set; }
         public virtual int CenterId { get; set; }
         public virtual DateTime? DOB { get; set; }
@@ -41,6 +47,7 @@ namespace Models
         public virtual string Address { get; set; }
         public virtual string GuardianName { get; set; }
         public virtual string Occupation { get; set; }
+        public virtual bool HasTransportFacility { get; set; }
         public virtual bool IsActive { get; set; }
         public virtual int CreatedBy { get; set; }
         public virtual DateTime? CreatedDate { get; set; }

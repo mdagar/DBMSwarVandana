@@ -37,8 +37,8 @@ namespace Repositories
         }
         public List<Centres> GetAllCentres()
         {
-            object[] objParam = {  };
-            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), "USP_CentresGetAll", objParam);
+            object[] objParam = { };
+            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.USP_CentresGetAll, objParam);
             if (ds == null)
                 return new List<Centres>();
             else

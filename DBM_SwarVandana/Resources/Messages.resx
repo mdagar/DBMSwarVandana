@@ -267,4 +267,10 @@
   <data name="SubmitClass" xml:space="preserve">
     <value>Class detail is successfully submitted.</value>
   </data>
+  <data name="StudentExists" xml:space="preserve">
+    <value>Student already exists.</value>
+  </data>
+  <data name="SubmitStudent" xml:space="preserve">
+    <value>Student detail is successfully submitted.</value>
+  </data>
 </root>

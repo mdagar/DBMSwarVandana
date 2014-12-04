@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Models.Students>
+@{
+    ViewBag.Title = "AllStudents";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start container -->
+<div class="container">
+    <!-- table-info -->
+    <div class="table-info">
+        <!-- start table-form -->
+        <div class="table-form">
+            <form action="#">
+                <label for="From">From Date</label>
+                <input type="text" name="field" value="" class="input" />
+                <label for="From">From Date</label>
+                <input type="text" name="field" value="" class="input" />
+                <select name="field" id="Inventory" class="select">
+                    <option></option>
+                </select>
+                <input name="submit" type="submit" value="Excel Button" class="submit-btn" />
+            </form>
+        </div>
+        <!-- end table-form -->
+        <!-- start table -->
+        <div class="table">
+            <!-- start row -->
+            <div class="row-first">
+                <div class="td">Unique Key</div>
+                <div class="td">Name</div>
+                <div class="td">DOB</div>
+                <div class="td">Contact Number 1</div>
+                <div class="td">Contact Number 1</div>
+                <div class="td">Email ID</div>
+                <div class="td">Address</div>
+                <div class="td">State</div>
+                <div class="td">City</div>
+                <div class="td">Guardian Name</div>
+                <div class="td">Occupation</div>
+                <div class="td">Has Transport Facility</div>
+                <div class="td">Action</div>
+            </div>
+            <!-- end row -->
+            @foreach (var v in Model)
+            {
+                <!-- start row -->
+                <div class="row">
+                    <div class="td">@v.UniqueKey</div>
+                    <div class="td">@v.Name</div>
+                    <div class="td">@v.DOB</div>
+                    <div class="td">@v.Contact1</div>
+                    <div class="td">@v.Contact2</div>
+                    <div class="td">@v.EmailAddress</div>
+                    <div class="td">@v.Address</div>
+                    <div class="td">@v.StateId</div>
+                    <div class="td">@v.CityId</div>
+                    <div class="td">@v.GuardianName</div>
+                    <div class="td">@v.Occupation</div>
+                    <div class="td">@v.HasTransportFacility</div>
+                    <div class="td edit"><a href="@Url.Action("AddStudents", "Students", new { Id = v.Id })" title="Edit"><span>Edit</span></a></div>
+                </div>
+                <!-- end row -->
+            }
+            @{if (Model.Count() == 0)
+              {
+                <div class="row">
+                    <div class="td" style="text-align: center">No record found.</div>
+                </div>
+                
+              }}
+            <!-- start row -->
+            <div class="row-last">
+                <div class="td td2">1 - 8 of 8 items</div>
+                <div class="td td3">
+                    <ul>
+                        <li><a href="#"></a></li>
+                        <li><a href="#"></a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#"></a></li>
+                        <li><a href="#"></a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end table -->
+    </div>
+</div>
