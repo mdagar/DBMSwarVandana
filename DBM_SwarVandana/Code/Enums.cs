@@ -46,5 +46,22 @@ namespace Code
         [Description("Female")]
         Female
     }
+    public enum WeekDays
+    {
+        [Description("Monday")]
+        Monday=1,
+        [Description("Tuesday")]
+        Tuesday,
+        [Description("Wednesday")]
+        Wednesday,
+        [Description("Thursday")]
+        Thursday,
+        [Description("Friday")]
+        Friday,
+        [Description("Saturday")]
+        Saturday,
+        [Description("Sunday")]
+        Sunday
+    }
 
 }

@@ -8,6 +8,7 @@ using ViewModel;
 using Repositories;
 using DBM_SwarVandana.Resources;
 using Models;
+using System.Xml;
 
 namespace DBM_SwarVandana.Controllers
 {
@@ -44,7 +45,7 @@ namespace DBM_SwarVandana.Controllers
             if (ModelState.IsValid)
             {
                 cls.ActionId = 0;
-                cls.CentreId = SessionWrapper.User.CentreId;
+                cls.CentreId = SessionWrapper.User.CentreId;                
                 cls.AddDate = DateTime.Now;
                 cls.AddedBy = SessionWrapper.User.UserId;
                 cls.ModifyBy = SessionWrapper.User.UserId;
@@ -76,42 +77,29 @@ namespace DBM_SwarVandana.Controllers
         }
         [Authenticate]
         [HttpPost]
-        public ActionResult CreateClassTimming(List<ClassTimingPatterns> p, long classId = 1)
+        public ActionResult CreateClassTimming()
         {
             DateTime time;
-            foreach (var v in p)
+            long classId = 0;
+            if (timepattern.Count > 0)
+                classId = timepattern[0].ClassId;
+            foreach (var v in timepattern)
             {
                 if (string.IsNullOrEmpty(v.StartTime) || string.IsNullOrEmpty(v.EndTime))
-                {
                     break;
-                }
 
-                if (DateTime.TryParse(v.StartTime, out time))
-                {
-                    if (DateTime.TryParse(v.EndTime, out time))
-                    {
-                        var Etime = DateTime.Parse(v.EndTime);
-                        var stime = DateTime.Parse(v.StartTime);
-                        if (Etime <= stime)
-                            break;
-                        else
-                        {
-                            // code for save time pattren
-                        }
-
-                    }
-
-                }
-                else
-                    break;
+                // code for save time pattren
+                XmlDocument doc = timepattern.ConvertToXML();
+                _allClassTimingPatterns.Save(doc);
             }
+            // Return Message for success and failure.
             ClassTimingPatternsViewModel m = new ClassTimingPatternsViewModel();
             m.classDetais = _allclass.FindById(classId);
             return View(m);
         }
 
         [Authenticate]
-        public ActionResult TimeCollection(int flag = 4, long PatternId = 0, long classId = 0, string startTime = "", string endTime = "", string randNo = "")
+        public ActionResult TimeCollection(int flag = 4, long PatternId = 0, long classId = 0, string startTime = "", string endTime = "", string randNo = "", int WeekDayId = 0)
         {
             //if 1 then add if 2 then remove if 3 get from database
             if (flag == 1)
@@ -123,6 +111,13 @@ namespace DBM_SwarVandana.Controllers
                     pattren.PatternId = 1;
                 pattren.StartTime = startTime;
                 pattren.EndTime = endTime;
+                pattren.WeekDayId = WeekDayId;
+                pattren.AddDate = DateTime.Now;
+                pattren.AddedBy = SessionWrapper.User.UserId;
+                pattren.ModifyDate = DateTime.Now;
+                pattren.ModifyBy = SessionWrapper.User.UserId;
+                pattren.IsActive = true;
+                pattren.ClassId = classId;
                 timepattern.Add(pattren);
             }
             if (flag == 2)
@@ -134,7 +129,7 @@ namespace DBM_SwarVandana.Controllers
             {
                 timepattern.Clear();
                 // Get TimePattern According to Class Selected.
-                timepattern = _allClassTimingPatterns.FindByClassId(classId);
+                timepattern = _allClassTimingPatterns.FindByWeekDay(classId, WeekDayId);
             }
             return View(timepattern);
         }
