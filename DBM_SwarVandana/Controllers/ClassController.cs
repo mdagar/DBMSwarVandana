@@ -51,6 +51,7 @@ namespace DBM_SwarVandana.Controllers
                 cls.ModifyBy = SessionWrapper.User.UserId;
                 cls.ModifyDate = DateTime.Now;
                 cls.IsActive = true;
+                cls.IsDeleted = false;
                 result = _allclass.CreateClassDetails(cls);
                 if (result > 0)
                 {

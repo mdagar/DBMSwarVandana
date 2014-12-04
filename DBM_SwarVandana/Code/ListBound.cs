@@ -35,7 +35,7 @@ namespace Code
                     Users = new SelectList((new UsersRepository().GetAllUsers()), "UserId", "UserName");
                     break;
                 case "Faculties":
-                    Faculties = new SelectList((new FacultyRepository().GetFacultyByCentreId(0)), "FacultyId", "NameOfFaculty");
+                    Faculties = new SelectList((new FacultyRepository().GetFacultyByCentreId(SessionWrapper.User.CentreId)), "FacultyId", "NameOfFaculty");
                     break;
                 default:
                     // commisionTypeSL = new SelectList(commisionType);

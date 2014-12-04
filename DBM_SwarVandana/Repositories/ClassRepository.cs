@@ -18,15 +18,22 @@ namespace Repositories
         DBConnections db = new DBConnections();
         public int CreateClassDetails(ClassDetails cls)
         {
-            object[] objParam = { cls.ActionId, cls.ClassId, cls.DisciplineId, cls.FacultyId, cls.StartDate, 
-                                    cls.EndDate, cls.CentreId, cls.AddDate, cls.AddedBy, cls.ModifyDate, cls.ModifyBy, cls.IsActive };
+            object[] objParam = { cls.ActionId, cls.ClassId,cls.ClassName,cls.StudentLimit, cls.DisciplineId, cls.FacultyId, cls.StartDate, 
+                                    cls.EndDate, cls.CentreId, cls.AddDate, cls.AddedBy, cls.ModifyDate, cls.ModifyBy, cls.IsActive,cls.IsDeleted };
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_ClassDetails_IUD, objParam);
             return Convert.ToInt32(d);
         }
 
         public List<ClassDetails> ListClassDetails(int centerId)
         {
-            return new List<ClassDetails>();
+            string Query = "select ClassId,ClassName,DisciplineId,FacultyId,StudentLimit,StartDate,EndDate,CentreId,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive,IsDeleted from [dbo].[ClassDetails] where CentreId =" + centerId + "and IsDeleted=0 and isactive=1";
+
+            DataSet d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+
+            if (d != null)
+                return d.Tables[0].TableToList<ClassDetails>();
+            else
+                return new List<ClassDetails>();
         }
 
         public ClassDetails FindById(long ClassId)
