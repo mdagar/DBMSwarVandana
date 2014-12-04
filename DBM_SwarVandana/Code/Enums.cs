@@ -63,5 +63,14 @@ namespace Code
         [Description("Sunday")]
         Sunday
     }
+    public enum AttendenceStatus
+    {
+        [Description("Present")]
+        Present = 1,
+        [Description("Absent")]
+        Absent,
+        [Description("Leave")]
+        Leave
+    }
 
 }
