@@ -16,6 +16,8 @@ namespace DBM_SwarVandana.Controllers
         //
         // GET: /Enquiries/
         EnquiryRepository _allenquiry = new EnquiryRepository();
+        DisciplineRepository _allDiscipline = new DisciplineRepository();
+        SourceRepository _allSources = new SourceRepository();
 
         [Authenticate]
         public ActionResult Index()
@@ -24,9 +26,9 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult TelephonicEnquiryList()
+        public ActionResult TelephonicEnquiryList(string search = "")
         {
-            List<Enquiries> enq = _allenquiry.ListEnquuiry(SessionWrapper.User.CentreId,(int)EnquiryType.TE);
+            List<Enquiries> enq = _allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.TE, search);
             return View(enq);
         }
 
@@ -123,14 +125,16 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult ExportTelephonicEnq()
         {
-            var rec = (_allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.TE).Select(s => new { 
-                Name= s.Name,
-                Discipline= s.Discipline,
-                source=s.SourceId,
-                Contact= s.ContactNumber,
-                DateOfEnquiry= s.DateOfEnquiry,
+            var Discipline = _allDiscipline.GetAllDisciplines();
+            var sources = _allSources.GetAllSources();
+            var rec = (_allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.TE).Select(s => new
+            {
+                Name = s.Name,
+                Discipline = Discipline.Where(x => x.DisciplineId == s.Discipline).FirstOrDefault().Discipline,
+                source = sources.Where(x => x.SourceId == s.SourceId).FirstOrDefault().Source,
+                Contact = s.ContactNumber,
                 AttendedBy = s.AttendedBy,
-                Status= s.StateId
+                Status =  s.StateId
             }).ToArray()).AsDataTable();
 
             var data = ExcelHelper.Export(rec, "Telephonic Enquiry");
@@ -140,19 +144,21 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult ExportPhysicalEnq()
         {
+            var Discipline = _allDiscipline.GetAllDisciplines();
+            var sources = _allSources.GetAllSources();
             var rec = (_allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.PE).Select(s => new
             {
                 Name = s.Name,
-                Discipline = s.Discipline,
-                source = s.SourceId,
+                Discipline = Discipline.Where(x => x.DisciplineId == s.Discipline).FirstOrDefault().Discipline,
+                source = sources.Where(x => x.SourceId == s.SourceId).FirstOrDefault().Source,
                 Contact = s.ContactNumber,
                 DateOfEnquiry = s.DateOfEnquiry,
                 AttendedBy = s.AttendedBy,
-                Demo= s.Demo,                
+                Demo = s.Demo,
                 ProbableStudent = s.ProbableStudentFor,
                 Gender = s.Gender,
                 Age = s.Age,
-                Remarks= s.RemarksByFaculty,
+                Remarks = s.RemarksByFaculty,
                 Status = s.StateId
             }).ToArray()).AsDataTable();
 

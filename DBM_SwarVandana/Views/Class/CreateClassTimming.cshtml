@@ -1,4 +1,5 @@
 ﻿@model ViewModel.ClassTimingPatternsViewModel
+@using Code;
 @{
     ViewBag.Title = "Class Timming";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,42 +14,50 @@
     <title></title>
 </head>
 <body>
-    <div>
-        <table>
-            <tr>
-                <td>Id</td>
-                <td>@Model.classDetais.ClassId</td>
-            </tr>
-            <tr>
-                <td>Did</td>
-                <td>@Model.classDetais.DisciplineId</td>
-            </tr>
-            <tr>
-                <td>
-                    Day
-                </td>
-                <td>Monday</td>
-            </tr>
-        </table>
+    @using (Html.BeginForm())
+    {
+        @Html.Hidden("ClassId",Model.classDetais.ClassId)
         <div>
-            <input type="text" id="txtstartTime" />
-            <input type="text" id="txtendTime" />
-            <input type="button" value="Add" onclick="AddRow()" />
+            <table>
+                <tr>
+                    <td>Id</td>
+                    <td>@Model.classDetais.ClassId</td>
+                </tr>
+                <tr>
+                    <td>Did</td>
+                    <td>@Model.classDetais.DisciplineId</td>
+                </tr>
+                <tr>
+                    <td>
+                        Day
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(m => Model.WeekDayId, typeof(WeekDays).SelectList<WeekDays>(true), "-- Select --", new { @class = "form-control", @onchange = "GetTimePattren()" })
+                    </td>
+                </tr>
+            </table>
+            <div>
+                <input type="text" id="txtstartTime" />
+                <input type="text" id="txtendTime" />
+                <input type="button" value="Add" onclick="AddRow()" />
+            </div>
+            <div id="Tcollection">
+                @Html.Action("TimeCollection", "Class", new { flag = 3, PatternId = 0, classId = Model.ClassId })
+            </div>
         </div>
-        <div id="Tcollection">
-            @Html.Action("TimeCollection", "Class", new { flag = 3, PatternId = 0, classId = Model.ClassId })
-        </div>
-    </div>
+        <input type="submit" value="Save" />
+    }
 </body>
 </html>
 <script src="~/Content/JS/jquery-1.11.1.js"></script>
-<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+@*<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>*@
 
 <script type="text/javascript">
     function AddRow() {
         var starttime = $("#txtstartTime").val();
         var endtime = $("#txtendTime").val();
-        if (starttime == '' || endtime == '') {
+        var weekDayId = $("#WeekDayId").val();
+        if (starttime == '' || endtime == '' || weekDayId == '') {
             return false;
         }
         var isValidDate = DateCompare(endtime, starttime);
@@ -57,11 +66,25 @@
             return false;
         }
 
-        $.get('@Url.Action("TimeCollection","Class")?flag=' + 1 + "&PatternId=" + 0 + "&classId=" + '@Model.ClassId' + "&startTime=" + starttime + "&endTime=" + endtime + "&randNo=" + Math.random(), function (data) {
+        $.get('@Url.Action("TimeCollection","Class")?flag=' + 1 + "&PatternId=" + 0 + "&classId=" + '@Model.classDetais.ClassId' + "&startTime=" + starttime + "&endTime=" + endtime + "&randNo=" + Math.random() + "&WeekDayId=" + weekDayId, function (data) {
+            $("#Tcollection").html(data);
+        })
+    }
+
+    function GetTimePattren() {
+        var starttime = "";
+        var endtime = "";
+        var weekDayId = $("#WeekDayId").val();
+
+        if (weekDayId == '') {
+            return false;
+        }
+        $.get('@Url.Action("TimeCollection","Class")?flag=' + 3 + "&PatternId=" + 0 + "&classId=" + '@Model.classDetais.ClassId' + "&startTime=" + starttime + "&endTime=" + endtime + "&randNo=" + Math.random() + "&WeekDayId=" + weekDayId, function (data) {
             $("#Tcollection").html(data);
         })
 
     }
+
     function Remove(o) {
         $.get('@Url.Action("TimeCollection","Class")?flag=' + 2 + "&PatternId=" + o, function (data) {
             $("#Tcollection").html(data);

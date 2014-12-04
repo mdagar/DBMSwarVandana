@@ -19,6 +19,7 @@ namespace ViewModel
         public ClassDetailViewModel(ClassDetails cl)
         {
             this.ActionId = cl.ActionId;
+            this.ClassName = cl.ClassName;
             this.ClassId = cl.ClassId;
             this.DisciplineId = cl.DisciplineId;
             this.FacultyId = cl.FacultyId;

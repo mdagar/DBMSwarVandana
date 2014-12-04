@@ -28,9 +28,9 @@ namespace Repositories
             return Convert.ToInt32(d);
         }
 
-        public List<Enquiries> ListEnquuiry(int centerId, int centerType)
+        public List<Enquiries> ListEnquuiry(int centerId, int EnqueryType, string search="")
         {
-            object[] objParam = { centerId, centerType, "" };
+            object[] objParam = { centerId, EnqueryType, search };
             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetEnquiry, objParam);
             if (ds == null)
                 return new List<Enquiries>();

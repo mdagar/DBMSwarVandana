@@ -1,7 +1,8 @@
 ﻿@model List<Models.Enquiries>
 @{
     ViewBag.Title = "Telephonic Enquiry List";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+   Layout = "~/Views/Shared/_Layout.cshtml";
+   
 }
 
 <!-- start container -->
@@ -12,15 +13,10 @@
     <div class="table-info">
         <!-- start table-form -->
         <div class="table-form">
-            <form action="#">
-                <label for="From">From Date</label>
-                <input type="text" name="fromdate" value="" class="input" />
-                <label for="From">To Date</label>
-                <input type="text" name="todate" value="" class="input" />
-                <select name="field" id="Inventory" class="select">
-                    <option></option>
-                </select>
-                <input name="submit" type="submit" value="Excel Button" onclick="Export()" class="submit-btn" />
+            <form action="#">                
+                <input type="text" name="search" value="" class="input" />             
+                <input type="submit"  value="Search" class="input" />             
+                <input name="submit" type="button" value="Export" onclick="Export()" class="submit-btn" />
             </form>
         </div>
         <!-- end table-form -->
@@ -73,9 +69,7 @@
 </div>
 <script type="text/javascript">
     function Export()
-    {
-        alert('HI');        
-        window.location.href = '@Url.Action("ExportTelephonicEnq", "Enquiries")';
-        alert('123');
+    {  
+        window.location.href = '@Url.Action("ExportTelephonicEnq", "Enquiries")';   
     }
 </script>

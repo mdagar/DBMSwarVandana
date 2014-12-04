@@ -16,6 +16,7 @@ using System.Data;
 using System.Web.Routing;
 using System.Web.Helpers;
 using System.Drawing.Imaging;
+using System.Xml;
 
 namespace Code
 {
@@ -38,6 +39,36 @@ namespace Code
                                                       "opera mini","mobile","palm",
                                                       "portable","opera mobi" };
 
+        public static XmlDocument ConvertToXML<T>(this IEnumerable<T> objectToConvert)
+        {
+
+            PropertyInfo[] props = typeof(T).GetProperties();
+            Type sourceType = objectToConvert.GetType();
+            XmlDocument doc = new XmlDocument();
+            XmlElement root = doc.DocumentElement;
+
+            XmlElement MainBody = doc.CreateElement(string.Empty, "body", string.Empty);
+            doc.AppendChild(MainBody);
+
+            foreach (var v in objectToConvert)
+            {
+                XmlElement MainNode = doc.CreateElement(string.Empty, "MainNode", string.Empty);
+                MainBody.AppendChild(MainNode);
+
+                // Add the properties as columns to the datatable
+                foreach (var prop in props)
+                {
+                    XmlElement node = doc.CreateElement(string.Empty, prop.Name, string.Empty);
+                    var value = prop.GetValue(v, null);
+                    XmlText text = doc.CreateTextNode(value.ToString());
+                    node.AppendChild(text);
+                    MainNode.AppendChild(node);
+                }
+            }
+
+            return doc;
+
+        }
         public static bool IsandroidMobileDevice(string useragent)
         {
             return mobileDevices.Any(x => useragent.Contains(x));
