@@ -56,5 +56,6 @@ namespace Repositories
             else
                 return ds.Tables[0].TableToList<Faculties>().FirstOrDefault();
         }
+        
     }
 }

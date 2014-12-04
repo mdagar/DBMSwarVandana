@@ -98,5 +98,28 @@ namespace DBM_SwarVandana.Controllers
             return View(fl);
         }
 
+        [Authenticate]
+        public ActionResult DeleteFaculty(int facultyId)
+        {
+            try
+            {
+                var fac = _allfaculty.GetFacultyByFacultyId(facultyId);
+                fac.IsDeleted = true;
+                int result = _allfaculty.FacultyRegistration(fac);
+                if (result > -1)
+                {
+                    ViewBag.Success = Messages.SubmitFaculty;
+                }
+                else
+                {
+                    ViewBag.Error = Messages.FacultyExists;
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.Error = e.Message;
+            }
+            return RedirectToAction("GetFaculityList");
+        }
     }
 }
