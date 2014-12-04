@@ -11,14 +11,9 @@
         <!-- start table-form -->
         <div class="table-form">
             <form action="#">
-                <label for="From">From Date</label>
-                <input type="text" name="field" value="" class="input" />
-                <label for="From">From Date</label>
-                <input type="text" name="field" value="" class="input" />
-                <select name="field" id="Inventory" class="select">
-                    <option></option>
-                </select>
-                <input name="submit" type="submit" value="Excel Button" class="submit-btn" />
+                <input type="text" name="search" value="" class="input" />
+                <input type="submit" value="Search" class="input" />
+                <input name="submit" type="button" value="Export" onclick="Export()" class="submit-btn" />
             </form>
         </div>
         <!-- end table-form -->
@@ -68,79 +63,10 @@
         </div>
         <!-- end table -->
     </div>
-   @* <!-- Physical Enquiry List -->
-    <h3 style="color: #ff9903; font-size: 30px; font-weight: 600; padding-bottom: 30px; padding-left: 50px; text-align: center; ">Physical Enquiry List</h3>
-    <div class="row" style="margin-top: 20px;">
-        <div>
-            <a href="@Url.Action("PhysicalEnquiry", "Enquiries")" style=" background: none repeat scroll 0 0 #ff6a00; border-radius: 5px;color: #fff !important; padding: 5px 7px;">
-                <span style="content:'+' ;"></span>&nbsp;Add New Enquiry
-            </a>
-        </div>
-    </div>
-    <div class="registration-form">
-        <table cellspacing="0" id="RootMainContent" style="margin-top: 20px; width: 100%; font-size: 12px; border: 1px solid">
-            <thead style="background:#DA7403">
-                <tr align="left" class="active">
-                    <th scope="col">
-                        <span>Name</span>
-                    </th>
-                    <th scope="col">
-                        <span>Discipline</span>
-                    </th>
-                    <th scope="col">
-                        <span>Contact Number </span>
-                    </th>
-                    <th scope="col">
-                        <span>Date of Enquiry</span>
-                    </th>
-                    <th scope="col">
-                        <span>Source </span>
-                    </th>
-                    <th scope="col">
-                        <span>Address</span>
-                    </th>
-                    <th scope="col">
-                        <span>State</span>
-                    </th>
-                    <th scope="col">
-                        <span>City</span>
-                    </th>
-                    <th scope="col">
-                        <span>Status</span>
-                    </th>
-                    <th scope="col">
-                        <span>Remarks</span>
-                    </th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var v in Model)
-                {
-                    <tr align="left">
-                        <td> @v.Name</td>
-                        <td>@v.Discipline</td>
-                        <td>@v.ContactNumber</td>
-                        <td>@string.Format("{0:dd MMM yyyy}", v.DateOfEnquiry)</td>
-                        <td>@v.SourceId</td>
-                        <td>@v.Address</td>
-                        <td>@v.StateId</td>
-                        <td>@v.CityId</td>
-                        <td>@v.StatusId</td>
-                        <td>@v.RemarksByFaculty</td>
-                        <td>
-                            <a href="@Url.Action("PhysicalEnquiry", "Enquiries", new { enquiryId = v.EnquiryId })" title="Edit"><span>Edit</span></a>
-                        </td>
-                    </tr>
-                }
-                @{if (Model.Count() == 0)
-                {
-                    <tr>
-                        <td colspan="11" style="text-align: center">No record found.</td>
-                    </tr>
-                }}
-            </tbody>
-        </table>
-
-    </div>*@
 </div>
+<script type="text/javascript">
+    function Export()
+    {
+        window.location.href = '@Url.Action("PhysicalEnquiryList", "Enquiries")';
+    }
+</script>

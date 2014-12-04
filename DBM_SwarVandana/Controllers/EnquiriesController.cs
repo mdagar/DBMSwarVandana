@@ -73,9 +73,9 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult PhysicalEnquiryList()
+        public ActionResult PhysicalEnquiryList(string search = "")
         {
-            List<Enquiries> enq = _allenquiry.ListEnquuiry(0, 2);
+            List<Enquiries> enq = _allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.PE, search);
             return View(enq);
         }
 

@@ -22,7 +22,12 @@
                     @ViewBag.Error
                 }
             </div>
-            <h3>Physical Enquiry</h3>
+            <h3>Create Class</h3>
+            <div class="row">
+                <label for="Password">Class Name :</label>
+                @Html.TextBoxFor(x => x.ClassName, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.ClassName)
+            </div>
             <div class="row">
                 <label for="Password">Discipline :</label>
                 @Html.DropDownListFor(x => x.DisciplineId, new ListBound(Model.DisciplineId, "Disciplines").Disciplines, "-- Select Discipline --", new { @class = "select" })
@@ -46,7 +51,7 @@
             <div class="rowbutton">
                 <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
             </div>
-    
+
         }
     </div>
 
