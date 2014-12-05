@@ -18,6 +18,9 @@ namespace DBM_SwarVandana.Controllers
 
         StudentsRepository _allstudents = new StudentsRepository();
         ClassRepository _allClassRepository = new ClassRepository();
+
+        public static List<StudentAttendence> list = new List<StudentAttendence>();
+
         #region Enrollment
         [Authenticate]
         public ActionResult Index()
@@ -81,20 +84,27 @@ namespace DBM_SwarVandana.Controllers
 
         #region Attendence
         [Authenticate]
-        public ActionResult MakeAttendence(long classId = 0)
+        public ActionResult MakeAttendence(long classId = 0, DateTime? attendenceDate= null)
         {
             StudentAttendenceViewModel m = new StudentAttendenceViewModel();
             m.ClassId = classId;
-            m.Classes = _allClassRepository.ListClassDetails(SessionWrapper.User.CentreId);
+            m.DateOfAttendence = attendenceDate == null ? DateTime.Now : attendenceDate.Value;
+            int weekDay = m.DateOfAttendence.Value.Day;
+            m.Classes = _allClassRepository.GetClassByWeekDays(SessionWrapper.User.CentreId, weekDay);
             m.students = _allstudents.GetStudentsByClassId(SessionWrapper.User.CentreId);
             return View(m);
         }
 
         [Authenticate]
-        public ActionResult CollectAttendence(long classId = 0)
+        public ActionResult CollectAttendence(long classId ,long studentId,int Status, int weekDay)
         {
-            List<StudentAttendence> list = new List<StudentAttendence>();
-                       
+            StudentAttendence s = new StudentAttendence();
+            s.AddBy = SessionWrapper.User.UserId;
+            s.AddDate = DateTime.Now;
+            s.AttendenceStatus = Status;
+            s.ClassId = classId;
+            s.WeekDayId = weekDay;
+            s.StuentId = studentId;           
             return View();
         }
         #endregion

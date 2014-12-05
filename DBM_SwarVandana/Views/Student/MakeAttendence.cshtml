@@ -6,7 +6,8 @@
     //Layout = null;
 }
 
-@Html.DropDownListFor(x => x.ClassId, new SelectList(Model.Classes, "ClassId", "ClassName", Model.ClassId), new { @onchange = "ChangeClass(this)" })
+@Html.DropDownListFor(x => x.ClassId, new SelectList(Model.Classes, "ClassId", "ClassName", Model.ClassId),"-- Select Class", new { @onchange = "ChangeClass(this)" })
+<p>Date Of Attendence : @Model.DateOfAttendence.Value.ToString("dd MMM yyyy")</p>
 <table>
     <tr>
         <td>Student Name</td>

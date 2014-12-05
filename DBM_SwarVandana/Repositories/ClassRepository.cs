@@ -36,6 +36,16 @@ namespace Repositories
                 return new List<ClassDetails>();
         }
 
+        public List<ClassDetails> GetClassByWeekDays(int centerId, int weekDay)
+        {
+            string Query = "SELECT ClassId,ClassName,DisciplineId,FacultyId,StudentLimit,StartDate,EndDate,CentreId,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive,IsDeleted FROM [dbo].[ClassDetails] WHERE CentreId = " + centerId + " and IsDeleted=0 and isactive=1 AND ClassId IN(SELECT ClassId from  [dbo].[ClassTimingPatterns] WHERE WeekDayId = " + weekDay + ")";
+            DataSet d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            if (d != null)
+                return d.Tables[0].TableToList<ClassDetails>();
+            else
+                return new List<ClassDetails>();
+        }
+
         public ClassDetails FindById(long ClassId)
         {
             string Query = "SELECT ClassId,DisciplineId,FacultyId,StudentLimit,StartDate,EndDate,CentreId,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive,IsDeleted FROM [dbo].[Classdetails] WHERE ClassId = " + ClassId;
