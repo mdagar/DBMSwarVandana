@@ -46,6 +46,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult TelephonicEnquiry(EnquiryViewModel en)
         {
             var result = 0;
+            EnquiryViewModel evm = new EnquiryViewModel();
             if (ModelState.IsValid)
             {
                 en.ActionId = 0;
@@ -57,7 +58,20 @@ namespace DBM_SwarVandana.Controllers
                 en.ModifyBy = SessionWrapper.User.UserId;
                 en.ModifyDate = DateTime.Now;
                 en.IsActive = true;
-                result = _allenquiry.CreateEnquiry(en);
+                if (en.EnquiryId != 0)
+                {
+                    evm = new EnquiryViewModel(_allenquiry.FindByEnquirieID(en.EnquiryId));
+                    evm.ActionId = 1;
+                    evm.StatusId = en.StatusId;
+                    evm.ModifyDate = DateTime.Now;
+                    evm.ModifyBy = SessionWrapper.User.UserId;
+                    result = _allenquiry.CreateEnquiry(evm);
+                }
+                else
+                {
+                    result = _allenquiry.CreateEnquiry(en);
+                }
+                
                 if (result > 0)
                 {
                     ViewBag.Success = Messages.SubmitEnquiry;
@@ -95,19 +109,30 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult PhysicalEnquiry(EnquiryViewModel en)
         {
             var result = 0;
+            EnquiryViewModel evm = new EnquiryViewModel();
             if (ModelState.IsValid)
             {
                 en.ActionId = 0;
                 en.CentreId = SessionWrapper.User.CentreId;
-                en.EnquiryTypeId = Convert.ToInt32(EnquiryType.PE);
-
+                en.EnquiryTypeId = Convert.ToInt32(EnquiryType.TE);
                 en.IsEnquiryClosed = false;
                 en.AddDate = DateTime.Now;
                 en.AddedBy = SessionWrapper.User.UserId;
                 en.ModifyBy = SessionWrapper.User.UserId;
                 en.ModifyDate = DateTime.Now;
                 en.IsActive = true;
-                result = _allenquiry.CreateEnquiry(en);
+                en.IsDeleted = false;
+                if (en.EnquiryId != 0)
+                {
+                    evm = new EnquiryViewModel(_allenquiry.FindByEnquirieID(en.EnquiryId));
+                    evm.ActionId = 1;
+                    evm.StatusId = en.StatusId;
+                    evm.ModifyDate = DateTime.Now;
+                    evm.ModifyBy = SessionWrapper.User.UserId;
+                    result = _allenquiry.CreateEnquiry(evm);
+                }
+                else
+                    result = _allenquiry.CreateEnquiry(en);
                 if (result > 0)
                 {
                     ViewBag.Success = Messages.SubmitEnquiry;
@@ -122,6 +147,26 @@ namespace DBM_SwarVandana.Controllers
                 en = new EnquiryViewModel();
             }
             return View(en);
+        }
+
+        [Authenticate]
+        public ActionResult DeleteEnquiry(int enquiryID,int type)
+        {
+            try
+            {
+                var enq = _allenquiry.FindByEnquirieID(enquiryID);
+                enq.IsDeleted = true;
+                enq.ActionId = 1;
+                var result = _allenquiry.CreateEnquiry(enq);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Error = e.Message;
+            }
+            if (type==1)
+                return RedirectToAction("PhysicalEnquiryList");
+            else
+                return RedirectToAction("TelephonicEnquiryList");
         }
 
         [Authenticate]
