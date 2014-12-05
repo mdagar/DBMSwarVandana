@@ -10,21 +10,7 @@
 <div class="container">
     <!-- table-info -->
     <div class="table-info">
-        <!-- start table-form -->
-        <div class="table-form">
-            <form action="#">
-                <label for="From">From Date</label>
-                <input type="text" name="field" value="" class="input" />
-                <label for="From">From Date</label>
-                <input type="text" name="field" value="" class="input" />
-                <select name="field" id="Inventory" class="select">
-                    <option></option>
-                </select>
-                <input name="submit" type="submit" value="Excel Button" class="submit-btn" />
-            </form>
-        </div>
-        <!-- end table-form -->
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("CreateClassTimming", "Class"))
         {
             @Html.Hidden("ClassId", Model.classDetais.ClassId)
             <div>
@@ -37,20 +23,34 @@
                         <td>Did</td>
                         <td>@Model.classDetais.DisciplineId</td>
                     </tr>
-                    <tr>
-                        <td>
-                            Day
-                        </td>
-                        <td>
-                            @Html.DropDownListFor(m => Model.WeekDayId, typeof(WeekDays).SelectList<WeekDays>(true), "-- Select --", new { @class = "form-control", @onchange = "GetTimePattren()" })
-                        </td>
-                    </tr>
+                    @*<tr>
+                            <td>
+                                Day
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(m => Model.WeekDayId, typeof(WeekDays).SelectList<WeekDays>(true), "-- Select --", new { @class = "form-control", @onchange = "GetTimePattren()" })
+                            </td>
+                        </tr>*@
                 </table>
-                <div>
-                    <input type="text" id="txtstartTime" />
-                    <input type="text" id="txtendTime" />
-                    <input type="button" value="Add" onclick="AddRow()" />
-                </div>
+                <table>
+                    <tr>
+                        <td>Day</td>
+                        <td>Start Time</td>
+                        <td>End Time</td>
+                        <td>Action</td>
+                    </tr>
+                    @foreach (var v in typeof(WeekDays).SelectList<WeekDays>(true))
+                    {
+                        <tr>
+                            <td>@v.Text</td>
+                            <td><input type="text" id="startTime" /></td>
+                            <td><input type="text" id="endTime" /></td>
+                            <td>
+                                <input type="checkbox" value="@v.Value" onclick="AddRow(this)" />
+                            </td>
+                        </tr>
+                    }
+                </table>
                 <div id="Tcollection">
                     @Html.Action("TimeCollection", "Class", new { flag = 3, PatternId = 0, classId = Model.ClassId })
                 </div>
@@ -63,20 +63,33 @@
 <script src="~/Content/JS/jquery-1.11.1.js"></script>
 
 <script type="text/javascript">
-    function AddRow() {
-        var starttime = $("#txtstartTime").val();
-        var endtime = $("#txtendTime").val();
-        var weekDayId = $("#WeekDayId").val();
-        if (starttime == '' || endtime == '' || weekDayId == '') {
+    function AddRow(o) {
+        var weekdayId = $(o).val();
+        var starttime = $(o).closest("tr").find("#startTime").val();
+        var endtime = $(o).closest("tr").find("#endTime").val();
+
+        var flag = 4;
+
+        if ($(o).prop("checked") == true)
+            flag = 1;
+        else {
+            flag = 2;
+            $(o).closest("tr").find("#startTime").val('');
+            $(o).closest("tr").find("#endTime").val('');
+        }
+
+        if (starttime == '' || endtime == '' || weekdayId == '') {
+            $(o).prop("checked", false);
             return false;
         }
         var isValidDate = DateCompare(endtime, starttime);
         if (isValidDate != 1) {
             alert('Invalid Time');
+            $(o).prop("checked", false);
             return false;
         }
 
-        $.get('@Url.Action("TimeCollection","Class")?flag=' + 1 + "&PatternId=" + 0 + "&classId=" + '@Model.classDetais.ClassId' + "&startTime=" + starttime + "&endTime=" + endtime + "&randNo=" + Math.random() + "&WeekDayId=" + weekDayId, function (data) {
+        $.get('@Url.Action("TimeCollection","Class")?flag=' + flag + "&classId=" + '@Model.classDetais.ClassId' + "&randNo=" + Math.random() + "&WeekDayId=" + weekdayId + "&starttime=" + starttime + "&endtime=" + endtime, function (data) {
             $("#Tcollection").html(data);
         })
     }

@@ -45,7 +45,7 @@ namespace DBM_SwarVandana.Controllers
             if (ModelState.IsValid)
             {
                 cls.ActionId = 0;
-                cls.CentreId = SessionWrapper.User.CentreId;                
+                cls.CentreId = SessionWrapper.User.CentreId;
                 cls.AddDate = DateTime.Now;
                 cls.AddedBy = SessionWrapper.User.UserId;
                 cls.ModifyBy = SessionWrapper.User.UserId;
@@ -100,7 +100,7 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult TimeCollection(int flag = 4, long PatternId = 0, long classId = 0, string startTime = "", string endTime = "", string randNo = "", int WeekDayId = 0)
+        public ActionResult TimeCollection(int flag = 4, long classId = 0, string randNo = "", int WeekDayId = 0, string starttime = "", string endtime = "")
         {
             //if 1 then add if 2 then remove if 3 get from database
             if (flag == 1)
@@ -110,8 +110,8 @@ namespace DBM_SwarVandana.Controllers
                     pattren.PatternId = timepattern.Max(m => m.PatternId) + 1;
                 else
                     pattren.PatternId = 1;
-                pattren.StartTime = startTime;
-                pattren.EndTime = endTime;
+                pattren.StartTime = starttime;
+                pattren.EndTime = endtime;
                 pattren.WeekDayId = WeekDayId;
                 pattren.AddDate = DateTime.Now;
                 pattren.AddedBy = SessionWrapper.User.UserId;
@@ -123,7 +123,7 @@ namespace DBM_SwarVandana.Controllers
             }
             if (flag == 2)
             {
-                var p = timepattern.Where(x => x.PatternId == PatternId).FirstOrDefault();
+                var p = timepattern.Where(x => x.ClassId == classId && x.WeekDayId == WeekDayId).FirstOrDefault();
                 timepattern.Remove(p);
             }
             if (flag == 3)

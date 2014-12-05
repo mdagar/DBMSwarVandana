@@ -27,6 +27,7 @@ namespace ViewModel
             this.IsActive = p.IsActive;
         }
 
+        public virtual List<ClassTimingPatterns> li { get; set; }
         public virtual ClassDetails classDetais { get; set; }
 
     }

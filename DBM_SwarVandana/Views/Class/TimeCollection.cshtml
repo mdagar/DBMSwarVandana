@@ -1,20 +1,21 @@
 ﻿@model List<Models.ClassTimingPatterns>
+@using Code;
 @{
     Layout = null;
 }
 
 <table>
     <tr>
-        <td>Start Timming</td>
-        <td>End Timming</td>
-        <td>Remove</td>
+        <td>Day</td>
+        <td>Start</td>
+        <td>End </td>        
     </tr>
     @foreach (var v in Model)
     {
         <tr>
-            <td>@Html.TextBoxFor(x => v.StartTime, new { @readonly = "readonly" })</td>
-            <td>@Html.TextBoxFor(x => v.EndTime, new { @readonly = "readonly" })</td>
-            <td><a href="javascript:void(0)" onclick="Remove(@v.PatternId)">Remove</a> </td>
+            <td><span>@(((WeekDays)Enum.Parse(typeof(WeekDays), v.WeekDayId.ToString())).Desciption()) </span> </td>
+            <td>@v.StartTime</td>
+            <td>@v.EndTime</td>            
         </tr>
     }
 </table>
