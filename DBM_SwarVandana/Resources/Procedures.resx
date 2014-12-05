@@ -126,6 +126,9 @@
   <data name="GetStudents" xml:space="preserve">
     <value>GetStudents</value>
   </data>
+  <data name="GetStudentsByCentreId" xml:space="preserve">
+    <value>GetStudentsByCentreId</value>
+  </data>
   <data name="USP_CentresGetAll" xml:space="preserve">
     <value>USP_CentresGetAll</value>
   </data>
