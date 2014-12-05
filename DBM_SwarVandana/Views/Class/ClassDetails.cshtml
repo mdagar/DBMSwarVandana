@@ -38,6 +38,11 @@
                 @Html.DropDownListFor(x => x.FacultyId, new ListBound(Model.FacultyId, "Faculties").Faculties, "-- Select Faculty --", new { @class = "select" })
                 @Html.ValidationMessageFor(x => x.FacultyId)
             </div>
+               <div class="row">
+                <label for="Password">Student Limit :</label>
+                @Html.TextBoxFor(x => x.StudentLimit, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.StudentLimit)
+            </div>
             <div class="row">
                 <label for="Password">Start Date :</label>
                 @Html.TextBoxFor(x => x.StartDate, new { @class = "input" })

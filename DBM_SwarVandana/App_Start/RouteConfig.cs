@@ -17,7 +17,7 @@ namespace DBM_SwarVandana
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-                //defaults: new { controller = "Enquiries", action = "TelephonicEnquiryList", id = UrlParameter.Optional }
+                //defaults: new { controller = "Class", action = "CreateClassTimming", id = UrlParameter.Optional }
             );
         }
     }

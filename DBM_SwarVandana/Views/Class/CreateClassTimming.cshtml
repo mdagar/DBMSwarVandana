@@ -2,55 +2,65 @@
 @using Code;
 @{
     ViewBag.Title = "Class Timming";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    //Layout = null;
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
-    @using (Html.BeginForm())
-    {
-        @Html.Hidden("ClassId",Model.classDetais.ClassId)
-        <div>
-            <table>
-                <tr>
-                    <td>Id</td>
-                    <td>@Model.classDetais.ClassId</td>
-                </tr>
-                <tr>
-                    <td>Did</td>
-                    <td>@Model.classDetais.DisciplineId</td>
-                </tr>
-                <tr>
-                    <td>
-                        Day
-                    </td>
-                    <td>
-                        @Html.DropDownListFor(m => Model.WeekDayId, typeof(WeekDays).SelectList<WeekDays>(true), "-- Select --", new { @class = "form-control", @onchange = "GetTimePattren()" })
-                    </td>
-                </tr>
-            </table>
-            <div>
-                <input type="text" id="txtstartTime" />
-                <input type="text" id="txtendTime" />
-                <input type="button" value="Add" onclick="AddRow()" />
-            </div>
-            <div id="Tcollection">
-                @Html.Action("TimeCollection", "Class", new { flag = 3, PatternId = 0, classId = Model.ClassId })
-            </div>
+<div class="container">
+    <!-- table-info -->
+    <div class="table-info">
+        <!-- start table-form -->
+        <div class="table-form">
+            <form action="#">
+                <label for="From">From Date</label>
+                <input type="text" name="field" value="" class="input" />
+                <label for="From">From Date</label>
+                <input type="text" name="field" value="" class="input" />
+                <select name="field" id="Inventory" class="select">
+                    <option></option>
+                </select>
+                <input name="submit" type="submit" value="Excel Button" class="submit-btn" />
+            </form>
         </div>
-        <input type="submit" value="Save" />
-    }
-</body>
-</html>
+        <!-- end table-form -->
+        @using (Html.BeginForm())
+        {
+            @Html.Hidden("ClassId", Model.classDetais.ClassId)
+            <div>
+                <table>
+                    <tr>
+                        <td>Id</td>
+                        <td>@Model.classDetais.ClassId</td>
+                    </tr>
+                    <tr>
+                        <td>Did</td>
+                        <td>@Model.classDetais.DisciplineId</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Day
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(m => Model.WeekDayId, typeof(WeekDays).SelectList<WeekDays>(true), "-- Select --", new { @class = "form-control", @onchange = "GetTimePattren()" })
+                        </td>
+                    </tr>
+                </table>
+                <div>
+                    <input type="text" id="txtstartTime" />
+                    <input type="text" id="txtendTime" />
+                    <input type="button" value="Add" onclick="AddRow()" />
+                </div>
+                <div id="Tcollection">
+                    @Html.Action("TimeCollection", "Class", new { flag = 3, PatternId = 0, classId = Model.ClassId })
+                </div>
+            </div>
+            <input type="submit" value="Save" />
+        }
+    </div>
+</div>
+
 <script src="~/Content/JS/jquery-1.11.1.js"></script>
-@*<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>*@
 
 <script type="text/javascript">
     function AddRow() {
