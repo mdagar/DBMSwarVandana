@@ -96,6 +96,13 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
+        [HttpPost]
+        public ActionResult MakeAttendence()
+        {
+            return View();
+        }
+
+        [Authenticate]
         public ActionResult CollectAttendence(long classId, long studentId, int Status, int weekDay)
         {
             var SAttendence = AttendenceCollection.Where(x => x.StuentId == studentId).FirstOrDefault();
