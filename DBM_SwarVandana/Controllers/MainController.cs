@@ -89,15 +89,12 @@ namespace DBM_SwarVandana.Controllers
                 c.ModifyBy = SessionWrapper.User.UserId;
                 c.ModifyDate = DateTime.Now;
                 c.IsActive = true;
+                c.IsDeleted = false;
                 result = _allcentre.CreateCentres(c);
                 if (result > 0)
-                {
                     ViewBag.Success = Messages.SubmitCentre;
-                }
                 else
-                {
-                    ViewBag.Error = Messages.CentreExists;
-                }
+                    ModelState.AddModelError("", Messages.CentreExists);
             }
             else
             {
@@ -178,7 +175,7 @@ namespace DBM_SwarVandana.Controllers
             return View(src);
         }
 
-       
+
         [Authenticate]
         public ActionResult AddDiscipline(int? DisciplineId)
         {
