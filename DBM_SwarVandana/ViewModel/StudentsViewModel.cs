@@ -59,5 +59,8 @@ namespace ViewModel
         public override int ModifyBy { get; set; }
         public override DateTime? ModifyDate { get; set; }
         public override bool IsDeleted { get; set; }
+
+        
+
     }
 }

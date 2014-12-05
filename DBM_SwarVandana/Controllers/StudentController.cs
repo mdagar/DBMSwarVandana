@@ -17,7 +17,7 @@ namespace DBM_SwarVandana.Controllers
         // GET: /Student/
 
         StudentsRepository _allstudents = new StudentsRepository();
-
+        ClassRepository _allClassRepository = new ClassRepository();
         #region Enrollment
         [Authenticate]
         public ActionResult Index()
@@ -81,8 +81,20 @@ namespace DBM_SwarVandana.Controllers
 
         #region Attendence
         [Authenticate]
-        public ActionResult MakeAttendence()
+        public ActionResult MakeAttendence(long classId = 0)
         {
+            StudentAttendenceViewModel m = new StudentAttendenceViewModel();
+            m.ClassId = classId;
+            m.Classes = _allClassRepository.ListClassDetails(SessionWrapper.User.CentreId);
+            m.students = _allstudents.GetStudentsByClassId(SessionWrapper.User.CentreId);
+            return View(m);
+        }
+
+        [Authenticate]
+        public ActionResult CollectAttendence(long classId = 0)
+        {
+            List<StudentAttendence> list = new List<StudentAttendence>();
+                       
             return View();
         }
         #endregion

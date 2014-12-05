@@ -25,6 +25,7 @@ namespace ViewModel
             this.ModifyBy = s.ModifyBy;
         }
 
-
+        public IEnumerable<Students> students { get; set; }
+        public IEnumerable<ClassDetails> Classes { get; set; }
     }
 }
