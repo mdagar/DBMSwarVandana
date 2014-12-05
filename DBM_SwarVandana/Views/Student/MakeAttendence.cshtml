@@ -8,6 +8,7 @@
 
 @Html.DropDownListFor(x => x.ClassId, new SelectList(Model.Classes, "ClassId", "ClassName", Model.ClassId),"-- Select Class", new { @onchange = "ChangeClass(this)" })
 <p>Date Of Attendence : @Model.DateOfAttendence.Value.ToString("dd MMM yyyy")</p>
+@Html.HiddenFor(x => x.WeekDayId);
 <table>
     <tr>
         <td>Student Name</td>
@@ -30,6 +31,13 @@
 
     function PutAttendence(attendenceStatus, studentId) {
         var classId = $("#ClassId").val();
+        var status = $(attendenceStatus).val();
+        var weekDay = $("#WeekDayId").val();
+        $.get('@Url.Action("CollectAttendence", "Student")?classId='+classId+"&studentId="+studentId+"&Status="+status+"&weekDay="+weekDay, function (data) {
+
+
+        });
+        
 
     }
     function ChangeClass(o) {

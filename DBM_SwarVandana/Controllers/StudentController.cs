@@ -19,7 +19,7 @@ namespace DBM_SwarVandana.Controllers
         StudentsRepository _allstudents = new StudentsRepository();
         ClassRepository _allClassRepository = new ClassRepository();
 
-        public static List<StudentAttendence> list = new List<StudentAttendence>();
+        public static List<StudentAttendence> AttendenceCollection = new List<StudentAttendence>();
 
         #region Enrollment
         [Authenticate]
@@ -84,7 +84,7 @@ namespace DBM_SwarVandana.Controllers
 
         #region Attendence
         [Authenticate]
-        public ActionResult MakeAttendence(long classId = 0, DateTime? attendenceDate= null)
+        public ActionResult MakeAttendence(long classId = 0, DateTime? attendenceDate = null)
         {
             StudentAttendenceViewModel m = new StudentAttendenceViewModel();
             m.ClassId = classId;
@@ -96,16 +96,23 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult CollectAttendence(long classId ,long studentId,int Status, int weekDay)
+        public ActionResult CollectAttendence(long classId, long studentId, int Status, int weekDay)
         {
-            StudentAttendence s = new StudentAttendence();
-            s.AddBy = SessionWrapper.User.UserId;
-            s.AddDate = DateTime.Now;
-            s.AttendenceStatus = Status;
-            s.ClassId = classId;
-            s.WeekDayId = weekDay;
-            s.StuentId = studentId;           
-            return View();
+            var SAttendence = AttendenceCollection.Where(x => x.StuentId == studentId).FirstOrDefault();
+            if (SAttendence != null)
+                AttendenceCollection.Where(x => x.StuentId == studentId).Update(u => u.AttendenceStatus = Status);
+            else
+            {
+                StudentAttendence s = new StudentAttendence();
+                s.AddBy = SessionWrapper.User.UserId;
+                s.AddDate = DateTime.Now;
+                s.AttendenceStatus = Status;
+                s.ClassId = classId;
+                s.WeekDayId = weekDay;
+                s.StuentId = studentId;
+                AttendenceCollection.Add(s);
+            }
+            return Json("",JsonRequestBehavior.AllowGet);
         }
         #endregion
 
