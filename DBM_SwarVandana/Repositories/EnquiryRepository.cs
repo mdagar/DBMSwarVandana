@@ -37,7 +37,7 @@ namespace Repositories
             else
                 return ds.Tables[0].TableToList<Enquiries>();
         }
-        public Enquiries FindByEnquirieID(int enquiryId)
+        public Enquiries FindByEnquirieID(long enquiryId)
         {
             object[] objParam = { enquiryId };
             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetEnquiryById, objParam);

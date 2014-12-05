@@ -67,6 +67,7 @@
                 <label for="Password">Source :</label>
                 @Html.DropDownListFor(x => x.SourceId, new ListBound(Model.SourceId, "Sources").Sources, "-- Select Source --", new { @class = "select" })
                 @Html.ValidationMessageFor(x => x.SourceId)
+                @Html.HiddenFor(x => x.EnquiryId);
             </div>
             <div class="row">
                 <label for="Password">Contact Number :</label>
