@@ -105,6 +105,7 @@ namespace DBM_SwarVandana.Controllers
             {
                 var fac = _allfaculty.GetFacultyByFacultyId(facultyId);
                 fac.IsDeleted = true;
+                fac.ActionId = 1;
                 int result = _allfaculty.FacultyRegistration(fac);
                 if (result > -1)
                 {
