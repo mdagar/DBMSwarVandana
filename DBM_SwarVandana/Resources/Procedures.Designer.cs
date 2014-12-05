@@ -88,6 +88,15 @@ namespace DBM_SwarVandana.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GetStudentsByCentreId.
+        /// </summary>
+        internal static string GetStudentsByCentreId {
+            get {
+                return ResourceManager.GetString("GetStudentsByCentreId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to USP_Centres_IUD.
         /// </summary>
         internal static string USP_Centres_IUD {

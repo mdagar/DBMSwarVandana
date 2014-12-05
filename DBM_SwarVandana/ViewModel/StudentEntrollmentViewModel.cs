@@ -29,6 +29,8 @@ namespace ViewModel
             this.CreatedBy = se.CreatedBy;
             this.ModifyDate = se.ModifyDate;
             this.ModifBy = se.ModifBy;
+            this.IsActive = se.IsActive;
+            this.IsDeleted = se.IsDeleted;
         }
 
         public override long EnrollmentId { get; set; }
@@ -45,5 +47,7 @@ namespace ViewModel
         public override long CreatedBy { get; set; }
         public override DateTime? ModifyDate { get; set; }
         public override long ModifBy { get; set; }
+        public override bool IsActive { get; set; }
+        public override bool IsDeleted { get; set; }
     }
 }

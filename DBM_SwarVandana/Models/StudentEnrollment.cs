@@ -9,6 +9,7 @@ namespace Models
     {
         public StudentEnrollment()
         {
+            this.ActionId = 0;
             this.EnrollmentId = 0;
             this.StudentId = 0;
             this.DisciplineId = 0;
@@ -23,8 +24,11 @@ namespace Models
             this.CreatedBy = 0;
             this.ModifyDate = null;
             this.ModifBy = 0;
+            this.IsActive = true;
+            this.IsDeleted = false;
         }
 
+        public virtual int ActionId { get; set; }
         public virtual long EnrollmentId { get; set; }
         public virtual long StudentId { get; set; }
         public virtual long DisciplineId { get; set; }
@@ -39,6 +43,8 @@ namespace Models
         public virtual long CreatedBy { get; set; }
         public virtual DateTime? ModifyDate { get; set; }
         public virtual long ModifBy { get; set; }
+        public virtual bool IsActive { get; set; }
+        public virtual bool IsDeleted { get; set; }
 
     }
 }

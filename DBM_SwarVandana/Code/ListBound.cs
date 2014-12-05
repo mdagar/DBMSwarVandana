@@ -15,6 +15,7 @@ namespace Code
         public SelectList Disciplines;
         public SelectList Users;
         public SelectList Faculties;
+        public SelectList Students;
         public ListBound(object SLvalue, string type)
         {
             switch (type)
@@ -36,6 +37,9 @@ namespace Code
                     break;
                 case "Faculties":
                     Faculties = new SelectList((new FacultyRepository().GetFacultyByCentreId(SessionWrapper.User.CentreId)), "FacultyId", "NameOfFaculty");
+                    break;
+                case "Students":
+                    Students = new SelectList((new StudentsRepository().GetStudentsByCentreId(0)), "StudentId", "Name");
                     break;
                 default:
                     // commisionTypeSL = new SelectList(commisionType);

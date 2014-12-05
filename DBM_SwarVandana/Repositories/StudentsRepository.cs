@@ -32,5 +32,22 @@ namespace Repositories
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_Students_IUD, objParam);
             return Convert.ToInt32(d);
         }
+
+        public List<Students> GetStudentsByCentreId(int CentreId)
+        {
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetStudentsByCentreId, CentreId);
+            if (d == null)
+                return new List<Students>();
+            else
+                return d.Tables[0].TableToList<Students>();
+        }
+
+        public int EnrollStudents(StudentEnrollment se)
+        {
+            object[] objParam = {  se.ActionId, se.EnrollmentId, se.StudentId, se.DisciplineId,se.ClassId,se.CourseAmount,se.RegistratonAmount,se.NoOfClasses, 
+                                    se.AmountPaid,se.SatrtDate,se.EndDate, se.CreatedDate,se.CreatedBy,se.ModifyDate,se.ModifBy,se.IsActive,se.IsDeleted};
+            var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_StudentEntrollment_IUD, objParam);
+            return Convert.ToInt32(d);
+        }
     }
 }

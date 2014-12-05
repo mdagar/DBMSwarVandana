@@ -19,7 +19,7 @@ namespace Repositories
         public int FacultyRegistration(Faculties f)
         {
             object[] objParam = { f.ActionId,f.FacultyId,f.NameOfFaculty,f.EmailID,
-                                  f. ContactNumber    ,
+                                  f. ContactNumber,
                                   f. Address          ,
                                   f. StateId          ,
                                   f. CityId           ,
@@ -35,7 +35,7 @@ namespace Repositories
                                   f. AddedBy          ,
                                   f. ModifyDate       ,
                                   f. ModifyBy        ,
-                                  f. IsActive};
+                                  f. IsActive,f.IsDeleted};
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_Faculties_IUD, objParam);
             return Convert.ToInt32(d);
         }

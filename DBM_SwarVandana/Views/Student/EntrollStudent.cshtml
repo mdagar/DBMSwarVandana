@@ -1,0 +1,99 @@
+﻿@model ViewModel.StudentEntrollmentViewModel
+@using Code;
+@{
+    ViewBag.Title = "EntrollStudent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start container -->
+<div class="container">
+
+    <!-- registration-form -->
+    <div class="registration-form">
+        @using (Html.BeginForm("EntrollStudent", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div>
+                @if (!string.IsNullOrEmpty(ViewBag.Success))
+                {
+                    @ViewBag.Success
+                }
+                else
+                {
+                    @ViewBag.Error
+                }
+            </div>
+            <h3>Add Student</h3>
+            <div class="row">
+                <label for="Password">Student Name :</label>
+                @Html.DropDownListFor(x => x.StudentId, new ListBound(Model.StudentId, "Students").Students, "-- Select Student --", new { @class = "select" })
+                @Html.ValidationMessageFor(x => x.StudentId)
+            </div>
+            <div class="row">
+                <label for="Password">DOB :</label>
+                @Html.TextBoxFor(x => x.DOB, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.DOB)
+            </div>
+            <div class="row">
+                <label for="Password">Contact Number 1 :</label>
+                @Html.TextBoxFor(x => x.Contact1, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.Contact1)
+            </div>
+            
+            <div class="row">
+                <label for="Password">Contact Number 2 :</label>
+                @Html.TextBoxFor(x => x.Contact2, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.Contact2)
+            </div>
+            <div class="row">
+                <label for="Password">Email ID :</label>
+                @Html.TextBoxFor(x => x.EmailAddress, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.EmailAddress)
+            </div>
+@*<tr>
+            <td>Centre ID :</td>
+            <td>
+                @Html.DropDownListFor(x => x.CentreId, new ListBound(Model.CentreId, "Centres").Centres, "-- Select Centre --")
+                @Html.ValidationMessageFor(x => x.CentreId)
+            </td>
+        </tr>*@
+            <div class="row">
+                <label for="Password">Address :</label>
+                @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
+                @Html.ValidationMessageFor(x => x.Address)
+            </div>
+            <div class="row">
+                <label for="Password">State :</label>
+                @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" })
+                @Html.ValidationMessageFor(x => x.StateId)
+            </div>
+            <div class="row">
+                <label for="Password">City :</label>
+                @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select" })
+                @Html.ValidationMessageFor(x => x.CityId)
+            </div>
+            <div class="row">
+                <label for="Password">Guardian Name :</label>
+                @Html.TextBoxFor(x => x.GuardianName, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.GuardianName)
+            </div>
+            <div class="row">
+                <label for="Password">Occupation :</label>
+                @Html.TextBoxFor(x => x.Occupation, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.Occupation)
+            </div>
+            <div class="row">
+                <label for="Password">Has Transport Facility :</label>
+                <div class="column">
+                    @Html.RadioButtonFor(x => x.HasTransportFacility, true, new { @class = "radio" })
+                    <label for="male">Yes</label>
+                    @Html.RadioButtonFor(x => x.HasTransportFacility, false, new { @class = "radio" })
+                    <label for="female">No</label>
+                </div>
+            </div>
+            <div class="rowbutton">
+                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
+            </div>
+        }
+    </div>
+</div>
+
