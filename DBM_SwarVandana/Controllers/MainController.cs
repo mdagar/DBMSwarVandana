@@ -21,7 +21,7 @@ namespace DBM_SwarVandana.Controllers
         CentreRepository _allcentre = new CentreRepository();
         SourceRepository _allsource = new SourceRepository();
         DisciplineRepository _alldiscipline = new DisciplineRepository();
-       
+
 
         [Authenticate]
         public ActionResult Index()
@@ -65,14 +65,14 @@ namespace DBM_SwarVandana.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        #region CenterPanel 
+        #region CenterPanel
         [Authenticate]
-        public ActionResult CentreList(string Search="")
+        public ActionResult CentreList(string Search = "")
         {
             List<Centres> cls = _allcentre.GetAllCentres(Search);
             //var state = _allcentre.GetStates();
             //var city = _allcentre.GetCities();
-            
+
             return View(cls);
         }
 
@@ -109,26 +109,32 @@ namespace DBM_SwarVandana.Controllers
             return View(c);
         }
 
-        //public ActionResult ExportCenterList()
-        //{
-        //    var Discipline = _alldiscipline.GetAllDisciplines();
-        //    var sources = _allsource.GetAllSources();
-        //    var rec = (_allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.TE).Select(s => new
-        //    {
-        //        Name = s.Name,
-        //        Discipline = Discipline.Where(x => x.DisciplineId == s.Discipline).FirstOrDefault().Discipline,
-        //        source = sources.Where(x => x.SourceId == s.SourceId).FirstOrDefault().Source,
-        //        Contact = s.ContactNumber,
-        //        AttendedBy = s.AttendedBy,
-        //        Status = s.StateId
-        //    }).ToArray()).AsDataTable();
+        public ActionResult ExportCenterList()
+        {
+            var rec = (_allcentre.GetAllCentres().Select(s => new
+            {
+                Name = s.CentreName,
+                State= s.StateId,
+                City= s.CityId,
+                Address= s.Address,
+                Status = s.StateId
+            }).ToArray()).AsDataTable();
 
-        //    var data = ExcelHelper.Export(rec, "Center List");
-        //    return File(data.ToArray(), "application/vnd.ms-excel", "*Centers.xls");
-        //}
+            var data = ExcelHelper.Export(rec, "Center List");
+            return File(data.ToArray(), "application/vnd.ms-excel", "*Centers.xls");
+        }
 
         #endregion
 
+        #region UserRegistration
+        [Authenticate]
+        public ActionResult UserList(string search="")
+        {
+            var users = _alluser.GetAllUsers(SessionWrapper.User.CentreId,search);
+            return View(users);
+        }
+
+        [Authenticate]
         public ActionResult UserRegistration()
         {
             UsersViewModel user = new UsersViewModel();
@@ -164,6 +170,25 @@ namespace DBM_SwarVandana.Controllers
             }
             return View(u);
         }
+
+        public ActionResult ExportUserList()
+        {
+            var rec = (_alluser.GetAllUsers(SessionWrapper.User.CentreId).Select(s => new
+            {
+                Name = s.FirstName+" "+s.LastName,
+                Contact = s.ContactNumber,
+                Email = s.EmailID,
+                State=s.StateId,
+                City= s.CityId,
+                Address= s.Address,
+                Status = s.StateId
+            }).ToArray()).AsDataTable();
+
+            var data = ExcelHelper.Export(rec, "Users List");
+            return File(data.ToArray(), "application/vnd.ms-excel", "Users");
+        }
+
+        #endregion
 
         [Authenticate]
         public ActionResult AddSource()

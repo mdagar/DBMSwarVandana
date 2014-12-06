@@ -48,10 +48,14 @@
                     </ul>
                 </div>
                 <form action="#">
+                    @if(SessionWrapper.User.RoleId == (int)UserRole.SuperAdmin)
+                    { 
                     @Html.DropDownList("ddlCenters", new ListBound(SessionWrapper.User.CentreId, "Centres").Centres, new { onchange = "UpdateCenter(this);", @class="select" })
-                    @*<select name="field" class="select">
-                        <option></option>
-                    </select>*@
+                    }
+                    else
+                    { 
+                    @Html.DropDownList("ddlCenters", new ListBound(SessionWrapper.User.CentreId, "Centres").Centres, new { onchange = "UpdateCenter(this);", @class="select", @readonly="readonly" })
+                    }
                 </form>
                 <!-- end top-bar -->
 
@@ -68,7 +72,7 @@
                             <ul>
                                 <li><a href="@Url.Action("ChangePassword", "Main")">Change Password</a></li>
                                 <li><a href="@Url.Action("CentreList", "Main")">Centre Management</a></li>
-                                <li><a href="@Url.Action("UserRegistration", "Main")">User Registration</a></li>
+                                <li><a href="@Url.Action("UserList", "Main")">User Management</a></li>
                                 <li><a href="@Url.Action("AddSource", "Main")">Add Source</a></li>
                                 <li><a href="@Url.Action("ManageDiscipline", "Main")">Discipline Management</a></li>
                             </ul>

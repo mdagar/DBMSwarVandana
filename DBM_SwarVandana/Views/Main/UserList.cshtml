@@ -1,4 +1,4 @@
-﻿@model List<Models.Centres>
+﻿@model List<Models.Users>
 @{
     ViewBag.Title = "Centre List";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -22,11 +22,13 @@
         <div class="table">
             <!-- start row -->
             <div class="row-first">
-                <div class="td">Centre Name</div>
-                <div class="td">Address</div>
+                <div class="td">Name</div>
                 <div class="td">State</div>
                 <div class="td">City</div>
-                <div class="td">Centre Open Date</div>
+                <div class="td">Address</div>
+                <div class="td">Date of Birth</div>
+                <div class="td">Date of Join</div>
+                <div class="td">Email</div>
                 <div class="td">Action</div>
             </div>
             <!-- end row -->
@@ -34,11 +36,13 @@
             {
                 <!-- start row -->
                 <div class="row">
-                    <div class="td">@v.CentreName</div>
-                    <div class="td">@v.Address</div>
+                    <div class="td">@v.FirstName</div>
                     <div class="td">@v.StateId</div>
                     <div class="td">@v.CityId</div>
-                    <div class="td">@string.Format("{0:dd MMM yyyy}", v.CentreOpenDate)</div>
+                    <div class="td">@v.Address</div>
+                    <div class="td">@string.Format("{0:dd MMM yyyy}", v.DOB)</div>
+                    <div class="td">@string.Format("{0:dd MMM yyyy}", v.DOJ)</div>
+                    <div class="td">@v.EmailID</div>
                     <div class="td edit"><a href="@Url.Action("CentreRegistration", "Main", new { centreId = v.CentreId })" title="Edit"><span>Edit</span></a></div>
                 </div>
                 <!-- end row -->
@@ -58,7 +62,7 @@
 
 <script type="text/javascript">
     function Export() {
-        window.location.href = '@Url.Action("ExportCenterList", "Main")';
+        window.location.href = '@Url.Action("ExportUserList", "Main")';
     }
 </script>
 

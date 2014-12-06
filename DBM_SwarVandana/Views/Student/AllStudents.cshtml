@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Models.Students>
 @{
-    ViewBag.Title = "AllStudents";
+    ViewBag.Title = "All    Students";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,20 +11,17 @@
         <!-- start table-form -->
         <div class="table-form">
             <form action="#">
-                <label for="From">From Date</label>
-                <input type="text" name="field" value="" class="input" />
-                <label for="From">From Date</label>
-                <input type="text" name="field" value="" class="input" />
-                <select name="field" id="Inventory" class="select">
-                    <option></option>
-                </select>
-                <input name="submit" type="submit" value="Excel Button" class="submit-btn" />
+                <input type="text" name="field" placeholder="Search" value="" class="input" />                
+                <input name="submit" type="submit" value="Search" class="submit-btn" />
+                <label for="From">&nbsp;</label>
+                <input name="submit" type="button" value="Export" class="submit-btn" />
             </form>
         </div>
         <!-- end table-form -->
         <!-- start table -->
+        <div>
         <div class="table">
-            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <table width="100%" >
                 <!-- start row -->
                 <tr bgcolor="#ccc" class="row-first">
                     <td class="td td1">Unique Key</td>
@@ -48,7 +45,7 @@
                     <tr class="row">
                         <td class="td td1">@v.UniqueKey</td>
                         <td class="td">@v.Name</td>
-                        <td class="td">@v.DOB</td>
+                        <td class="td">@string.Format("{0:dd MMM yyyy}", v.DOB)</td>
                         <td class="td">@v.Contact1</td>
                         <td class="td">@v.Contact2</td>
                         <td class="td">@v.EmailAddress</td>
@@ -60,19 +57,19 @@
                         <td class="td">@v.HasTransportFacility</td>
                         <td class="td edit"><a href="@Url.Action("AddStudents", "Students", new { Id = v.Id })" title="Edit"><span>Edit</span></a></td>
                     </tr>
-                
+
                     <!-- end row -->
                 }
                 @{if (Model.Count() == 0)
-                  {
+                {
                     <tr class="row">
                         <td class="td" style="text-align: center">No record found.</td>
                     </tr>
-                
-                  }}
+
+                }}
             </table>
             <!-- start row -->
-            <div class="row-last">
+            @*<div class="row-last">
                 <div class="td td2">1 - 8 of 8 items</div>
                 <div class="td td3">
                     <ul>
@@ -83,9 +80,10 @@
                         <li><a href="#"></a></li>
                     </ul>
                 </div>
-            </div>
+            </div>*@
             <!-- end row -->
         </div>
+            </div>
         <!-- end table -->
     </div>
 </div>
