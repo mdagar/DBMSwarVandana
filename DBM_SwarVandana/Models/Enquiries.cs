@@ -38,6 +38,8 @@ namespace Models
         public virtual bool IsActive { get; set; }
         public virtual bool IsEnquiryClosed { get; set; }
         public virtual bool IsDeleted { get; set; }
+        public virtual string SourceName { get; set; }
+        public virtual string DisciplaneName { get; set; }
 
         public Enquiries()
         {

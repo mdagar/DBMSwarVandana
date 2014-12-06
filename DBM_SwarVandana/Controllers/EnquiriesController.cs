@@ -29,6 +29,10 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult TelephonicEnquiryList(string search = "")
         {
             List<Enquiries> enq = _allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.TE, search);
+            var Discipline = _allDiscipline.GetAllDisciplines();
+            var sources = _allSources.GetAllSources();
+            enq.Update(x => x.SourceName = sources.Where(s => s.SourceId == x.SourceId).FirstOrDefault().Source);
+            enq.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.Discipline).FirstOrDefault().Discipline);
             return View(enq);
         }
 
@@ -71,7 +75,7 @@ namespace DBM_SwarVandana.Controllers
                 {
                     result = _allenquiry.CreateEnquiry(en);
                 }
-                
+
                 if (result > 0)
                 {
                     ViewBag.Success = Messages.SubmitEnquiry;
@@ -150,7 +154,7 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult DeleteEnquiry(int enquiryID,int type)
+        public ActionResult DeleteEnquiry(int enquiryID, int type)
         {
             try
             {
@@ -163,7 +167,7 @@ namespace DBM_SwarVandana.Controllers
             {
                 ViewBag.Error = e.Message;
             }
-            if (type==1)
+            if (type == 1)
                 return RedirectToAction("PhysicalEnquiryList");
             else
                 return RedirectToAction("TelephonicEnquiryList");
@@ -181,7 +185,7 @@ namespace DBM_SwarVandana.Controllers
                 source = sources.Where(x => x.SourceId == s.SourceId).FirstOrDefault().Source,
                 Contact = s.ContactNumber,
                 AttendedBy = s.AttendedBy,
-                Status =  s.StateId
+                Status = s.StateId
             }).ToArray()).AsDataTable();
 
             var data = ExcelHelper.Export(rec, "Telephonic Enquiry");
