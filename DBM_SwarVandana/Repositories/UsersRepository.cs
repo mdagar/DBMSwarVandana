@@ -62,9 +62,10 @@ namespace Repositories
             return Convert.ToInt32(d);
         }
 
-        public List<Centres> GetAllCentres()
+        public List<Centres> GetAllCentres(string search="")
         {
-            var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.USP_CentresGetAll);
+            object[] objParam = { search};
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.USP_CentresGetAll,objParam);
             return ConvertList.TableToList<Centres>(d.Tables[0]);
         }
 

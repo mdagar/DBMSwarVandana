@@ -29,15 +29,22 @@ namespace Repositories
             return ConvertList.TableToList<Cities>(d.Tables[0]);
         }
 
+        public List<Cities> GetCities()
+        {
+            string Query = "select CityId,StateId,CityName,AddDate,AddedBy,IsActive  from [dbo].[Cities] where isactive =1";
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(),CommandType.Text, Query);
+            return ConvertList.TableToList<Cities>(d.Tables[0]);
+        }
+
         public int CreateCentres(Centres c)
         {
             object[] objParam = { c.ActionId, c.CentreId, c.CentreName, c.Address, c.StateId, c.CityId, c.CentreOpenDate, c.AddDate, c.AddedBy, c.ModifyDate, c.ModifyBy, c.IsActive,c.IsDeleted  };
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_Centres_IUD, objParam);
             return Convert.ToInt32(d);
         }
-        public List<Centres> GetAllCentres()
+        public List<Centres> GetAllCentres(string search="")
         {
-            object[] objParam = { };
+            object[] objParam = {search };
             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.USP_CentresGetAll, objParam);
             if (ds == null)
                 return new List<Centres>();

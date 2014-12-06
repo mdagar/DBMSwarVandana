@@ -8,16 +8,13 @@
     <!-- table-info -->
     <div class="table-info">
         <!-- start table-form -->
-        <div class="table-form">
+        <div class="table-form" style="float:right; text-align:right !important">
             <form action="#">
-                <label for="From">From Date</label>
-                <input type="text" name="field" value="" class="input" />
-                <label for="From">From Date</label>
-                <input type="text" name="field" value="" class="input" />
-                <select name="field" id="Inventory" class="select">
-                    <option></option>
-                </select>
-                <input name="submit" type="submit" value="Excel Button" class="submit-btn" />
+                <input type="text" name="Search" placeholder="Search" value="" class="input" />
+                
+                <input type="submit" name="field" value="Search" class="submit-btn" />
+                <label for="From">&nbsp;</label>
+                <input name="submit" type="submit" value="Export" class="submit-btn" />
             </form>
         </div>
         <!-- end table-form -->
@@ -58,3 +55,9 @@
         <!-- end table -->
     </div>
 </div>
+
+<script type="text/javascript">
+    $.get('@Url.Action("a","c")', function () { });
+</script>
+
+

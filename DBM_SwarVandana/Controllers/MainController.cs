@@ -21,6 +21,7 @@ namespace DBM_SwarVandana.Controllers
         CentreRepository _allcentre = new CentreRepository();
         SourceRepository _allsource = new SourceRepository();
         DisciplineRepository _alldiscipline = new DisciplineRepository();
+       
 
         [Authenticate]
         public ActionResult Index()
@@ -64,9 +65,14 @@ namespace DBM_SwarVandana.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult CentreList()
+        #region CenterPanel 
+        [Authenticate]
+        public ActionResult CentreList(string Search="")
         {
-            List<Centres> cls = _allcentre.GetAllCentres();
+            List<Centres> cls = _allcentre.GetAllCentres(Search);
+            //var state = _allcentre.GetStates();
+            //var city = _allcentre.GetCities();
+            
             return View(cls);
         }
 
@@ -102,6 +108,26 @@ namespace DBM_SwarVandana.Controllers
             }
             return View(c);
         }
+
+        //public ActionResult ExportCenterList()
+        //{
+        //    var Discipline = _alldiscipline.GetAllDisciplines();
+        //    var sources = _allsource.GetAllSources();
+        //    var rec = (_allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.TE).Select(s => new
+        //    {
+        //        Name = s.Name,
+        //        Discipline = Discipline.Where(x => x.DisciplineId == s.Discipline).FirstOrDefault().Discipline,
+        //        source = sources.Where(x => x.SourceId == s.SourceId).FirstOrDefault().Source,
+        //        Contact = s.ContactNumber,
+        //        AttendedBy = s.AttendedBy,
+        //        Status = s.StateId
+        //    }).ToArray()).AsDataTable();
+
+        //    var data = ExcelHelper.Export(rec, "Center List");
+        //    return File(data.ToArray(), "application/vnd.ms-excel", "*Centers.xls");
+        //}
+
+        #endregion
 
         public ActionResult UserRegistration()
         {
