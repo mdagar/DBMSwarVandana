@@ -23,9 +23,10 @@ namespace Repositories
             return Convert.ToInt32(d);
         }
 
-        public List<Disciplines> GetAllDisciplines()
+        public List<Disciplines> GetAllDisciplines(string search="")
         {
-            var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.USP_DisciplineGetAll);
+            object[] obj ={search};
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.USP_DisciplineGetAll,obj);
             return ConvertList.TableToList<Disciplines>(d.Tables[0]);
         }
 

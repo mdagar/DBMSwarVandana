@@ -50,32 +50,29 @@
                 }
                 <div>@Html.ValidationSummary(false)</div>
             </div>
-            
+            @Html.HiddenFor(x=> x.CentreId)
             <div class="row">
                 <label for="Password">*Center Name :</label>
                 @Html.TextBoxFor(x => x.CentreName, new { @class = "input" })
-                @*@Html.ValidationMessageFor(x => x.CentreName)*@
             </div>
 
             <div class="row">
                 <label for="Password">*State :</label>
                 @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" })
-                @*@Html.ValidationMessageFor(x => x.StateId)*@
             </div>
             <div class="row">
                 <label for="Password">*City :</label>
                 @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select" })
-                @*@Html.ValidationMessageFor(x => x.CityId)*@
+                
             </div>
             <div class="row">
                 <label for="Password">*Address :</label>
                 @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
-                @*@Html.ValidationMessageFor(x => x.Address)*@
             </div>
             <div class="row">
                 <label for="Password">*Open Date :</label>
                 @Html.TextBoxFor(x => x.CentreOpenDate, new { @class = "input" })
-                @*@Html.ValidationMessageFor(x => x.CentreOpenDate)*@
+                
             </div>
             <div class="rowbutton">
                 <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />

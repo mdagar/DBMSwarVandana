@@ -70,16 +70,21 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult CentreList(string Search = "")
         {
             List<Centres> cls = _allcentre.GetAllCentres(Search);
-            //var state = _allcentre.GetStates();
-            //var city = _allcentre.GetCities();
-
+            var state = _allcentre.GetStates();
+            var city = _allcentre.GetCities();
+            cls.Update(x => x.StateName = state.Where(s => s.StateId == x.StateId).FirstOrDefault().StateName);
+            cls.Update(x => x.CityName = city.Where(s => s.CityId == x.CityId).FirstOrDefault().CityName);
             return View(cls);
         }
 
         [Authenticate]
-        public ActionResult CentreRegistration()
+        public ActionResult CentreRegistration(long? centreId)
         {
-            CentresViewModel c = new CentresViewModel();
+            CentresViewModel c;
+            if (centreId.HasValue)
+                c = new CentresViewModel(_allcentre.FindByCenterId(centreId.Value));
+            else
+                c = new CentresViewModel();
             return View(c);
         }
 
@@ -111,33 +116,46 @@ namespace DBM_SwarVandana.Controllers
 
         public ActionResult ExportCenterList()
         {
-            var rec = (_allcentre.GetAllCentres().Select(s => new
+            var state = _allcentre.GetStates();
+            var city = _allcentre.GetCities();
+            var record = _allcentre.GetAllCentres();
+            record.Update(x => x.StateName = state.Where(s => s.StateId == x.StateId).FirstOrDefault().StateName);
+            record.Update(x => x.CityName = city.Where(s => s.CityId == x.CityId).FirstOrDefault().CityName);
+            var rec = (record.Select(s => new
             {
                 Name = s.CentreName,
-                State= s.StateId,
-                City= s.CityId,
-                Address= s.Address,
+                State = s.StateName,
+                City = s.CityName,
+                Address = s.Address,
                 Status = s.StateId
             }).ToArray()).AsDataTable();
 
             var data = ExcelHelper.Export(rec, "Center List");
-            return File(data.ToArray(), "application/vnd.ms-excel", "*Centers.xls");
+            return File(data.ToArray(), "application/vnd.ms-excel", "*Centers");
         }
 
         #endregion
 
         #region UserRegistration
         [Authenticate]
-        public ActionResult UserList(string search="")
+        public ActionResult UserList(string search = "")
         {
-            var users = _alluser.GetAllUsers(SessionWrapper.User.CentreId,search);
+            var users = _alluser.GetAllUsers(SessionWrapper.User.CentreId, search);
+            var state = _allcentre.GetStates();
+            var city = _allcentre.GetCities();
+            users.Update(x => x.StateName = state.Where(s => s.StateId == x.StateId).FirstOrDefault().StateName);
+            users.Update(x => x.CityName = city.Where(s => s.CityId == x.CityId).FirstOrDefault().CityName);
             return View(users);
         }
 
         [Authenticate]
-        public ActionResult UserRegistration()
+        public ActionResult UserRegistration(long? UserId)
         {
-            UsersViewModel user = new UsersViewModel();
+            UsersViewModel user;// = new UsersViewModel();
+            if (UserId.HasValue)
+                user = new UsersViewModel(_alluser.UsersGetByUserId(UserId.Value));
+            else
+                user = new UsersViewModel();
             return View(user);
         }
 
@@ -173,15 +191,19 @@ namespace DBM_SwarVandana.Controllers
 
         public ActionResult ExportUserList()
         {
-            var rec = (_alluser.GetAllUsers(SessionWrapper.User.CentreId).Select(s => new
+            var state = _allcentre.GetStates();
+            var city = _allcentre.GetCities();
+            var x = _alluser.GetAllUsers(SessionWrapper.User.CentreId);
+            var rec = (x.Select(s => new
             {
-                Name = s.FirstName+" "+s.LastName,
+                Name = s.FirstName + " " + s.LastName,
                 Contact = s.ContactNumber,
                 Email = s.EmailID,
-                State=s.StateId,
-                City= s.CityId,
-                Address= s.Address,
-                Status = s.StateId
+                State = s.StateName,
+                City = s.CityName,
+                Address = s.Address,
+                DirthDate = s.DOB,
+                JoinDate = s.DOJ
             }).ToArray()).AsDataTable();
 
             var data = ExcelHelper.Export(rec, "Users List");
@@ -271,9 +293,9 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult ManageDiscipline()
+        public ActionResult ManageDiscipline(string search="")
         {
-            var d = _alldiscipline.GetAllDisciplines();
+            var d = _alldiscipline.GetAllDisciplines(search);
             return View(d);
         }
     }

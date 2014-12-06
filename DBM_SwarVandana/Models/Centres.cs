@@ -21,6 +21,8 @@ namespace Models
         public virtual int ModifyBy { get; set; }
         public virtual bool IsActive { get; set; }
         public virtual bool IsDeleted { get; set; }
+        public virtual  string StateName {get;set;}
+        public virtual string CityName { get; set; }
 
         public Centres() { 
         

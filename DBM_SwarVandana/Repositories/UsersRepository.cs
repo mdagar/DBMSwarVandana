@@ -31,17 +31,13 @@ namespace Repositories
                 throw new Exception(Messages.InvalidLogin);
         }
 
-        public Users UsersGetByUserId(int UserId)
+        public Users UsersGetByUserId(long UserId)
         {
             object[] objParam = { UserId };
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.USP_UsersGetByUserId, objParam);
-            Users u = new Users();
-            u.UserId = Convert.ToInt32(d.Tables[0].Rows[0][0]);
-            u.FirstName = Convert.ToString(d.Tables[0].Rows[0][1]);
-            u.LastName = Convert.ToString(d.Tables[0].Rows[0][2]);
-            u.CentreId = Convert.ToInt32(d.Tables[0].Rows[0][7]);
-            u.RoleId = Convert.ToInt32(d.Tables[0].Rows[0][9]);
-            return u;
+            if (d != null)
+                return ConvertList.TableToList<Users>(d.Tables[0]).FirstOrDefault();
+            else return new Users();
         }
 
         public int ChangePassword(int UserId, string CurrentPassword, string Password)
@@ -69,9 +65,9 @@ namespace Repositories
             return ConvertList.TableToList<Centres>(d.Tables[0]);
         }
 
-        public List<Users> GetAllUsers(long centerId,string search="")
+        public List<Users> GetAllUsers(long centerId, string search = "")
         {
-            object[] objParam = { centerId,search };
+            object[] objParam = { centerId, search };
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.USP_UsersGetAll, objParam);
             if (d != null)
                 return ConvertList.TableToList<Users>(d.Tables[0]);
