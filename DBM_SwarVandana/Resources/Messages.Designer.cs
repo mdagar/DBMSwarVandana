@@ -214,6 +214,15 @@ namespace DBM_SwarVandana.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Student enrollment already exists..
+        /// </summary>
+        internal static string Enrollexists {
+            get {
+                return ResourceManager.GetString("Enrollexists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enquiry already exists..
         /// </summary>
         internal static string ExquiryExists {
@@ -453,6 +462,15 @@ namespace DBM_SwarVandana.Resources {
         internal static string SubmitEnquiry {
             get {
                 return ResourceManager.GetString("SubmitEnquiry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Student enrollment is successfully submitted..
+        /// </summary>
+        internal static string SubmitEnroll {
+            get {
+                return ResourceManager.GetString("SubmitEnroll", resourceCulture);
             }
         }
         
