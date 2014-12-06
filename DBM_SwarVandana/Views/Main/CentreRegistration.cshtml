@@ -1,12 +1,20 @@
 ﻿@model ViewModel.CentresViewModel
 @using Code;
 @{
-    ViewBag.Title = "CentreRegistration";
+    ViewBag.Title = "Centre Registration";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Centre Registration</h2>
-<script>
 
+<link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/Content/js/jquery-ui.js"></script>
+<style type='text/css'>
+    ui-icon ui-icon-circle-triangle-e {
+        z-index: 9999 !important;
+        position: absolute;
+    }
+</style>
+
+<script>
     function GetCitiesByStateId() {
         $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
             $("#CityId").html('');
@@ -19,13 +27,16 @@
             });
         });
     }
+    $(function () {
+        $("#CentreOpenDate").datepicker({ dateFormat: "dd M yy", minDate: "-1m" });
+    });
 </script>
 
-<!-- start container -->
 <div class="container">
 
     <!-- registration-form -->
     <div class="registration-form">
+        <h3 style="">Create New Center</h3>
         @using (Html.BeginForm("CentreRegistration", "Main", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             <div>
@@ -37,37 +48,39 @@
                 {
                     @ViewBag.Error
                 }
+                <div>@Html.ValidationSummary(false)</div>
             </div>
-            <h3>Add Centre</h3>
+            
             <div class="row">
-                <label for="Password">Centre Name :</label>
+                <label for="Password">*Center Name :</label>
                 @Html.TextBoxFor(x => x.CentreName, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.CentreName)
+                @*@Html.ValidationMessageFor(x => x.CentreName)*@
             </div>
+
             <div class="row">
-                <label for="Password">Address :</label>
-                @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
-                @Html.ValidationMessageFor(x => x.Address)
-            </div>
-            <div class="row">
-                <label for="Password">State :</label>
+                <label for="Password">*State :</label>
                 @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" })
-                @Html.ValidationMessageFor(x => x.StateId)
+                @*@Html.ValidationMessageFor(x => x.StateId)*@
             </div>
             <div class="row">
-                <label for="Password">City :</label>
+                <label for="Password">*City :</label>
                 @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select" })
-                @Html.ValidationMessageFor(x => x.CityId)
+                @*@Html.ValidationMessageFor(x => x.CityId)*@
             </div>
             <div class="row">
-                <label for="Password">Centre Open Date :</label>
+                <label for="Password">*Address :</label>
+                @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
+                @*@Html.ValidationMessageFor(x => x.Address)*@
+            </div>
+            <div class="row">
+                <label for="Password">*Open Date :</label>
                 @Html.TextBoxFor(x => x.CentreOpenDate, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.CentreOpenDate)
+                @*@Html.ValidationMessageFor(x => x.CentreOpenDate)*@
             </div>
             <div class="rowbutton">
                 <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
             </div>
-    
+
         }
 
     </div>

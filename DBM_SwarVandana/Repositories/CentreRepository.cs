@@ -31,7 +31,7 @@ namespace Repositories
 
         public int CreateCentres(Centres c)
         {
-            object[] objParam = { c.ActionId, c.CentreId, c.CentreName, c.Address, c.StateId, c.CityId, c.CentreOpenDate, c.AddDate, c.AddedBy, c.ModifyDate, c.ModifyBy, c.IsActive };
+            object[] objParam = { c.ActionId, c.CentreId, c.CentreName, c.Address, c.StateId, c.CityId, c.CentreOpenDate, c.AddDate, c.AddedBy, c.ModifyDate, c.ModifyBy, c.IsActive,c.IsDeleted  };
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_Centres_IUD, objParam);
             return Convert.ToInt32(d);
         }
