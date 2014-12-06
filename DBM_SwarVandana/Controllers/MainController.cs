@@ -52,7 +52,7 @@ namespace DBM_SwarVandana.Controllers
                 if (result > 0)
                     ViewBag.Success = Messages.PasswordChanged;
                 else
-                    ViewBag.Error = Messages.InvalidPassword;
+                    ModelState.AddModelError("", Messages.InvalidPassword);
             }
             return View();
         }
@@ -201,6 +201,7 @@ namespace DBM_SwarVandana.Controllers
                 dis.ModifyBy = SessionWrapper.User.UserId;
                 dis.ModifyDate = DateTime.Now;
                 dis.IsActive = true;
+                dis.IsDeleted = false;
                 result = _alldiscipline.CreateDiscipline(dis);
                 if (result > 0)
                 {

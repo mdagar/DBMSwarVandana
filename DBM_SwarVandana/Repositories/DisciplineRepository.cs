@@ -18,7 +18,7 @@ namespace Repositories
         DBConnections db = new DBConnections();
         public int CreateDiscipline(Disciplines dis)
         {
-            object[] objParam = { dis.ActionId, dis.DisciplineId, dis.Discipline, dis.Description, dis.AddDate, dis.AddedBy, dis.ModifyDate, dis.ModifyBy, dis.IsActive };
+            object[] objParam = { dis.ActionId, dis.DisciplineId, dis.Discipline, dis.Description, dis.AddDate, dis.AddedBy, dis.ModifyDate, dis.ModifyBy, dis.IsActive,dis.IsDeleted };
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_Disciplines_IUD, objParam);
             return Convert.ToInt32(d);
         }
