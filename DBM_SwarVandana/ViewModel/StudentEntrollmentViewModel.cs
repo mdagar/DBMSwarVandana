@@ -9,6 +9,7 @@ using DBM_SwarVandana.Resources;
 
 namespace ViewModel
 {
+    [NotMapped]
     public class StudentEntrollmentViewModel : StudentEnrollment
     {
         public StudentEntrollmentViewModel() { }

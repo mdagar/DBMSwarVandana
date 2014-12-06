@@ -24,50 +24,53 @@
         <!-- end table-form -->
         <!-- start table -->
         <div class="table">
-            <!-- start row -->
-            <div class="row-first">
-                <div class="td">Unique Key</div>
-                <div class="td">Name</div>
-                <div class="td">DOB</div>
-                <div class="td">Contact Number 1</div>
-                <div class="td">Contact Number 1</div>
-                <div class="td">Email ID</div>
-                <div class="td">Address</div>
-                <div class="td">State</div>
-                <div class="td">City</div>
-                <div class="td">Guardian Name</div>
-                <div class="td">Occupation</div>
-                <div class="td">Has Transport Facility</div>
-                <div class="td">Action</div>
-            </div>
-            <!-- end row -->
-            @foreach (var v in Model)
-            {
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <!-- start row -->
-                <div class="row">
-                    <div class="td">@v.UniqueKey</div>
-                    <div class="td">@v.Name</div>
-                    <div class="td">@v.DOB</div>
-                    <div class="td">@v.Contact1</div>
-                    <div class="td">@v.Contact2</div>
-                    <div class="td">@v.EmailAddress</div>
-                    <div class="td">@v.Address</div>
-                    <div class="td">@v.StateId</div>
-                    <div class="td">@v.CityId</div>
-                    <div class="td">@v.GuardianName</div>
-                    <div class="td">@v.Occupation</div>
-                    <div class="td">@v.HasTransportFacility</div>
-                    <div class="td edit"><a href="@Url.Action("AddStudents", "Students", new { Id = v.Id })" title="Edit"><span>Edit</span></a></div>
-                </div>
+                <tr bgcolor="#ccc" class="row-first">
+                    <td class="td td1">Unique Key</td>
+                    <td class="td">Name</td>
+                    <td class="td">DOB</td>
+                    <td class="td">Contact Number 1</td>
+                    <td class="td">Contact Number 1</td>
+                    <td class="td">Email ID</td>
+                    <td class="td">Address</td>
+                    <td class="td">State</td>
+                    <td class="td">City</td>
+                    <td class="td">Guardian Name</td>
+                    <td class="td">Occupation</td>
+                    <td class="td">Has Transport Facility</td>
+                    <td class="td">Action</td>
+                </tr>
                 <!-- end row -->
-            }
-            @{if (Model.Count() == 0)
-              {
-                <div class="row">
-                    <div class="td" style="text-align: center">No record found.</div>
-                </div>
+                @foreach (var v in Model)
+                {
+                    <!-- start row -->
+                    <tr class="row">
+                        <td class="td td1">@v.UniqueKey</td>
+                        <td class="td">@v.Name</td>
+                        <td class="td">@v.DOB</td>
+                        <td class="td">@v.Contact1</td>
+                        <td class="td">@v.Contact2</td>
+                        <td class="td">@v.EmailAddress</td>
+                        <td class="td">@v.Address</td>
+                        <td class="td">@v.StateId</td>
+                        <td class="td">@v.CityId</td>
+                        <td class="td">@v.GuardianName</td>
+                        <td class="td">@v.Occupation</td>
+                        <td class="td">@v.HasTransportFacility</td>
+                        <td class="td edit"><a href="@Url.Action("AddStudents", "Students", new { Id = v.Id })" title="Edit"><span>Edit</span></a></td>
+                    </tr>
                 
-              }}
+                    <!-- end row -->
+                }
+                @{if (Model.Count() == 0)
+                  {
+                    <tr class="row">
+                        <td class="td" style="text-align: center">No record found.</td>
+                    </tr>
+                
+                  }}
+            </table>
             <!-- start row -->
             <div class="row-last">
                 <div class="td td2">1 - 8 of 8 items</div>

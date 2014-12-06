@@ -4,7 +4,51 @@
     ViewBag.Title = "EntrollStudent";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script>
 
+    function GetStudentDetails() {
+        var uniqueid = $("#UniqueKey").val();
+        $.post('@Url.Action("GetStudentByUniqueId", "Student")', { UniqueId: uniqueid }, function (data) {
+            if (data.Id > 0) {
+                $("#lblName").text(data.Name);
+                $("#DOB").text(data.DOB);
+                $("#ContactNumber").text(data.Contact1);
+                $("#EmailID").text(data.EmailAddress);
+                $("#Address").text(data.Address);
+                $("#GuardianName").text(data.GuardianName);
+                $("#Occupation").text(data.Occupation);
+                $("#StudentId").val(data.Id);
+                $("#showstudent").show();
+            }
+        });
+    }
+
+    function GetClassesByDisciplineId() {
+        $.post('@Url.Action("GetClassByDisciplineId", "Student")', { DisciplineId: $("#DisciplineId").val() }, function (cities) {
+            $("#ClassId").html('');
+            $("#ClassId").append('<option value="">-- Select Class --</option>');
+            $.each(cities, function (i, Class) {
+                $("#ClassId").append('<option value="' + Class.ClassId + '">' +
+                     Class.ClassName + '</option>');
+                // here we are adding option for States
+
+            });
+        });
+    }
+
+    function ShowClassDetails() {
+        $.post('@Url.Action("GetClassByClassId", "Student")', { ClassId: $("#ClassId").val() }, function (data) {
+            if (data.ClassId > 0) {
+                $("#showclassdet").show();
+                $("#lblNameOfFaculty").text(data.ClassName);
+                $("#lblStudentLimit").text(data.StudentLimit);
+                $("#lblStartDate").text(data.StartDate);
+                $("#lblEndDate").text(data.EndDate);
+            }
+        });
+    }
+
+</script>
 <!-- start container -->
 <div class="container">
 
@@ -12,6 +56,7 @@
     <div class="registration-form">
         @using (Html.BeginForm("EntrollStudent", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
+            @Html.HiddenFor(x => x.StudentId)
             <div>
                 @if (!string.IsNullOrEmpty(ViewBag.Success))
                 {
@@ -24,72 +69,110 @@
             </div>
             <h3>Add Student</h3>
             <div class="row">
-                <label for="Password">Student Name :</label>
-                @Html.DropDownListFor(x => x.StudentId, new ListBound(Model.StudentId, "Students").Students, "-- Select Student --", new { @class = "select" })
-                @Html.ValidationMessageFor(x => x.StudentId)
+                <label for="Password">Student ID :</label>
+                <input id="UniqueKey" type="text" class="input" />
+                <a href="#" id="btnGet" onclick="javascript: GetStudentDetails();">Get Details</a>
+            </div>
+            <table id="showstudent" style="display: none;">
+                <tr>
+                    <td>Name</td>
+                    <td>DOB</td>
+                    <td>Contact Number</td>
+                    <td>Email ID</td>
+                    <td>Address</td>
+                    <td>Guardian Name</td>
+                    <td>Occupation</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="lblName"></div>
+                    </td>
+                    <td>
+                        <div id="DOB"></div>
+                    </td>
+                    <td>
+                        <div id="ContactNumber"></div>
+                    </td>
+                    <td>
+                        <div id="EmailID"></div>
+                    </td>
+                    <td>
+                        <div id="Address"></div>
+                    </td>
+                    <td>
+                        <div id="GuardianName"></div>
+                    </td>
+                    <td>
+                        <div id="Occupation"></div>
+                    </td>
+                </tr>
+            </table>
+           
+            <div class="row">
+                <label for="Password">Discipline :</label>
+                @Html.DropDownListFor(x => x.DisciplineId, new ListBound(Model.DisciplineId, "Disciplines").Disciplines, "-- Select Discipline --", new { onchange = "javascript:GetClassesByDisciplineId();", @class = "select" })
+                @Html.ValidationMessageFor(x => x.DisciplineId)
             </div>
             <div class="row">
-                <label for="Password">DOB :</label>
-                @Html.TextBoxFor(x => x.DOB, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.DOB)
+                <label for="Password">Class Name :</label>
+                @Html.DropDownListFor(x => x.ClassId, Enumerable.Empty<SelectListItem>(), new { @class = "select", onchange = "javascript:ShowClassDetails();" })
+                @Html.ValidationMessageFor(x => x.ClassId)
+                
+            </div>
+            <table id="showclassdet" style="display: none;">
+                <tr>
+                    <td>Faculty Name</td>
+                    <td>Student Limit</td>
+                    <td>Start Date</td>
+                    <td>End Date</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="lblNameOfFaculty"></div>
+                    </td>
+                    <td>
+                        <div id="lblStudentLimit"></div>
+                    </td>
+                    <td>
+                        <div id="lblStartDate"></div>
+                    </td>
+                    <td>
+                        <div id="lblEndDate"></div>
+                    </td>
+                </tr>
+            </table>
+            <div class="row">
+                <label for="Password">Course Amount :</label>
+                @Html.TextBoxFor(x => x.CourseAmount, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.CourseAmount)
             </div>
             <div class="row">
-                <label for="Password">Contact Number 1 :</label>
-                @Html.TextBoxFor(x => x.Contact1, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.Contact1)
+                <label for="Password">Registration Amount :</label>
+                @Html.TextBoxFor(x => x.RegistratonAmount, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.RegistratonAmount)
             </div>
-            
+
             <div class="row">
-                <label for="Password">Contact Number 2 :</label>
-                @Html.TextBoxFor(x => x.Contact2, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.Contact2)
-            </div>
-            <div class="row">
-                <label for="Password">Email ID :</label>
-                @Html.TextBoxFor(x => x.EmailAddress, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.EmailAddress)
-            </div>
-@*<tr>
-            <td>Centre ID :</td>
-            <td>
-                @Html.DropDownListFor(x => x.CentreId, new ListBound(Model.CentreId, "Centres").Centres, "-- Select Centre --")
-                @Html.ValidationMessageFor(x => x.CentreId)
-            </td>
-        </tr>*@
-            <div class="row">
-                <label for="Password">Address :</label>
-                @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
-                @Html.ValidationMessageFor(x => x.Address)
+                <label for="Password">No Of Classes :</label>
+                @Html.TextBoxFor(x => x.NoOfClasses, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.NoOfClasses)
             </div>
             <div class="row">
-                <label for="Password">State :</label>
-                @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" })
-                @Html.ValidationMessageFor(x => x.StateId)
+                <label for="Password">Amount Paid :</label>
+                @Html.TextBoxFor(x => x.AmountPaid, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.AmountPaid)
             </div>
             <div class="row">
-                <label for="Password">City :</label>
-                @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select" })
-                @Html.ValidationMessageFor(x => x.CityId)
+                <label for="Password">Start Date :</label>
+                @Html.TextBoxFor(x => x.SatrtDate, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.SatrtDate)
             </div>
             <div class="row">
-                <label for="Password">Guardian Name :</label>
-                @Html.TextBoxFor(x => x.GuardianName, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.GuardianName)
+                <label for="Password">End Date :</label>
+                @Html.TextBoxFor(x => x.EndDate, new { @class = "input" })
+                @Html.ValidationMessageFor(x => x.EndDate)
             </div>
-            <div class="row">
-                <label for="Password">Occupation :</label>
-                @Html.TextBoxFor(x => x.Occupation, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.Occupation)
-            </div>
-            <div class="row">
-                <label for="Password">Has Transport Facility :</label>
-                <div class="column">
-                    @Html.RadioButtonFor(x => x.HasTransportFacility, true, new { @class = "radio" })
-                    <label for="male">Yes</label>
-                    @Html.RadioButtonFor(x => x.HasTransportFacility, false, new { @class = "radio" })
-                    <label for="female">No</label>
-                </div>
-            </div>
+
             <div class="rowbutton">
                 <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
             </div>

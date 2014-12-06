@@ -78,8 +78,62 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult EntrollStudent()
         {
-            return View();
+            StudentEntrollmentViewModel se = new StudentEntrollmentViewModel();
+            return View(se);
         }
+
+        [Authenticate]
+        public ActionResult GetStudentByUniqueId(string UniqueId = "")
+        {
+            var result = _allstudents.GetStudentsByUniqueId(UniqueId);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authenticate]
+        public ActionResult GetClassByDisciplineId(int DisciplineId)
+        {
+            var result = _allstudents.GetClassByDisciplineId(DisciplineId);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authenticate]
+        public ActionResult GetClassByClassId(int ClassId)
+        {
+            var result = _allstudents.GetClassByClassId(ClassId);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authenticate]
+        [HttpPost]
+        public ActionResult EntrollStudent(StudentEntrollmentViewModel s)
+        {
+            var result = 0;
+            if (ModelState.IsValid)
+            {
+                s.ActionId = 0;
+                s.CreatedDate = DateTime.Now;
+                s.CreatedBy = SessionWrapper.User.UserId;
+                s.ModifBy = SessionWrapper.User.UserId;
+                s.ModifyDate = DateTime.Now;
+                s.IsActive = true;
+                s.IsDeleted = false;
+                result = _allstudents.EnrollStudents(s);
+                if (result > 0)
+                {
+                    ViewBag.Success = Messages.SubmitEnroll;
+                }
+                else
+                {
+                    ViewBag.Error = Messages.Enrollexists;
+                }
+            }
+            else
+            {
+                s = new StudentEntrollmentViewModel();
+            }
+            return View(s);
+        }
+
         #endregion
 
         #region Attendence
@@ -119,7 +173,7 @@ namespace DBM_SwarVandana.Controllers
                 s.StuentId = studentId;
                 AttendenceCollection.Add(s);
             }
-            return Json("",JsonRequestBehavior.AllowGet);
+            return Json("", JsonRequestBehavior.AllowGet);
         }
         #endregion
 
