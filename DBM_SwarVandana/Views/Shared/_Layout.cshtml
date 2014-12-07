@@ -50,11 +50,11 @@
                 <form action="#">
                     @if(SessionWrapper.User.RoleId == (int)UserRole.SuperAdmin)
                     { 
-                    @Html.DropDownList("ddlCenters", new ListBound(SessionWrapper.User.CentreId, "Centres").Centres, new { onchange = "UpdateCenter(this);", @class="select" })
+                    @Html.DropDownList("ddlCenters", new ListBound(SessionWrapper.User.CentreId, "Centres").Centres, new { onchange = "UpdateCenter(this);", @class = "select", style = " width: 234px !important;" })
                     }
                     else
                     { 
-                    @Html.DropDownList("ddlCenters", new ListBound(SessionWrapper.User.CentreId, "Centres").Centres, new { onchange = "UpdateCenter(this);", @class="select", @readonly="readonly" })
+                    @Html.DropDownList("ddlCenters", new ListBound(SessionWrapper.User.CentreId, "Centres").Centres, new { onchange = "UpdateCenter(this);", @class = "select", @readonly = "readonly", style = " width: 234px !important;" })
                     }
                 </form>
                 <!-- end top-bar -->
