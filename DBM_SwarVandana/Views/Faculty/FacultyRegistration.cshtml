@@ -29,7 +29,30 @@
             });
         }
 
-   
+    $(function () {
+
+        $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
+           $("#CityId").html('');
+           $("#CityId").append('<option value="">-- Select City --</option>');
+           $.each(cities, function (i, City) {
+               $("#CityId").append('<option value="' + City.CityId + '">' +
+                    City.CityName + '</option>');
+               // here we are adding option for States
+
+           });
+           $("#CityId").find("option").each(function () {
+               if ($(this).val() == "@Model.CityId") {
+                    $(this).attr("selected", "selected");
+                }
+            });
+        });
+
+
+    });
+
+    function RedirectToHome() {
+        window.location.href = ('@Url.Action("GetFaculityList", "Faculty")');
+    }
 
 </script>
 
@@ -116,9 +139,15 @@
                 <label for="Password">Picture :</label>
                 <input type="file" name="Image" class="input" />
             </div>
+            <div class="row">
+                 	<label for="IsActive">Is Active</label>
+                    <div class="column">
+                        @Html.CheckBoxFor(x => x.IsActive, new { @class = "checkbox" })
+                    </div>
+                </div>
             <div class="rowbutton">
-                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
-                <a class="submit-btn" style="text-align: center; text-decoration: none;" href="@Url.Action("FacultyRegistration", "Faculty")">Clear</a>
+                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn gap" />
+                <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
             </div>
 
         }
