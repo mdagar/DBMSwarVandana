@@ -61,7 +61,6 @@ namespace DBM_SwarVandana.Controllers
                 en.AddedBy = SessionWrapper.User.UserId;
                 en.ModifyBy = SessionWrapper.User.UserId;
                 en.ModifyDate = DateTime.Now;
-                en.IsActive = true;
                 if (en.EnquiryId != 0)
                 {
                     evm = new EnquiryViewModel(_allenquiry.FindByEnquirieID(en.EnquiryId));
@@ -124,7 +123,7 @@ namespace DBM_SwarVandana.Controllers
                 en.AddedBy = SessionWrapper.User.UserId;
                 en.ModifyBy = SessionWrapper.User.UserId;
                 en.ModifyDate = DateTime.Now;
-                en.IsActive = true;
+                
                 en.IsDeleted = false;
                 if (en.EnquiryId != 0)
                 {

@@ -19,6 +19,10 @@ namespace Repositories
         DBConnections db = new DBConnections();
         public int CreateEnquiry(Enquiries e)
         {
+            if (e.EnquiryId > 0)
+                e.ActionId = 1;
+            else
+                e.ActionId = 0;
             object[] objParam = { e.ActionId, e.EnquiryId, e.SourceId, e.EnquiryTypeId, e.ContactNumber, e.Name, 
                                     e.DateOfEnquiry, e.Discipline, e.StateId, e.CityId, e.Address, e.AttendedBy,
                                     e.Demo,e.RemarksByFaculty, e.StatusId,e.ProbableStudentFor,e.Gender,e.Age,e.Occupation,
@@ -28,7 +32,7 @@ namespace Repositories
             return Convert.ToInt32(d);
         }
 
-        public List<Enquiries> ListEnquuiry(int centerId, int EnqueryType, string search="")
+        public List<Enquiries> ListEnquuiry(int centerId, int EnqueryType, string search = "")
         {
             object[] objParam = { centerId, EnqueryType, search };
             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetEnquiry, objParam);

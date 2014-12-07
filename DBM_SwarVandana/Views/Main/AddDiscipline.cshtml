@@ -4,6 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script>
+    function RedirectToHome() {
+        window.location.href = ('@Url.Action("ManageDiscipline", "Main")');
+    }
+</script>
+
 <!-- start container -->
 <div class="container">
 
@@ -32,9 +38,15 @@
                 <label for="Password">Description :</label>
                 @Html.TextAreaFor(x => x.Description, new { @class = "textarea" })
             </div>
+            <div class="row">
+                 	<label for="IsActive">Is Active</label>
+                    <div class="column">
+                        @Html.CheckBoxFor(x => x.IsActive, new { @class = "checkbox" })
+                    </div>
+                </div>
             <div class="rowbutton">
-                <a href="@Url.Action("ManageDiscipline", "Main")" class="submit-btn gap">Manage</a>
-                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
+                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn gap" />
+                <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
             </div>
         }
     </div>

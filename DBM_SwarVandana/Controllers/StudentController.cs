@@ -56,7 +56,7 @@ namespace DBM_SwarVandana.Controllers
                 s.CreatedBy = SessionWrapper.User.UserId;
                 s.ModifyBy = SessionWrapper.User.UserId;
                 s.ModifyDate = DateTime.Now;
-                s.IsActive = true;
+         
                 s.IsDeleted = false;
                 result = _allstudents.AdStudents(s);
                 if (result > 0)

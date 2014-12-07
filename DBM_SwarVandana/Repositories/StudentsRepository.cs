@@ -27,6 +27,10 @@ namespace Repositories
 
         public int AdStudents(Students s)
         {
+            if (s.Id > 0)
+                s.ActionId = 1;
+            else
+                s.ActionId = 0;
             object[] objParam = {s.ActionId,s.Id,s.UniqueKey,s.Name,s.CenterId,s.DOB,s.Contact1,s.Contact2,s.EmailAddress,s.Address,s.StateId,
                                     s.CityId,s.GuardianName,s.Occupation,s.HasTransportFacility,s.CreatedDate,s.CreatedBy,s.ModifyDate,s.ModifyBy,s.IsActive,s.IsDeleted };
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_Students_IUD, objParam);
