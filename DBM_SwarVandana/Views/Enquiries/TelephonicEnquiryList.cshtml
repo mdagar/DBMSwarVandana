@@ -3,6 +3,11 @@
     ViewBag.Title = "Telephonic Enquiry List";
    Layout = "~/Views/Shared/_Layout.cshtml";  
 }
+<script>
+    function AddNew() {
+        window.location.href = '@Url.Action("TelephonicEnquiry","Enquiries")';
+    }
+</script>
 <!-- start container -->
 <div class="container">
 
@@ -13,8 +18,11 @@
         <div class="table-form">
             <form action="#">                
                 <input type="text" name="search" value="" class="input" />             
-                <input type="submit" value="Search" class="submit-btn" />             
+                <input type="submit" value="Search" class="submit-btn" />
+                <label for="From">&nbsp;</label>             
                 <input type="button" value="Export" onclick="Export()" class="submit-btn" />
+                <label for="From">&nbsp;</label>
+                <input name="submit" type="button" onclick="AddNew()" value="Add New" class="submit-btn" />
             </form>
         </div>
         <!-- end table-form -->
@@ -44,7 +52,7 @@
                     <div class="td">@v.RemarksByFaculty</div>
                     <div class="td">
                     <a href="@Url.Action("TelephonicEnquiry", "Enquiries", new { enquiryId = v.EnquiryId })" title="Edit"><span>Edit</span></a>
-                        &nbsp;<a href="@Url.Action("DeleteEnquiry", "Enquiries", new { enquiryId = v.EnquiryId,type=2 })" title="Edit"><span>Delete</span></a>
+                        @*&nbsp;<a href="@Url.Action("DeleteEnquiry", "Enquiries", new { enquiryId = v.EnquiryId,type=2 })" title="Edit"><span>Delete</span></a>*@
                     </div>
                 </div>
                 <!-- end row -->

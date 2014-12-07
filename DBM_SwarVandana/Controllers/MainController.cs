@@ -99,7 +99,7 @@ namespace DBM_SwarVandana.Controllers
                 c.AddedBy = SessionWrapper.User.UserId;
                 c.ModifyBy = SessionWrapper.User.UserId;
                 c.ModifyDate = DateTime.Now;
-                c.IsActive = true;
+               // c.IsActive = c.IsActive == true ? true : false;
                 c.IsDeleted = false;
                 result = _allcentre.CreateCentres(c);
                 if (result > 0)
@@ -171,7 +171,6 @@ namespace DBM_SwarVandana.Controllers
                 u.AddedBy = SessionWrapper.User.UserId;
                 u.ModifyBy = SessionWrapper.User.UserId;
                 u.ModifyDate = DateTime.Now;
-                u.IsActive = true;
                 result = _alluser.CreateUsers(u);
                 if (result > 0)
                 {
@@ -230,7 +229,7 @@ namespace DBM_SwarVandana.Controllers
                 src.AddedBy = SessionWrapper.User.UserId;
                 src.ModifyBy = SessionWrapper.User.UserId;
                 src.ModifyDate = DateTime.Now;
-                src.IsActive = true;
+
                 result = _allsource.CreateSource(src);
                 if (result > 0)
                 {
@@ -273,7 +272,6 @@ namespace DBM_SwarVandana.Controllers
                 dis.AddedBy = SessionWrapper.User.UserId;
                 dis.ModifyBy = SessionWrapper.User.UserId;
                 dis.ModifyDate = DateTime.Now;
-                dis.IsActive = true;
                 dis.IsDeleted = false;
                 result = _alldiscipline.CreateDiscipline(dis);
                 if (result > 0)
@@ -293,7 +291,7 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult ManageDiscipline(string search="")
+        public ActionResult ManageDiscipline(string search = "")
         {
             var d = _alldiscipline.GetAllDisciplines(search);
             return View(d);

@@ -38,10 +38,15 @@ namespace Repositories
 
         public int CreateCentres(Centres c)
         {
+            if (c.CentreId > 0)
+                c.ActionId = 1;
+            else
+                c.ActionId = 0;
             object[] objParam = { c.ActionId, c.CentreId, c.CentreName, c.Address, c.StateId, c.CityId, c.CentreOpenDate, c.AddDate, c.AddedBy, c.ModifyDate, c.ModifyBy, c.IsActive, c.IsDeleted };
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_Centres_IUD, objParam);
             return Convert.ToInt32(d);
         }
+
         public List<Centres> GetAllCentres(string search = "")
         {
             object[] objParam = { search };

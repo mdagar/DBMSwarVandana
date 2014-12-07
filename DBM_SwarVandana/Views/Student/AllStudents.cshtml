@@ -3,7 +3,11 @@
     ViewBag.Title = "All    Students";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script>
+    function AddNew() {
+        window.location.href = '@Url.Action("AddStudent","Student")';
+    }
+</script>
 <!-- start container -->
 <div class="container">
     <!-- table-info -->
@@ -15,6 +19,8 @@
                 <input name="submit" type="submit" value="Search" class="submit-btn" />
                 <label for="From">&nbsp;</label>
                 <input name="submit" type="button" value="Export" class="submit-btn" />
+                <label for="From">&nbsp;</label>
+                <input name="submit" type="button" onclick="AddNew()" value="Add New" class="submit-btn" />
             </form>
         </div>
         <!-- end table-form -->
@@ -55,7 +61,7 @@
                         <td class="td">@v.GuardianName</td>
                         <td class="td">@v.Occupation</td>
                         <td class="td">@v.HasTransportFacility</td>
-                        <td class="td edit"><a href="@Url.Action("AddStudents", "Students", new { Id = v.Id })" title="Edit"><span>Edit</span></a></td>
+                        <td class="td edit"><a href="@Url.Action("AddStudent", "Student", new { Id = v.Id })" title="Edit"><span>Edit</span></a></td>
                     </tr>
 
                     <!-- end row -->

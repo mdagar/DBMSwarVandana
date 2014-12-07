@@ -4,6 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script>
+    function RedirectToHome() {
+        window.location.href = ('@Url.Action("Index", "Main")');
+    }
+</script>
+
 <!-- start container -->
 <div class="container">
 
@@ -23,7 +29,7 @@
             </div>
             <h3>Add Source</h3>
             <div class="row">
-                <label for="Password">Source Name :</label>
+                <label for="Password"><span style="color: red;">*</span>Source Name :</label>
                 @Html.TextBoxFor(x => x.Source, new { @class = "input" })
                 @Html.ValidationMessageFor(x => x.Source)
             </div>
@@ -32,10 +38,15 @@
                 @Html.TextAreaFor(x => x.Description, new { @class = "textarea" })
                 @Html.ValidationMessageFor(x => x.Description)
             </div>
+            <div class="row">
+                 	<label for="IsActive">Is Active</label>
+                    <div class="column">
+                        @Html.CheckBoxFor(x => x.IsActive, new { @class = "checkbox" })
+                    </div>
+                </div>
             <div class="rowbutton">
-                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
-                @*<input name="submit" type="submit" value="CANCEL" class="submit-btn gap" />
-                    <input name="submit" type="submit" value="SUBMIT" class="submit-btn" />*@
+                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn gap" />
+                <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
             </div>
         }
     </div>

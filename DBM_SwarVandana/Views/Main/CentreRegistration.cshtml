@@ -29,7 +29,30 @@
     }
     $(function () {
         $("#CentreOpenDate").datepicker({ dateFormat: "dd M yy", minDate: "-1m" });
+
+        $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
+            $("#CityId").html('');
+            $("#CityId").append('<option value="">-- Select City --</option>');
+            $.each(cities, function (i, City) {
+                $("#CityId").append('<option value="' + City.CityId + '">' +
+                     City.CityName + '</option>');
+                // here we are adding option for States
+
+            });
+            $("#CityId").find("option").each(function () {
+                if ($(this).val() == "@Model.CityId") {
+                    $(this).attr("selected", "selected");
+                }
+            });
+        });
+
+
     });
+
+    function RedirectToHome() {
+        window.location.href = ('@Url.Action("CentreList", "Main")');
+    }
+
 </script>
 
 <div class="container">
@@ -50,32 +73,40 @@
                 }
                 <div>@Html.ValidationSummary(false)</div>
             </div>
-            @Html.HiddenFor(x=> x.CentreId)
+            @Html.HiddenFor(x => x.CentreId)
             <div class="row">
-                <label for="Password">*Center Name :</label>
+                <label for="Password"><span style="color: red;">*</span>Center Name :</label>
                 @Html.TextBoxFor(x => x.CentreName, new { @class = "input" })
             </div>
 
             <div class="row">
-                <label for="Password">*State :</label>
+                <label for="Password"><span style="color: red;">*</span>State :</label>
                 @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" })
             </div>
             <div class="row">
-                <label for="Password">*City :</label>
+                <label for="Password"><span style="color: red;">*</span>City :</label>
                 @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select" })
-                
+
             </div>
             <div class="row">
-                <label for="Password">*Address :</label>
+                <label for="Password"><span style="color: red;">*</span>Address :</label>
                 @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
             </div>
             <div class="row">
-                <label for="Password">*Open Date :</label>
+                <label for="Password"><span style="color: red;">*</span>Open Date :</label>
                 @Html.TextBoxFor(x => x.CentreOpenDate, new { @class = "input" })
-                
+            </div>
+            <div class="row">
+                <label for="IsActive">Is Active</label>
+                <div class="column">
+                    @Html.CheckBoxFor(x => x.IsActive, new { @class = "checkbox" })
+                    @*<input type="checkbox" id="IsActive" class="checkbox" />*@
+                </div>
             </div>
             <div class="rowbutton">
-                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
+
+                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn gap" />
+                <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
             </div>
 
         }

@@ -4,7 +4,11 @@
     ViewBag.Title = "Discipline";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script>
+    function AddNew() {
+        window.location.href = '@Url.Action("AddDiscipline","Main")';
+    }
+</script>
 <!-- start container -->
 <div class="container">
     <!-- table-info -->
@@ -15,6 +19,8 @@
                     
                     <input type="text" placeholder="Search" name="search" value="" class="input" />
                     <input  type="submit" value="Search" class="submit-btn" />
+                    <label for="From">&nbsp;</label>
+                <input name="submit" type="button" onclick="AddNew()" value="Add New" class="submit-btn" />
                 </form>
             </div>
         <!-- end table-form -->

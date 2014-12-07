@@ -49,6 +49,10 @@ namespace Repositories
 
         public int CreateUsers(Users u)
         {
+            if (u.UserId > 0)
+                u.ActionId = 1;
+            else
+                u.ActionId = 0;
             object[] objParam = { u.ActionId, u.UserId,
                                     u.FirstName, u.LastName, u.DOB, u.DOJ, u.ContactNumber, 
                                     u.EmailID, u.CentreId, u.Salary, u.RoleId, u.UserName, 
