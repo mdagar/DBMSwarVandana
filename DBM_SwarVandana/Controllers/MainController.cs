@@ -168,9 +168,11 @@ namespace DBM_SwarVandana.Controllers
             {
                 u.ActionId = 0;
                 u.AddDate = DateTime.Now;
+                u.CentreId = SessionWrapper.User.CentreId;
                 u.AddedBy = SessionWrapper.User.UserId;
                 u.ModifyBy = SessionWrapper.User.UserId;
                 u.ModifyDate = DateTime.Now;
+                u.IsDeleted = false;
                 result = _alluser.CreateUsers(u);
                 if (result > 0)
                 {

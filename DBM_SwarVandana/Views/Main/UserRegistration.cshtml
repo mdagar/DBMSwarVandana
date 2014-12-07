@@ -99,10 +99,10 @@
                 <label for="Password"><span style="color: red;">*</span>Email ID :</label>
                 @Html.TextBoxFor(x => x.EmailID, new { @class = "input" })
             </div>
-            <div class="row">
+            @*<div class="row">
                 <label for="Password">Centre ID :</label>
                 @Html.DropDownListFor(x => x.CentreId, new ListBound(Model.CentreId, "Centres").Centres, "-- Select Centre --", new { @class = "select" })
-            </div>
+            </div>*@
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Salary :</label>
                 @Html.TextBoxFor(x => x.Salary, new { @class = "input" })
@@ -120,16 +120,16 @@
                 @Html.PasswordFor(x => x.Password, new { @class = "input" })
             </div>
             <div class="row">
-                <label for="Password"><span style="color: red;">*</span>Address :</label>
-                @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
-            </div>
-            <div class="row">
                 <label for="Password"><span style="color: red;">*</span>State :</label>
                 @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" }))
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>City :</label>
                 @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select" })
+            </div>
+             <div class="row">
+                <label for="Password"><span style="color: red;">*</span>Address :</label>
+                @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
             </div>
              <div class="row">
                  	<label for="IsActive">Is Active</label>

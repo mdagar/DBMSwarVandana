@@ -57,7 +57,7 @@ namespace Repositories
                                     u.FirstName, u.LastName, u.DOB, u.DOJ, u.ContactNumber, 
                                     u.EmailID, u.CentreId, u.Salary, u.RoleId, u.UserName, 
                                     u.Password, u.Address, u.StateId, u.CityId, u.AddDate, 
-                                    u.AddedBy, u.ModifyDate, u.ModifyBy, u.IsActive };
+                                    u.AddedBy, u.ModifyDate, u.ModifyBy, u.IsActive,u.IsDeleted };
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_Users_IUD, objParam);
             return Convert.ToInt32(d);
         }

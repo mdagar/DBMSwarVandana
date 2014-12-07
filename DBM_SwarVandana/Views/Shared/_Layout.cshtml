@@ -54,15 +54,15 @@
                     }
                     else
                     { 
-                    @Html.DropDownList("ddlCenters", new ListBound(SessionWrapper.User.CentreId, "Centres").Centres, new { onchange = "UpdateCenter(this);", @class = "select", @readonly = "readonly", style = " width: 234px !important;" })
+                    @Html.DropDownList("ddlCenters", new ListBound(SessionWrapper.User.CentreId, "Centres").Centres, new { onchange = "UpdateCenter(this);", @class = "select", @disabled = "disabled", style = " width: 234px !important;" })
                     }
                 </form>
                 <!-- end top-bar -->
 
             </div>
             <!-- end header-right -->
-            @if (SessionWrapper.User.RoleId == 3)
-            {
+            @*@if (SessionWrapper.User.RoleId == 3)
+            {*@
                 <!-- start navigation -->
                 <div class="navigation">
                     <ul>
@@ -107,7 +107,7 @@
                     </ul>
                 </div>
                 <!-- end navigation -->
-            }
+            @*}
             else if (SessionWrapper.User.RoleId == 2)
             {
 
@@ -115,7 +115,7 @@
             else
             {
 
-            }
+            }*@
         </div>
         <!-- end header -->
         <!-- start container -->
