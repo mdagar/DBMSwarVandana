@@ -25,57 +25,57 @@
         </div>
         <!-- end table-form -->
         <!-- start table -->
-        <div>
-        <div class="table">
-            <table width="100%" >
-                <!-- start row -->
-                <tr bgcolor="#ccc" class="row-first">
-                    <td class="td td1">Unique Key</td>
-                    <td class="td">Name</td>
-                    <td class="td">DOB</td>
-                    <td class="td">Contact Number 1</td>
-                    <td class="td">Contact Number 1</td>
-                    <td class="td">Email ID</td>
-                    <td class="td">Address</td>
-                    <td class="td">State</td>
-                    <td class="td">City</td>
-                    <td class="td">Guardian Name</td>
-                    <td class="td">Occupation</td>
-                    <td class="td">Has Transport Facility</td>
-                    <td class="td">Action</td>
-                </tr>
-                <!-- end row -->
-                @foreach (var v in Model)
-                {
+        
+            <div style="float:left;width:100%">
+                <table cellpadding="0" cellspacing="0"  class="table">
                     <!-- start row -->
-                    <tr class="row">
-                        <td class="td td1">@v.UniqueKey</td>
-                        <td class="td">@v.Name</td>
-                        <td class="td">@string.Format("{0:dd MMM yyyy}", v.DOB)</td>
-                        <td class="td">@v.Contact1</td>
-                        <td class="td">@v.Contact2</td>
-                        <td class="td">@v.EmailAddress</td>
-                        <td class="td">@v.Address</td>
-                        <td class="td">@v.StateId</td>
-                        <td class="td">@v.CityId</td>
-                        <td class="td">@v.GuardianName</td>
-                        <td class="td">@v.Occupation</td>
-                        <td class="td">@v.HasTransportFacility</td>
-                        <td class="td edit"><a href="@Url.Action("AddStudent", "Student", new { Id = v.Id })" title="Edit"><span>Edit</span></a></td>
+                    <tr bgcolor="#ccc">
+                        <td class="td">Unique Key</td>
+                        <td class="td">Name</td>
+                        <td class="td">DOB</td>
+                        <td class="td">Contact Number 1</td>
+                        <td class="td">Contact Number 1</td>
+                        <td class="td">Email ID</td>
+                        <td class="td">State</td>
+                        <td class="td"> City</td>
+                        <td class="td"> Address</td>
+                        <td class="td">Guardian Name</td>
+                        <td class="td">Occupation</td>
+                        <td class="td">Has Transport Facility</td>
+                        <td class="td">Action</td>
                     </tr>
+                    <!-- end row -->
+                    @foreach (var v in Model)
+                    {
+                    <!-- start row -->
+                        <tr>
+                            <td class="td">@v.UniqueKey</td>
+                            <td class="td">@v.Name</td>
+                            <td class="td">@string.Format("{0:dd MMM yyyy}", v.DOB)</td>
+                            <td class="td">@v.Contact1</td>
+                            <td class="td">@v.Contact2</td>
+                            <td class="td">@v.EmailAddress</td>
+                            <td class="td">@v.StateId</td>
+                            <td class="td">@v.CityId</td>
+                            <td class="td">@v.Address</td>
+                            <td class="td">@v.GuardianName</td>
+                            <td class="td">@v.Occupation</td>
+                            <td class="td">@v.HasTransportFacility</td>
+                            <td class="td"><a href="@Url.Action("AddStudent", "Student", new { Id = v.Id })" title="Edit"><span>Edit</span></a></td>
+                        </tr>
 
                     <!-- end row -->
-                }
-                @{if (Model.Count() == 0)
-                {
-                    <tr class="row">
-                        <td class="td" style="text-align: center">No record found.</td>
-                    </tr>
+                    }
+                    @{if (Model.Count() == 0)
+                    {
+                        <tr class="row">
+                            <td class="td" style="text-align: center">No record found.</td>
+                        </tr>
 
-                }}
-            </table>
-            <!-- start row -->
-            @*<div class="row-last">
+                    }}
+                </table>
+                <!-- start row -->
+                @*<div class="row-last">
                 <div class="td td2">1 - 8 of 8 items</div>
                 <div class="td td3">
                     <ul>
@@ -87,9 +87,14 @@
                     </ul>
                 </div>
             </div>*@
-            <!-- end row -->
-        </div>
+                <!-- end row -->
+            </div>
             </div>
         <!-- end table -->
-    </div>
 </div>
+<style>
+    td {
+      
+        
+    }
+</style>
