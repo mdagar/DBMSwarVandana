@@ -56,6 +56,13 @@ namespace Repositories
                 return st;
             }
         }
+        public DataSet GetStudentsByEnrollmentId(int EnrollmentId)
+        {
+            string Query = "SELECT S.StudentId,S.UniqueKey,S.Name,S.CenterId,S.DOB,S.Contact1,S.EmailAddress,S.Address,S.GuardianName,S.HasTransportFacility,(select Discipline from Disciplines where Disciplineid=E.DisciplineId) as Disciplines,(Select ClassName from ClassDetails where ClassId=E.ClassId) as Class,E.NoOfClasses,E.CourseAmount,E.AmountPaid"+
+                           " FROM [DBMSwarVandana].[dbo].[Student] S,[DBMSwarVandana].[dbo].[StudentEnrollment] E where S.StudentId=E.StudentId and E.EnrollmentID=" + EnrollmentId + "";
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            return d;
+        }
 
         public List<Students> GetStudentsByCentreId(int CentreId)
         {

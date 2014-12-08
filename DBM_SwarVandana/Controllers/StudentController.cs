@@ -8,7 +8,8 @@ using ViewModel;
 using Repositories;
 using DBM_SwarVandana.Resources;
 using Models;
-
+using ListConversion;
+using System.Data;
 namespace DBM_SwarVandana.Controllers
 {
     public class StudentController : Controller
@@ -87,6 +88,24 @@ namespace DBM_SwarVandana.Controllers
         {
             var result = _allstudents.GetStudentsByUniqueId(UniqueId);
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        [Authenticate]
+        public ActionResult GetStudentsByEnrollmentId(int EnrollmentId)
+        {
+            var result = _allstudents.GetStudentsByEnrollmentId(EnrollmentId);
+            System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row;
+            foreach (DataRow dr in result.Tables[0].Rows)
+            {
+                row = new Dictionary<string, object>();
+                foreach (DataColumn col in result.Tables[0].Columns)
+                {
+                    row.Add(col.ColumnName, dr[col]);
+                }
+                rows.Add(row);
+            }
+            return Json(serializer.Serialize(rows));
         }
 
         [Authenticate]
@@ -177,5 +196,13 @@ namespace DBM_SwarVandana.Controllers
         }
         #endregion
 
+        #region Payment Details
+        [Authenticate]
+        public ActionResult PayemntDetails()
+        {
+            StudentEntrollmentViewModel se = new StudentEntrollmentViewModel();
+            return View(se);
+        }
+        #endregion
     }
 }
