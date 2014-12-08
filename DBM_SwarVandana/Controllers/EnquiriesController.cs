@@ -100,7 +100,11 @@ namespace DBM_SwarVandana.Controllers
             var Users = _allUsers.GetAllUsers(SessionWrapper.User.CentreId);
             enq.Update(x => x.SourceName = sources.Where(s => s.SourceId == x.SourceId).FirstOrDefault().Source);
             enq.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.Discipline).FirstOrDefault().Discipline);
-            enq.Update(x => x.AttendedByUser = Users.Where(s => s.UserId == x.AttendedBy).FirstOrDefault().FirstName);
+            foreach (var v in enq)
+            {
+                var name = Users.Where(s => s.UserId == v.AttendedBy).FirstOrDefault();
+                v.AttendedByUser = name == null ? "" : name.FirstName + " " + name.LastName;
+            }
             return View(enq);
         }
 

@@ -2,8 +2,8 @@
 @using Code;
 @{
     ViewBag.Title = "Class Timming";
-    //Layout = "~/Views/Shared/_Layout.cshtml";
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = null;
 }
 
 
@@ -23,14 +23,6 @@
                         <td>Did</td>
                         <td>@Model.classDetais.DisciplineId</td>
                     </tr>
-                    @*<tr>
-                            <td>
-                                Day
-                            </td>
-                            <td>
-                                @Html.DropDownListFor(m => Model.WeekDayId, typeof(WeekDays).SelectList<WeekDays>(true), "-- Select --", new { @class = "form-control", @onchange = "GetTimePattren()" })
-                            </td>
-                        </tr>*@
                 </table>
                 <table>
                     <tr>
@@ -39,20 +31,23 @@
                         <td>End Time</td>
                         <td>Action</td>
                     </tr>
-                    @foreach (var v in typeof(WeekDays).SelectList<WeekDays>(true))
+                    @if (Model.li.Count == 0)
                     {
-                        <tr>
-                            <td>@v.Text</td>
-                            <td><input type="text" id="startTime" /></td>
-                            <td><input type="text" id="endTime" /></td>
-                            <td>
-                                <input type="checkbox" value="@v.Value" onclick="AddRow(this)" />
-                            </td>
-                        </tr>
+                        foreach (var v in typeof(WeekDays).SelectList<WeekDays>(true))
+                        {
+                            <tr>
+                                <td>@v.Text</td>
+                                <td><input type="text" id="startTime" /></td>
+                                <td><input type="text" id="endTime" /></td>
+                                <td>
+                                    <input type="checkbox" value="@v.Value" onclick="AddRow(this)" />
+                                </td>
+                            </tr>
+                        }
                     }
                 </table>
                 <div id="Tcollection">
-                    @Html.Action("TimeCollection", "Class", new { flag = 3, PatternId = 0, classId = Model.ClassId })
+                    @Html.Action("TimeCollection", "Class", new { flag = 3, PatternId = 0, classId = @Model.classDetais.ClassId })
                 </div>
             </div>
             <input type="submit" value="Save" />
