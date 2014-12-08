@@ -22,7 +22,9 @@ namespace Models
         public virtual int ModifyBy { get; set; }
         public virtual bool IsActive { get; set; }
         public virtual bool IsDeleted { get; set; }
-
+        public virtual string DisciplaneName { get; set; }
+        public virtual string FaculityName { get; set; }
+        
         public ClassDetails()
         {
             this.ClassId = 0;

@@ -18,15 +18,22 @@ namespace DBM_SwarVandana.Controllers
         // GET: /Class/
         ClassRepository _allclass = new ClassRepository();
         AllClassTimingPatterns _allClassTimingPatterns = new AllClassTimingPatterns();
+        DisciplineRepository _allDiscipline = new DisciplineRepository();
+        SourceRepository _allSources = new SourceRepository();
+        UsersRepository _allUsers = new UsersRepository();
         public static List<ClassTimingPatterns> timepattern = new List<ClassTimingPatterns>();
         public ActionResult Index()
         {
             return View();
         }
         [Authenticate]
-        public ActionResult ClassDetails()
+        public ActionResult ClassDetails(long? ClassId)
         {
-            ClassDetailViewModel cls = new ClassDetailViewModel();
+            ClassDetailViewModel cls;
+            if (ClassId.HasValue)
+                cls = new ClassDetailViewModel(_allclass.FindById(ClassId.Value));
+            else
+                cls = new ClassDetailViewModel();
             return View(cls);
         }
 
@@ -34,6 +41,14 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult ClassDetailsList()
         {
             List<ClassDetails> cls = _allclass.ListClassDetails(SessionWrapper.User.CentreId);
+            var Discipline = _allDiscipline.GetAllDisciplines();
+            var Users = _allUsers.GetAllUsers(SessionWrapper.User.CentreId);
+            cls.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.DisciplineId).FirstOrDefault().Discipline);
+            foreach (var v in cls)
+            {
+                var name = Users.Where(s => s.UserId == v.FacultyId).FirstOrDefault();
+                v.FaculityName = name == null ? "" : name.FirstName + " " + name.LastName;
+            }
             return View(cls);
         }
 
@@ -70,25 +85,36 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult CreateClassTimming(long classId = 1)
+        public ActionResult CreateClassTimming(long? classId)
         {
             ClassTimingPatternsViewModel m = new ClassTimingPatternsViewModel();
-            m.classDetais = _allclass.FindById(classId);
+            if (classId.HasValue)
+            {
+                m.classDetais = _allclass.FindById(classId.Value);
+                m.li = _allClassTimingPatterns.FindByClassId(classId.Value);
+            }
             return View(m);
         }
+
         [Authenticate]
         [HttpPost]
         public ActionResult CreateClassTimming()
         {
             DateTime time;
             long classId = 0;
+            bool InsertDate = true;
             if (timepattern.Count > 0)
                 classId = timepattern[0].ClassId;
             foreach (var v in timepattern)
             {
                 if (string.IsNullOrEmpty(v.StartTime) || string.IsNullOrEmpty(v.EndTime))
+                {
+                    InsertDate = false;
                     break;
-
+                }
+            }
+            if (InsertDate)
+            {
                 // code for save time pattren
                 XmlDocument doc = timepattern.ConvertToXML();
                 _allClassTimingPatterns.Save(doc);
@@ -96,6 +122,7 @@ namespace DBM_SwarVandana.Controllers
             // Return Message for success and failure.
             ClassTimingPatternsViewModel m = new ClassTimingPatternsViewModel();
             m.classDetais = _allclass.FindById(classId);
+            m.li = _allClassTimingPatterns.FindByClassId(classId);
             return View(m);
         }
 
@@ -130,10 +157,11 @@ namespace DBM_SwarVandana.Controllers
             {
                 timepattern.Clear();
                 // Get TimePattern According to Class Selected.
-                timepattern = _allClassTimingPatterns.FindByWeekDay(classId, WeekDayId);
+                timepattern = _allClassTimingPatterns.FindByClassId(classId);
             }
             return View(timepattern);
         }
+
 
     }
 }
