@@ -11,6 +11,7 @@
                                             Text = u.ToString(),
                                             Value = ((int)u).ToString()
                                         };
+    roles = roles.Where(x => Convert.ToInt32(x.Value) < (int)UserRole.SuperAdmin);
 }
 <link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
 <script src="~/Content/js/jquery-ui.js"></script>
@@ -50,7 +51,7 @@
                     $(this).attr("selected", "selected");
                 }
             });
-         });
+        });
     });
 </script>
 
@@ -74,7 +75,7 @@
                 }
                 <div>@Html.ValidationSummary(false)</div>
             </div>
-            
+
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>First Name :</label>
                 @Html.TextBoxFor(x => x.FirstName, new { @class = "input" })
@@ -99,10 +100,6 @@
                 <label for="Password"><span style="color: red;">*</span>Email ID :</label>
                 @Html.TextBoxFor(x => x.EmailID, new { @class = "input" })
             </div>
-            @*<div class="row">
-                <label for="Password">Centre ID :</label>
-                @Html.DropDownListFor(x => x.CentreId, new ListBound(Model.CentreId, "Centres").Centres, "-- Select Centre --", new { @class = "select" })
-            </div>*@
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Salary :</label>
                 @Html.TextBoxFor(x => x.Salary, new { @class = "input" })
@@ -127,21 +124,21 @@
                 <label for="Password"><span style="color: red;">*</span>City :</label>
                 @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select" })
             </div>
-             <div class="row">
+            <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Address :</label>
                 @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
             </div>
-             <div class="row">
-                 	<label for="IsActive">Is Active</label>
-                    <div class="column">
-                        @Html.CheckBoxFor(x => x.IsActive, new { @class = "checkbox" })
-                    </div>
+            <div class="row">
+                <label for="IsActive">Is Active</label>
+                <div class="column">
+                    @Html.CheckBoxFor(x => x.IsActive, new { @class = "checkbox" })
                 </div>
+            </div>
             <div class="rowbutton">
                 <input type="submit" id="btnSubmit" value="Submit" class="submit-btn gap" />
                 <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
             </div>
-    
+
         }
 
     </div>

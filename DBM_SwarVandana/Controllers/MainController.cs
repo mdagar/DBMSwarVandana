@@ -99,7 +99,7 @@ namespace DBM_SwarVandana.Controllers
                 c.AddedBy = SessionWrapper.User.UserId;
                 c.ModifyBy = SessionWrapper.User.UserId;
                 c.ModifyDate = DateTime.Now;
-               // c.IsActive = c.IsActive == true ? true : false;
+                // c.IsActive = c.IsActive == true ? true : false;
                 c.IsDeleted = false;
                 result = _allcentre.CreateCentres(c);
                 if (result > 0)
@@ -140,7 +140,7 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult UserList(string search = "")
         {
-            var users = _alluser.GetAllUsers(SessionWrapper.User.CentreId, search);
+            var users = _alluser.GetAllUsers(SessionWrapper.User.CentreId, search).Where(x => x.RoleId < SessionWrapper.User.RoleId);
             var state = _allcentre.GetStates();
             var city = _allcentre.GetCities();
             users.Update(x => x.StateName = state.Where(s => s.StateId == x.StateId).FirstOrDefault().StateName);
@@ -213,6 +213,7 @@ namespace DBM_SwarVandana.Controllers
 
         #endregion
 
+        #region SourceManagement
         [Authenticate]
         public ActionResult AddSource()
         {
@@ -249,7 +250,9 @@ namespace DBM_SwarVandana.Controllers
             return View(src);
         }
 
+        #endregion
 
+        #region Disciplane Management
         [Authenticate]
         public ActionResult AddDiscipline(int? DisciplineId)
         {
@@ -298,5 +301,7 @@ namespace DBM_SwarVandana.Controllers
             var d = _alldiscipline.GetAllDisciplines(search);
             return View(d);
         }
+
+        #endregion
     }
 }

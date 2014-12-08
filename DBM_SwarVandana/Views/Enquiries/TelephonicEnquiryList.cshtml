@@ -1,7 +1,8 @@
 ﻿@model List<Models.Enquiries>
+@using Code;
 @{
     ViewBag.Title = "Telephonic Enquiry List";
-    Layout = "~/Views/Shared/_Layout.cshtml";  
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
     function AddNew() {
@@ -36,7 +37,9 @@
                     <td class="td">Discipline</td>
                     <td class="td">Contact Number</td>
                     <td class="td">Date of Enquiry</td>
+                    <td class="td">Address</td>                    
                     <td class="td">Remarks</td>
+                    <td class="td">Status</td>                    
                     <td class="td">Action</td>
                 </tr>
                 <!-- end row -->
@@ -47,10 +50,11 @@
                         <td class="td">@v.Name</td>
                         <td class="td">@v.SourceName</td>
                         <td class="td">@v.DisciplaneName</td>
-                        <td class="td">@v.ContactNumber</td>
+                        <td class="td">@v.ContactNumber</td>                        
                         <td class="td">@string.Format("{0:dd MMM yyyy}", v.DateOfEnquiry)</td>
-
+                        <td class="td">@v.Address</td>                        
                         <td class="td">@v.FinalComments</td>
+                        <td class="td">@(((Status)Enum.Parse(typeof(Status), v.StatusId.ToString())).Desciption())</td>
                         <td class="td">
                             <a href="@Url.Action("TelephonicEnquiry", "Enquiries", new { enquiryId = v.EnquiryId })" title="Edit"><span>Edit</span></a>
                             @*&nbsp;<a href="@Url.Action("DeleteEnquiry", "Enquiries", new { enquiryId = v.EnquiryId,type=2 })" title="Edit"><span>Delete</span></a>*@
@@ -59,12 +63,12 @@
                     <!-- end row -->
                 }
                 @{if (Model.Count() == 0)
-                  {
+                {
                     <tr class="row">
                         <td class="td" style="text-align: center">No record found.</td>
                     </tr>
-                
-                  }}
+
+                }}
             </table>
         </div>
         <!-- end table -->

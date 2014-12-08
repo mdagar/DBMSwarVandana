@@ -1,4 +1,5 @@
 ﻿@model List<Models.Users>
+@using Code;
 @{
     ViewBag.Title = "Centre List";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -32,6 +33,7 @@
                 <tr bgcolor="#ccc">
                     <td class="td">Name</td>
                     <td class="td">UserName</td>
+                    <td class="td">Role</td>
                     <td class="td">State</td>
                     <td class="td">City</td>
                     <td class="td">Address</td>
@@ -39,6 +41,7 @@
                     <td class="td">Date of Join</td>
                     <td class="td">Email</td>
                     <td class="td">Contact No</td>
+                    <td class="td">Is Active</td>
                     <td class="td">Action</td>
                 </tr>
                 <!-- end row -->
@@ -48,6 +51,9 @@
                     <tr>
                         <td class="td">@v.FirstName</td>
                         <td class="td">@v.UserName</td>
+                        <td class="td">
+                            @(((UserRole)Enum.Parse(typeof(UserRole), v.RoleId.ToString())).Desciption())
+                        </td>
                         <td class="td">@v.StateName</td>
                         <td class="td">@v.CityName</td>
                         <td class="td">@v.Address</td>
@@ -55,17 +61,18 @@
                         <td class="td">@string.Format("{0:dd MMM yyyy}", v.DOJ)</td>
                         <td class="td">@v.EmailID</td>
                         <td class="td">@v.ContactNumber</td>
-                        <td class="td edit"><a href="@Url.Action("UserRegistration", "Main", new { UserId = v.UserId })" title="Edit"><span>Edit</span></a></td>
+                        <td class="td">@v.IsActive</td>
+                        <td class="td"><a href="@Url.Action("UserRegistration", "Main", new { UserId = v.UserId })" title="Edit"><span>Edit</span></a></td>
                     </tr>
                     <!-- end row -->
                 }
                 @{if (Model.Count() == 0)
-                  {
+                {
                     <tr class="row">
                         <td class="td" style="text-align: center">No record found.</td>
                     </tr>
 
-                  }}
+                }}
             </table>
         </div>
         <!-- end table -->

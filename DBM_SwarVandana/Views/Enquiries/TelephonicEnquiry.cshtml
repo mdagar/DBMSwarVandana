@@ -2,7 +2,8 @@
 @using Code;
 @{
     ViewBag.Title = "TelephonicEnquiry";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 
     IEnumerable<Status> statusid = Enum.GetValues(typeof(Status))
                                                        .Cast<Status>();
@@ -13,7 +14,8 @@
                                              Value = ((int)u).ToString(),
                                          };
 }
-
+<link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/Content/js/jquery-ui.js"></script>
 <script>
     function GetCitiesByStateId() {
         $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
@@ -29,8 +31,7 @@
     }
 
     $(function () {
-       
-
+        $("#DateOfEnquiry").datepicker({ dateFormat: "dd M yy", minDate: "-1w" });
         $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
             $("#CityId").html('');
             $("#CityId").append('<option value="">-- Select City --</option>');
@@ -53,6 +54,8 @@
     function RedirectToHome() {
         window.location.href = ('@Url.Action("TelephonicEnquiryList", "Enquiries")');
     }
+
+    
 </script>
 
 <!-- start container -->
@@ -71,71 +74,55 @@
                 {
                     @ViewBag.Error
                 }
+                <div>@Html.ValidationSummary(false)</div>
             </div>
             <h3>Telephonic Enquiry</h3>
             <div class="row">
                 <label for="Password">Source :</label>
                 @Html.DropDownListFor(x => x.SourceId, new ListBound(Model.SourceId, "Sources").Sources, "-- Select Source --", new { @class = "select" })
-                @Html.ValidationMessageFor(x => x.SourceId)
             </div>
             <div class="row">
                 <label for="Password">Contact Number :</label>
                 @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.ContactNumber)
             </div>
             <div class="row">
                 <label for="Password">Name :</label>
                 @Html.TextBoxFor(x => x.Name, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.Name)
             </div>
             <div class="row">
                 <label for="Password">Date of Enquiry :</label>
                 @Html.TextBoxFor(x => x.DateOfEnquiry, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.DateOfEnquiry)
             </div>
             <div class="row">
                 <label for="Password">Discipline :</label>
                 @Html.DropDownListFor(x => x.Discipline, new ListBound(Model.Discipline, "Disciplines").Disciplines, "-- Select Discipline --", new { @class = "select" })
-                @Html.ValidationMessageFor(x => x.Discipline)
-            </div>
-@*<tr>
-            <td>Centre ID :</td>
-            <td>
-                @Html.DropDownListFor(x => x.CentreId, new ListBound(Model.CentreId, "Centres").Centres, "-- Select Centre --")
-                @Html.ValidationMessageFor(x => x.CentreId)
-            </td>
-        </tr>*@
-            <div class="row">
-                <label for="Password">Address :</label>
-                @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
-                @Html.ValidationMessageFor(x => x.Address)
             </div>
             <div class="row">
                 <label for="Password">State :</label>
                 @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" })
-                @Html.ValidationMessageFor(x => x.StateId)
             </div>
             <div class="row">
                 <label for="Password">City :</label>
                 @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select" })
-                @Html.ValidationMessageFor(x => x.CityId)
+            </div>
+            <div class="row">
+                <label for="Password">Address :</label>
+                @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
             </div>
             <div class="row">
                 <label for="Password">Status :</label>
                 @Html.DropDownListFor(x => x.StatusId, status, "-- Select Status --", new { @class = "select" })
-                @Html.ValidationMessageFor(x => x.StatusId)
             </div>
             <div class="row">
                 <label for="Password">Remarks :</label>
                 @Html.TextAreaFor(x => x.FinalComments, new { @class = "textarea" })
-                @Html.ValidationMessageFor(x => x.FinalComments)
             </div>
             <div class="row">
-                 	<label for="IsActive">Is Active</label>
-                    <div class="column">
-                        @Html.CheckBoxFor(x => x.IsActive, new { @class = "checkbox" })
-                    </div>
+                <label for="IsActive">Is Active</label>
+                <div class="column">
+                    @Html.CheckBoxFor(x => x.IsActive, new { @class = "checkbox" })
                 </div>
+            </div>
             <div class="rowbutton">
                 <input type="submit" id="btnSubmit" value="Submit" class="submit-btn gap" />
                 <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />

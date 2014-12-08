@@ -18,7 +18,7 @@ namespace DBM_SwarVandana.Controllers
         EnquiryRepository _allenquiry = new EnquiryRepository();
         DisciplineRepository _allDiscipline = new DisciplineRepository();
         SourceRepository _allSources = new SourceRepository();
-
+        UsersRepository _allUsers = new UsersRepository();
         [Authenticate]
         public ActionResult Index()
         {
@@ -95,6 +95,12 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult PhysicalEnquiryList(string search = "")
         {
             List<Enquiries> enq = _allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.PE, search);
+            var Discipline = _allDiscipline.GetAllDisciplines();
+            var sources = _allSources.GetAllSources();
+            var Users = _allUsers.GetAllUsers(SessionWrapper.User.CentreId);
+            enq.Update(x => x.SourceName = sources.Where(s => s.SourceId == x.SourceId).FirstOrDefault().Source);
+            enq.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.Discipline).FirstOrDefault().Discipline);
+            enq.Update(x => x.AttendedByUser = Users.Where(s => s.UserId == x.AttendedBy).FirstOrDefault().FirstName);
             return View(enq);
         }
 
@@ -123,7 +129,7 @@ namespace DBM_SwarVandana.Controllers
                 en.AddedBy = SessionWrapper.User.UserId;
                 en.ModifyBy = SessionWrapper.User.UserId;
                 en.ModifyDate = DateTime.Now;
-                
+
                 en.IsDeleted = false;
                 if (en.EnquiryId != 0)
                 {
@@ -183,12 +189,13 @@ namespace DBM_SwarVandana.Controllers
                 Discipline = Discipline.Where(x => x.DisciplineId == s.Discipline).FirstOrDefault().Discipline,
                 source = sources.Where(x => x.SourceId == s.SourceId).FirstOrDefault().Source,
                 Contact = s.ContactNumber,
-                AttendedBy = s.AttendedBy,
-                Status = s.StateId
+                Date = s.DateOfEnquiry.Value.ToString("dd MMM yyyy"),
+                Address = s.Address,
+                Status = (((Status)Enum.Parse(typeof(Status), s.StatusId.ToString())).Desciption())
             }).ToArray()).AsDataTable();
 
             var data = ExcelHelper.Export(rec, "Telephonic Enquiry");
-            return File(data.ToArray(), "application/vnd.ms-excel", "TelephonicEnquiry.xls");
+            return File(data.ToArray(), "application/vnd.ms-excel", "TelephonicEnquiry");
         }
 
         [Authenticate]
@@ -196,24 +203,28 @@ namespace DBM_SwarVandana.Controllers
         {
             var Discipline = _allDiscipline.GetAllDisciplines();
             var sources = _allSources.GetAllSources();
+            var Users = _allUsers.GetAllUsers(SessionWrapper.User.CentreId);
             var rec = (_allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.PE).Select(s => new
             {
                 Name = s.Name,
                 Discipline = Discipline.Where(x => x.DisciplineId == s.Discipline).FirstOrDefault().Discipline,
                 source = sources.Where(x => x.SourceId == s.SourceId).FirstOrDefault().Source,
+                DateOfEnquiry = s.DateOfEnquiry.Value.ToString("dd MMM yyyy"),
+                AttendedBy = Users.Where(x => x.UserId == s.AttendedBy).FirstOrDefault().FirstName,
                 Contact = s.ContactNumber,
-                DateOfEnquiry = s.DateOfEnquiry,
-                AttendedBy = s.AttendedBy,
-                Demo = s.Demo,
-                ProbableStudent = s.ProbableStudentFor,
-                Gender = s.Gender,
+                ProbableStudent = ((EnquiryFor)Enum.Parse(typeof(EnquiryFor), s.ProbableStudentFor.ToString())).Desciption(),
+                Gender = ((Gender)Enum.Parse(typeof(Gender), s.Gender.ToString())).Desciption(),
                 Age = s.Age,
-                Remarks = s.RemarksByFaculty,
-                Status = s.StateId
+                Classes = s.NoOfClasses,
+                Package = s.Package,
+                Demo = s.Demo,
+                FaculityRemarks = s.RemarksByFaculty,
+                FinalRemarks = s.FinalComments,
+                Status = ((Status)Enum.Parse(typeof(Status), s.StatusId.ToString())).Desciption()
             }).ToArray()).AsDataTable();
 
             var data = ExcelHelper.Export(rec, "Physical Enquiry");
-            return File(data.ToArray(), "application/vnd.ms-excel", "PhysicalEnquiry.xls");
+            return File(data.ToArray(), "application/vnd.ms-excel", "PhysicalEnquiry");
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Code
 
     public enum UserRole
     {
-        [Description("Normal User")]
+        [Description("User")]
         User = 1,
         [Description("Center Admin")]
         Admin,

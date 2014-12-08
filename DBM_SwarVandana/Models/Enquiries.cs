@@ -40,6 +40,7 @@ namespace Models
         public virtual bool IsDeleted { get; set; }
         public virtual string SourceName { get; set; }
         public virtual string DisciplaneName { get; set; }
+        public virtual string AttendedByUser { get; set; }
 
         public Enquiries()
         {
