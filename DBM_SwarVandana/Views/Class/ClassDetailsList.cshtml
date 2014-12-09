@@ -53,8 +53,8 @@
                         <td class="td">@string.Format("{0:dd MMM yyyy}", v.EndDate)</td>
                         <td class="td">@v.IsActive</td>
                         <td class="td">
-                            <a href="@Url.Action("CreateClassTimming", "Class", new { ClassId = v.ClassId })" title="Edit">Timming</a> |
-                            <a href="@Url.Action("ClassDetails", "Class", new { ClassId = v.ClassId })" title="Edit">Edit</a>
+                            <a href="@Url.Action("CreateClassTimming", "Class", new { ClassId = v.ClassId })" title="Edit">Timming</a>
+                          | <a href="@Url.Action("ClassDetails", "Class", new { ClassId = v.ClassId })" title="Edit">Edit</a>
                         </td>
                     </tr>
                     <!-- end row -->

@@ -22,43 +22,44 @@
                 {
                     @ViewBag.Error
                 }
+                <div>@Html.ValidationSummary(false)</div>
             </div>
             <h3>Create Class</h3>
             <div class="row">
                 <label for="Password">Class Name :</label>
-                @Html.TextBoxFor(x => x.ClassName, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.ClassName)
+                @Html.TextBoxFor(x => x.ClassName, new { @class = "input" })                
             </div>
             <div class="row">
                 <label for="Password">Discipline :</label>
                 @Html.DropDownListFor(x => x.DisciplineId, new ListBound(Model.DisciplineId, "Disciplines").Disciplines, "-- Select Discipline --", new { @class = "select" })
-                @Html.ValidationMessageFor(x => x.DisciplineId)
             </div>
             <div class="row">
                 <label for="Password">Faculty :</label>
                 @Html.DropDownListFor(x => x.FacultyId, new ListBound(Model.FacultyId, "Faculties").Faculties, "-- Select Faculty --", new { @class = "select" })
-                @Html.ValidationMessageFor(x => x.FacultyId)
             </div>
                <div class="row">
                 <label for="Password">Student Limit :</label>
                 @Html.TextBoxFor(x => x.StudentLimit, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.StudentLimit)
             </div>
             <div class="row">
                 <label for="Password">Start Date :</label>
                 @Html.TextBoxFor(x => x.StartDate, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.StartDate)
             </div>
             <div class="row">
                 <label for="Password">End Date :</label>
                 @Html.TextBoxFor(x => x.EndDate, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.EndDate)
             </div>
             <div class="rowbutton">
                 <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
+                <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
             </div>
 
         }
     </div>
 
 </div>
+<script>
+    function RedirectToHome() {
+        window.location.href = ('@Url.Action("ClassDetailsList", "Class")');
+    }
+</script>

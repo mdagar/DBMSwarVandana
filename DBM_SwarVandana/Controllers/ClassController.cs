@@ -60,6 +60,7 @@ namespace DBM_SwarVandana.Controllers
             var result = 0;
             if (ModelState.IsValid)
             {
+
                 cls.ActionId = 0;
                 cls.CentreId = SessionWrapper.User.CentreId;
                 cls.AddDate = DateTime.Now;
@@ -182,7 +183,7 @@ namespace DBM_SwarVandana.Controllers
                 Discipline = s.DisciplaneName,
                 Faculty = s.FaculityName,
                 StudentLimit = s.StudentLimit,
-                CreatedDate = s.AddDate,
+                CreatedDate = s.AddDate.Value,
                 IsActive = s.IsActive
             }).ToArray()).AsDataTable();
 
