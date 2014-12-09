@@ -10,6 +10,8 @@ using SqlRepositories;
 using ListConversion;
 using Code;
 using System.Data;
+using System.Xml;
+using System.Data.SqlClient;
 namespace Repositories
 {
     public class StudentsRepository
@@ -81,7 +83,7 @@ namespace Repositories
             return Convert.ToInt32(d);
         }
 
-        public List<Students> GetStudentsByClassId(int ClassId)
+        public List<Students> GetStudentsByClassId(long ClassId)
         {
             string Query = @"SELECT StudentId,UniqueKey,Name,CenterId,DOB,Contact1,Contact2,EmailAddress,StateId,CityId,Address,GuardianName,Occupation,
                            HasTransportFacility,IsActive,CreatedBy,CreatedDate,ModifyBy,ModifyDate,IsDeleted FROM [dbo].[Student] WHERE StudentId
@@ -117,6 +119,20 @@ namespace Repositories
                 cl.StartDate = Convert.ToDateTime(d.Tables[0].Rows[0][4]);
                 cl.EndDate = Convert.ToDateTime(d.Tables[0].Rows[0][5]);
                 return cl;
+            }
+        }
+
+        public long SaveAttendence(XmlDocument doc)
+        {
+            using (SqlConnection con = db.GetConnection())
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("InsertStudentAttendence", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@XMLdata", doc.InnerXml);
+                cmd.ExecuteNonQuery();
+                con.Close();
+                return 1;
             }
         }
 

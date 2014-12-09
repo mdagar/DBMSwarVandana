@@ -10,6 +10,7 @@ using DBM_SwarVandana.Resources;
 using Models;
 using ListConversion;
 using System.Data;
+using System.Xml;
 namespace DBM_SwarVandana.Controllers
 {
     public class StudentController : Controller
@@ -19,6 +20,7 @@ namespace DBM_SwarVandana.Controllers
 
         StudentsRepository _allstudents = new StudentsRepository();
         ClassRepository _allClassRepository = new ClassRepository();
+
 
         public static List<StudentAttendence> AttendenceCollection = new List<StudentAttendence>();
 
@@ -57,7 +59,7 @@ namespace DBM_SwarVandana.Controllers
                 s.CreatedBy = SessionWrapper.User.UserId;
                 s.ModifyBy = SessionWrapper.User.UserId;
                 s.ModifyDate = DateTime.Now;
-         
+
                 s.IsDeleted = false;
                 result = _allstudents.AdStudents(s);
                 if (result > 0)
@@ -164,7 +166,7 @@ namespace DBM_SwarVandana.Controllers
             m.DateOfAttendence = attendenceDate == null ? DateTime.Now : attendenceDate.Value;
             int weekDay = m.DateOfAttendence.Value.Day;
             m.Classes = _allClassRepository.GetClassByWeekDays(SessionWrapper.User.CentreId, weekDay);
-            m.students = _allstudents.GetStudentsByClassId(SessionWrapper.User.CentreId);
+            m.students = _allstudents.GetStudentsByClassId(m.ClassId);
             return View(m);
         }
 
@@ -172,6 +174,9 @@ namespace DBM_SwarVandana.Controllers
         [HttpPost]
         public ActionResult MakeAttendence()
         {
+            // code for save time pattren
+            XmlDocument doc = AttendenceCollection.ConvertToXML();
+            long result = _allstudents.SaveAttendence(doc);
             return View();
         }
 
