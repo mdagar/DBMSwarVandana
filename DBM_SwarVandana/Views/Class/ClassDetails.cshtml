@@ -27,7 +27,7 @@
             <h3>Create Class</h3>
             <div class="row">
                 <label for="Password">Class Name :</label>
-                @Html.TextBoxFor(x => x.ClassName, new { @class = "input" })                
+                @Html.TextBoxFor(x => x.ClassName, new { @class = "input" })
             </div>
             <div class="row">
                 <label for="Password">Discipline :</label>
@@ -37,7 +37,7 @@
                 <label for="Password">Faculty :</label>
                 @Html.DropDownListFor(x => x.FacultyId, new ListBound(Model.FacultyId, "Faculties").Faculties, "-- Select Faculty --", new { @class = "select" })
             </div>
-               <div class="row">
+            <div class="row">
                 <label for="Password">Student Limit :</label>
                 @Html.TextBoxFor(x => x.StudentLimit, new { @class = "input" })
             </div>
@@ -49,11 +49,14 @@
                 <label for="Password">End Date :</label>
                 @Html.TextBoxFor(x => x.EndDate, new { @class = "input" })
             </div>
+            <div class="row">
+                <label for="Password">Is Active :</label>
+                @Html.CheckBoxFor(x => x.IsActive, new { @class = "input" })
+            </div>
             <div class="rowbutton">
                 <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
                 <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
             </div>
-
         }
     </div>
 
