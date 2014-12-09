@@ -2,9 +2,8 @@
 @using Code;
 @{
     ViewBag.Title = "AddStudent";
-    Layout = null;//"~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Content/JS/jquery-1.11.1.js"></script>
 <script>
     function GetCitiesByStateId() {
         $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {

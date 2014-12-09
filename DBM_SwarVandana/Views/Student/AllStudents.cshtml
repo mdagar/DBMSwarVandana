@@ -1,9 +1,8 @@
 ﻿@model IEnumerable<Models.Students>
 @{
     ViewBag.Title = "All    Students";
-    Layout = null;//"~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Content/JS/jquery-1.11.1.js"></script>
 <script>
     function AddNew() {
         window.location.href = '@Url.Action("AddStudent","Student")';

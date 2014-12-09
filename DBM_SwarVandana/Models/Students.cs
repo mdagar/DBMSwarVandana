@@ -9,7 +9,7 @@ namespace Models
     {
         public Students()
         {
-            this.Id = 0;
+            this.StudentId = 0;
             this.ActionId = 0;
             this.UniqueKey = string.Empty;
             this.Name = string.Empty;
@@ -33,7 +33,7 @@ namespace Models
             
         }
 
-        public virtual int Id { get; set; }
+        public virtual long StudentId { get; set; }
         public virtual int ActionId { get; set; }
         public virtual string UniqueKey { get; set; }
         public virtual string Name { get; set; }

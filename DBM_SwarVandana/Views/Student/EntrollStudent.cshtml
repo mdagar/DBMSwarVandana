@@ -2,14 +2,16 @@
 @using Code;
 @{
     ViewBag.Title = "EntrollStudent";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;//"~/Views/Shared/_Layout.cshtml";
 }
+<script src="~/Content/JS/jquery-1.11.1.js"></script>
+
 <script>
 
     function GetStudentDetails() {
         var uniqueid = $("#UniqueKey").val();
         $.post('@Url.Action("GetStudentByUniqueId", "Student")', { UniqueId: uniqueid }, function (data) {
-            if (data.Id > 0) {
+            if (data.StudentId > 0) {
                 $("#lblName").text(data.Name);
                 $("#DOB").text(data.DOB);
                 $("#ContactNumber").text(data.Contact1);
@@ -67,7 +69,7 @@
                     @ViewBag.Error
                 }
             </div>
-            <h3>Add Student</h3>
+            <h3>Enrollment of Student</h3>
             <div class="row">
                 <label for="Password">Student ID :</label>
                 <input id="UniqueKey" type="text" class="input" />

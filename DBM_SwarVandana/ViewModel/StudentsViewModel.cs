@@ -15,7 +15,7 @@ namespace ViewModel
         public StudentsViewModel() { }
         public StudentsViewModel(Students s)
         {
-            this.Id = s.Id;
+            this.StudentId = s.StudentId;
             this.ActionId = s.ActionId;
             this.UniqueKey = s.UniqueKey;
             this.Name = s.Name;
@@ -38,7 +38,7 @@ namespace ViewModel
             this.IsDeleted = s.IsDeleted;
         }
 
-        public override int Id { get; set; }
+        public override long StudentId { get; set; }
         public override int ActionId { get; set; }
         public override string UniqueKey { get; set; }
         public override string Name { get; set; }
