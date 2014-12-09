@@ -11,7 +11,14 @@
                                             Text = u.ToString(),
                                             Value = ((int)u).ToString()
                                         };
-    roles = roles.Where(x => Convert.ToInt32(x.Value) < (int)UserRole.SuperAdmin);
+    if (SessionWrapper.User.RoleId == (int)UserRole.SuperAdmin)
+    {
+        roles = roles.Where(x => Convert.ToInt32(x.Value) < (int)UserRole.SuperAdmin);
+    }
+    else
+    {
+        roles = roles.Where(x => Convert.ToInt32(x.Value) < (int)UserRole.Admin);
+    }
 }
 <link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
 <script src="~/Content/js/jquery-ui.js"></script>
@@ -106,7 +113,7 @@
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Role ID :</label>
-                @Html.DropDownListFor(x => x.RoleId, roles, "-- Select Centre --", new { @class = "select" })
+                @Html.DropDownListFor(x => x.RoleId, roles, "-- Select Role --", new { @class = "select" })
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>User Name :</label>

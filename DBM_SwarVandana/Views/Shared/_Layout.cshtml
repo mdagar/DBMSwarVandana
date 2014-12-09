@@ -100,6 +100,7 @@
                         <ul>
                             <li><a href="@Url.Action("AllStudents", "Student")">View Students</a></li>
                             <li><a href="@Url.Action("EntrollStudent", "Student")">Enroll Student</a></li>
+                            <li><a href="@Url.Action("MakeAttendence", "Student")">Student Attendence</a></li>
                         </ul>
                     </li>
                     @if (SessionWrapper.User.RoleId > (int)UserRole.User)

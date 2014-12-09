@@ -81,3 +81,12 @@ D:\OthertestSample\Swar\DBM_SwarVandana\DBM_SwarVandana\DBM_SwarVandana\obj\Debu
 D:\OthertestSample\Swar\DBM_SwarVandana\DBM_SwarVandana\DBM_SwarVandana\obj\Debug\DBM_SwarVandana.csproj.GenerateResource.Cache
 D:\OthertestSample\Swar\DBM_SwarVandana\DBM_SwarVandana\DBM_SwarVandana\obj\Debug\DBM_SwarVandana.dll
 D:\OthertestSample\Swar\DBM_SwarVandana\DBM_SwarVandana\DBM_SwarVandana\obj\Debug\DBM_SwarVandana.pdb
+E:\R&d\DBMSwarVandana\DBM_SwarVandana\bin\DBM_SwarVandana.dll.config
+E:\R&d\DBMSwarVandana\DBM_SwarVandana\bin\DBM_SwarVandana.dll
+E:\R&d\DBMSwarVandana\DBM_SwarVandana\bin\DBM_SwarVandana.pdb
+E:\R&d\DBMSwarVandana\DBM_SwarVandana\obj\Debug\DBM_SwarVandana.Resources.Messages.resources
+E:\R&d\DBMSwarVandana\DBM_SwarVandana\obj\Debug\DBM_SwarVandana.Resources.Procedures.resources
+E:\R&d\DBMSwarVandana\DBM_SwarVandana\obj\Debug\DBM_SwarVandana.csproj.GenerateResource.Cache
+E:\R&d\DBMSwarVandana\DBM_SwarVandana\obj\Debug\DBM_SwarVandana.dll
+E:\R&d\DBMSwarVandana\DBM_SwarVandana\obj\Debug\DBM_SwarVandana.pdb
+E:\R&d\DBMSwarVandana\DBM_SwarVandana\obj\Debug\DBM_SwarVandana.csprojResolveAssemblyReference.cache

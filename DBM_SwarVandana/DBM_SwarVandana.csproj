@@ -40,6 +40,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NPOI, Version=2.0.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.0.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.0.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.0.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -109,6 +125,7 @@
     <Compile Include="Code\Controller.cs" />
     <Compile Include="Code\CookieWrapper.cs" />
     <Compile Include="Code\Enums.cs" />
+    <Compile Include="Code\ExcelHelper.cs" />
     <Compile Include="Code\Extensions.cs" />
     <Compile Include="Code\ListBound.cs" />
     <Compile Include="Code\MailHelper.cs" />
@@ -119,6 +136,7 @@
     <Compile Include="Controllers\FacultyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="DBConnection\DBConnection.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -126,15 +144,18 @@
     <Compile Include="Models\Centres.cs" />
     <Compile Include="Models\Cities.cs" />
     <Compile Include="Models\ClassDetails.cs" />
+    <Compile Include="Models\ClassTimingPatterns.cs" />
     <Compile Include="Models\Disciplines.cs" />
     <Compile Include="Models\Enquiries.cs" />
     <Compile Include="Models\Faculties.cs" />
     <Compile Include="Models\Sources.cs" />
     <Compile Include="Models\States.cs" />
+    <Compile Include="Models\StudentAttendence.cs" />
     <Compile Include="Models\StudentEnrollment.cs" />
     <Compile Include="Models\Students.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AllClassTimingPatterns.cs" />
     <Compile Include="Repositories\CentreRepository.cs" />
     <Compile Include="Repositories\ClassRepository.cs" />
     <Compile Include="Repositories\ConvertList.cs" />
@@ -143,6 +164,7 @@
     <Compile Include="Repositories\FacultyRepository.cs" />
     <Compile Include="Repositories\SourceRepository.cs" />
     <Compile Include="Repositories\SQLHelper.cs" />
+    <Compile Include="Repositories\StudentsRepository.cs" />
     <Compile Include="Repositories\UsersRepository.cs" />
     <Compile Include="Resources\Messages.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -157,16 +179,48 @@
     <Compile Include="ViewModel\CentresViewModel.cs" />
     <Compile Include="ViewModel\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModel\ClassDetailViewModel.cs" />
+    <Compile Include="ViewModel\ClassTimingPatternsViewModel.cs" />
     <Compile Include="ViewModel\DisciplineViewModel.cs" />
     <Compile Include="ViewModel\EnquiryViewModel.cs" />
     <Compile Include="ViewModel\FacultyViewModel.cs" />
     <Compile Include="ViewModel\SourceViewModel.cs" />
+    <Compile Include="ViewModel\StudentAttendenceViewModel.cs" />
+    <Compile Include="ViewModel\StudentEntrollmentViewModel.cs" />
+    <Compile Include="ViewModel\StudentsViewModel.cs" />
     <Compile Include="ViewModel\UsersViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="bin\DBM_SwarVandana.dll" />
+    <Content Include="bin\DBM_SwarVandana.pdb" />
+    <Content Include="bin\EPPlus.dll" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
+    <Content Include="bin\NPOI.dll" />
+    <Content Include="bin\NPOI.OOXML.dll" />
+    <Content Include="bin\NPOI.OpenXml4Net.dll" />
+    <Content Include="bin\NPOI.OpenXmlFormats.dll" />
+    <Content Include="bin\System.Net.Http.Formatting.dll" />
+    <Content Include="bin\System.Net.Http.Formatting.xml" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Helpers.xml" />
+    <Content Include="bin\System.Web.Http.dll" />
+    <Content Include="bin\System.Web.Http.WebHost.dll" />
+    <Content Include="bin\System.Web.Http.WebHost.xml" />
+    <Content Include="bin\System.Web.Http.xml" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Mvc.xml" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.xml" />
     <Content Include="Content\css\colorbox.css" />
     <Content Include="Content\css\css3.css" />
     <Content Include="Content\css\ie.css" />
@@ -260,10 +314,26 @@
     <Content Include="Views\Faculty\FacultyRegistration.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\DBM_SwarVandana.dll.config" />
     <None Include="Properties\PublishProfiles\Swar.pubxml" />
     <Content Include="Views\Class\ClassDetails.cshtml" />
     <Content Include="Views\Main\ManageDiscipline.cshtml" />
     <Content Include="Views\Home\ForgotPassword.cshtml" />
+    <Content Include="Views\Enquiries\PhysicalEnquiryList.cshtml" />
+    <Content Include="Views\Enquiries\TelephonicEnquiryList.cshtml" />
+    <Content Include="Views\Faculty\GetFaculityList.cshtml" />
+    <Content Include="Views\Class\ClassDetailsList.cshtml" />
+    <Content Include="Views\Main\CentreList.cshtml" />
+    <Content Include="Views\Student\AddStudent.cshtml" />
+    <Content Include="Views\Student\AllStudents.cshtml" />
+    <Content Include="Views\Class\CreateClassTimming.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Class\TimeCollection.cshtml" />
+    <Content Include="Views\Student\EntrollStudent.cshtml" />
+    <Content Include="Views\Student\MakeAttendence.cshtml" />
+    <Content Include="Views\Main\UserList.cshtml" />
+    <Content Include="Views\Student\PayemntDetails.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

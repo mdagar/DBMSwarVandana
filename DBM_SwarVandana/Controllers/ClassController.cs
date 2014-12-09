@@ -21,6 +21,7 @@ namespace DBM_SwarVandana.Controllers
         DisciplineRepository _allDiscipline = new DisciplineRepository();
         SourceRepository _allSources = new SourceRepository();
         UsersRepository _allUsers = new UsersRepository();
+        FacultyRepository _allFaculty = new FacultyRepository();
         public static List<ClassTimingPatterns> timepattern = new List<ClassTimingPatterns>();
         public ActionResult Index()
         {
@@ -38,16 +39,16 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult ClassDetailsList()
+        public ActionResult ClassDetailsList(string Search = "")
         {
-            List<ClassDetails> cls = _allclass.ListClassDetails(SessionWrapper.User.CentreId);
+            List<ClassDetails> cls = _allclass.ListClassDetails(SessionWrapper.User.CentreId, Search);
             var Discipline = _allDiscipline.GetAllDisciplines();
-            var Users = _allUsers.GetAllUsers(SessionWrapper.User.CentreId);
+            var Users = _allFaculty.GetFacultyByCentreId(SessionWrapper.User.CentreId);
             cls.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.DisciplineId).FirstOrDefault().Discipline);
             foreach (var v in cls)
             {
-                var name = Users.Where(s => s.UserId == v.FacultyId).FirstOrDefault();
-                v.FaculityName = name == null ? "" : name.FirstName + " " + name.LastName;
+                var name = Users.Where(s => s.FacultyId == v.FacultyId).FirstOrDefault();
+                v.FaculityName = name == null ? "" : name.NameOfFaculty;
             }
             return View(cls);
         }
@@ -91,6 +92,11 @@ namespace DBM_SwarVandana.Controllers
             if (classId.HasValue)
             {
                 m.classDetais = _allclass.FindById(classId.Value);
+                var Discipline = _allDiscipline.GetAllDisciplines();
+                var Users = _allFaculty.GetFacultyByCentreId(SessionWrapper.User.CentreId);
+                m.classDetais.DisciplaneName = Discipline.Where(x => x.DisciplineId == m.classDetais.DisciplineId).FirstOrDefault().Discipline;
+                var name = Users.Where(s => s.FacultyId == m.classDetais.FacultyId).FirstOrDefault();
+                m.classDetais.FaculityName = name == null ? "" : name.NameOfFaculty;
                 m.li = _allClassTimingPatterns.FindByClassId(classId.Value);
             }
             return View(m);
@@ -160,6 +166,28 @@ namespace DBM_SwarVandana.Controllers
                 timepattern = _allClassTimingPatterns.FindByClassId(classId);
             }
             return View(timepattern);
+        }
+
+        [Authenticate]
+        public ActionResult ExportToExcel()
+        {
+            var Discipline = _allDiscipline.GetAllDisciplines();
+            var Users = _allFaculty.GetFacultyByCentreId(SessionWrapper.User.CentreId);
+            List<ClassDetails> cls = _allclass.ListClassDetails(SessionWrapper.User.CentreId);
+            cls.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.DisciplineId).FirstOrDefault().Discipline);
+            cls.Update(x => x.FaculityName = Users.Where(s => s.FacultyId == x.FacultyId).FirstOrDefault().NameOfFaculty);
+            var rec = (cls.Select(s => new
+            {
+                Name = s.ClassName,
+                Discipline = s.DisciplaneName,
+                Faculty = s.FaculityName,
+                StudentLimit = s.StudentLimit,
+                CreatedDate = s.AddDate,
+                IsActive = s.IsActive
+            }).ToArray()).AsDataTable();
+
+            var data = ExcelHelper.Export(rec, "Classes");
+            return File(data.ToArray(), "application/vnd.ms-excel", "Classes");
         }
 
 
