@@ -24,6 +24,7 @@ namespace ViewModel
             this.DisciplineId = cl.DisciplineId;
             this.FacultyId = cl.FacultyId;
             this.StartDate = cl.StartDate;
+            this.StudentLimit = cl.StudentLimit;
             this.EndDate = cl.EndDate;
             this.CentreId = cl.CentreId;
             this.AddDate = cl.AddDate;

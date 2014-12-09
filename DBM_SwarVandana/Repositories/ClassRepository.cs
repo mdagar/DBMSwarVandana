@@ -26,10 +26,8 @@ namespace Repositories
 
         public List<ClassDetails> ListClassDetails(int centerId, string Search = "")
         {
-            string Query = @"select ClassId,ClassName,DisciplineId,FacultyId,StudentLimit,StartDate,EndDate,CentreId,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive,IsDeleted  from [dbo].[ClassDetails] where IsDeleted=0 and isactive=1 and CentreId =" + centerId + " AND(ClassName LIKE '%'+ " + Search + " +'%' OR DisciplineId = (SELECT DisciplineId FROM [dbo].[Disciplines] WHERE Discipline LIKE'%'+" + Search + "+'%'))";
-
+            string Query = @"select ClassId,ClassName,DisciplineId,FacultyId,StudentLimit,StartDate,EndDate,CentreId,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive,IsDeleted  from [dbo].[ClassDetails] where IsDeleted=0 and isactive=1 and CentreId =" + centerId + " AND(ClassName LIKE '%"+  Search +"%' OR DisciplineId IN (SELECT DisciplineId FROM [dbo].[Disciplines] WHERE Discipline LIKE'%" + Search + "%'))";
             DataSet d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
-
             if (d != null)
                 return d.Tables[0].TableToList<ClassDetails>();
             else
@@ -48,7 +46,7 @@ namespace Repositories
 
         public ClassDetails FindById(long ClassId)
         {
-            string Query = "SELECT ClassId,DisciplineId,FacultyId,StudentLimit,StartDate,EndDate,CentreId,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive,IsDeleted FROM [dbo].[Classdetails] WHERE ClassId = " + ClassId;
+            string Query = "SELECT ClassId,ClassName,DisciplineId,FacultyId,StudentLimit,StartDate,EndDate,CentreId,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive,IsDeleted FROM [dbo].[Classdetails] WHERE ClassId = " + ClassId;
             DataSet d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
 
             if (d != null)

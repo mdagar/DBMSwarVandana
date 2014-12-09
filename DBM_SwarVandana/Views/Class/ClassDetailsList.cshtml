@@ -18,7 +18,7 @@
                 <input type="text" name="Search" value="" placeholder="Search" class="input" />
                 <input type="submit" value="Search" class="submit-btn" />
                 <label for="From">&nbsp;</label>
-                <input type="button" value="Export" class="submit-btn" />
+                <input type="button" value="Export" onclick="Export()" class="submit-btn" />
                 <label for="From">&nbsp;</label>
                 <input name="submit" type="button" onclick="AddNew()" value="Add New" class="submit-btn" />
             </form>
@@ -36,6 +36,7 @@
                     <td class="td">Created Date</td>
                     <td class="td">Start Date</td>
                     <td class="td">End Date</td>
+                    <td class="td">Is Active</td>
                     <td class="td">Action</td>
                 </tr>
                 <!-- end row -->
@@ -50,6 +51,7 @@
                         <td class="td">@string.Format("{0:dd MMM yyyy}", v.AddDate)</td>
                         <td class="td">@string.Format("{0:dd MMM yyyy}", v.StartDate)</td>
                         <td class="td">@string.Format("{0:dd MMM yyyy}", v.EndDate)</td>
+                        <td class="td">@v.IsActive</td>
                         <td class="td">
                             <a href="@Url.Action("CreateClassTimming", "Class", new { ClassId = v.ClassId })" title="Edit">Timming</a> |
                             <a href="@Url.Action("ClassDetails", "Class", new { ClassId = v.ClassId })" title="Edit">Edit</a>
@@ -69,3 +71,8 @@
         <!-- end table -->
     </div>
 </div>
+<script>
+    function Export() {
+        window.location.href = '@Url.Action("ExportToExcel", "Class")';
+    }
+</script>

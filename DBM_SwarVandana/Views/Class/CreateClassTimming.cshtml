@@ -10,47 +10,61 @@
 <div class="container">
     <!-- table-info -->
     <div class="table-info">
+        <div class="table-form">
+            <form action="#">
+                <label for="From">&nbsp;</label>
+            </form>
+        </div>
         @using (Html.BeginForm("CreateClassTimming", "Class"))
         {
             @Html.Hidden("ClassId", Model.classDetais.ClassId)
             <div>
-                <table>
+                <table cellpadding="0" cellspacing="0" class="table">
                     <tr>
-                        <td>Id</td>
-                        <td>@Model.classDetais.ClassId</td>
+                        <td class="td">Class</td>
+                        <td class="td">Disciplane</td>
+                        <td class="td">Student Limit</td>
                     </tr>
                     <tr>
-                        <td>Did</td>
-                        <td>@Model.classDetais.DisciplineId</td>
+                        <td class="td">@Model.classDetais.ClassName</td>
+                        <td class="td">@Model.classDetais.DisciplaneName</td>
+                        <td class="td">@Model.classDetais.StudentLimit</td>
                     </tr>
                 </table>
-                <table>
-                    <tr>
-                        <td>Day</td>
-                        <td>Start Time</td>
-                        <td>End Time</td>
-                        <td>Action</td>
-                    </tr>
-                    @if (Model.li.Count == 0)
-                    {
-                        foreach (var v in typeof(WeekDays).SelectList<WeekDays>(true))
+            </div>
+            <div>Timming Details</div>
+            <div>
+                @if (Model.li.Count == 0)
+                {
+                    <table cellpadding="0" cellspacing="0" class="table">
+                        <tr>
+                            <td class="td">Day</td>
+                            <td class="td">Start Time</td>
+                            <td class="td">End Time</td>
+                            <td class="td">Action</td>
+                        </tr>
+
+                        @foreach (var v in typeof(WeekDays).SelectList<WeekDays>(true))
                         {
                             <tr>
-                                <td>@v.Text</td>
-                                <td><input type="text" id="startTime" /></td>
-                                <td><input type="text" id="endTime" /></td>
-                                <td>
+                                <td class="td">@v.Text</td>
+                                <td class="td"><input type="text" id="startTime" /></td>
+                                <td class="td"><input type="text" id="endTime" /></td>
+                                <td class="td">
                                     <input type="checkbox" value="@v.Value" onclick="AddRow(this)" />
                                 </td>
                             </tr>
                         }
-                    }
-                </table>
+                    </table>
+                }
                 <div id="Tcollection">
                     @Html.Action("TimeCollection", "Class", new { flag = 3, PatternId = 0, classId = @Model.classDetais.ClassId })
                 </div>
             </div>
-            <input type="submit" value="Save" />
+            if (Model.li.Count == 0)
+            {
+                <input type="submit" value="Save" />
+            }
         }
     </div>
 </div>
@@ -77,12 +91,12 @@
             $(o).prop("checked", false);
             return false;
         }
-        var isValidDate = DateCompare(endtime, starttime);
-        if (isValidDate != 1) {
-            alert('Invalid Time');
-            $(o).prop("checked", false);
-            return false;
-        }
+        //var isValidDate = DateCompare(endtime, starttime);
+        //if (isValidDate != 1) {
+        //    alert('Invalid Time');
+        //    $(o).prop("checked", false);
+        //    return false;
+        //}
 
         $.get('@Url.Action("TimeCollection","Class")?flag=' + flag + "&classId=" + '@Model.classDetais.ClassId' + "&randNo=" + Math.random() + "&WeekDayId=" + weekdayId + "&starttime=" + starttime + "&endtime=" + endtime, function (data) {
             $("#Tcollection").html(data);

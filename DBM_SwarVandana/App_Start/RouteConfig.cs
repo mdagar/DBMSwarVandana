@@ -16,8 +16,8 @@ namespace DBM_SwarVandana
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-                //defaults: new { controller = "Class", action = "ClassDetailsList", id = UrlParameter.Optional }
+                //defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Class", action = "ClassDetailsList", id = UrlParameter.Optional }
             );
         }
     }
