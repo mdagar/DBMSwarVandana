@@ -10,17 +10,19 @@
         var uniqueid = $("#UniqueKey").val();
         $.post('@Url.Action("GetStudentsByEnrollmentId", "Student")', { EnrollmentId: uniqueid }, function (data) {
            var result= JSON.parse(data);
-           alert(result.Name);
-            if (data.Name != "") {
-                $("#lblName").val(data.Name);
-                $("#DOB").val(data.DOB);
-                $("#ContactNumber").val(data.Contact1);
-                $("#EmailID").val(data.EmailAddress); 
-                $("#Address").val(data.Address);
-                $("#GuardianName").val(data.GuardianName);
-                $("#Discipline").val(data.Disciplines);
-                $("#ClassName").val(data.Class); 
-                $("#NoOfClass").val(data.NoOfClasses);
+           if (result[0].Name != "") {
+               $("#lblName").val(result[0].Name);
+               $("#DOB").val(result[0].DOB);
+               $("#ContactNumber").val(result[0].Contact1);
+               $("#EmailID").val(result[0].EmailAddress);
+               $("#Address").val(result[0].Address);
+               $("#GuardianName").val(result[0].GuardianName);
+               $("#Discipline").val(result[0].Disciplines);
+               $("#ClassName").val(result[0].Class);
+               $("#NoOfClass").val(result[0].NoOfClasses);
+               $("#CAmount").val(result[0].CourseAmount);
+               $("#PAmount").val(result[0].AmountPaid);
+               $("#RAmount").val(result[0].RegistratonAmount);
                 $("#showstudent").show();
             }
         });
@@ -102,7 +104,7 @@
                         <td>
                             <input id="RAmount" readonly="readonly" type="text" class="input" />
                         </td>
-                        <td>Amount Paid </td>
+                        <td>Already Paid </td>
                         <td>
                             <input id="PAmount" readonly="readonly" type="text" class="input" />
                         </td>
@@ -121,10 +123,10 @@
                             <td>Payment Mode</td>
                             <td>
                                 <select>
-                                    <option value="--Select Mode--"></option>
-                                    <option value="Cash"></option>
-                                    <option value="Cheque"></option>
-                                    <option value="Credit card"></option>
+                                    <option value="">--Select Mode--</option>
+                                    <option value="Cash">Cash</option>
+                                    <option value="Cheque">Cheque</option>
+                                    <option value="Credit card">Credit Card</option>
                                 </select>
                             </td>
                             <td>Amount Paid</td>
@@ -133,7 +135,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Payment Details</td>
+                            <td>Cheque/Credit Card No</td>
                             <td>
                                 <input id="PayDetails" type="text" class="input" />
                             </td>

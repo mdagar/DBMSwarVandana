@@ -1,11 +1,16 @@
 ﻿@model IEnumerable<Models.Students>
 @{
     ViewBag.Title = "All    Students";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;//"~/Views/Shared/_Layout.cshtml";
 }
+<script src="~/Content/JS/jquery-1.11.1.js"></script>
 <script>
     function AddNew() {
         window.location.href = '@Url.Action("AddStudent","Student")';
+    }
+    function Search() {
+        var va = $("input[type='text'][name='searchtext']").val();
+        window.location.href = '@Url.Action("AllStudents", "Student")?search=' + va;
     }
 </script>
 <!-- start container -->
@@ -15,8 +20,8 @@
         <!-- start table-form -->
         <div class="table-form">
             <form action="#">
-                <input type="text" name="field" placeholder="Search" value="" class="input" />                
-                <input name="submit" type="submit" value="Search" class="submit-btn" />
+                <input type="text" name="searchtext" placeholder="Search" value="@ViewBag.Search" class="input" />                
+                <input name="submit" type="button" onclick="Search()" value="Search" class="submit-btn" />
                 <label for="From">&nbsp;</label>
                 <input name="submit" type="button" value="Export" class="submit-btn" />
                 <label for="From">&nbsp;</label>
@@ -61,7 +66,7 @@
                             <td class="td">@v.GuardianName</td>
                             <td class="td">@v.Occupation</td>
                             <td class="td">@v.HasTransportFacility</td>
-                            <td class="td"><a href="@Url.Action("AddStudent", "Student", new { Id = v.Id })" title="Edit"><span>Edit</span></a></td>
+                            <td class="td"><a href="@Url.Action("AddStudent", "Student", new { uniqueId = v.UniqueKey })" title="Edit"><span>Edit</span></a></td>
                         </tr>
 
                     <!-- end row -->

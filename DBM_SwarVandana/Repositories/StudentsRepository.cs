@@ -15,9 +15,9 @@ namespace Repositories
     public class StudentsRepository
     {
         DBConnections db = new DBConnections();
-        public List<Students> GetStudents(int centerId)
+        public List<Students> GetStudents(int centerId, string Search = "")
         {
-            object[] objParam = { centerId, "" };
+            object[] objParam = { centerId, Search };
             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetStudents, objParam);
             if (ds == null)
                 return new List<Students>();
@@ -25,7 +25,7 @@ namespace Repositories
                 return ds.Tables[0].TableToList<Students>();
         }
 
-        public int AdStudents(Students s)
+        public string AdStudents(Students s)
         {
             if (s.Id > 0)
                 s.ActionId = 1;
@@ -34,7 +34,7 @@ namespace Repositories
             object[] objParam = {s.ActionId,s.Id,s.UniqueKey,s.Name,s.CenterId,s.DOB,s.Contact1,s.Contact2,s.EmailAddress,s.Address,s.StateId,
                                     s.CityId,s.GuardianName,s.Occupation,s.HasTransportFacility,s.CreatedDate,s.CreatedBy,s.ModifyDate,s.ModifyBy,s.IsActive,s.IsDeleted };
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_Students_IUD, objParam);
-            return Convert.ToInt32(d);
+            return Convert.ToString(d);
         }
 
         public Students GetStudentsByUniqueId(string UniqueId)
@@ -44,21 +44,11 @@ namespace Repositories
             if (d == null)
                 return st;
             else
-            {
-                st.Id = Convert.ToInt32(d.Tables[0].Rows[0][0]);
-                st.Name = Convert.ToString(d.Tables[0].Rows[0][2]);
-                st.DOB = Convert.ToDateTime(d.Tables[0].Rows[0][4]);
-                st.Contact1 = Convert.ToString(d.Tables[0].Rows[0][5]);
-                st.Address = Convert.ToString(d.Tables[0].Rows[0][10]);
-                st.EmailAddress = Convert.ToString(d.Tables[0].Rows[0][7]);
-                st.GuardianName = Convert.ToString(d.Tables[0].Rows[0][11]);
-                st.Occupation = Convert.ToString(d.Tables[0].Rows[0][12]);
-                return st;
-            }
+                return d.Tables[0].TableToList<Students>().FirstOrDefault();
         }
         public DataSet GetStudentsByEnrollmentId(int EnrollmentId)
         {
-            string Query = "SELECT S.StudentId,S.UniqueKey,S.Name,S.CenterId,S.DOB,S.Contact1,S.EmailAddress,S.Address,S.GuardianName,S.HasTransportFacility,(select Discipline from Disciplines where Disciplineid=E.DisciplineId) as Disciplines,(Select ClassName from ClassDetails where ClassId=E.ClassId) as Class,E.NoOfClasses,E.CourseAmount,E.AmountPaid"+
+            string Query = "SELECT S.StudentId,S.UniqueKey,S.Name,S.CenterId,S.DOB,S.Contact1,S.EmailAddress,S.Address,S.GuardianName,S.HasTransportFacility,(select Discipline from Disciplines where Disciplineid=E.DisciplineId) as Disciplines,(Select ClassName from ClassDetails where ClassId=E.ClassId) as Class,E.NoOfClasses,E.CourseAmount,E.AmountPaid,E.RegistratonAmount" +
                            " FROM [DBMSwarVandana].[dbo].[Student] S,[DBMSwarVandana].[dbo].[StudentEnrollment] E where S.StudentId=E.StudentId and E.EnrollmentID=" + EnrollmentId + "";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;

@@ -2,8 +2,9 @@
 @using Code;
 @{
     ViewBag.Title = "AddStudent";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;//"~/Views/Shared/_Layout.cshtml";
 }
+<script src="~/Content/JS/jquery-1.11.1.js"></script>
 <script>
     function GetCitiesByStateId() {
         $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
@@ -45,6 +46,7 @@
                 <label for="Password">Name :</label>
                 @Html.TextBoxFor(x => x.Name, new { @class = "input" })
                 @Html.ValidationMessageFor(x => x.Name)
+                @Html.HiddenFor(x=>x.UniqueKey)
             </div>
             <div class="row">
                 <label for="Password">DOB :</label>

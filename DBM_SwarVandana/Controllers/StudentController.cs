@@ -30,16 +30,19 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult AllStudents()
+        public ActionResult AllStudents(string search="")
         {
-            var stu = _allstudents.GetStudents(SessionWrapper.User.CentreId);
+            ViewBag.search = search;
+            var stu = _allstudents.GetStudents(SessionWrapper.User.CentreId, search);
             return View(stu);
         }
 
         [Authenticate]
-        public ActionResult AddStudent()
+        public ActionResult AddStudent(string uniqueId="")
         {
             StudentsViewModel stu = new StudentsViewModel();
+            if (uniqueId!="")
+                stu = new StudentsViewModel(_allstudents.GetStudentsByUniqueId(uniqueId));
             return View(stu);
         }
 
@@ -47,22 +50,36 @@ namespace DBM_SwarVandana.Controllers
         [HttpPost]
         public ActionResult AddStudent(StudentsViewModel s)
         {
-            var result = 0;
+            var result = "";
+            StudentsViewModel stu = new StudentsViewModel();
             if (ModelState.IsValid)
             {
                 s.ActionId = 0;
-                s.UniqueKey = "STU1234";
                 s.CenterId = SessionWrapper.User.CentreId;
                 s.CreatedDate = DateTime.Now;
                 s.CreatedBy = SessionWrapper.User.UserId;
                 s.ModifyBy = SessionWrapper.User.UserId;
                 s.ModifyDate = DateTime.Now;
-         
                 s.IsDeleted = false;
-                result = _allstudents.AdStudents(s);
-                if (result > 0)
+                if (!String.IsNullOrEmpty(s.UniqueKey))
                 {
-                    ViewBag.Success = Messages.SubmitStudent;
+                    stu = new StudentsViewModel(_allstudents.GetStudentsByUniqueId(s.UniqueKey));
+                    stu.ActionId = 1;
+                    stu.Name = s.Name;
+                    stu.Contact1 = s.Contact1;
+                    stu.Address = s.Address;
+                    stu.ModifyBy = SessionWrapper.User.UserId;
+                    stu.ModifyDate = DateTime.Now;
+                    stu.IsDeleted = false;
+                    result = _allstudents.AdStudents(stu);
+                }
+                else
+                {
+                    result = _allstudents.AdStudents(s);
+                }
+                if ((result != "-1") || (result != ""))
+                {
+                    ViewBag.Success = Messages.SubmitStudent + ", Student Id is: " + result;
                 }
                 else
                 {
