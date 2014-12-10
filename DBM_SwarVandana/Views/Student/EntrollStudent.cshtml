@@ -13,16 +13,25 @@
         $.post('@Url.Action("GetStudentByUniqueId", "Student")', { UniqueId: uniqueid }, function (data) {
             if (data.StudentId > 0) {
                 $("#lblName").text(data.Name);
-                $("#DOB").text(data.DOB);
+                var finalDate = ConvertDate(data.DOB);
+                $("#DOB").text(finalDate);
                 $("#ContactNumber").text(data.Contact1);
                 $("#EmailID").text(data.EmailAddress);
                 $("#Address").text(data.Address);
                 $("#GuardianName").text(data.GuardianName);
                 $("#Occupation").text(data.Occupation);
-                $("#StudentId").val(data.Id);
+                $("#StudentId").val(data.StudentId);
                 $("#showstudent").show();
             }
         });
+    }
+
+    function ConvertDate(dat) {
+        var parsedDate = new Date(parseInt(dat.substr(6)));
+        var d = new Date(parsedDate); //Date object
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var finalDate = +d.getDate() + " " + months[(d.getMonth() + 1) - 1] + " " + d.getFullYear();
+        return finalDate;
     }
 
     function GetClassesByDisciplineId() {
@@ -44,8 +53,8 @@
                 $("#showclassdet").show();
                 $("#lblNameOfFaculty").text(data.ClassName);
                 $("#lblStudentLimit").text(data.StudentLimit);
-                $("#lblStartDate").text(data.StartDate);
-                $("#lblEndDate").text(data.EndDate);
+                $("#lblStartDate").text(ConvertDate(data.StartDate));
+                $("#lblEndDate").text(ConvertDate(data.EndDate));
             }
         });
     }
@@ -53,7 +62,9 @@
 </script>
 <!-- start container -->
 <div class="container">
-
+    <div >
+        @Html.ValidationSummary(false)
+    </div>
     <!-- registration-form -->
     <div class="registration-form">
         @using (Html.BeginForm("EntrollStudent", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
