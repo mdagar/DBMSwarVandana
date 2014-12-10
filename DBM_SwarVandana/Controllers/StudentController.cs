@@ -19,6 +19,9 @@ namespace DBM_SwarVandana.Controllers
 
         StudentsRepository _allstudents = new StudentsRepository();
         ClassRepository _allClassRepository = new ClassRepository();
+        UsersRepository _alluser = new UsersRepository();
+        CentreRepository _allcentre = new CentreRepository();
+        SourceRepository _allsource = new SourceRepository();
 
         public static List<StudentAttendence> AttendenceCollection = new List<StudentAttendence>();
 
@@ -33,7 +36,12 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult AllStudents(string search="")
         {
             ViewBag.search = search;
+            var users = _alluser.GetAllUsers(SessionWrapper.User.CentreId, search).Where(x => x.RoleId < SessionWrapper.User.RoleId).ToList();
+            var state = _allcentre.GetStates();
+            var city = _allcentre.GetCities();
             var stu = _allstudents.GetStudents(SessionWrapper.User.CentreId, search);
+            stu.Update(x => x.StateName = state.Where(s => s.StateId == x.StateId).FirstOrDefault().StateName);
+            stu.Update(x => x.CityName = city.Where(s => s.CityId == x.CityId).FirstOrDefault().CityName);
             return View(stu);
         }
 
@@ -168,6 +176,12 @@ namespace DBM_SwarVandana.Controllers
                 s = new StudentEntrollmentViewModel();
             }
             return View(s);
+        }
+
+        [Authenticate]
+        public ActionResult Studentdetail(string uniqueId)
+        {
+            return View();
         }
 
         #endregion
