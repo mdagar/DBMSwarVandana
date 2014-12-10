@@ -83,7 +83,8 @@ namespace Repositories
 
         public List<ClassDetails> GetClassByDisciplineId(int DisciplineId)
         {
-            var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetClassByDisciplineId, DisciplineId);
+            object[] Obj = { DisciplineId, SessionWrapper.User.CentreId };
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetClassByDisciplineId, Obj);
             if (d == null)
                 return new List<ClassDetails>();
             else

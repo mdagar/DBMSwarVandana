@@ -24,6 +24,7 @@ namespace ViewModel
             this.StateId = f.StateId;
             this.CityId = f.CityId;
             this.DOJ = f.DOJ;
+            this.DOB = f.DOB;
             this.Gender = f.Gender;
             this.Salary = f.Salary;
             this.SalaryRevision = f.SalaryRevision;
@@ -54,6 +55,8 @@ namespace ViewModel
         public override int CityId { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "DOJRequired")]
         public override DateTime? DOJ { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "DOBRequired")]
+        public override DateTime? DOB { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "GenderRequired")]
         public override int Gender { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "SalaryRequired")]
@@ -70,5 +73,6 @@ namespace ViewModel
         public override DateTime? ModifyDate { get; set; }
         public override int ModifyBy { get; set; }
         public override bool IsActive { get; set; }
+        
     }
 }

@@ -10,6 +10,7 @@ using DBM_SwarVandana.Resources;
 using Models;
 using ListConversion;
 using System.Data;
+using System.Xml;
 namespace DBM_SwarVandana.Controllers
 {
     public class StudentController : Controller
@@ -33,7 +34,7 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult AllStudents(string search="")
+        public ActionResult AllStudents(string search = "")
         {
             ViewBag.search = search;
             var users = _alluser.GetAllUsers(SessionWrapper.User.CentreId, search).Where(x => x.RoleId < SessionWrapper.User.RoleId).ToList();
@@ -46,10 +47,10 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult AddStudent(string uniqueId="")
+        public ActionResult AddStudent(string uniqueId = "")
         {
             StudentsViewModel stu = new StudentsViewModel();
-            if (uniqueId!="")
+            if (uniqueId != "")
                 stu = new StudentsViewModel(_allstudents.GetStudentsByUniqueId(uniqueId));
             return View(stu);
         }
@@ -193,17 +194,36 @@ namespace DBM_SwarVandana.Controllers
             StudentAttendenceViewModel m = new StudentAttendenceViewModel();
             m.ClassId = classId;
             m.DateOfAttendence = attendenceDate == null ? DateTime.Now : attendenceDate.Value;
-            int weekDay = m.DateOfAttendence.Value.Day;
+            int weekDay = (int)m.DateOfAttendence.Value.DayOfWeek;
+            m.WeekDayId = weekDay;
             m.Classes = _allClassRepository.GetClassByWeekDays(SessionWrapper.User.CentreId, weekDay);
-            m.students = _allstudents.GetStudentsByClassId(SessionWrapper.User.CentreId);
+            m.students = _allstudents.GetStudentsByClassId(m.ClassId);
             return View(m);
         }
 
         [Authenticate]
         [HttpPost]
-        public ActionResult MakeAttendence()
+        public ActionResult MakeAttendence(DateTime? DateOfAttendence ,long classId)
         {
-            return View();
+            StudentAttendenceViewModel m = new StudentAttendenceViewModel();
+
+            if (AttendenceCollection.Count > 0)
+            {
+                if (DateOfAttendence.HasValue)
+                {
+                    AttendenceCollection.Update(u => u.DateOfAttendence = DateOfAttendence.Value);
+                    XmlDocument doc = AttendenceCollection.ConvertToXML();
+                    _allstudents.SaveAttendence(doc);
+                }
+            }
+            m.ClassId = classId;
+            m.DateOfAttendence = DateOfAttendence == null ? DateTime.Now : DateOfAttendence.Value;
+            int weekDay = (int)m.DateOfAttendence.Value.DayOfWeek;
+            m.WeekDayId = weekDay;
+            m.Classes = _allClassRepository.GetClassByWeekDays(SessionWrapper.User.CentreId, weekDay);
+            //m.students = _allstudents.GetStudentsByClassId(m.ClassId);
+            m.students = new List<Students>();
+            return View(m);
         }
 
         [Authenticate]
@@ -216,7 +236,9 @@ namespace DBM_SwarVandana.Controllers
             {
                 StudentAttendence s = new StudentAttendence();
                 s.AddBy = SessionWrapper.User.UserId;
+                s.ModifyBy = SessionWrapper.User.UserId;
                 s.AddDate = DateTime.Now;
+                s.ModifyDate = DateTime.Now;
                 s.AttendenceStatus = Status;
                 s.ClassId = classId;
                 s.WeekDayId = weekDay;

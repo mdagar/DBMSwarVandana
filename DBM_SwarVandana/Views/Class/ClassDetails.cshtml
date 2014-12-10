@@ -5,7 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     //Layout = null;
 }
-
+<link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/Content/js/jquery-ui.js"></script>
 <!-- start container -->
 <div class="container">
 
@@ -62,6 +63,9 @@
 
 </div>
 <script>
+    $(document).ready(function () {
+        $("#StartDate,#EndDate").datepicker({ dateFormat: "dd M yy", minDate: "-1m" });
+    });
     function RedirectToHome() {
         window.location.href = ('@Url.Action("ClassDetailsList", "Class")');
     }
