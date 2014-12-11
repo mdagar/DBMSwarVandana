@@ -24,7 +24,7 @@ namespace Models
             this.GuardianName = string.Empty;
             this.Occupation = string.Empty;
             this.HasTransportFacility = false;
-            this.IsActive = false;
+            this.IsActive = true;
             this.CreatedBy = 0;
             this.CreatedDate = null;
             this.ModifyBy = 0;
@@ -54,5 +54,7 @@ namespace Models
         public virtual int ModifyBy { get; set; }
         public virtual DateTime? ModifyDate { get; set; }
         public virtual bool IsDeleted { get; set; }
+        public virtual string StateName { get; set; }
+        public virtual string CityName { get; set; }
     }
 }

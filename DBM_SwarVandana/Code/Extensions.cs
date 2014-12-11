@@ -25,7 +25,7 @@ namespace Code
         public static DateTime Now
         {
             get
-            {                
+            {
                 return DateTime.Now.ToUniversalTime();
             }
         }
@@ -60,7 +60,7 @@ namespace Code
                 {
                     XmlElement node = doc.CreateElement(string.Empty, prop.Name, string.Empty);
                     var value = prop.GetValue(v, null);
-                    XmlText text = doc.CreateTextNode(value.ToString());
+                    XmlText text = doc.CreateTextNode(value == null ? "" : value.ToString());
                     node.AppendChild(text);
                     MainNode.AppendChild(node);
                 }
@@ -124,7 +124,7 @@ namespace Code
             buff = br.ReadBytes((int)numBytes);
             return buff;
         }
-        
+
         public static IEnumerable<T> Add<T>(this IEnumerable<T> source, params T[] items)
         {
             return source.Concat(items);

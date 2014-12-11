@@ -29,31 +29,34 @@ namespace Models
         public virtual int ModifyBy { get; set; }
         public virtual bool IsActive { get; set; }
         public virtual bool IsDeleted { get; set; }
+        public virtual DateTime? DOB { get; set; }
+        public virtual string DisciplaneName { get; set; }
 
         public Faculties()
         {
-           this.FacultyId          =0; 
-           this.NameOfFaculty      =string.Empty;
-           this.EmailID            =string.Empty;
-           this.ContactNumber      =string.Empty;
-           this.Address            =string.Empty;
-           this.StateId            =0;
-           this.CityId             =0;
-           this.DOJ                =null;
-           this.Gender             =0;
-           this.Salary             =0;
-           this.SalaryRevision     =0;
-           this.DisciplineId       =0;
-           this.YearOfExperience   =0;
-           this.CentreId           =0;
-           this.Picture            =string.Empty;
-           this.AddDate            =null;
-           this.AddedBy            =0;
-           this.ModifyDate         =null;
-           this.ModifyBy           =0;
-           this.IsActive           =true;
-           this.IsDeleted          =false;
-        }                          
+            this.FacultyId = 0;
+            this.NameOfFaculty = string.Empty;
+            this.EmailID = string.Empty;
+            this.ContactNumber = string.Empty;
+            this.Address = string.Empty;
+            this.StateId = 0;
+            this.CityId = 0;
+            this.DOJ = null;
+            this.Gender = 0;
+            this.Salary = 0;
+            this.SalaryRevision = 0;
+            this.DisciplineId = 0;
+            this.YearOfExperience = 0;
+            this.CentreId = 0;
+            this.Picture = string.Empty;
+            this.AddDate = null;
+            this.AddedBy = 0;
+            this.ModifyDate = null;
+            this.ModifyBy = 0;
+            this.IsActive = true;
+            this.IsDeleted = false;
+            this.DOB = null;
+        }
 
     }
 }

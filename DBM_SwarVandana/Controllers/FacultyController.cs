@@ -17,6 +17,8 @@ namespace DBM_SwarVandana.Controllers
         //
         // GET: /Faculty/
         FacultyRepository _allfaculty = new FacultyRepository();
+        DisciplineRepository _allDiscipline = new DisciplineRepository();
+
         public ActionResult Index()
         {
             return View();
@@ -26,6 +28,8 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult GetFaculityList()
         {
             List<Faculties> fac = _allfaculty.GetFacultyByCentreId(SessionWrapper.User.CentreId);
+            var Discipline = _allDiscipline.GetAllDisciplines();
+            fac.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.DisciplineId).FirstOrDefault().Discipline);
             return View(fac);
         }
 
@@ -59,6 +63,7 @@ namespace DBM_SwarVandana.Controllers
                 fac.StateId=fl.StateId;
                 fac.CityId=fl.CityId;
                 fac.DOJ=fl.DOJ;
+                fac.DOB = fl.DOB;
                 fac.Gender=fl.Gender;
                 fac.Salary=fl.Salary;
                 fac.SalaryRevision=fl.SalaryRevision;

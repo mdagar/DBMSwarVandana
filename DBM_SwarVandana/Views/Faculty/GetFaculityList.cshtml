@@ -30,6 +30,7 @@
                     <td class="td">Name of Faculty</td>
                     <td class="td">Discipline</td>
                     <td class="td">Contact Number</td>
+                    <td class="td">Date of Birth</td>
                     <td class="td">Date of Joining</td>
                     <td class="td">Year of Experience</td>
                     <td class="td">City</td>
@@ -41,8 +42,9 @@
                     <!-- start row -->
                     <tr>
                         <td class="td">@v.NameOfFaculty</td>
-                        <td class="td">@v.DisciplineId</td>
+                        <td class="td">@v.DisciplaneName</td>
                         <td class="td">@v.ContactNumber</td>
+                        <td class="td">@string.Format("{0:dd MMM yyyy}", v.DOB)</td>
                         <td class="td">@string.Format("{0:dd MMM yyyy}", v.DOJ)</td>
                         <td class="td">@v.YearOfExperience</td>
                         <td class="td">@v.CityId</td>

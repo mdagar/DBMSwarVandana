@@ -279,4 +279,7 @@
   <data name="SubmitEnroll" xml:space="preserve">
     <value>Student enrollment is successfully submitted.</value>
   </data>
+  <data name="DOBRequired" xml:space="preserve">
+    <value>Please enter date of birth.</value>
+  </data>
 </root>
