@@ -105,6 +105,7 @@ namespace Repositories
                 cl.StudentLimit = Convert.ToInt32(d.Tables[0].Rows[0][3]);
                 cl.StartDate = Convert.ToDateTime(d.Tables[0].Rows[0][4]);
                 cl.EndDate = Convert.ToDateTime(d.Tables[0].Rows[0][5]);
+                cl.NoOfStudent = Convert.ToInt32(d.Tables[0].Rows[0][6]);
                 return cl;
             }
         }
