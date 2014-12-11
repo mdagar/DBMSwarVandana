@@ -24,6 +24,7 @@ namespace Models
         public virtual bool IsDeleted { get; set; }
         public virtual string DisciplaneName { get; set; }
         public virtual string FaculityName { get; set; }
+        public virtual int NoOfStudent { get; set; }
         
         public ClassDetails()
         {

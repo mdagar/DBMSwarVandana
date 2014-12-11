@@ -54,8 +54,9 @@
                 $("#showclassdet").show();
                 $("#lblNameOfFaculty").text(data.ClassName);
                 $("#lblStudentLimit").text(data.StudentLimit);
-                $("#lblStartDate").text(ConvertDate(data.StartDate));
+                $("#lblStartDate").text(ConvertDate(data.StartDate)); 
                 $("#lblEndDate").text(ConvertDate(data.EndDate));
+                $("#lblStudentRegister").text(data.NoOfStudent);
             }
         });
     }
@@ -138,6 +139,7 @@
                 <tr>
                     <td>Faculty Name</td>
                     <td>Student Limit</td>
+                    <td>Student Registerd</td>
                     <td>Start Date</td>
                     <td>End Date</td>
                 </tr>
@@ -147,6 +149,9 @@
                     </td>
                     <td>
                         <div id="lblStudentLimit"></div>
+                    </td>
+                    <td>
+                        <div id="lblStudentRegister"></div>
                     </td>
                     <td>
                         <div id="lblStartDate"></div>

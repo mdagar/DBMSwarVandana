@@ -32,6 +32,9 @@ namespace ViewModel
             this.ModifBy = se.ModifBy;
             this.IsActive = se.IsActive;
             this.IsDeleted = se.IsDeleted;
+            this.PendingAmount = se.PendingAmount;
+            this.Absents = se.Absents;
+            this.Presents = se.Presents;
         }
 
         public override long EnrollmentId { get; set; }
@@ -50,5 +53,8 @@ namespace ViewModel
         public override long ModifBy { get; set; }
         public override bool IsActive { get; set; }
         public override bool IsDeleted { get; set; }
+        public override double PendingAmount { get; set; }
+        public override int Absents { get; set; }
+        public override int Presents { get; set; }
     }
 }
