@@ -191,6 +191,7 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult MakeAttendence(long classId = 0, DateTime? attendenceDate = null)
         {
+            AttendenceCollection.Clear();
             StudentAttendenceViewModel m = new StudentAttendenceViewModel();
             m.ClassId = classId;
             m.DateOfAttendence = attendenceDate == null ? DateTime.Now : attendenceDate.Value;
