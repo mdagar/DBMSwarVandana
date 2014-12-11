@@ -45,6 +45,8 @@ namespace Models
         public virtual long ModifBy { get; set; }
         public virtual bool IsActive { get; set; }
         public virtual bool IsDeleted { get; set; }
-
+        public virtual double PendingAmount { get; set; }
+        public virtual int Absents { get; set; }
+        public virtual int Presents { get; set; }
     }
 }

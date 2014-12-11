@@ -180,9 +180,10 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult Studentdetail(string uniqueId)
+        public ActionResult Studentdetail(long studentId)
         {
-            return View();
+            var sev = _allstudents.GetStudentDetails(studentId);
+            return View(sev);
         }
 
         #endregion
