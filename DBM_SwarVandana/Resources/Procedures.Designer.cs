@@ -124,6 +124,24 @@ namespace DBM_SwarVandana.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to InsertBudgetMaster.
+        /// </summary>
+        internal static string InsertBudgetMaster {
+            get {
+                return ResourceManager.GetString("InsertBudgetMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to InsertExpenses.
+        /// </summary>
+        internal static string InsertExpenses {
+            get {
+                return ResourceManager.GetString("InsertExpenses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to USP_Centres_IUD.
         /// </summary>
         internal static string USP_Centres_IUD {

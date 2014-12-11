@@ -138,6 +138,12 @@
   <data name="GetStudentsByUniqueId" xml:space="preserve">
     <value>GetStudentsByUniqueId</value>
   </data>
+  <data name="InsertBudgetMaster" xml:space="preserve">
+    <value>InsertBudgetMaster</value>
+  </data>
+  <data name="InsertExpenses" xml:space="preserve">
+    <value>InsertExpenses</value>
+  </data>
   <data name="USP_CentresGetAll" xml:space="preserve">
     <value>USP_CentresGetAll</value>
   </data>
