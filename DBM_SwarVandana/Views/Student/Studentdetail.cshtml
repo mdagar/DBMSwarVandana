@@ -17,9 +17,18 @@
     <!-- table-info -->
     <div class="table-info">
         <!-- start table-form -->
-        <div style="font-weight:bold;font-size:13px;padding:10px;">
-            Student Details(Name (Unique Key))
-        </div>
+        @if (Model.Count() != 0)
+        {
+            <div style="font-weight:bold;font-size:13px;padding:10px;">
+                Student Details( Name: @Model.FirstOrDefault().StudentName)
+            </div>
+        }
+        else
+        {
+             <div style="font-weight:bold;font-size:13px;padding:10px;">
+                 Student is not yet enrolled.
+            </div>
+        }
         <!-- end table-form -->
         <!-- start table -->
 
@@ -27,7 +36,7 @@
             <table cellpadding="0" cellspacing="0" class="table">
                 <!-- start row -->
                 <tr bgcolor="#ccc">
-                    <td class="td">Discipline</td>                    
+                    <td class="td">Discipline</td>
                     <td class="td">Class</td>
                     <td class="td">Attended</td>
                     <td class="td">Absents</td>
@@ -41,7 +50,7 @@
                 {
                     <!-- start row -->
                     <tr>
-                        <td class="td">@v.DisciplaneName</td>                        
+                        <td class="td">@v.DisciplaneName</td>
                         <td class="td">@v.ClassName</td>
                         <td class="td">@v.Presents</td>
                         <td class="td">@v.Absents</td>

@@ -35,6 +35,7 @@ namespace ViewModel
             this.PendingAmount = se.PendingAmount;
             this.Absents = se.Absents;
             this.Presents = se.Presents;
+            this.StudentName = se.StudentName;
         }
 
         public override long EnrollmentId { get; set; }
@@ -56,5 +57,6 @@ namespace ViewModel
         public override decimal PendingAmount { get; set; }
         public override int Absents { get; set; }
         public override int Presents { get; set; }
+        public override string StudentName { get; set; }
     }
 }

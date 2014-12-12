@@ -50,6 +50,7 @@ namespace Models
         public virtual int Presents { get; set; }
         public virtual string DisciplaneName { get; set; }
         public virtual string ClassName { get; set; }
+        public virtual string StudentName { get; set; }
         
     }
 }
