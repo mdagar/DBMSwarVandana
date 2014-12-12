@@ -65,7 +65,7 @@
                         <td class="td">@v.HasTransportFacility</td>
                         <td class="td">
                             <a href="@Url.Action("AddStudent", "Student", new { uniqueId = v.UniqueKey })" title="Edit">Edit</a>
-                            | <a href="@Url.Action("Studentdetail", "Student", new { uniqueId = v.UniqueKey })" title="Show details">Details</a>
+                            | <a href="@Url.Action("Studentdetail", "Student", new { studentId = v.StudentId })" title="Show details">Details</a>
                         </td>
                     </tr>
 
