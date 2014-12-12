@@ -192,6 +192,13 @@ namespace DBM_SwarVandana.Controllers
             return View(sev);
         }
 
+        [Authenticate]
+        public ActionResult GetRemainingClassesDetails(int classId,DateTime startDate)
+        {
+            var sev = _allstudents.GetRemainingClassesDetails(classId, startDate);
+            return Json(sev);
+        }
+
         #endregion
 
         #region Attendence

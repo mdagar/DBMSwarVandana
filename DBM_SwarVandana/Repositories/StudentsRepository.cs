@@ -138,5 +138,15 @@ namespace Repositories
             }
         }
 
+        public long GetRemainingClassesDetails(int classId, DateTime startDate)
+        {
+            object[] Obj = { classId, startDate };
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), "GetRemainingClasses", Obj);
+            if (d == null)
+                return 0;
+            else
+                return Convert.ToInt64(d.Tables[0].Rows[0][0]);
+        }
+
     }
 }
