@@ -101,11 +101,11 @@ namespace Repositories
             {
                 cl.ClassId = Convert.ToInt32(d.Tables[0].Rows[0][0]);
                 cl.ClassName = Convert.ToString(d.Tables[0].Rows[0][1]);
-                cl.ClassName = Convert.ToString(d.Tables[0].Rows[0][2]);
+                cl.FaculityName = Convert.ToString(d.Tables[0].Rows[0][2]);
                 cl.StudentLimit = Convert.ToInt32(d.Tables[0].Rows[0][3]);
                 cl.StartDate = Convert.ToDateTime(d.Tables[0].Rows[0][4]);
                 cl.EndDate = Convert.ToDateTime(d.Tables[0].Rows[0][5]);
-                cl.NoOfStudent = Convert.ToInt32(d.Tables[0].Rows[0][6]);
+                cl.NoOfStudent = Convert.ToInt32(d.Tables[0].Rows[0][7]);
                 return cl;
             }
         }
