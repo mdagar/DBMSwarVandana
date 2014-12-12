@@ -112,9 +112,10 @@ namespace Repositories
 
         public List<StudentEnrollment> GetStudentDetails(long studentId)
         {
-            string Query = "select e.StudentID,e.DisciplineID,e.ClassID,e.RegistratonAmount,e.CourseAmount,e.AmountPaid,(e.CourseAmount-(e.AmountPaid+e.RegistratonAmount)) as PendingAmount" +
-                            ",(select count(*)  from studentattendence  where stuentid=e.StudentID and classid=e.ClassID and Attendencestatus= 2) as Absents" +
+            string Query = "select e.StudentID,e.DisciplineID,e.ClassID,e.RegistratonAmount,e.CourseAmount,e.AmountPaid" +                                                       
+                           ",(e.CourseAmount-(e.AmountPaid+e.RegistratonAmount)) as PendingAmount"+
                            ",(select count(*)  from studentattendence  where stuentid=e.StudentID and classid=e.ClassID and Attendencestatus= 1) as Presents" +
+                           ",(select count(*)  from studentattendence  where stuentid=e.StudentID and classid=e.ClassID and Attendencestatus= 2) as Absents" +
                            " from studentenrollment  e where e.StudentID=" + studentId;
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             if (d == null)

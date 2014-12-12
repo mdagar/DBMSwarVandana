@@ -23,6 +23,7 @@ namespace DBM_SwarVandana.Controllers
         UsersRepository _alluser = new UsersRepository();
         CentreRepository _allcentre = new CentreRepository();
         SourceRepository _allsource = new SourceRepository();
+        DisciplineRepository _allDiscipline = new DisciplineRepository();
 
         public static List<StudentAttendence> AttendenceCollection = new List<StudentAttendence>();
 
@@ -182,7 +183,12 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult Studentdetail(long studentId)
         {
+
+            var Discipline = _allDiscipline.GetAllDisciplines();
+            var Classes = _allClassRepository.ListClassDetails(SessionWrapper.User.CentreId);
             var sev = _allstudents.GetStudentDetails(studentId);
+            sev.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.DisciplineId).FirstOrDefault().Discipline);
+            sev.Update(x => x.ClassName = Classes.Where(s => s.ClassId == x.ClassId).FirstOrDefault().ClassName);
             return View(sev);
         }
 
@@ -205,7 +211,7 @@ namespace DBM_SwarVandana.Controllers
 
         [Authenticate]
         [HttpPost]
-        public ActionResult MakeAttendence(DateTime? DateOfAttendence ,long classId)
+        public ActionResult MakeAttendence(DateTime? DateOfAttendence, long classId)
         {
             StudentAttendenceViewModel m = new StudentAttendenceViewModel();
 

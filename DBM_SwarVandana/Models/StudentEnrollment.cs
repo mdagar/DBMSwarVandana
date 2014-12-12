@@ -33,10 +33,10 @@ namespace Models
         public virtual long StudentId { get; set; }
         public virtual long DisciplineId { get; set; }
         public virtual long ClassId { get; set; }
-        public virtual double CourseAmount { get; set; }
-        public virtual double RegistratonAmount { get; set; }
+        public virtual decimal CourseAmount { get; set; }
+        public virtual decimal RegistratonAmount { get; set; }
         public virtual int NoOfClasses { get; set; }
-        public virtual double AmountPaid { get; set; }
+        public virtual decimal AmountPaid { get; set; }
         public virtual DateTime? SatrtDate { get; set; }
         public virtual DateTime? EndDate { get; set; }
         public virtual DateTime? CreatedDate { get; set; }
@@ -45,8 +45,11 @@ namespace Models
         public virtual long ModifBy { get; set; }
         public virtual bool IsActive { get; set; }
         public virtual bool IsDeleted { get; set; }
-        public virtual double PendingAmount { get; set; }
+        public virtual decimal PendingAmount { get; set; }
         public virtual int Absents { get; set; }
         public virtual int Presents { get; set; }
+        public virtual string DisciplaneName { get; set; }
+        public virtual string ClassName { get; set; }
+        
     }
 }
