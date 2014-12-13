@@ -61,6 +61,7 @@
         });
     }
     function GetRemainingClassesDetails() {
+        alert('hi');
         $.post('@Url.Action("GetRemainingClassesDetails", "Student")', { classId: $("#ClassId").val(), startDate: $("#SatrtDate").val() }, function (data) {
             if (data.AlloedClasses!=null) {
                 if ($("#NoOfClasses").val() > data.AlloedClasses)
@@ -185,7 +186,7 @@
 
             <div class="row">
                 <label for="Password">No Of Classes :</label>
-                @Html.TextBoxFor(x => x.NoOfClasses, new { @class = "input", onchange = "javascript:GetRemainingClassesDetails();" })
+                @Html.TextBoxFor(x => x.NoOfClasses, new { @class = "input" })
                 
             </div>
             <div class="row">
@@ -195,7 +196,7 @@
             </div>
             <div class="row">
                 <label for="Password">Start Date :</label>
-                @Html.TextBoxFor(x => x.SatrtDate, new { @class = "input" })
+                @Html.TextBoxFor(x => x.SatrtDate, new { @class = "input", onchange = "javascript:GetRemainingClassesDetails();" })
                 
             </div>
             <div class="row">

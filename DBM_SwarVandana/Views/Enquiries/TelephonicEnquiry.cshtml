@@ -2,8 +2,8 @@
 @using Code;
 @{
     ViewBag.Title = "TelephonicEnquiry";
-    //Layout = "~/Views/Shared/_Layout.cshtml";
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = null;
 
     IEnumerable<Status> statusid = Enum.GetValues(typeof(Status))
                                                        .Cast<Status>();
@@ -82,6 +82,7 @@
             <div class="row">
                 <label for="Password">Source :</label>
                 @Html.DropDownListFor(x => x.SourceId, new ListBound(Model.SourceId, "Sources").Sources, "-- Select Source --", new { @class = "select" })
+                @Html.HiddenFor(x=>x.EnquiryId)
             </div>
             <div class="row">
                 <label for="Password">Contact Number :</label>
