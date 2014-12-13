@@ -9,7 +9,7 @@ namespace Models
     {
         public virtual int ActionId { get; set; }
         public virtual int BudgetID { get; set; }
-        public virtual double BudgetAmount { get; set; }
+        public virtual decimal BudgetAmount { get; set; }
         public virtual string Description { get; set; }
         public virtual int CentreID { get; set; }
         public virtual int CreatedBy { get; set; }

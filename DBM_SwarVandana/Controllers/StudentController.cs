@@ -93,7 +93,7 @@ namespace DBM_SwarVandana.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = Messages.StudentExists;
+                    ModelState.AddModelError("", Messages.StudentExists);
                 }
             }
             else
@@ -170,7 +170,7 @@ namespace DBM_SwarVandana.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = Messages.Enrollexists;
+                    ModelState.AddModelError("", Messages.Enrollexists);
                 }
             }
             else
@@ -193,7 +193,7 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult GetRemainingClassesDetails(int classId,DateTime startDate)
+        public ActionResult GetRemainingClassesDetails(int classId, DateTime startDate)
         {
             var sev = _allstudents.GetRemainingClassesDetails(classId, startDate);
             return Json(sev);

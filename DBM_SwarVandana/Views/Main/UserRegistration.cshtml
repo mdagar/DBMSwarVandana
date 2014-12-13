@@ -74,13 +74,15 @@
             <div>
                 @if (!string.IsNullOrEmpty(ViewBag.Success))
                 {
-                    @ViewBag.Success
+                    <div class="successvalidation">
+                        @ViewBag.Success
+                    </div>
                 }
                 else
                 {
-                    @ViewBag.Error
+                    <div>@Html.ValidationSummary(false)</div>
                 }
-                <div>@Html.ValidationSummary(false)</div>
+                
             </div>
 
             <div class="row">

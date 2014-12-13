@@ -15,10 +15,10 @@
 }
 <link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
 <script src="~/Content/js/jquery-ui.js"></script>
-<script >
-    
-        function GetCitiesByStateId() {
-                $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
+<script>
+
+    function GetCitiesByStateId() {
+        $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
                 $("#CityId").html('');
                 $("#CityId").append('<option value="">-- Select City --</option>');
                 $.each(cities, function (i, City) {
@@ -30,29 +30,29 @@
             });
         }
 
-    $(function () {
-        $("#DOB,#DOJ").datepicker({ dateFormat: "dd M yy", minDate: "-1m" });
-        $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
-           $("#CityId").html('');
-           $("#CityId").append('<option value="">-- Select City --</option>');
-           $.each(cities, function (i, City) {
-               $("#CityId").append('<option value="' + City.CityId + '">' +
-                    City.CityName + '</option>');
-               // here we are adding option for States
+        $(function () {
+            $("#DOB,#DOJ").datepicker({ dateFormat: "dd M yy", minDate: "-1m" });
+            $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
+            $("#CityId").html('');
+            $("#CityId").append('<option value="">-- Select City --</option>');
+            $.each(cities, function (i, City) {
+                $("#CityId").append('<option value="' + City.CityId + '">' +
+                     City.CityName + '</option>');
+                // here we are adding option for States
 
-           });
-           $("#CityId").find("option").each(function () {
-               if ($(this).val() == "@Model.CityId") {
-                    $(this).attr("selected", "selected");
-                }
             });
+            $("#CityId").find("option").each(function () {
+                if ($(this).val() == "@Model.CityId") {
+                   $(this).attr("selected", "selected");
+               }
+           });
         });
 
 
     });
 
-    function RedirectToHome() {
-        window.location.href = ('@Url.Action("GetFaculityList", "Faculty")');
+   function RedirectToHome() {
+       window.location.href = ('@Url.Action("GetFaculityList", "Faculty")');
     }
 
 </script>
@@ -67,18 +67,20 @@
             <div>
                 @if (!string.IsNullOrEmpty(ViewBag.Success))
                 {
-                    @ViewBag.Success
+                    <div class="successvalidation">
+                        @ViewBag.Success
+                    </div>
                 }
                 else
                 {
-                    @ViewBag.Error
+                    <div>@Html.ValidationSummary(false)</div>
                 }
-                <div>@Html.ValidationSummary(false)</div>
+                
             </div>
             <h3>Add/Edit Faculty</h3>
             <div class="row">
                 <label for="Password">Name of Faculty :</label>
-                @Html.TextBoxFor(x => x.NameOfFaculty, new { @class = "input" })                
+                @Html.TextBoxFor(x => x.NameOfFaculty, new { @class = "input" })
                 @Html.HiddenFor(x => x.FacultyId)
             </div>
             <div class="row">
@@ -89,7 +91,7 @@
                 <label for="Password">Contact Number :</label>
                 @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input" })
             </div>
-               <div class="row">
+            <div class="row">
                 <label for="Password">Date of Birth :</label>
                 @Html.TextBoxFor(x => x.DOB, new { @class = "input" })
             </div>
@@ -113,7 +115,7 @@
                 <label for="Password">City :</label>
                 @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select" })
             </div>
-                <div class="row">
+            <div class="row">
                 <label for="Password">Address :</label>
                 @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
             </div>
@@ -134,11 +136,11 @@
                 <input type="file" name="Image" class="input" />
             </div>
             <div class="row">
-                 	<label for="IsActive">Is Active</label>
-                    <div class="column">
-                        @Html.CheckBoxFor(x => x.IsActive, new { @class = "checkbox" })
-                    </div>
+                <label for="IsActive">Is Active</label>
+                <div class="column">
+                    @Html.CheckBoxFor(x => x.IsActive, new { @class = "checkbox" })
                 </div>
+            </div>
             <div class="rowbutton">
                 <input type="submit" id="btnSubmit" value="Submit" class="submit-btn gap" />
                 <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />

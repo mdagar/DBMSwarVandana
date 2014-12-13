@@ -81,7 +81,7 @@ namespace DBM_SwarVandana.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = Messages.ExquiryExists;
+                    ModelState.AddModelError("", Messages.ExquiryExists);
                 }
             }
             else
@@ -152,7 +152,7 @@ namespace DBM_SwarVandana.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = Messages.ExquiryExists;
+                    ModelState.AddModelError("", Messages.ExquiryExists);
                 }
             }
             else
@@ -174,7 +174,7 @@ namespace DBM_SwarVandana.Controllers
             }
             catch (Exception e)
             {
-                ViewBag.Error = e.Message;
+                ModelState.AddModelError("", e.Message);
             }
             if (type == 1)
                 return RedirectToAction("PhysicalEnquiryList");

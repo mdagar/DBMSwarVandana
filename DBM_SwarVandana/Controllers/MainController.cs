@@ -180,7 +180,7 @@ namespace DBM_SwarVandana.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = Messages.UserExists;
+                    ModelState.AddModelError("", Messages.UserExists);
                 }
             }
             else
@@ -240,7 +240,7 @@ namespace DBM_SwarVandana.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = Messages.SourceExists;
+                    ModelState.AddModelError("", Messages.SourceExists);
                 }
             }
             else
@@ -285,7 +285,7 @@ namespace DBM_SwarVandana.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = Messages.DisciplineExists;
+                    ModelState.AddModelError("", Messages.DisciplineExists);
                 }
             }
             else

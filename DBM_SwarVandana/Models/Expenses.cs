@@ -9,8 +9,9 @@ namespace Models
     {
         public virtual int ActionId { get; set; }
         public virtual int ExpenseID { get; set; }
-        public virtual double ExpenseAmount { get; set; }
+        public virtual decimal ExpenseAmount { get; set; }
         public virtual int ExpenseFor { get; set; }
+        public virtual string ExpenseForName { get; set; }
         public virtual string Description { get; set; }
         public virtual DateTime? DateOfExpense { get; set; }
         public virtual int CentreID { get; set; }

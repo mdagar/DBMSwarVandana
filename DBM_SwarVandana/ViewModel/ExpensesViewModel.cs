@@ -32,7 +32,7 @@ namespace ViewModel
 
         public override int ActionId { get; set; }
         public override int ExpenseID { get; set; }
-        public override double ExpenseAmount { get; set; }
+        public override decimal ExpenseAmount { get; set; }
         public override int ExpenseFor { get; set; }
         public override string Description { get; set; }
         public override DateTime? DateOfExpense { get; set; }

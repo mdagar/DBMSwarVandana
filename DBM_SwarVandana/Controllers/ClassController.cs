@@ -75,7 +75,7 @@ namespace DBM_SwarVandana.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = Messages.ClassExists;
+                    ModelState.AddModelError("", Messages.ClassExists);
                 }
             }
             else

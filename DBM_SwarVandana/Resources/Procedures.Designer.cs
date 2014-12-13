@@ -61,6 +61,24 @@ namespace DBM_SwarVandana.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GetAllExpenses.
+        /// </summary>
+        internal static string GetAllExpenses {
+            get {
+                return ResourceManager.GetString("GetAllExpenses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GetBudgetForAll.
+        /// </summary>
+        internal static string GetBudgetForAll {
+            get {
+                return ResourceManager.GetString("GetBudgetForAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GetClassByClassId.
         /// </summary>
         internal static string GetClassByClassId {
@@ -93,6 +111,15 @@ namespace DBM_SwarVandana.Resources {
         internal static string GetEnquiryById {
             get {
                 return ResourceManager.GetString("GetEnquiryById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GetExpenseById.
+        /// </summary>
+        internal static string GetExpenseById {
+            get {
+                return ResourceManager.GetString("GetExpenseById", resourceCulture);
             }
         }
         

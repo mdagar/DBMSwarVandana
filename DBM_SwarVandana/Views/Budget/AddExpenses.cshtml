@@ -1,7 +1,6 @@
-﻿@model ViewModel.BudgetViewModel
-@using Code;
+﻿@model ViewModel.ExpensesViewModel
 @{
-    ViewBag.Title = "AssignBudget";
+    ViewBag.Title = "AddExpenses";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -14,7 +13,7 @@
 <div class="container">
     <!-- registration-form -->
     <div class="registration-form">
-        @using (Html.BeginForm("AssignBudget", "Budget", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("AddExpenses", "Budget", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             <div>
                 @if (!string.IsNullOrEmpty(ViewBag.Success))
@@ -31,12 +30,20 @@
             </div>
             <h3>Add Budget</h3>
             <div class="row">
-                <label for="Password"><span style="color: red;">*</span>Budget Amount:</label>
-                @Html.TextBoxFor(x => x.BudgetAmount, new { @class = "input" })
+                <label for="Password"><span style="color: red;">*</span>Expense Amount:</label>
+                @Html.TextBoxFor(x => x.ExpenseAmount, new { @class = "input" })
+            </div>
+            <div class="row">
+                <label for="Password"><span style="color: red;">*</span>Expense Amount:</label>
+                @Html.TextBoxFor(x => x.ExpenseAmount, new { @class = "input" })
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Description:</label>
-                @Html.TextAreaFor(x => x.Description, new { @class = "input" })
+                @Html.TextBoxFor(x => x.Description, new { @class = "input" })
+            </div>
+            <div class="row">
+                <label for="Password"><span style="color: red;">*</span>Expense Amount:</label>
+                @Html.TextBoxFor(x => x.ExpenseAmount, new { @class = "input" })
             </div>
             <div class="row">
                 <label for="Password">Is Active :</label>
@@ -52,5 +59,6 @@
     <!-- registration-form -->
 </div>
 <!-- end container -->
+
 
 

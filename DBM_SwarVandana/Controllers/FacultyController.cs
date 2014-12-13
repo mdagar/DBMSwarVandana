@@ -47,7 +47,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult FacultyRegistration(FacultyViewModel fl)
         {
             var result = 0;
-            FacultyViewModel fac=new FacultyViewModel();
+            FacultyViewModel fac = new FacultyViewModel();
             if (ModelState.IsValid)
             {
                 fac.ActionId = 0;
@@ -56,19 +56,19 @@ namespace DBM_SwarVandana.Controllers
                     fac = new FacultyViewModel(_allfaculty.GetFacultyByFacultyId(fl.FacultyId));
                     fac.ActionId = 1;
                 }
-                fac.NameOfFaculty=fl.NameOfFaculty;
+                fac.NameOfFaculty = fl.NameOfFaculty;
                 fac.EmailID = fl.EmailID;
-                fac.ContactNumber  =fl.ContactNumber;   
-                fac.Address=fl.Address;
-                fac.StateId=fl.StateId;
-                fac.CityId=fl.CityId;
-                fac.DOJ=fl.DOJ;
+                fac.ContactNumber = fl.ContactNumber;
+                fac.Address = fl.Address;
+                fac.StateId = fl.StateId;
+                fac.CityId = fl.CityId;
+                fac.DOJ = fl.DOJ;
                 fac.DOB = fl.DOB;
-                fac.Gender=fl.Gender;
-                fac.Salary=fl.Salary;
-                fac.SalaryRevision=fl.SalaryRevision;
-                fac.DisciplineId=fl.DisciplineId;
-                fac.YearOfExperience=fl.YearOfExperience;
+                fac.Gender = fl.Gender;
+                fac.Salary = fl.Salary;
+                fac.SalaryRevision = fl.SalaryRevision;
+                fac.DisciplineId = fl.DisciplineId;
+                fac.YearOfExperience = fl.YearOfExperience;
                 fac.CentreId = SessionWrapper.User.CentreId;
                 fac.AddDate = DateTime.Now;
                 fac.AddedBy = SessionWrapper.User.UserId;
@@ -93,7 +93,7 @@ namespace DBM_SwarVandana.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = Messages.FacultyExists;
+                    ModelState.AddModelError("", Messages.FacultyExists);
                 }
             }
             else
@@ -118,7 +118,7 @@ namespace DBM_SwarVandana.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = Messages.FacultyExists;
+                    ModelState.AddModelError("", Messages.FacultyExists);
                 }
             }
             catch (Exception e)

@@ -282,4 +282,19 @@
   <data name="DOBRequired" xml:space="preserve">
     <value>Please enter date of birth.</value>
   </data>
+  <data name="BudgetExists" xml:space="preserve">
+    <value>Budget already exists.</value>
+  </data>
+  <data name="SubmitBudget" xml:space="preserve">
+    <value>Budget is successfully submitted.</value>
+  </data>
+  <data name="BudgetAmountRequired" xml:space="preserve">
+    <value>Please enter budget amount.</value>
+  </data>
+  <data name="ExpenseExists" xml:space="preserve">
+    <value>Expense already exists.</value>
+  </data>
+  <data name="SubmitExpense" xml:space="preserve">
+    <value>Expense is successfully submitted.</value>
+  </data>
 </root>

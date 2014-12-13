@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "PhysicalEnquiry";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    
+
 
 
     IEnumerable<Status> statusid = Enum.GetValues(typeof(Status))
@@ -84,13 +84,15 @@
             <div>
                 @if (!string.IsNullOrEmpty(ViewBag.Success))
                 {
-                    @ViewBag.Success
+                    <div class="successvalidation">
+                        @ViewBag.Success
+                    </div>
                 }
                 else
                 {
-                    @ViewBag.Error
+                    <div>@Html.ValidationSummary(false)</div>
                 }
-                <div>@Html.ValidationSummary(false)</div>
+                
             </div>
             <h3>Physical Enquiry</h3>
             <div class="row">
@@ -143,7 +145,7 @@
                 <label for="Password">City :</label>
                 @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select" })
             </div>
-              <div class="row">
+            <div class="row">
                 <label for="Password">Address :</label>
                 @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
             </div>
@@ -180,12 +182,12 @@
                 <label for="Password">Remarks :</label>
                 @Html.TextAreaFor(x => x.FinalComments, new { @class = "textarea" })
             </div>
-             <div class="row">
-                 	<label for="IsActive">Is Active</label>
-                    <div class="column">
-                        @Html.CheckBoxFor(x => x.IsActive, new { @class = "checkbox" })
-                    </div>
+            <div class="row">
+                <label for="IsActive">Is Active</label>
+                <div class="column">
+                    @Html.CheckBoxFor(x => x.IsActive, new { @class = "checkbox" })
                 </div>
+            </div>
             <div class="rowbutton">
                 <input type="submit" id="btnSubmit" value="Submit" class="submit-btn gap" />
                 <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />

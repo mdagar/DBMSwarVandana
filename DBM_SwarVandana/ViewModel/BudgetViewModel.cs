@@ -29,7 +29,8 @@ namespace ViewModel
 
         public override int ActionId { get; set; }
         public override int BudgetID { get; set; }
-        public override double BudgetAmount { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "BudgetAmountRequired")]
+        public override decimal BudgetAmount { get; set; }
         public override string Description { get; set; }
         public override int CentreID { get; set; }
         public override int CreatedBy { get; set; }

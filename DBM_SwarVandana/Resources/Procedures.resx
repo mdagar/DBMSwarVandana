@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="GetAllExpenses" xml:space="preserve">
+    <value>GetAllExpenses</value>
+  </data>
+  <data name="GetBudgetForAll" xml:space="preserve">
+    <value>GetBudgetForAll</value>
+  </data>
   <data name="GetClassByClassId" xml:space="preserve">
     <value>GetClassByClassId</value>
   </data>
@@ -128,6 +134,9 @@
   </data>
   <data name="GetEnquiryById" xml:space="preserve">
     <value>GetEnquiryById</value>
+  </data>
+  <data name="GetExpenseById" xml:space="preserve">
+    <value>GetExpenseById</value>
   </data>
   <data name="GetExpensesForAll" xml:space="preserve">
     <value>GetExpensesForAll</value>
