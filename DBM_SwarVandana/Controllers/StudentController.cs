@@ -23,6 +23,7 @@ namespace DBM_SwarVandana.Controllers
         UsersRepository _alluser = new UsersRepository();
         CentreRepository _allcentre = new CentreRepository();
         SourceRepository _allsource = new SourceRepository();
+        DisciplineRepository _allDiscipline = new DisciplineRepository();
 
         public static List<StudentAttendence> AttendenceCollection = new List<StudentAttendence>();
 
@@ -180,9 +181,22 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult Studentdetail(string uniqueId)
+        public ActionResult Studentdetail(long studentId)
         {
-            return View();
+
+            var Discipline = _allDiscipline.GetAllDisciplines();
+            var Classes = _allClassRepository.ListClassDetails(SessionWrapper.User.CentreId);
+            var sev = _allstudents.GetStudentDetails(studentId);
+            sev.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.DisciplineId).FirstOrDefault().Discipline);
+            sev.Update(x => x.ClassName = Classes.Where(s => s.ClassId == x.ClassId).FirstOrDefault().ClassName);
+            return View(sev);
+        }
+
+        [Authenticate]
+        public ActionResult GetRemainingClassesDetails(int classId,DateTime startDate)
+        {
+            var sev = _allstudents.GetRemainingClassesDetails(classId, startDate);
+            return Json(sev);
         }
 
         #endregion
@@ -191,6 +205,7 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult MakeAttendence(long classId = 0, DateTime? attendenceDate = null)
         {
+            AttendenceCollection.Clear();
             StudentAttendenceViewModel m = new StudentAttendenceViewModel();
             m.ClassId = classId;
             m.DateOfAttendence = attendenceDate == null ? DateTime.Now : attendenceDate.Value;
@@ -203,7 +218,7 @@ namespace DBM_SwarVandana.Controllers
 
         [Authenticate]
         [HttpPost]
-        public ActionResult MakeAttendence(DateTime? DateOfAttendence ,long classId)
+        public ActionResult MakeAttendence(DateTime? DateOfAttendence, long classId)
         {
             StudentAttendenceViewModel m = new StudentAttendenceViewModel();
 

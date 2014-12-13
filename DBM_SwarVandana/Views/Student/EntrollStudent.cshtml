@@ -54,8 +54,20 @@
                 $("#showclassdet").show();
                 $("#lblNameOfFaculty").text(data.ClassName);
                 $("#lblStudentLimit").text(data.StudentLimit);
-                $("#lblStartDate").text(ConvertDate(data.StartDate));
+                $("#lblStartDate").text(ConvertDate(data.StartDate)); 
                 $("#lblEndDate").text(ConvertDate(data.EndDate));
+                $("#lblStudentRegister").text(data.NoOfStudent);
+            }
+        });
+    }
+    function GetRemainingClassesDetails() {
+        $.post('@Url.Action("GetRemainingClassesDetails", "Student")', { classId: $("#ClassId").val(), startDate: $("#SatrtDate").val() }, function (data) {
+            if (data.AlloedClasses!=null) {
+                if ($("#NoOfClasses").val() > data.AlloedClasses)
+                {
+                    $("#NoOfClasses").focus();
+                    alert('No of Classes not allowed');
+                }
             }
         });
     }
@@ -138,6 +150,7 @@
                 <tr>
                     <td>Faculty Name</td>
                     <td>Student Limit</td>
+                    <td>Student Registerd</td>
                     <td>Start Date</td>
                     <td>End Date</td>
                 </tr>
@@ -147,6 +160,9 @@
                     </td>
                     <td>
                         <div id="lblStudentLimit"></div>
+                    </td>
+                    <td>
+                        <div id="lblStudentRegister"></div>
                     </td>
                     <td>
                         <div id="lblStartDate"></div>
@@ -169,7 +185,7 @@
 
             <div class="row">
                 <label for="Password">No Of Classes :</label>
-                @Html.TextBoxFor(x => x.NoOfClasses, new { @class = "input" })
+                @Html.TextBoxFor(x => x.NoOfClasses, new { @class = "input", onchange = "javascript:GetRemainingClassesDetails();" })
                 
             </div>
             <div class="row">

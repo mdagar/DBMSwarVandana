@@ -32,16 +32,20 @@ namespace ViewModel
             this.ModifBy = se.ModifBy;
             this.IsActive = se.IsActive;
             this.IsDeleted = se.IsDeleted;
+            this.PendingAmount = se.PendingAmount;
+            this.Absents = se.Absents;
+            this.Presents = se.Presents;
+            this.StudentName = se.StudentName;
         }
 
         public override long EnrollmentId { get; set; }
         public override long StudentId { get; set; }
         public override long DisciplineId { get; set; }
         public override long ClassId { get; set; }
-        public override double CourseAmount { get; set; }
-        public override double RegistratonAmount { get; set; }
+        public override decimal CourseAmount { get; set; }
+        public override decimal RegistratonAmount { get; set; }
         public override int NoOfClasses { get; set; }
-        public override double AmountPaid { get; set; }
+        public override decimal AmountPaid { get; set; }
         public override DateTime? SatrtDate { get; set; }
         public override DateTime? EndDate { get; set; }
         public override DateTime? CreatedDate { get; set; }
@@ -50,5 +54,9 @@ namespace ViewModel
         public override long ModifBy { get; set; }
         public override bool IsActive { get; set; }
         public override bool IsDeleted { get; set; }
+        public override decimal PendingAmount { get; set; }
+        public override int Absents { get; set; }
+        public override int Presents { get; set; }
+        public override string StudentName { get; set; }
     }
 }

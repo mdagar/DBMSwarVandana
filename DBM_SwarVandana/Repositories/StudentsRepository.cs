@@ -101,12 +101,27 @@ namespace Repositories
             {
                 cl.ClassId = Convert.ToInt32(d.Tables[0].Rows[0][0]);
                 cl.ClassName = Convert.ToString(d.Tables[0].Rows[0][1]);
-                cl.ClassName = Convert.ToString(d.Tables[0].Rows[0][2]);
+                cl.FaculityName = Convert.ToString(d.Tables[0].Rows[0][2]);
                 cl.StudentLimit = Convert.ToInt32(d.Tables[0].Rows[0][3]);
                 cl.StartDate = Convert.ToDateTime(d.Tables[0].Rows[0][4]);
                 cl.EndDate = Convert.ToDateTime(d.Tables[0].Rows[0][5]);
+                cl.NoOfStudent = Convert.ToInt32(d.Tables[0].Rows[0][7]);
                 return cl;
             }
+        }
+
+        public List<StudentEnrollment> GetStudentDetails(long studentId)
+        {
+            string Query = "select e.StudentID,(select Name from student where StudentID=e.StudentID) as StudentName,e.DisciplineID,e.ClassID,e.RegistratonAmount,e.CourseAmount,e.AmountPaid" +                                                       
+                           ",(e.CourseAmount-(e.AmountPaid+e.RegistratonAmount)) as PendingAmount"+
+                           ",(select count(*)  from studentattendence  where stuentid=e.StudentID and classid=e.ClassID and Attendencestatus= 1) as Presents" +
+                           ",(select count(*)  from studentattendence  where stuentid=e.StudentID and classid=e.ClassID and Attendencestatus= 2) as Absents" +
+                           " from studentenrollment  e where e.StudentID=" + studentId;
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            if (d == null)
+                return new List<StudentEnrollment>();
+            else
+                return d.Tables[0].TableToList<StudentEnrollment>();
         }
 
         public long SaveAttendence(XmlDocument doc)
@@ -121,6 +136,16 @@ namespace Repositories
                 con.Close();
                 return 1;
             }
+        }
+
+        public long GetRemainingClassesDetails(int classId, DateTime startDate)
+        {
+            object[] Obj = { classId, startDate };
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), "GetRemainingClasses", Obj);
+            if (d == null)
+                return 0;
+            else
+                return Convert.ToInt64(d.Tables[0].Rows[0][0]);
         }
 
     }
