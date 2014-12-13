@@ -196,7 +196,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult GetRemainingClassesDetails(int classId, DateTime startDate)
         {
             var sev = _allstudents.GetRemainingClassesDetails(classId, startDate);
-            return Json(sev);
+            return Json(sev,JsonRequestBehavior.AllowGet);
         }
 
         #endregion

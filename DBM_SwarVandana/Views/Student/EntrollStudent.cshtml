@@ -4,7 +4,7 @@
     ViewBag.Title = "EntrollStudent";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Content/JS/jquery-1.11.1.js"></script>
+@*<script src="~/Content/JS/jquery-1.11.1.js"></script>*@
 <link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
 <script src="~/Content/js/jquery-ui.js"></script>
 
@@ -54,29 +54,42 @@
                 $("#showclassdet").show();
                 $("#lblNameOfFaculty").text(data.ClassName);
                 $("#lblStudentLimit").text(data.StudentLimit);
-                $("#lblStartDate").text(ConvertDate(data.StartDate)); 
+                $("#lblStartDate").text(ConvertDate(data.StartDate));
                 $("#lblEndDate").text(ConvertDate(data.EndDate));
                 $("#lblStudentRegister").text(data.NoOfStudent);
             }
         });
     }
+
+
     function GetRemainingClassesDetails() {
-        alert('hi');
-        $.post('@Url.Action("GetRemainingClassesDetails", "Student")', { classId: $("#ClassId").val(), startDate: $("#SatrtDate").val() }, function (data) {
-            if (data.AlloedClasses!=null) {
-                if ($("#NoOfClasses").val() > data.AlloedClasses)
-                {
+
+        $.post('@Url.Action("GetRemainingClassesDetails", "Student")', { classid: $("#ClassId").val(), startdate: $("#SatrtDate").val() }, function (data) {
+            if (data != null) {
+                if ($("#NoOfClasses").val() > data) {
                     $("#NoOfClasses").focus();
-                    alert('No of Classes not allowed');
+                    $("#btnSubmit").hide();
+                    alert("You can not assign more then "+data+" classes.");
+                }
+                else {
+                    $("#btnSubmit").show();
                 }
             }
         });
     }
 
 </script>
+<style>
+    td{
+        border:1px solid;
+        text-align:center;
+        padding:2px;
+    }
+
+</style>
 <!-- start container -->
 <div class="container">
-    <div >
+    <div>
         @Html.ValidationSummary(false)
     </div>
     <!-- registration-form -->
@@ -101,14 +114,15 @@
                 <input id="UniqueKey" type="text" class="input" />
                 <a href="#" id="btnGet" onclick="javascript: GetStudentDetails();">Get Details</a>
             </div>
-            <table id="showstudent" style="display: none;">
-                <tr>
+            <div class="row">
+            <table id="showstudent" style="display: none;border:1px solid;" >
+                <tr style="background-color:gray;">
                     <td>Name</td>
                     <td>DOB</td>
-                    <td>Contact Number</td>
-                    <td>Email ID</td>
+                    <td>Contact</td>
+                    <td>Email</td>
                     <td>Address</td>
-                    <td>Guardian Name</td>
+                    <td>Guardian</td>
                     <td>Occupation</td>
                 </tr>
                 <tr>
@@ -135,7 +149,7 @@
                     </td>
                 </tr>
             </table>
-           
+                </div>
             <div class="row">
                 <label for="Password">Discipline :</label>
                 @Html.DropDownListFor(x => x.DisciplineId, new ListBound(Model.DisciplineId, "Disciplines").Disciplines, "-- Select Discipline --", new { onchange = "javascript:GetClassesByDisciplineId();", @class = "select" })
@@ -145,10 +159,11 @@
                 <label for="Password">Class Name :</label>
                 @Html.DropDownListFor(x => x.ClassId, Enumerable.Empty<SelectListItem>(), new { @class = "select", onchange = "javascript:ShowClassDetails();" })
                 @Html.ValidationMessageFor(x => x.ClassId)
-                
+
             </div>
-            <table id="showclassdet" style="display: none;">
-                <tr>
+            <div class="row">
+            <table id="showclassdet" style="display: none;border: 1px solid;">
+                <tr style="background-color:gray;">
                     <td>Faculty Name</td>
                     <td>Student Limit</td>
                     <td>Student Registerd</td>
@@ -173,42 +188,42 @@
                     </td>
                 </tr>
             </table>
+                </div>
             <div class="row">
                 <label for="Password">Course Amount :</label>
                 @Html.TextBoxFor(x => x.CourseAmount, new { @class = "input" })
-                
+
             </div>
             <div class="row">
                 <label for="Password">Registration Amount :</label>
                 @Html.TextBoxFor(x => x.RegistratonAmount, new { @class = "input" })
-                
-            </div>
 
-            <div class="row">
-                <label for="Password">No Of Classes :</label>
-                @Html.TextBoxFor(x => x.NoOfClasses, new { @class = "input" })
-                
             </div>
             <div class="row">
                 <label for="Password">Amount Paid :</label>
                 @Html.TextBoxFor(x => x.AmountPaid, new { @class = "input" })
-                
+
             </div>
             <div class="row">
                 <label for="Password">Start Date :</label>
-                @Html.TextBoxFor(x => x.SatrtDate, new { @class = "input", onchange = "javascript:GetRemainingClassesDetails();" })
-                
+                @Html.TextBoxFor(x => x.SatrtDate, new { @class = "input" })
+
             </div>
+            <div class="row">
+                <label for="Password">No Of Classes :</label>
+                @Html.TextBoxFor(x => x.NoOfClasses, new { @class = "input", onchange = "GetRemainingClassesDetails()" })
+            </div>
+
             <div class="row">
                 <label for="Password">End Date :</label>
                 @Html.TextBoxFor(x => x.EndDate, new { @class = "input" })
-                
+
             </div>
             <div class="rowbutton">
                 <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
                 <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
             </div>
-            
+
         }
     </div>
 </div>
