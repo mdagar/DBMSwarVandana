@@ -90,3 +90,11 @@ E:\R&d\DBMSwarVandana\DBM_SwarVandana\obj\Debug\DBM_SwarVandana.csproj.GenerateR
 E:\R&d\DBMSwarVandana\DBM_SwarVandana\obj\Debug\DBM_SwarVandana.dll
 E:\R&d\DBMSwarVandana\DBM_SwarVandana\obj\Debug\DBM_SwarVandana.pdb
 E:\R&d\DBMSwarVandana\DBM_SwarVandana\obj\Debug\DBM_SwarVandana.csprojResolveAssemblyReference.cache
+E:\free Elancing\SwarVandana\DBMSwarVandana\DBM_SwarVandana\bin\DBM_SwarVandana.dll
+E:\free Elancing\SwarVandana\DBMSwarVandana\DBM_SwarVandana\bin\DBM_SwarVandana.pdb
+E:\free Elancing\SwarVandana\DBMSwarVandana\DBM_SwarVandana\obj\Debug\DBM_SwarVandana.csprojResolveAssemblyReference.cache
+E:\free Elancing\SwarVandana\DBMSwarVandana\DBM_SwarVandana\obj\Debug\DBM_SwarVandana.Resources.Messages.resources
+E:\free Elancing\SwarVandana\DBMSwarVandana\DBM_SwarVandana\obj\Debug\DBM_SwarVandana.Resources.Procedures.resources
+E:\free Elancing\SwarVandana\DBMSwarVandana\DBM_SwarVandana\obj\Debug\DBM_SwarVandana.csproj.GenerateResource.Cache
+E:\free Elancing\SwarVandana\DBMSwarVandana\DBM_SwarVandana\obj\Debug\DBM_SwarVandana.dll
+E:\free Elancing\SwarVandana\DBMSwarVandana\DBM_SwarVandana\obj\Debug\DBM_SwarVandana.pdb

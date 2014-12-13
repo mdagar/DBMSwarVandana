@@ -97,6 +97,15 @@ namespace DBM_SwarVandana.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GetExpensesForAll.
+        /// </summary>
+        internal static string GetExpensesForAll {
+            get {
+                return ResourceManager.GetString("GetExpensesForAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GetStudents.
         /// </summary>
         internal static string GetStudents {
