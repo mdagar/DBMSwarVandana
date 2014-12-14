@@ -38,7 +38,8 @@ namespace Repositories
         public Students GetStudentsByUniqueId(string UniqueId)
         {
             Students st = new Students();
-            var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetStudentsByUniqueId, UniqueId);
+            object[] obj = { UniqueId, SessionWrapper.User.CentreId };
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetStudentsByUniqueId, obj);
             if (d == null)
                 return st;
             else
@@ -112,8 +113,8 @@ namespace Repositories
 
         public List<StudentEnrollment> GetStudentDetails(long studentId)
         {
-            string Query = "select e.StudentID,(select Name from student where StudentID=e.StudentID) as StudentName,e.DisciplineID,e.ClassID,e.RegistratonAmount,e.CourseAmount,e.AmountPaid" +                                                       
-                           ",(e.CourseAmount-(e.AmountPaid+e.RegistratonAmount)) as PendingAmount"+
+            string Query = "select e.StudentID,(select Name from student where StudentID=e.StudentID) as StudentName,e.DisciplineID,e.ClassID,e.RegistratonAmount,e.CourseAmount,e.AmountPaid" +
+                           ",(e.CourseAmount-(e.AmountPaid+e.RegistratonAmount)) as PendingAmount" +
                            ",(select count(*)  from studentattendence  where stuentid=e.StudentID and classid=e.ClassID and Attendencestatus= 1) as Presents" +
                            ",(select count(*)  from studentattendence  where stuentid=e.StudentID and classid=e.ClassID and Attendencestatus= 2) as Absents" +
                            " from studentenrollment  e where e.StudentID=" + studentId;

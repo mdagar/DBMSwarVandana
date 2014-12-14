@@ -24,6 +24,9 @@
                 $("#StudentId").val(data.StudentId);
                 $("#showstudent").show();
             }
+            else {
+                alert('No Record Found');
+            }
         });
     }
 
@@ -52,7 +55,7 @@
         $.post('@Url.Action("GetClassByClassId", "Student")', { ClassId: $("#ClassId").val() }, function (data) {
             if (data.ClassId > 0) {
                 $("#showclassdet").show();
-                $("#lblNameOfFaculty").text(data.ClassName);
+                $("#lblNameOfFaculty").text(data.FaculityName);
                 $("#lblStudentLimit").text(data.StudentLimit);
                 $("#lblStartDate").text(ConvertDate(data.StartDate));
                 $("#lblEndDate").text(ConvertDate(data.EndDate));
@@ -89,9 +92,6 @@
 </style>
 <!-- start container -->
 <div class="container">
-    <div>
-        @Html.ValidationSummary(false)
-    </div>
     <!-- registration-form -->
     <div class="registration-form">
         @using (Html.BeginForm("EntrollStudent", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))

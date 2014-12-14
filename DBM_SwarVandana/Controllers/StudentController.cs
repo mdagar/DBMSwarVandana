@@ -196,7 +196,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult GetRemainingClassesDetails(int classId, DateTime startDate)
         {
             var sev = _allstudents.GetRemainingClassesDetails(classId, startDate);
-            return Json(sev,JsonRequestBehavior.AllowGet);
+            return Json(sev, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -210,9 +210,26 @@ namespace DBM_SwarVandana.Controllers
             m.ClassId = classId;
             m.DateOfAttendence = attendenceDate == null ? DateTime.Now : attendenceDate.Value;
             int weekDay = (int)m.DateOfAttendence.Value.DayOfWeek;
+            //week day seven means it is sunday.
+            if (weekDay == 0)
+                weekDay = 7;
             m.WeekDayId = weekDay;
             m.Classes = _allClassRepository.GetClassByWeekDays(SessionWrapper.User.CentreId, weekDay);
             m.students = _allstudents.GetStudentsByClassId(m.ClassId);
+            foreach (var v in m.students)
+            {
+                StudentAttendence s = new StudentAttendence();
+                s.StuentId = v.StudentId;
+                s.ClassId = m.ClassId;
+                s.WeekDayId = m.WeekDayId;
+                s.DateOfAttendence = m.DateOfAttendence;
+                s.AttendenceStatus = (int)AttendenceStatus.Absent;
+                s.AddBy = SessionWrapper.User.UserId;
+                s.ModifyBy = SessionWrapper.User.UserId;
+                s.AddDate = DateTime.Now;
+                s.ModifyDate = DateTime.Now;
+                AttendenceCollection.Add(s);
+            }
             return View(m);
         }
 
