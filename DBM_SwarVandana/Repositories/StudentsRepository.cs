@@ -149,5 +149,27 @@ namespace Repositories
                 return Convert.ToInt64(d.Tables[0].Rows[0][0]);
         }
 
+        public List<StudentAttendence> GetAttendenceByStudentId(long classId, long studentId, DateTime dateofAttendence)
+        {
+            string Query = "SELECT Id,ClassId,WeekDayId,StuentId,AttendenceStatus,DateOfAttendence,AddDate,AddBy,ModifyDate,ModifyBy FROM [dbo].[StudentAttendence]" +
+                            "WHERE ClassId =" + classId + " AND StuentId =" + studentId + " AND CONVERT(VARCHAR(10),DateOfAttendence,106)= CONVERT(VARCHAR(10)," + dateofAttendence + ",106)";
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            if (d == null)
+                return new List<StudentAttendence>();
+            else
+                return d.Tables[0].TableToList<StudentAttendence>();
+        }
+
+          public List<StudentAttendence> GetClassAttendence(long classId, DateTime dateofAttendence)
+        {
+            string Query = "SELECT Id,ClassId,WeekDayId,StuentId,AttendenceStatus,DateOfAttendence,AddDate,AddBy,ModifyDate,ModifyBy FROM [dbo].[StudentAttendence]" +
+                            "WHERE ClassId =" + classId + " AND CONVERT(VARCHAR(10),DateOfAttendence,106)= CONVERT(VARCHAR(10)," + dateofAttendence + ",106)";
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            if (d == null)
+                return new List<StudentAttendence>();
+            else
+                return d.Tables[0].TableToList<StudentAttendence>();
+        }
+
     }
 }

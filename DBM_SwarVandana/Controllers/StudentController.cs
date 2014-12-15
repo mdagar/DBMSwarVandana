@@ -216,6 +216,7 @@ namespace DBM_SwarVandana.Controllers
             m.WeekDayId = weekDay;
             m.Classes = _allClassRepository.GetClassByWeekDays(SessionWrapper.User.CentreId, weekDay);
             m.students = _allstudents.GetStudentsByClassId(m.ClassId);
+            var CurrentAttendence = _allstudents.GetClassAttendence(m.ClassId, m.DateOfAttendence.Value);
             foreach (var v in m.students)
             {
                 StudentAttendence s = new StudentAttendence();
@@ -223,13 +224,15 @@ namespace DBM_SwarVandana.Controllers
                 s.ClassId = m.ClassId;
                 s.WeekDayId = m.WeekDayId;
                 s.DateOfAttendence = m.DateOfAttendence;
-                s.AttendenceStatus = (int)AttendenceStatus.Absent;
+                var status = CurrentAttendence.Where(x => x.StuentId == v.StudentId).FirstOrDefault();
+                s.AttendenceStatus = status == null ? (int)AttendenceStatus.Absent: status.AttendenceStatus;
                 s.AddBy = SessionWrapper.User.UserId;
                 s.ModifyBy = SessionWrapper.User.UserId;
                 s.AddDate = DateTime.Now;
                 s.ModifyDate = DateTime.Now;
                 AttendenceCollection.Add(s);
             }
+            m.studentAttendence = AttendenceCollection;
             return View(m);
         }
 
