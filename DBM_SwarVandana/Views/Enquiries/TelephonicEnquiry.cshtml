@@ -2,8 +2,8 @@
 @using Code;
 @{
     ViewBag.Title = "TelephonicEnquiry";
-    //Layout = "~/Views/Shared/_Layout.cshtml";
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = null;
 
     IEnumerable<Status> statusid = Enum.GetValues(typeof(Status))
                                                        .Cast<Status>();
@@ -55,7 +55,7 @@
         window.location.href = ('@Url.Action("TelephonicEnquiryList", "Enquiries")');
     }
 
-    
+
 </script>
 
 <!-- start container -->
@@ -69,27 +69,42 @@
                 @if (!string.IsNullOrEmpty(ViewBag.Success))
                 {
                     <div class="successvalidation">
-                    @ViewBag.Success
-                        </div>
+                        @ViewBag.Success
+                    </div>
                 }
                 else
                 {
                     <div>@Html.ValidationSummary(false)</div>
                 }
-                
+
             </div>
             <h3>Telephonic Enquiry</h3>
             <div class="row">
                 <label for="Password">Source :</label>
                 @Html.DropDownListFor(x => x.SourceId, new ListBound(Model.SourceId, "Sources").Sources, "-- Select Source --", new { @class = "select" })
+                @Html.HiddenFor(x => x.EnquiryId)
             </div>
             <div class="row">
                 <label for="Password">Contact Number :</label>
-                @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input", @readonly = "readonly" })
+                }
+                else
+                {
+                    @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input" })
+                }
             </div>
             <div class="row">
                 <label for="Password">Name :</label>
-                @Html.TextBoxFor(x => x.Name, new { @class = "input" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.TextBoxFor(x => x.Name, new { @class = "input", @readonly = "readonly" })
+                }
+                else
+                {
+                    @Html.TextBoxFor(x => x.Name, new { @class = "input" })
+                }
             </div>
             <div class="row">
                 <label for="Password">Date of Enquiry :</label>

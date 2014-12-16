@@ -48,6 +48,7 @@ namespace Code
     }
     public enum WeekDays
     {
+        
         [Description("Monday")]
         Monday=1,
         [Description("Tuesday")]
@@ -62,6 +63,7 @@ namespace Code
         Saturday,
         [Description("Sunday")]
         Sunday
+        
     }
     public enum AttendenceStatus
     {

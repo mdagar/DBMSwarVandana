@@ -38,7 +38,8 @@ namespace Repositories
         public Students GetStudentsByUniqueId(string UniqueId)
         {
             Students st = new Students();
-            var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetStudentsByUniqueId, UniqueId);
+            object[] obj = { UniqueId, SessionWrapper.User.CentreId };
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetStudentsByUniqueId, obj);
             if (d == null)
                 return st;
             else
@@ -112,8 +113,8 @@ namespace Repositories
 
         public List<StudentEnrollment> GetStudentDetails(long studentId)
         {
-            string Query = "select e.StudentID,(select Name from student where StudentID=e.StudentID) as StudentName,e.DisciplineID,e.ClassID,e.RegistratonAmount,e.CourseAmount,e.AmountPaid" +                                                       
-                           ",(e.CourseAmount-(e.AmountPaid+e.RegistratonAmount)) as PendingAmount"+
+            string Query = "select e.StudentID,(select Name from student where StudentID=e.StudentID) as StudentName,e.DisciplineID,e.ClassID,e.RegistratonAmount,e.CourseAmount,e.AmountPaid" +
+                           ",(e.CourseAmount-(e.AmountPaid+e.RegistratonAmount)) as PendingAmount" +
                            ",(select count(*)  from studentattendence  where stuentid=e.StudentID and classid=e.ClassID and Attendencestatus= 1) as Presents" +
                            ",(select count(*)  from studentattendence  where stuentid=e.StudentID and classid=e.ClassID and Attendencestatus= 2) as Absents" +
                            " from studentenrollment  e where e.StudentID=" + studentId;
@@ -146,6 +147,28 @@ namespace Repositories
                 return 0;
             else
                 return Convert.ToInt64(d.Tables[0].Rows[0][0]);
+        }
+
+        public List<StudentAttendence> GetAttendenceByStudentId(long classId, long studentId, DateTime dateofAttendence)
+        {
+            string Query = "SELECT Id,ClassId,WeekDayId,StuentId,AttendenceStatus,DateOfAttendence,AddDate,AddBy,ModifyDate,ModifyBy FROM [dbo].[StudentAttendence]" +
+                            "WHERE ClassId =" + classId + " AND StuentId =" + studentId + " AND CONVERT(VARCHAR(10),DateOfAttendence,106)= CONVERT(VARCHAR(10)," + dateofAttendence + ",106)";
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            if (d == null)
+                return new List<StudentAttendence>();
+            else
+                return d.Tables[0].TableToList<StudentAttendence>();
+        }
+
+          public List<StudentAttendence> GetClassAttendence(long classId, DateTime dateofAttendence)
+        {
+            string Query = "SELECT Id,ClassId,WeekDayId,StuentId,AttendenceStatus,DateOfAttendence,AddDate,AddBy,ModifyDate,ModifyBy FROM [dbo].[StudentAttendence]" +
+                            "WHERE ClassId =" + classId + " AND CONVERT(VARCHAR(10),DateOfAttendence,106)= CONVERT(VARCHAR(10)," + dateofAttendence + ",106)";
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            if (d == null)
+                return new List<StudentAttendence>();
+            else
+                return d.Tables[0].TableToList<StudentAttendence>();
         }
 
     }

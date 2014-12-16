@@ -27,5 +27,6 @@ namespace ViewModel
 
         public IEnumerable<Students> students { get; set; }
         public IEnumerable<ClassDetails> Classes { get; set; }
+        public List<StudentAttendence> studentAttendence { get; set; }
     }
 }
