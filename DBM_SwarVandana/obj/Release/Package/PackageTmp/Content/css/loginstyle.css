@@ -1,0 +1,36 @@
+﻿@charset "utf-8";
+
+.validation-summary-errors ul li:first-child {
+    list-style: none;
+    display: table;
+}
+
+.validation-summary-errors ul li {
+    list-style: none;
+    display: none;
+}
+
+.validation-summary-errors ul {
+    display: block;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background: #F3D9D9;
+    border: 1px solid #D20009;
+    color: #7B040F;
+    padding: 4px;
+    margin-bottom: 40px;
+}
+
+.successvalidation {
+    display: block;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background: #9FF781;
+    border: 1px solid #0B610B;
+    color: #0B610B;
+    padding: 4px;
+    text-align:left;
+    margin-bottom: 40px;
+}

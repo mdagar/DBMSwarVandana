@@ -1,0 +1,74 @@
+﻿@model List<Models.Centres>
+@{
+    ViewBag.Title = "Centre List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    function AddNew() {
+        window.location.href = '@Url.Action("CentreRegistration", "Main")';
+    }
+</script>
+<div class="container">
+    <!-- table-info -->
+    <div class="table-info">
+        <!-- start table-form -->
+        <div class="table-form" style="float: right; text-align: right !important">
+            <form action="#">
+                <input type="text" name="Search" placeholder="Search" value="" class="input" />
+
+                <input type="submit" name="field" value="Search" class="submit-btn" />
+                <label for="From">&nbsp;</label>
+                <input name="submit" type="button" onclick="Export()" value="Export" class="submit-btn" />
+                <label for="From">&nbsp;</label>
+                <input name="submit" type="button" onclick="AddNew()" value="Add New" class="submit-btn" />
+            </form>
+        </div>
+        <!-- end table-form -->
+        <!-- start table -->
+        <div style="float: left; width: 100%">
+            <table cellpadding="0" cellspacing="0" class="table">
+
+                <!-- start row -->
+                <tr bgcolor="#ccc">
+
+                    <td class="td">Name</td>
+                    <td class="td">State</td>
+                    <td class="td">City</td>
+                    <td class="td">Address</td>
+                    <td class="td">Open Date</td>
+                    <td class="td">Action</td>
+                </tr>
+                <!-- end row -->
+                @foreach (var v in Model)
+                {
+                    <!-- start row -->
+                    <tr>
+                        <td class="td">@v.CentreName</td>
+                        <td class="td">@v.StateName</td>
+                        <td class="td">@v.CityName</td>
+                        <td class="td">@v.Address</td>
+                        <td class="td">@string.Format("{0:dd MMM yyyy}", v.CentreOpenDate)</td>
+                        <td class="td"><a href="@Url.Action("CentreRegistration", "Main", new { centreId = v.CentreId })" title="Edit"><span>Edit</span></a></td>
+                    </tr>
+                    <!-- end row -->
+                }
+                @{if (Model.Count() == 0)
+                  {
+                    <tr class="row">
+                        <td class="td" style="text-align: center">No record found.</td>
+                    </tr>
+
+                  }}
+            </table>
+        </div>
+        <!-- end table -->
+    </div>
+</div>
+
+<script type="text/javascript">
+    function Export() {
+        window.location.href = '@Url.Action("ExportCenterList", "Main")';
+    }
+</script>
+
+

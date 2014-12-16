@@ -1,8 +1,14 @@
 ﻿@model ViewModel.DisciplineViewModel
 @{
-    ViewBag.Title = "AddDiscipline";
+    ViewBag.Title = "Create Discipline";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<script>
+    function RedirectToHome() {
+        window.location.href = ('@Url.Action("ManageDiscipline", "Main")');
+    }
+</script>
 
 <!-- start container -->
 <div class="container">
@@ -14,30 +20,35 @@
             <div>
                 @if (!string.IsNullOrEmpty(ViewBag.Success))
                 {
-                    @ViewBag.Success
+                    <div class="successvalidation">
+                        @ViewBag.Success
+                    </div>
                 }
                 else
                 {
-                    @ViewBag.Error
+                    <div>@Html.ValidationSummary(false)</div>
                 }
+                
             </div>
             @Html.HiddenFor(x => x.DisciplineId)
             <h3>Add Discipline</h3>
             <div class="row">
-                <label for="Password">Discipline Name :</label>
+                <label for="Password">*Discipline Name :</label>
                 @Html.TextBoxFor(x => x.Discipline, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.Discipline)
             </div>
             <div class="row">
                 <label for="Password">Description :</label>
                 @Html.TextAreaFor(x => x.Description, new { @class = "textarea" })
-                @Html.ValidationMessageFor(x => x.Description)
+            </div>
+            <div class="row">
+                <label for="IsActive">Is Active</label>
+                <div class="column">
+                    @Html.CheckBoxFor(x => x.IsActive, new { @class = "checkbox" })
+                </div>
             </div>
             <div class="rowbutton">
-                <a href="@Url.Action("ManageDiscipline", "Main")" class="submit-btn gap">Manage</a>
-                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
-                @*<input name="submit" type="submit" value="CANCEL" class="submit-btn gap" />
-                    <input name="submit" type="submit" value="SUBMIT" class="submit-btn" />*@
+                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn gap" />
+                <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
             </div>
         }
     </div>

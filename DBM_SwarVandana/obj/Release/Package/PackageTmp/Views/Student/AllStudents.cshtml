@@ -1,0 +1,103 @@
+﻿@model IEnumerable<Models.Students>
+@{
+    ViewBag.Title = "All    Students";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    function AddNew() {
+        window.location.href = '@Url.Action("AddStudent","Student")';
+    }
+    function Search() {
+        var va = $("input[type='text'][name='searchtext']").val();
+        window.location.href = '@Url.Action("AllStudents", "Student")?search=' + va;
+    }
+</script>
+<!-- start container -->
+<div class="container">
+    <!-- table-info -->
+    <div class="table-info">
+        <!-- start table-form -->
+        <div class="table-form">
+            <form action="#">
+                <input type="text" name="searchtext" placeholder="Search" value="@ViewBag.Search" class="input" />
+                <input name="submit" type="button" onclick="Search()" value="Search" class="submit-btn" />
+                <label for="From">&nbsp;</label>
+                <input name="submit" type="button" onclick="AddNew()" value="Add New" class="submit-btn" />
+            </form>
+        </div>
+        <!-- end table-form -->
+        <!-- start table -->
+
+        <div style="float:left;width:100%">
+            <table cellpadding="0" cellspacing="0" class="table">
+                <!-- start row -->
+                <tr bgcolor="#ccc">
+                    <td class="td">Unique Key</td>
+                    <td class="td">Name</td>
+                    <td class="td">DOB</td>
+                    <td class="td">Contact 1</td>
+                    <td class="td">Contact 2</td>
+                    <td class="td">Email ID</td>
+                    <td class="td">State</td>
+                    <td class="td"> City</td>
+                    <td class="td"> Address</td>
+                    <td class="td">Guardian</td>
+                    <td class="td">Occupation</td>
+                    <td class="td">Transport</td>
+                    <td class="td">Action</td>
+                </tr>
+                <!-- end row -->
+                @foreach (var v in Model)
+                {
+                    <!-- start row -->
+                    <tr>
+                        <td class="td">@v.UniqueKey</td>
+                        <td class="td">@v.Name</td>
+                        <td class="td">@string.Format("{0:dd MMM yyyy}", v.DOB)</td>
+                        <td class="td">@v.Contact1</td>
+                        <td class="td">@v.Contact2</td>
+                        <td class="td">@v.EmailAddress</td>
+                        <td class="td">@v.StateName</td>
+                        <td class="td">@v.CityName</td>
+                        <td class="td">@v.Address</td>
+                        <td class="td">@v.GuardianName</td>
+                        <td class="td">@v.Occupation</td>
+                        <td class="td">@v.HasTransportFacility</td>
+                        <td class="td">
+                            <a href="@Url.Action("AddStudent", "Student", new { uniqueId = v.UniqueKey })" title="Edit">Edit</a>
+                            | <a href="@Url.Action("Studentdetail", "Student", new { studentId = v.StudentId })" title="Show details">Details</a>
+                        </td>
+                    </tr>
+
+                    <!-- end row -->
+                }
+                @{if (Model.Count() == 0)
+                {
+                    <tr class="row">
+                        <td class="td" style="text-align: center">No record found.</td>
+                    </tr>
+
+                }}
+            </table>
+            <!-- start row -->
+            @*<div class="row-last">
+                    <div class="td td2">1 - 8 of 8 items</div>
+                    <div class="td td3">
+                        <ul>
+                            <li><a href="#"></a></li>
+                            <li><a href="#"></a></li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#"></a></li>
+                            <li><a href="#"></a></li>
+                        </ul>
+                    </div>
+                </div>*@
+            <!-- end row -->
+        </div>
+    </div>
+    <!-- end table -->
+</div>
+<style>
+    td {
+    }
+</style>

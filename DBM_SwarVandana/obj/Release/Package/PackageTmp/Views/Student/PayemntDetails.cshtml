@@ -1,0 +1,160 @@
+﻿@model ViewModel.StudentEntrollmentViewModel
+@using Code;
+@{
+    ViewBag.Title = "Payemnt Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+
+    function GetStudentDetails() {
+        var uniqueid = $("#UniqueKey").val();
+        $.post('@Url.Action("GetStudentsByEnrollmentId", "Student")', { EnrollmentId: uniqueid }, function (data) {
+           var result= JSON.parse(data);
+           if (result[0].Name != "") {
+               $("#lblName").val(result[0].Name);
+               $("#DOB").val(result[0].DOB);
+               $("#ContactNumber").val(result[0].Contact1);
+               $("#EmailID").val(result[0].EmailAddress);
+               $("#Address").val(result[0].Address);
+               $("#GuardianName").val(result[0].GuardianName);
+               $("#Discipline").val(result[0].Disciplines);
+               $("#ClassName").val(result[0].Class);
+               $("#NoOfClass").val(result[0].NoOfClasses);
+               $("#CAmount").val(result[0].CourseAmount);
+               $("#PAmount").val(result[0].AmountPaid);
+               $("#RAmount").val(result[0].RegistratonAmount);
+                $("#showstudent").show();
+            }
+        });
+    }
+
+</script>
+<div class="container">
+
+    <!-- registration-form -->
+    <div class="registration-form">
+        @using (Html.BeginForm("EntrollStudent", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.HiddenFor(x => x.StudentId)
+            <div>
+                @if (!string.IsNullOrEmpty(ViewBag.Success))
+                {
+                    @ViewBag.Success
+                }
+                else
+                {
+                    @ViewBag.Error
+                }
+            </div>
+            <div class="row">
+                <label for="Password">Student Enrollment Number :</label>
+                <input id="UniqueKey" type="text" class="input" />
+                <a href="#" id="btnGet" onclick="javascript: GetStudentDetails();">Get Details</a>
+            </div>
+            <div class="row">
+                <table id="showstudent">
+                    <tr>
+                        <td>Name</td>
+                        <td>
+                            <input id="lblName" readonly="readonly" type="text" class="input" />
+                        </td>
+                        <td>DOB</td>
+                        <td>
+                            <input id="DOB" readonly="readonly" type="text" class="input" />
+                        </td>
+                        <td>Contact Number</td>
+                        <td>
+                            <input id="ContactNumber" readonly="readonly" type="text" class="input" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Email ID</td>
+                        <td>
+                            <input id="EmailID" readonly="readonly" type="text" class="input" />
+                        </td>
+                        <td>Address</td>
+                        <td>
+                            <input id="Address" readonly="readonly" type="text" class="input" />
+                        </td>
+                        <td>Guardian Name</td>
+                        <td>
+                            <input id="GuardianName" readonly="readonly" type="text" class="input" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Discipline</td>
+                        <td>
+                            <input id="Discipline" readonly="readonly" type="text" class="input" />
+                        </td>
+                        <td>Class Name</td>
+                        <td>
+                            <input id="ClassName" readonly="readonly" type="text" class="input" />
+                        </td>
+                        <td>No Of Classes</td>
+                        <td>
+                            <input id="NoOfClass" readonly="readonly" type="text" class="input" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Course Amount</td>
+                        <td>
+                            <input id="CAmount" readonly="readonly" type="text" class="input" />
+                        </td>
+                        <td>Registration Amount</td>
+                        <td>
+                            <input id="RAmount" readonly="readonly" type="text" class="input" />
+                        </td>
+                        <td>Already Paid </td>
+                        <td>
+                            <input id="PAmount" readonly="readonly" type="text" class="input" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row">
+                <fieldset>
+                    <legend>Payment Details</legend>
+                    <table>
+                        <tr>
+                            <td>Bank Name</td>
+                            <td>
+                                <input id="BankName" type="text" class="input" />
+                            </td>
+                            <td>Payment Mode</td>
+                            <td>
+                                <select>
+                                    <option value="">--Select Mode--</option>
+                                    <option value="Cash">Cash</option>
+                                    <option value="Cheque">Cheque</option>
+                                    <option value="Credit card">Credit Card</option>
+                                </select>
+                            </td>
+                            <td>Amount Paid</td>
+                            <td>
+                                <input id="AmountPaid" type="number" class="input" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Cheque/Credit Card No</td>
+                            <td>
+                                <input id="PayDetails" type="text" class="input" />
+                            </td>
+                            <td>Pay Date</td>
+                            <td>
+                                <input id="PayDate" type="date" class="input" />
+                            </td>
+                            <td>Balance</td>
+                            <td>
+                                <input id="AmountPaid" type="number" class="input" />
+                            </td>
+                        </tr>
+                    </table>
+                </fieldset>
+                
+            </div>
+            <div class="rowbutton">
+                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
+            </div>
+        }
+    </div>
+</div>

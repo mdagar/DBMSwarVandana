@@ -32,9 +32,12 @@ namespace ViewModel
 
         public override int ActionId { get; set; }
         public override int ExpenseID { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "ExpenseAmountRequired")]
         public override decimal ExpenseAmount { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "ExpenseForRequired")]
         public override int ExpenseFor { get; set; }
         public override string Description { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "DateOfExpenseRequired")]
         public override DateTime? DateOfExpense { get; set; }
         public override int CentreID { get; set; }
         public override DateTime? CreatedOn { get; set; }

@@ -1,7 +1,7 @@
 ﻿@model ViewModel.UsersViewModel
 @using Code;
 @{
-    ViewBag.Title = "UserRegistration";
+    ViewBag.Title = "User Registration";
     Layout = "~/Views/Shared/_Layout.cshtml";
     IEnumerable<UserRole> userrole = Enum.GetValues(typeof(UserRole))
                                                        .Cast<UserRole>();
@@ -11,11 +11,17 @@
                                             Text = u.ToString(),
                                             Value = ((int)u).ToString()
                                         };
-    
-    
+    if (SessionWrapper.User.RoleId == (int)UserRole.SuperAdmin)
+    {
+        roles = roles.Where(x => Convert.ToInt32(x.Value) < (int)UserRole.SuperAdmin);
+    }
+    else
+    {
+        roles = roles.Where(x => Convert.ToInt32(x.Value) < (int)UserRole.Admin);
+    }
 }
-
-<h2>User Registration</h2>
+<link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/Content/js/jquery-ui.js"></script>
 <script>
 
     function GetCitiesByStateId() {
@@ -30,6 +36,30 @@
             });
         });
     }
+
+    function RedirectToHome() {
+        window.location.href = ('@Url.Action("UserList", "Main")');
+    }
+
+    $(function () {
+        $("#DOB,#DOJ").datepicker({ dateFormat: "dd M yy", minDate: "-1m" });
+
+        $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
+            $("#CityId").html('');
+            $("#CityId").append('<option value="">-- Select City --</option>');
+            $.each(cities, function (i, City) {
+                $("#CityId").append('<option value="' + City.CityId + '">' +
+                     City.CityName + '</option>');
+                // here we are adding option for States
+
+            });
+            $("#CityId").find("option").each(function () {
+                if ($(this).val() == "@Model.CityId") {
+                    $(this).attr("selected", "selected");
+                }
+            });
+        });
+    });
 </script>
 
 <!-- start container -->
@@ -38,93 +68,86 @@
     <!-- registration-form -->
     <div class="registration-form">
 
+        <h3>Add User</h3>
         @using (Html.BeginForm("UserRegistration", "Main", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             <div>
                 @if (!string.IsNullOrEmpty(ViewBag.Success))
                 {
-                    @ViewBag.Success
+                    <div class="successvalidation">
+                        @ViewBag.Success
+                    </div>
                 }
                 else
                 {
-                    @ViewBag.Error
+                    <div>@Html.ValidationSummary(false)</div>
                 }
+                
             </div>
-            <h3>Add User</h3>
+
             <div class="row">
-                <label for="Password">First Name :</label>
+                <label for="Password"><span style="color: red;">*</span>First Name :</label>
                 @Html.TextBoxFor(x => x.FirstName, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.FirstName)
             </div>
             <div class="row">
-                <label for="Password">Last Name :</label>
+                <label for="Password"><span style="color: red;">*</span>Last Name :</label>
                 @Html.TextBoxFor(x => x.LastName, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.LastName)
             </div>
             <div class="row">
-                <label for="Password">DOB :</label>
+                <label for="Password"><span style="color: red;">*</span>DOB :</label>
                 @Html.TextBoxFor(x => x.DOB, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.DOB)
             </div>
             <div class="row">
-                <label for="Password">DOJ :</label>
+                <label for="Password"><span style="color: red;">*</span>DOJ :</label>
                 @Html.TextBoxFor(x => x.DOJ, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.DOJ)
             </div>
             <div class="row">
-                <label for="Password">Contact Number :</label>
-                @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.ContactNumber)
+                <label for="Password"><span style="color: red;">*</span>Contact Number :</label>
+                @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input" }))
             </div>
             <div class="row">
-                <label for="Password">Email ID :</label>
+                <label for="Password"><span style="color: red;">*</span>Email ID :</label>
                 @Html.TextBoxFor(x => x.EmailID, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.EmailID)
             </div>
             <div class="row">
-                <label for="Password">Centre ID :</label>
-                @Html.DropDownListFor(x => x.CentreId, new ListBound(Model.CentreId, "Centres").Centres, "-- Select Centre --", new { @class = "select" })
-                @Html.ValidationMessageFor(x => x.CentreId)
-            </div>
-            <div class="row">
-                <label for="Password">Salary :</label>
+                <label for="Password"><span style="color: red;">*</span>Salary :</label>
                 @Html.TextBoxFor(x => x.Salary, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.Salary)
             </div>
             <div class="row">
-                <label for="Password">Role ID :</label>
-                @Html.DropDownListFor(x => x.RoleId, roles, "-- Select Centre --", new { @class = "select" })
-                @Html.ValidationMessageFor(x => x.RoleId)
+                <label for="Password"><span style="color: red;">*</span>Role ID :</label>
+                @Html.DropDownListFor(x => x.RoleId, roles, "-- Select Role --", new { @class = "select" })
             </div>
             <div class="row">
-                <label for="Password">User Name :</label>
+                <label for="Password"><span style="color: red;">*</span>User Name :</label>
                 @Html.TextBoxFor(x => x.UserName, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.UserName)
             </div>
             <div class="row">
-                <label for="Password">Password :</label>
+                <label for="Password"><span style="color: red;">*</span>Password :</label>
                 @Html.PasswordFor(x => x.Password, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.Password)
             </div>
             <div class="row">
-                <label for="Password">Address :</label>
-                @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
-                @Html.ValidationMessageFor(x => x.Address)
+                <label for="Password"><span style="color: red;">*</span>State :</label>
+                @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" }))
             </div>
             <div class="row">
-                <label for="Password">State :</label>
-                @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" })
-                @Html.ValidationMessageFor(x => x.StateId)
-            </div>
-            <div class="row">
-                <label for="Password">City :</label>
+                <label for="Password"><span style="color: red;">*</span>City :</label>
                 @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select" })
-                @Html.ValidationMessageFor(x => x.CityId)
+            </div>
+            <div class="row">
+                <label for="Password"><span style="color: red;">*</span>Address :</label>
+                @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
+            </div>
+            <div class="row">
+                <label for="IsActive">Is Active</label>
+                <div class="column">
+                    @Html.CheckBoxFor(x => x.IsActive, new { @class = "checkbox" })
+                </div>
             </div>
             <div class="rowbutton">
-                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
+                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn gap" />
+                <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
             </div>
-    
+
         }
 
     </div>

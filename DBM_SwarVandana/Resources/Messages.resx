@@ -297,4 +297,13 @@
   <data name="SubmitExpense" xml:space="preserve">
     <value>Expense is successfully submitted.</value>
   </data>
+  <data name="DateOfExpenseRequired" xml:space="preserve">
+    <value>Please enter date of expense.</value>
+  </data>
+  <data name="ExpenseAmountRequired" xml:space="preserve">
+    <value>Please enter expense amount.</value>
+  </data>
+  <data name="ExpenseForRequired" xml:space="preserve">
+    <value>Please enter expense for.</value>
+  </data>
 </root>

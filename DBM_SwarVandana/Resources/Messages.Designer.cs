@@ -187,6 +187,15 @@ namespace DBM_SwarVandana.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter date of expense..
+        /// </summary>
+        internal static string DateOfExpenseRequired {
+            get {
+                return ResourceManager.GetString("DateOfExpenseRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discipline already exists..
         /// </summary>
         internal static string DisciplineExists {
@@ -250,11 +259,29 @@ namespace DBM_SwarVandana.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter expense amount..
+        /// </summary>
+        internal static string ExpenseAmountRequired {
+            get {
+                return ResourceManager.GetString("ExpenseAmountRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expense already exists..
         /// </summary>
         internal static string ExpenseExists {
             get {
                 return ResourceManager.GetString("ExpenseExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter expense for..
+        /// </summary>
+        internal static string ExpenseForRequired {
+            get {
+                return ResourceManager.GetString("ExpenseForRequired", resourceCulture);
             }
         }
         

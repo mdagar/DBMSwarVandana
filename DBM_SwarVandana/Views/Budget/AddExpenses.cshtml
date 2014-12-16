@@ -1,13 +1,20 @@
 ﻿@model ViewModel.ExpensesViewModel
+@using Code;
 @{
     ViewBag.Title = "AddExpenses";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/Content/js/jquery-ui.js"></script>
 <script>
     function RedirectToHome() {
-        window.location.href = ('@Url.Action("BudgetList", "Budget")');
+        window.location.href = ('@Url.Action("ExpenseList", "Budget")');
     }
+
+    $(function () {
+        $("#DateOfExpense").datepicker({ dateFormat: "dd M yy", minDate: "-1w" });
+    });
+
 </script>
 <!-- start container -->
 <div class="container">
@@ -34,16 +41,16 @@
                 @Html.TextBoxFor(x => x.ExpenseAmount, new { @class = "input" })
             </div>
             <div class="row">
-                <label for="Password"><span style="color: red;">*</span>Expense Amount:</label>
-                @Html.TextBoxFor(x => x.ExpenseAmount, new { @class = "input" })
+                <label for="Password"><span style="color: red;">*</span>Expense For:</label>
+                @Html.DropDownListFor(x => x.ExpenseFor, new ListBound(Model.ExpenseFor, "ExpenseFor").ExpenseFor, "-- Select --", new { @class = "select" })
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Description:</label>
-                @Html.TextBoxFor(x => x.Description, new { @class = "input" })
+                @Html.TextAreaFor(x => x.Description, new { @class = "textarea" })
             </div>
             <div class="row">
-                <label for="Password"><span style="color: red;">*</span>Expense Amount:</label>
-                @Html.TextBoxFor(x => x.ExpenseAmount, new { @class = "input" })
+                <label for="Password"><span style="color: red;">*</span>Date Of Expense:</label>
+                @Html.TextBoxFor(x => x.DateOfExpense, new { @class = "input" })
             </div>
             <div class="row">
                 <label for="Password">Is Active :</label>

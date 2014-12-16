@@ -4,6 +4,8 @@
     ViewBag.Title = "PhysicalEnquiry";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
+
+
     IEnumerable<Status> statusid = Enum.GetValues(typeof(Status))
                                                       .Cast<Status>();
     IEnumerable<SelectListItem> status = from u in statusid
@@ -31,6 +33,8 @@
                                                Value = ((int)u).ToString()
                                            };
 }
+<link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/Content/js/jquery-ui.js"></script>
 <script>
     function GetCitiesByStateId() {
         $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
@@ -44,6 +48,31 @@
             });
         });
     }
+
+    $(function () {
+        $("#DateOfEnquiry").datepicker({ dateFormat: "dd M yy", minDate: "-1w" });
+        $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
+            $("#CityId").html('');
+            $("#CityId").append('<option value="">-- Select City --</option>');
+            $.each(cities, function (i, City) {
+                $("#CityId").append('<option value="' + City.CityId + '">' +
+                     City.CityName + '</option>');
+                // here we are adding option for States
+
+            });
+            $("#CityId").find("option").each(function () {
+                if ($(this).val() == "@Model.CityId") {
+                    $(this).attr("selected", "selected");
+                }
+            });
+        });
+
+
+    });
+
+    function RedirectToHome() {
+        window.location.href = ('@Url.Action("PhysicalEnquiryList", "Enquiries")');
+    }
 </script>
 <!-- start container -->
 <div class="container">
@@ -55,78 +84,70 @@
             <div>
                 @if (!string.IsNullOrEmpty(ViewBag.Success))
                 {
-                    @ViewBag.Success
+                    <div class="successvalidation">
+                        @ViewBag.Success
+                    </div>
                 }
                 else
                 {
-                    @ViewBag.Error
+                    <div>@Html.ValidationSummary(false)</div>
                 }
+                
             </div>
             <h3>Physical Enquiry</h3>
             <div class="row">
                 <label for="Password">Source :</label>
                 @Html.DropDownListFor(x => x.SourceId, new ListBound(Model.SourceId, "Sources").Sources, "-- Select Source --", new { @class = "select" })
-                @Html.ValidationMessageFor(x => x.SourceId)
+                @Html.HiddenFor(x => x.EnquiryId);
             </div>
             <div class="row">
                 <label for="Password">Contact Number :</label>
                 @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.ContactNumber)
             </div>
             <div class="row">
                 <label for="Password">Name :</label>
                 @Html.TextBoxFor(x => x.Name, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.Name)
             </div>
             <div class="row">
-                <label for="Password">Date of Enquiry :</label>
+                <label for="Password">Date of Visit :</label>
                 @Html.TextBoxFor(x => x.DateOfEnquiry, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.DateOfEnquiry)
             </div>
             <div class="row">
                 <label for="Password">Discipline :</label>
                 @Html.DropDownListFor(x => x.Discipline, new ListBound(Model.Discipline, "Disciplines").Disciplines, "-- Select Discipline --", new { @class = "select" })
-                @Html.ValidationMessageFor(x => x.Discipline)
             </div>
             <div class="row">
                 <label for="Password">Probable Student :</label>
                 @Html.DropDownListFor(x => x.ProbableStudentFor, probablefor, "-- Select --", new { @class = "select" })
-                @Html.ValidationMessageFor(x => x.ProbableStudentFor)
             </div>
             <div class="row">
                 <label for="Password">Gender :</label>
                 @Html.DropDownListFor(x => x.Gender, gendermf, "-- Select --", new { @class = "select" })
-                @Html.ValidationMessageFor(x => x.Gender)
             </div>
             <div class="row">
                 <label for="Password">Age :</label>
                 @Html.TextBoxFor(x => x.Age, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.Age)
             </div>
             <div class="row">
                 <label for="Password">Occupation :</label>
                 @Html.TextBoxFor(x => x.Occupation, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.Occupation)
             </div>
             <div class="row">
                 <label for="Password">Attended By :</label>
                 @Html.DropDownListFor(x => x.AttendedBy, new ListBound(Model.AttendedBy, "Users").Users, "-- Select User --", new { @class = "select" })
-                @Html.ValidationMessageFor(x => x.AttendedBy)
             </div>
-            <div class="row">
-                <label for="Password">Address :</label>
-                @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
-                @Html.ValidationMessageFor(x => x.Address)
-            </div>
+          
             <div class="row">
                 <label for="Password">State :</label>
                 @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" })
-                @Html.ValidationMessageFor(x => x.StateId)
             </div>
             <div class="row">
                 <label for="Password">City :</label>
                 @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select" })
-                @Html.ValidationMessageFor(x => x.CityId)
+            </div>
+            <div class="row">
+                <label for="Password">Address :</label>
+                @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
             </div>
             <div class="row">
                 <label for="Password">Demo :</label>
@@ -140,35 +161,36 @@
             <div class="row">
                 <label for="Password">Remarks By Faculty :</label>
                 @Html.TextAreaFor(x => x.RemarksByFaculty, new { @class = "textarea" })
-                @Html.ValidationMessageFor(x => x.RemarksByFaculty)
             </div>
             <div class="row">
                 <label for="Password">No of Classes :</label>
                 @Html.TextBoxFor(x => x.NoOfClasses, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.NoOfClasses)
             </div>
             <div class="row">
                 <label for="Password">Packages :</label>
                 @Html.TextBoxFor(x => x.Package, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.Package)
             </div>
             <div class="row">
                 <label for="Password">Registration :</label>
                 @Html.TextBoxFor(x => x.RegistrationAmount, new { @class = "input" })
-                @Html.ValidationMessageFor(x => x.RegistrationAmount)
             </div>
             <div class="row">
                 <label for="Password">Status :</label>
                 @Html.DropDownListFor(x => x.StatusId, status, "-- Select Status --", new { @class = "select" })
-                @Html.ValidationMessageFor(x => x.StatusId)
             </div>
             <div class="row">
                 <label for="Password">Remarks :</label>
                 @Html.TextAreaFor(x => x.FinalComments, new { @class = "textarea" })
-                @Html.ValidationMessageFor(x => x.FinalComments)
+            </div>
+            <div class="row">
+                <label for="IsActive">Is Active</label>
+                <div class="column">
+                    @Html.CheckBoxFor(x => x.IsActive, new { @class = "checkbox" })
+                </div>
             </div>
             <div class="rowbutton">
-                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
+                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn gap" />
+                <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
             </div>
     
         }
