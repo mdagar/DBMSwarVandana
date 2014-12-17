@@ -11,6 +11,7 @@ using ListConversion;
 using Code;
 using System.Data;
 using System.Configuration;
+using System.Data.SqlClient;
 
 namespace Repositories
 {
@@ -32,15 +33,49 @@ namespace Repositories
             return Convert.ToInt32(d);
         }
 
-        public List<Enquiries> ListEnquuiry(int centerId, int EnqueryType, string search = "")
+        public List<Enquiries> ListEnquuiry(int centerId, int EnqueryType, out int TotalPages, int PageNumber = 1, string search = "")
         {
-            object[] objParam = { centerId, EnqueryType, search };
-            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetEnquiry, objParam);
+            int RowsPerPage = ConfigurationWrapper.PageSize;
+            SqlParameter[] spParameter = new SqlParameter[6];
+            var pcenterId = new SqlParameter("@centerId", centerId);
+            var EnqType = new SqlParameter("@enqueryType", EnqueryType);
+            var rowsPerpage = new SqlParameter("@RowsPerPage", RowsPerPage);
+            var rowNo = new SqlParameter("@PageNumber", PageNumber);
+            var total = new SqlParameter("@TotalPages", 0) { Direction = System.Data.ParameterDirection.Output };
+            var psearch = new SqlParameter("@search", search);
+            SqlCommand cmd = new SqlCommand("GetEnquiry", db.GetConnection());
+            cmd.CommandType = CommandType.StoredProcedure;
+            DataSet ds = new DataSet();
+            cmd.Parameters.Add(pcenterId);
+            cmd.Parameters.Add(EnqType);
+            cmd.Parameters.Add(rowsPerpage);
+            cmd.Parameters.Add(rowNo);
+            cmd.Parameters.Add(total);
+            cmd.Parameters.Add(psearch);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(ds);
+            TotalPages = Convert.ToInt32(total.Value);
             if (ds == null)
                 return new List<Enquiries>();
             else
                 return ds.Tables[0].TableToList<Enquiries>();
         }
+
+        public List<Enquiries> GetAllEnquery(int centerId, int EnqueryType)
+        {
+            object[] objParam = { centerId, EnqueryType };
+            string Query = "SELECT EnquiryId,SourceId,EnquiryTypeId,ContactNumber,Name,DateOfEnquiry,Discipline,StateId,CityId,[Address],AttendedBy,Demo,RemarksByFaculty,StatusId,ProbableStudentFor,Gender,Age,Occupation,FinalComments,"
+                           + "NoOfClasses,Package,RegistrationAmount,CentreId,IsEnquiryClosed,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive,IsDeleted FROM [dbo].[Enquiries]"
+                            + "WHERE EnquiryTypeId = " + EnqueryType + " AND CentreId = " + centerId + "AND IsDeleted=0";
+            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Query, objParam);
+            if (ds == null)
+                return new List<Enquiries>();
+            else
+                return ds.Tables[0].TableToList<Enquiries>();
+
+        }
+
+
         public Enquiries FindByEnquirieID(long enquiryId)
         {
             object[] objParam = { enquiryId };
