@@ -175,7 +175,7 @@ namespace Repositories
         {
             try
             {
-                string Query = "Insert into StudentRenewal(EnrollmentId,StudentId,FacultyId,RenewalDate,Description,Remark,Status) values(" + sr.EnrollmentId + "," + sr.StudentId + "," + sr.FacultyId + ",'" + sr.RenewalDate + "','" + sr.Description + "','" + sr.Remark + "','" + sr.Status + "')";
+                string Query = "Insert into StudentRenewal(EnrollmentId,StudentId,FacultyId,RenewalDate,Description,Remark,Status,CenterId) values(" + sr.EnrollmentId + "," + sr.StudentId + "," + sr.FacultyId + ",'" + sr.RenewalDate + "','" + sr.Description + "','" + sr.Remark + "','" + sr.Status + "'," + SessionWrapper.User.CentreId + ")";
                 var d = SqlHelper.ExecuteNonQuery(db.GetConnection(), CommandType.Text, Query);
                 return Convert.ToInt32(d);
             }
