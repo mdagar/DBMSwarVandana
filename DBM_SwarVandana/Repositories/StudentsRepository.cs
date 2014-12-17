@@ -160,7 +160,7 @@ namespace Repositories
                 return d.Tables[0].TableToList<StudentAttendence>();
         }
 
-          public List<StudentAttendence> GetClassAttendence(long classId, DateTime dateofAttendence)
+        public List<StudentAttendence> GetClassAttendence(long classId, DateTime dateofAttendence)
         {
             string Query = "SELECT Id,ClassId,WeekDayId,StuentId,AttendenceStatus,DateOfAttendence,AddDate,AddBy,ModifyDate,ModifyBy FROM [dbo].[StudentAttendence]" +
                             "WHERE ClassId =" + classId + " AND CONVERT(VARCHAR(10),DateOfAttendence,106)= CONVERT(VARCHAR(10)," + dateofAttendence + ",106)";
@@ -169,6 +169,20 @@ namespace Repositories
                 return new List<StudentAttendence>();
             else
                 return d.Tables[0].TableToList<StudentAttendence>();
+        }
+
+        public int RenewalStudents(StudentRenewal sr)
+        {
+            try
+            {
+                string Query = "Insert into StudentRenewal(EnrollmentId,StudentId,FacultyId,RenewalDate,Description,Remark,Status) values(" + sr.EnrollmentId + "," + sr.StudentId + "," + sr.FacultyId + ",'" + sr.RenewalDate + "','" + sr.Description + "','" + sr.Remark + "','" + sr.Status + "')";
+                var d = SqlHelper.ExecuteNonQuery(db.GetConnection(), CommandType.Text, Query);
+                return Convert.ToInt32(d);
+            }
+            catch(Exception ex)
+            {
+                return 0;
+            }
         }
 
     }

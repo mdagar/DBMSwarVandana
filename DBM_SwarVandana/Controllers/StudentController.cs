@@ -199,6 +199,34 @@ namespace DBM_SwarVandana.Controllers
             return Json(sev, JsonRequestBehavior.AllowGet);
         }
 
+        [Authenticate]
+        public ActionResult RenewalStudent()
+        {
+            StudentRenewalViewModel sr = new StudentRenewalViewModel();
+            return View(sr);
+        }
+
+        [Authenticate]
+        [HttpPost]
+        public ActionResult RenewalStudent(StudentRenewalViewModel s)
+        {
+            var result = 0;
+            if (ModelState.IsValid)
+            {
+                s.ActionId = 0;
+                s.RenewalDate = DateTime.Now;
+                result = _allstudents.RenewalStudents(s);
+                if (result > 0)
+                {
+                    ViewBag.Success = Messages.SubmitRenewal;
+                }
+            }
+            else
+            {
+                s = new StudentRenewalViewModel();
+            }
+            return View(s);
+        }
         #endregion
 
         #region Attendence
