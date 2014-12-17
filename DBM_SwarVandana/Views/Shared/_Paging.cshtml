@@ -1,0 +1,5 @@
+﻿@using Code
+<div class="pagination" >
+    @Html.Pager(int.Parse(Request.QueryString["page"] ?? "1"), ConfigurationWrapper.PageSize, ((int)ViewBag.TotalPages))
+</div>
+

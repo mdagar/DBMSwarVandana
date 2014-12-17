@@ -26,9 +26,11 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult TelephonicEnquiryList(string search = "")
+        public ActionResult TelephonicEnquiryList(string search = "", int page = 1)
         {
-            List<Enquiries> enq = _allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.TE, search);
+            int TotalPages = 0;
+            List<Enquiries> enq = _allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.TE, out TotalPages, page, search);
+            ViewBag.TotalPages = TotalPages;
             var Discipline = _allDiscipline.GetAllDisciplines();
             var sources = _allSources.GetAllSources();
             enq.Update(x => x.SourceName = sources.Where(s => s.SourceId == x.SourceId).FirstOrDefault().Source);
@@ -92,9 +94,10 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult PhysicalEnquiryList(string search = "")
+        public ActionResult PhysicalEnquiryList(string search = "", int page = 1)
         {
-            List<Enquiries> enq = _allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.PE, search);
+            int TotalPages = 0;
+            List<Enquiries> enq = _allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.PE, out TotalPages, page, search);
             var Discipline = _allDiscipline.GetAllDisciplines();
             var sources = _allSources.GetAllSources();
             var Users = _allUsers.GetAllUsers(SessionWrapper.User.CentreId);
@@ -187,7 +190,7 @@ namespace DBM_SwarVandana.Controllers
         {
             var Discipline = _allDiscipline.GetAllDisciplines();
             var sources = _allSources.GetAllSources();
-            var rec = (_allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.TE).Select(s => new
+            var rec = (_allenquiry.GetAllEnquery(SessionWrapper.User.CentreId, (int)EnquiryType.TE).Select(s => new
             {
                 Name = s.Name,
                 Discipline = Discipline.Where(x => x.DisciplineId == s.Discipline).FirstOrDefault().Discipline,
@@ -208,7 +211,7 @@ namespace DBM_SwarVandana.Controllers
             var Discipline = _allDiscipline.GetAllDisciplines();
             var sources = _allSources.GetAllSources();
             var Users = _allUsers.GetAllUsers(SessionWrapper.User.CentreId);
-            var rec = (_allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.PE).Select(s => new
+            var rec = (_allenquiry.GetAllEnquery(SessionWrapper.User.CentreId, (int)EnquiryType.PE).Select(s => new
             {
                 Name = s.Name,
                 Discipline = Discipline.Where(x => x.DisciplineId == s.Discipline).FirstOrDefault().Discipline,
