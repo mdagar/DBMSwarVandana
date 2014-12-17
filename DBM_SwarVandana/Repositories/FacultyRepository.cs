@@ -10,6 +10,7 @@ using SqlRepositories;
 using ListConversion;
 using Code;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace Repositories
 {
@@ -43,8 +44,35 @@ namespace Repositories
         public List<Faculties> GetFacultyByCentreId(int CentreId)
         {
             object[] objParam = { CentreId };
-            var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.USP_FacultyGetByCenterId, objParam);
-            return ConvertList.TableToList<Faculties>(d.Tables[0]);
+            int totalpages=0;
+            SqlCommand cmd = new SqlCommand("USP_FacultyGetByCenterId", db.GetConnection());
+            cmd.CommandType = CommandType.StoredProcedure;
+            var centerid = new SqlParameter("@CentreID", CentreId);
+            var rowsperpage = new SqlParameter("@RowsPerPage", 10);
+            var PageNumber = new SqlParameter("@PageNumber", 1);
+            var total = new SqlParameter("@TotalPages", 0) { Direction = ParameterDirection.Output };
+            cmd.Parameters.Add(centerid);
+            cmd.Parameters.Add(rowsperpage);
+            cmd.Parameters.Add(PageNumber);
+            cmd.Parameters.Add(total);            
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            totalpages = Convert.ToInt32(total.Value);
+            //int id = outputParam.Value;
+            //var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.USP_FacultyGetByCenterId, objParam);
+            return ConvertList.TableToList<Faculties>(ds.Tables[0]);
+        }
+
+        public List<Faculties> GetAllFacultyByCentreId(int CentreId)
+        {
+            string Query = "SELECT FacultyId,NameOfFaculty,EmailID,ContactNumber,Address,StateId,CityId,DOJ,Gender,Salary,SalaryRevision,DisciplineId,YearOfExperience,CentreId,Picture,AddDate," +
+            "AddedBy,ModifyDate,ModifyBy,IsActive,DOB FROM [dbo].[Faculties] WHERE CentreId = " + CentreId + " AND IsDeleted=0";
+            SqlCommand cmd = new SqlCommand(Query, db.GetConnection());
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            return ConvertList.TableToList<Faculties>(ds.Tables[0]);
         }
 
         public Faculties GetFacultyByFacultyId(long FacultyId)
