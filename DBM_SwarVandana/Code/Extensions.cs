@@ -424,19 +424,19 @@ namespace Code
             int seed = currentPage % currentPageSize == 0 ? currentPage : currentPage - (currentPage % currentPageSize);
 
             if (currentPage > 1)
-                sb.AppendLine(String.Format("<a href=\"{0}\">Previous</a>", uri.AddQueryString("page", currentPage - 1)));
+                sb.AppendLine(String.Format("<a class='page' href=\"{0}\">Previous</a>", uri.AddQueryString("page", currentPage - 1)));
 
             if (currentPage - currentPageSize >= 0)
-                sb.AppendLine(String.Format("<a href=\"{0}\">...</a>", uri.AddQueryString("page", (currentPage - currentPageSize) + 1)));
+                sb.AppendLine(String.Format("<a class='page' href=\"{0}\">...</a>", uri.AddQueryString("page", (currentPage - currentPageSize) + 1)));
 
             for (int i = seed; i < Math.Ceiling(double.Parse(totalRecords.ToString()) / double.Parse(currentPageSize.ToString())) && i < seed + currentPageSize; i++)
-                sb.AppendLine(String.Format("<a href=\"{0}\" class=\"{2}\">{1}</a>", uri.AddQueryString("page", i + 1), i + 1, currentPage == i + 1 ? "selected" : ""));
+                sb.AppendLine(String.Format("<a href=\"{0}\" class=\"{2}\">{1}</a>", uri.AddQueryString("page", i + 1), i + 1, currentPage == i + 1 ? "page active" : "page"));
 
             if (currentPage + currentPageSize <= (Math.Ceiling(double.Parse(totalRecords.ToString()) / double.Parse(currentPageSize.ToString()))))
-                sb.AppendLine(String.Format("<a href=\"{0}\" >...</a>", uri.AddQueryString("page", (currentPage + currentPageSize) + 1)));
+                sb.AppendLine(String.Format("<a class='page' href=\"{0}\" >...</a>", uri.AddQueryString("page", (currentPage + currentPageSize) + 1)));
 
             if (currentPage < (Math.Ceiling(double.Parse(totalRecords.ToString()) / double.Parse(currentPageSize.ToString()))))
-                sb.AppendLine(String.Format("<a href=\"{0}\">Next</a>", uri.AddQueryString("page", currentPage + 1)));
+                sb.AppendLine(String.Format("<a class='page' href=\"{0}\">Next</a>", uri.AddQueryString("page", currentPage + 1)));
 
             return new MvcHtmlString(sb.ToString());
         }

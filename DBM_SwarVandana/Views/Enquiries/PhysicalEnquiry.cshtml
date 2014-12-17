@@ -3,9 +3,6 @@
 @{
     ViewBag.Title = "PhysicalEnquiry";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-
-
     IEnumerable<Status> statusid = Enum.GetValues(typeof(Status))
                                                       .Cast<Status>();
     IEnumerable<SelectListItem> status = from u in statusid
@@ -92,7 +89,7 @@
                 {
                     <div>@Html.ValidationSummary(false)</div>
                 }
-                
+
             </div>
             <h3>Physical Enquiry</h3>
             <div class="row">
@@ -107,10 +104,10 @@
                     @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input", @readonly = "readonly" })
                 }
                 else
-                { 
+                {
                     @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input" })
                 }
-                
+
             </div>
             <div class="row">
                 <label for="Password">Name :</label>
@@ -122,7 +119,7 @@
                 {
                     @Html.TextBoxFor(x => x.Name, new { @class = "input" })
                 }
-                
+
             </div>
             <div class="row">
                 <label for="Password">Date of Visit :</label>
@@ -134,7 +131,7 @@
                 {
                     @Html.TextBoxFor(x => x.DateOfEnquiry, new { @class = "input" })
                 }
-                
+
             </div>
             <div class="row">
                 <label for="Password">Discipline :</label>
@@ -158,7 +155,7 @@
                 {
                     @Html.TextBoxFor(x => x.Age, new { @class = "input" })
                 }
-                
+
             </div>
             <div class="row">
                 <label for="Password">Occupation :</label>
@@ -170,13 +167,13 @@
                 {
                     @Html.TextBoxFor(x => x.Occupation, new { @class = "input" })
                 }
-                
+
             </div>
             <div class="row">
                 <label for="Password">Attended By :</label>
                 @Html.DropDownListFor(x => x.AttendedBy, new ListBound(Model.AttendedBy, "Users").Users, "-- Select User --", new { @class = "select" })
             </div>
-          
+
             <div class="row">
                 <label for="Password">State :</label>
                 @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" })
@@ -232,7 +229,7 @@
                 <input type="submit" id="btnSubmit" value="Submit" class="submit-btn gap" />
                 <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
             </div>
-    
+
         }
     </div>
 
