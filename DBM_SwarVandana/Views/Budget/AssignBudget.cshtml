@@ -16,6 +16,7 @@
     <div class="registration-form">
         @using (Html.BeginForm("AssignBudget", "Budget", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
+            @Html.HiddenFor(x => x.BudgetID)
             <div>
                 @if (!string.IsNullOrEmpty(ViewBag.Success))
                 {
@@ -34,6 +35,10 @@
                 <label for="Password"><span style="color: red;">*</span>Budget Amount:</label>
                 @Html.TextBoxFor(x => x.BudgetAmount, new { @class = "input" })
             </div>
+            <div class="row">
+                <label for="Password"><span style="color: red;">*</span>Budget Amount:</label>
+                @Html.DropDownListFor(x => x.FinancialYear, new SelectList(ViewBag.Years as System.Collections.IEnumerable, Model.FinancialYear), new { @class = "select" })
+            </div>  
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Description:</label>
                 @Html.TextAreaFor(x => x.Description, new { @class = "textarea" })

@@ -32,14 +32,32 @@ namespace DBM_SwarVandana.Controllers
             return View(bgt);
         }
 
+        private void GetYears()
+        {
+            List<string> Years = new List<string>();
+            DateTime startYear = DateTime.Now;
+            while (startYear.Year <= DateTime.Now.AddYears(3).Year)
+            {
+                Years.Add(startYear.Year + " - " + startYear.AddYears(1).Year);
+                startYear = startYear.AddYears(1);
+            }
+            ViewBag.Years = Years;
+        }
+
         [Authenticate]
         public ActionResult AssignBudget(int? BudgetID)
         {
             BudgetViewModel b;
             if (BudgetID.HasValue)
+            {
+                GetYears();
                 b = new BudgetViewModel(_allbudget.GetBudgetForAll("").Where(x => x.BudgetID == BudgetID).FirstOrDefault());
+            }
             else
+            {
                 b = new BudgetViewModel();
+                GetYears();
+            }
             return View(b);
         }
 
@@ -62,6 +80,7 @@ namespace DBM_SwarVandana.Controllers
                 if (result > 0)
                 {
                     ViewBag.Success = Messages.SubmitBudget;
+                    GetYears();
                 }
                 else
                 {
@@ -71,6 +90,7 @@ namespace DBM_SwarVandana.Controllers
             else
             {
                 bgt = new BudgetViewModel();
+                GetYears();
             }
             return View(bgt);
         }

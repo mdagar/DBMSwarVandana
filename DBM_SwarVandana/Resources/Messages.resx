@@ -306,4 +306,7 @@
   <data name="ExpenseForRequired" xml:space="preserve">
     <value>Please enter expense for.</value>
   </data>
+  <data name="FinancialYearRequired" xml:space="preserve">
+    <value>Please enter financial year.</value>
+  </data>
 </root>

@@ -11,6 +11,7 @@ namespace Models
         public virtual int BudgetID { get; set; }
         public virtual decimal BudgetAmount { get; set; }
         public virtual string Description { get; set; }
+        public virtual string FinancialYear { get; set; }
         public virtual int CentreID { get; set; }
         public virtual int CreatedBy { get; set; }
         public virtual DateTime? CreatedOn { get; set; }
@@ -25,6 +26,7 @@ namespace Models
             this.BudgetID = 0;
             this.BudgetAmount = 0;
             this.Description = string.Empty;
+            this.FinancialYear = string.Empty;
             this.CentreID = 0;
             this.CreatedBy = 0;
             this.CreatedOn = null;

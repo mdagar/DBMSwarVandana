@@ -22,6 +22,7 @@
     <div class="registration-form">
         @using (Html.BeginForm("AddExpenses", "Budget", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
+            @Html.HiddenFor(x => x.ExpenseID)
             <div>
                 @if (!string.IsNullOrEmpty(ViewBag.Success))
                 {

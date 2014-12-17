@@ -31,6 +31,7 @@
                 <tr bgcolor="#ccc">
                     <td class="td">Budget Amount</td>
                     <td class="td">Description</td>
+                    <td class="td">Financial Year</td>
                     <td class="td">Is Active</td>
                     <td class="td">Action</td>
                 </tr>
@@ -41,6 +42,7 @@
                     <tr>
                         <td class="td">@v.BudgetAmount</td>
                         <td class="td">@v.Description</td>
+                        <td class="td">@v.FinancialYear</td>
                         <td class="td">@v.IsActive</td>
                         <td class="td">
                             <a href="@Url.Action("AssignBudget", "Budget", new { BudgetID = v.BudgetID })" title="Edit">Edit</a>

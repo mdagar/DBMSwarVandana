@@ -35,7 +35,7 @@ namespace Repositories
         {
             if (b.BudgetID > 0)
                 b.ActionId = 1;
-            object[] objParam = { b.ActionId, b.BudgetID, b.BudgetAmount, b.Description, b.CentreID, b.CreatedBy, b.CreatedOn, b.ModifiedBy, b.ModifiedOn, b.IsActive, b.IsDeleted };
+            object[] objParam = { b.ActionId, b.BudgetID, b.BudgetAmount, b.Description, b.FinancialYear, b.CentreID, b.CreatedBy, b.CreatedOn, b.ModifiedBy, b.ModifiedOn, b.IsActive, b.IsDeleted };
             var res = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.InsertBudgetMaster, objParam);
             return Convert.ToInt32(res);
         }

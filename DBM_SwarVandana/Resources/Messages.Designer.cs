@@ -313,6 +313,15 @@ namespace DBM_SwarVandana.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter financial year..
+        /// </summary>
+        internal static string FinancialYearRequired {
+            get {
+                return ResourceManager.GetString("FinancialYearRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter first name..
         /// </summary>
         internal static string FNameRequired {
