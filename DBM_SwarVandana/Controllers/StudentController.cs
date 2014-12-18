@@ -273,7 +273,7 @@ namespace DBM_SwarVandana.Controllers
                 s.ModifyDate = DateTime.Now;
                 AttendenceCollection.Add(s);
             }
-            m.studentAttendence = AttendenceCollection;
+            m.studentAttendence = AttendenceCollection.Where(x=> x.ClassId == m.ClassId).ToList();
             return View(m);
         }
 
@@ -330,6 +330,7 @@ namespace DBM_SwarVandana.Controllers
             }
             return Json("", JsonRequestBehavior.AllowGet);
         }
+
         #endregion
 
         #region Payment Details
