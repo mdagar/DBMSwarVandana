@@ -35,15 +35,17 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult AllStudents(string search = "")
+        public ActionResult AllStudents(string search = "",int page=1)
         {
             ViewBag.search = search;
-            var users = _alluser.GetAllUsers(SessionWrapper.User.CentreId, search).Where(x => x.RoleId < SessionWrapper.User.RoleId).ToList();
+            int TotalPages = 0;         
+            var users = _alluser.GetAllUsers(SessionWrapper.User.CentreId).Where(x => x.RoleId < SessionWrapper.User.RoleId).ToList();
             var state = _allcentre.GetStates();
             var city = _allcentre.GetCities();
-            var stu = _allstudents.GetStudents(SessionWrapper.User.CentreId, search);
+            var stu = _allstudents.GetStudents(SessionWrapper.User.CentreId, out TotalPages, page, search);
             stu.Update(x => x.StateName = state.Where(s => s.StateId == x.StateId).FirstOrDefault().StateName);
             stu.Update(x => x.CityName = city.Where(s => s.CityId == x.CityId).FirstOrDefault().CityName);
+            ViewBag.TotalPages = TotalPages;
             return View(stu);
         }
 

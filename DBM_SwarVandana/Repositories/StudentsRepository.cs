@@ -17,14 +17,37 @@ namespace Repositories
     public class StudentsRepository
     {
         DBConnections db = new DBConnections();
-        public List<Students> GetStudents(int centerId, string Search = "")
+        public List<Students> GetStudents(int centerId, out int TotalPages, int PageNumber, string search)
         {
-            object[] objParam = { centerId, Search };
-            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetStudents, objParam);
+            int RowsPerPage = ConfigurationWrapper.PageSize;
+            SqlParameter[] spParameter = new SqlParameter[6];
+            var pcenterId = new SqlParameter("@centerId", centerId);            
+            var rowsPerpage = new SqlParameter("@RowsPerPage", RowsPerPage);
+            var rowNo = new SqlParameter("@PageNumber", PageNumber);
+            var total = new SqlParameter("@TotalPages", 0) { Direction = System.Data.ParameterDirection.Output };
+            var psearch = new SqlParameter("@search", search);
+            SqlCommand cmd = new SqlCommand("[GetStudents]", db.GetConnection());
+            cmd.CommandType = CommandType.StoredProcedure;
+            DataSet ds = new DataSet();
+            cmd.Parameters.Add(pcenterId);            
+            cmd.Parameters.Add(rowsPerpage);
+            cmd.Parameters.Add(rowNo);
+            cmd.Parameters.Add(total);
+            cmd.Parameters.Add(psearch);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(ds);
+            TotalPages = Convert.ToInt32(total.Value);
             if (ds == null)
                 return new List<Students>();
             else
                 return ds.Tables[0].TableToList<Students>();
+
+            //object[] objParam = { centerId, Search };
+            //DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetStudents, objParam);
+            //if (ds == null)
+            //    return new List<Students>();
+            //else
+            //    return ds.Tables[0].TableToList<Students>();
         }
 
         public string AdStudents(Students s)
