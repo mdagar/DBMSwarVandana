@@ -185,7 +185,7 @@ namespace DBM_SwarVandana.Controllers
         {
 
             var Discipline = _allDiscipline.GetAllDisciplines();
-            var Classes = _allClassRepository.ListClassDetails(SessionWrapper.User.CentreId);
+            var Classes = _allClassRepository.GetAllClasses(SessionWrapper.User.CentreId);
             var sev = _allstudents.GetStudentDetails(studentId);
             sev.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.DisciplineId).FirstOrDefault().Discipline);
             sev.Update(x => x.ClassName = Classes.Where(s => s.ClassId == x.ClassId).FirstOrDefault().ClassName);

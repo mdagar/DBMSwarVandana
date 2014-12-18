@@ -39,12 +39,14 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult ClassDetailsList(string Search = "")
+        public ActionResult ClassDetailsList(string Search = "", int page = 1)
         {
-            List<ClassDetails> cls = _allclass.ListClassDetails(SessionWrapper.User.CentreId, Search);
+            int TotalPages = 0;
+            List<ClassDetails> cls = _allclass.ListClassDetails(SessionWrapper.User.CentreId,out TotalPages,page,Search);
             var Discipline = _allDiscipline.GetAllDisciplines();
             var Users = _allFaculty.GetFacultyByCentreId(SessionWrapper.User.CentreId);
             cls.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.DisciplineId).FirstOrDefault().Discipline);
+            ViewBag.TotalPages = TotalPages;
             foreach (var v in cls)
             {
                 var name = Users.Where(s => s.FacultyId == v.FacultyId).FirstOrDefault();
@@ -173,7 +175,7 @@ namespace DBM_SwarVandana.Controllers
         {
             var Discipline = _allDiscipline.GetAllDisciplines();
             var Users = _allFaculty.GetFacultyByCentreId(SessionWrapper.User.CentreId);
-            List<ClassDetails> cls = _allclass.ListClassDetails(SessionWrapper.User.CentreId);
+            List<ClassDetails> cls = _allclass.GetAllClasses(SessionWrapper.User.CentreId);
             cls.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.DisciplineId).FirstOrDefault().Discipline);
             cls.Update(x => x.FaculityName = Users.Where(s => s.FacultyId == x.FacultyId).FirstOrDefault().NameOfFaculty);
             var rec = (cls.Select(s => new
