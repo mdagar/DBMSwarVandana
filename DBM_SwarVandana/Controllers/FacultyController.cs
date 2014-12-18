@@ -25,9 +25,11 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult GetFaculityList()
+        public ActionResult GetFaculityList(string search = "", int page = 1)
         {
-            List<Faculties> fac = _allfaculty.GetFacultyByCentreId(SessionWrapper.User.CentreId);
+            int TotalPages = 0;
+            List<Faculties> fac = _allfaculty.GetFacultyByCentreId(SessionWrapper.User.CentreId, out TotalPages, page, search);
+            ViewBag.TotalPages = TotalPages;
             var Discipline = _allDiscipline.GetAllDisciplines();
             fac.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.DisciplineId).FirstOrDefault().Discipline);
             return View(fac);

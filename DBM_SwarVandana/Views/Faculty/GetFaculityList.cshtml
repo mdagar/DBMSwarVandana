@@ -14,8 +14,7 @@
         <!-- start table-form -->
         <div class="table-form">
             <form action="#">
-                <input type="text" name="field" value="" class="input" />
-                
+                <input type="text" name="search" value="" class="input" />
                 <input name="submit" type="submit" value="Excel Button" class="submit-btn" />
                 <label for="From">&nbsp;</label>
                 <input name="submit" type="button" onclick="AddNew()" value="Add New" class="submit-btn" />
@@ -56,13 +55,14 @@
                     <!-- end row -->
                 }
                 @{if (Model.Count() == 0)
-                  {
+                {
                     <tr class="row">
                         <td class="td" style="text-align: center">No record found.</td>
                     </tr>
 
-                  }}
+                }}
             </table>
+            @Html.Partial("_Paging")
         </div>
         <!-- end table -->
     </div>
