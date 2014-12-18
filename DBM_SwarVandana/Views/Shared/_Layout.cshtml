@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <script src="~/Content/JS/jquery-1.11.1.js"></script>
-    <link href="~/Content/css/style.css" rel="stylesheet" />
+    @*<link href="~/Content/css/style.css" rel="stylesheet" />*@
     <link href="~/Content/css/loginstyle.css" rel="stylesheet" />
 
     <link href="~/Content/css/colorbox.css" rel="stylesheet" />
@@ -111,7 +111,7 @@
                                 <li><a href="@Url.Action("GetFaculityList", "Faculty")">Faculty Management</a></li>
                                 <li><a href="@Url.Action("UserList", "Main")">User Management</a></li>
                                 <li><a href="@Url.Action("PayemntDetails", "Student")">Payment Details</a></li>
-                                <li><a href="@Url.Action("RenewalStudent", "Student")">Renewal Management</a></li>
+                                <li><a href="@Url.Action("RenewalStudentList", "Student")">Renewal Management</a></li>
                             </ul>
 
                         </li>

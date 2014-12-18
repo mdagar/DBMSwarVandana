@@ -204,6 +204,17 @@ namespace Repositories
                 return ds.Tables[0].TableToList<StudentRenewal>();
         }
 
+        public StudentRenewal GetRenewStudentFromRenewId(int centerId, long renewId)
+        {
+            StudentRenewal sr = new StudentRenewal();
+            string Query = "select RenewalId,EnrollmentId,StudentId,FacultyId,AddDate,Description,Remark,Status from [dbo].[StudentRenewal]  WHERE RenewalId=" + renewId + " and CenterId=" + centerId + "";
+            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            if (ds == null)
+                return sr;
+            else
+                return ds.Tables[0].TableToList<StudentRenewal>().FirstOrDefault();
+        }
+
         public int RenewalStudents(StudentRenewal sr)
         {
             try
