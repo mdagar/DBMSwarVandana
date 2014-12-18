@@ -211,8 +211,8 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult RenewalStudent(int renewalId=0)
         {
             StudentRenewalViewModel sr = new StudentRenewalViewModel();
-            //if (renewalId != 0)
-            //    sr = _allstudents.GetStudentsByEnrollmentId(renewalId);
+            if (renewalId != 0)
+                sr = new StudentRenewalViewModel(_allstudents.GetRenewStudentFromRenewId(SessionWrapper.User.UserId, renewalId));
             return View(sr);
         }
 
@@ -221,6 +221,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult RenewalStudent(StudentRenewalViewModel s)
         {
             var result = 0;
+            StudentRenewalViewModel sr ;
             if (ModelState.IsValid)
             {
                 s.ActionId = 0;
@@ -229,7 +230,21 @@ namespace DBM_SwarVandana.Controllers
                 s.ModifyBy = SessionWrapper.User.UserId;
                 s.AddedBy = SessionWrapper.User.UserId;
                 s.CenterId = SessionWrapper.User.CentreId;
-                result = _allstudents.RenewalStudents(s);
+                if (s.RenewalId != 0)
+                {
+                    sr = new StudentRenewalViewModel(_allstudents.GetRenewStudentFromRenewId(SessionWrapper.User.UserId, s.RenewalId));
+                    sr.ActionId = 1;
+                    sr.ModifyDate = DateTime.Now;
+                    sr.ModifyBy = SessionWrapper.User.UserId;
+                    sr.Description = s.Description;
+                    sr.Remark = s.Remark;
+                    sr.Status = s.Status;
+                    result = _allstudents.RenewalStudents(sr);
+                }
+                else
+                {
+                    result = _allstudents.RenewalStudents(s);
+                }
                 if (result > 0)
                 {
                     ViewBag.Success = Messages.SubmitRenewal;
