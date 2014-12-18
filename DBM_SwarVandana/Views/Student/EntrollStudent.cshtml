@@ -11,23 +11,31 @@
 <script>
     function GetStudentDetails() {
         var uniqueid = $("#UniqueKey").val();
-        $.post('@Url.Action("GetStudentByUniqueId", "Student")', { UniqueId: uniqueid }, function (data) {
-            if (data.StudentId > 0) {
-                $("#lblName").text(data.Name);
-                var finalDate = ConvertDate(data.DOB);
-                $("#DOB").text(finalDate);
-                $("#ContactNumber").text(data.Contact1);
-                $("#EmailID").text(data.EmailAddress);
-                $("#Address").text(data.Address);
-                $("#GuardianName").text(data.GuardianName);
-                $("#Occupation").text(data.Occupation);
-                $("#StudentId").val(data.StudentId);
-                $("#showstudent").show();
-            }
-            else {
-                alert('No Record Found');
-            }
-        });
+        if (uniqueid == '')
+        {
+            alert('Please enter UniqueId');
+            return false;
+        }
+        else
+        {
+            $.post('@Url.Action("GetStudentByUniqueId", "Student")', { UniqueId: uniqueid }, function (data) {
+                if (data.StudentId > 0) {
+                    $("#lblName").text(data.Name);
+                    var finalDate = ConvertDate(data.DOB);
+                    $("#DOB").text(finalDate);
+                    $("#ContactNumber").text(data.Contact1);
+                    $("#EmailID").text(data.EmailAddress);
+                    $("#Address").text(data.Address);
+                    $("#GuardianName").text(data.GuardianName);
+                    $("#Occupation").text(data.Occupation);
+                    $("#StudentId").val(data.StudentId);
+                    $("#showstudent").show();
+                }
+                else {
+                    alert('No Record Found');
+                }
+            });
+        }
     }
 
     function ConvertDate(dat) {
@@ -70,14 +78,12 @@
         $.post('@Url.Action("GetRemainingClassesDetails", "Student")', { classid: $("#ClassId").val(), startdate: $("#SatrtDate").val(), NoofClass: $("#NoOfClasses").val() }, function (data) {
             if (data != null) {
                 var result = JSON.parse(data);
-                alert(result[0].AlloedClasses);
                 if ($("#NoOfClasses").val() > result[0].AlloedClasses) {
                     $("#NoOfClasses").focus();
                     $("#btnSubmit").hide();
                     alert("You can not assign more then " + result[0].AlloedClasses + " classes.");
                 }
                 else {
-                    alert(ConvertDate(result[0].EndDate));
                     $("#EndDate").val(ConvertDate(result[0].EndDate));
                     $("#btnSubmit").show();
                 }
