@@ -39,7 +39,7 @@ namespace DBM_SwarVandana.Controllers
         {
             ViewBag.search = search;
             int TotalPages = 0;         
-            var users = _alluser.GetAllUsers(SessionWrapper.User.CentreId).Where(x => x.RoleId < SessionWrapper.User.RoleId).ToList();
+            var users = _alluser.AllUsers(SessionWrapper.User.CentreId).Where(x => x.RoleId < SessionWrapper.User.RoleId).ToList();
             var state = _allcentre.GetStates();
             var city = _allcentre.GetCities();
             var stu = _allstudents.GetStudents(SessionWrapper.User.CentreId, out TotalPages, page, search);
@@ -118,6 +118,7 @@ namespace DBM_SwarVandana.Controllers
             var result = _allstudents.GetStudentsByUniqueId(UniqueId);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        
         [Authenticate]
         public ActionResult GetStudentsByEnrollmentId(int EnrollmentId)
         {

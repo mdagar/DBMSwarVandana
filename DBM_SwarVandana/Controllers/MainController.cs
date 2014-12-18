@@ -138,13 +138,16 @@ namespace DBM_SwarVandana.Controllers
 
         #region UserRegistration
         [Authenticate]
-        public ActionResult UserList(string search = "")
+        public ActionResult UserList(string search = "",int page=1)
         {
-            var users = _alluser.GetAllUsers(SessionWrapper.User.CentreId, search).Where(x => x.RoleId < SessionWrapper.User.RoleId).ToList();
+            int TotalPages = 0;            
+
+            var users = _alluser.GetAllUsers(SessionWrapper.User.CentreId, out TotalPages, page, search).Where(x => x.RoleId < SessionWrapper.User.RoleId).ToList();
             var state = _allcentre.GetStates();
             var city = _allcentre.GetCities();
             users.Update(x => x.StateName = state.Where(s => s.StateId == x.StateId).FirstOrDefault().StateName);
             users.Update(x => x.CityName = city.Where(s => s.CityId == x.CityId).FirstOrDefault().CityName);
+            ViewBag.TotalPages = TotalPages;
             return View(users);
         }
 
@@ -194,7 +197,7 @@ namespace DBM_SwarVandana.Controllers
         {
             var state = _allcentre.GetStates();
             var city = _allcentre.GetCities();
-            var x = _alluser.GetAllUsers(SessionWrapper.User.CentreId);
+            var x = _alluser.AllUsers(SessionWrapper.User.CentreId);
             var rec = (x.Select(s => new
             {
                 Name = s.FirstName + " " + s.LastName,

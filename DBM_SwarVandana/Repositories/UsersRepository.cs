@@ -10,6 +10,7 @@ using System.Reflection;
 using SqlRepositories;
 using ListConversion;
 using Code;
+using System.Data.SqlClient;
 
 namespace Repositories
 {
@@ -69,10 +70,38 @@ namespace Repositories
             return ConvertList.TableToList<Centres>(d.Tables[0]);
         }
 
-        public List<Users> GetAllUsers(long centerId, string search = "")
+        public List<Users> GetAllUsers(long centerId, out int TotalPages, int PageNumber = 1, string search = "")
         {
-            object[] objParam = { centerId, search };
-            var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.USP_UsersGetAll, objParam);
+            int RowsPerPage = ConfigurationWrapper.PageSize;
+            SqlParameter[] spParameter = new SqlParameter[6];
+            var pcenterId = new SqlParameter("@centerId", centerId);
+            var rowsPerpage = new SqlParameter("@RowsPerPage", RowsPerPage);
+            var rowNo = new SqlParameter("@PageNumber", PageNumber);
+            var total = new SqlParameter("@TotalPages", 0) { Direction = System.Data.ParameterDirection.Output };
+            var psearch = new SqlParameter("@search", search);
+            SqlCommand cmd = new SqlCommand(Procedures.USP_UsersGetAll, db.GetConnection());
+            cmd.CommandType = CommandType.StoredProcedure;
+            DataSet ds = new DataSet();
+            cmd.Parameters.Add(pcenterId);
+            cmd.Parameters.Add(rowsPerpage);
+            cmd.Parameters.Add(rowNo);
+            cmd.Parameters.Add(total);
+            cmd.Parameters.Add(psearch);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(ds);
+            TotalPages = Convert.ToInt32(total.Value);
+            if (ds == null)
+                return new List<Users>();
+            else
+                return ds.Tables[0].TableToList<Users>();
+        }
+
+        public List<Users> AllUsers(long centerId)
+        {
+            string Query = "SELECT UserId,FirstName,LastName,DOB,DOJ,ContactNumber,EmailID,CentreId,Salary,RoleId,UserName,Password,StateId,CityId,Address,AddDate,AddedBy,"
+                           + "ModifyDate,ModifyBy,IsActive,IsDeleted from [dbo].[Users]"
+                           + "where IsActive=1 and isdeleted=0 and CentreId =" + centerId;
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             if (d != null)
                 return ConvertList.TableToList<Users>(d.Tables[0]);
             else return new List<Users>();

@@ -101,7 +101,7 @@ namespace DBM_SwarVandana.Controllers
             ViewBag.TotalPages = TotalPages;
             var Discipline = _allDiscipline.GetAllDisciplines();
             var sources = _allSources.GetAllSources();
-            var Users = _allUsers.GetAllUsers(SessionWrapper.User.CentreId);
+            var Users = _allUsers.AllUsers(SessionWrapper.User.CentreId);
             enq.Update(x => x.SourceName = sources.Where(s => s.SourceId == x.SourceId).FirstOrDefault().Source);
             enq.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.Discipline).FirstOrDefault().Discipline);
             foreach (var v in enq)
@@ -211,7 +211,7 @@ namespace DBM_SwarVandana.Controllers
         {
             var Discipline = _allDiscipline.GetAllDisciplines();
             var sources = _allSources.GetAllSources();
-            var Users = _allUsers.GetAllUsers(SessionWrapper.User.CentreId);
+            var Users = _allUsers.AllUsers(SessionWrapper.User.CentreId);
             var rec = (_allenquiry.GetAllEnquery(SessionWrapper.User.CentreId, (int)EnquiryType.PE).Select(s => new
             {
                 Name = s.Name,

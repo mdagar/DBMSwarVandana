@@ -41,15 +41,14 @@ namespace Repositories
             return Convert.ToInt32(d);
         }
 
-        public List<Faculties> GetFacultyByCentreId(int CentreId)
+        public List<Faculties> GetFacultyByCentreId(int CentreId, out int TotalPages, int PageNumber = 1, string search = "")
         {
-            object[] objParam = { CentreId };
-            int totalpages=0;
+            int RowsPerPage = ConfigurationWrapper.PageSize;
             SqlCommand cmd = new SqlCommand("USP_FacultyGetByCenterId", db.GetConnection());
             cmd.CommandType = CommandType.StoredProcedure;
             var centerid = new SqlParameter("@CentreID", CentreId);
-            var rowsperpage = new SqlParameter("@RowsPerPage", 10);
-            var PageNumber = new SqlParameter("@PageNumber", 1);
+            var rowsperpage = new SqlParameter("@RowsPerPage", RowsPerPage);
+            var Page = new SqlParameter("@PageNumber", PageNumber);
             var total = new SqlParameter("@TotalPages", 0) { Direction = ParameterDirection.Output };
             cmd.Parameters.Add(centerid);
             cmd.Parameters.Add(rowsperpage);
@@ -58,9 +57,7 @@ namespace Repositories
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet ds = new DataSet();
             da.Fill(ds);
-            totalpages = Convert.ToInt32(total.Value);
-            //int id = outputParam.Value;
-            //var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.USP_FacultyGetByCenterId, objParam);
+            TotalPages = Convert.ToInt32(total.Value);
             return ConvertList.TableToList<Faculties>(ds.Tables[0]);
         }
 

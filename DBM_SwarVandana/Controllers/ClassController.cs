@@ -44,7 +44,7 @@ namespace DBM_SwarVandana.Controllers
             int TotalPages = 0;
             List<ClassDetails> cls = _allclass.ListClassDetails(SessionWrapper.User.CentreId,out TotalPages,page,Search);
             var Discipline = _allDiscipline.GetAllDisciplines();
-            var Users = _allFaculty.GetFacultyByCentreId(SessionWrapper.User.CentreId);
+            var Users = _allFaculty.GetAllFacultyByCentreId(SessionWrapper.User.CentreId);
             cls.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.DisciplineId).FirstOrDefault().Discipline);
             ViewBag.TotalPages = TotalPages;
             foreach (var v in cls)
@@ -95,7 +95,7 @@ namespace DBM_SwarVandana.Controllers
             {
                 m.classDetais = _allclass.FindById(classId.Value);
                 var Discipline = _allDiscipline.GetAllDisciplines();
-                var Users = _allFaculty.GetFacultyByCentreId(SessionWrapper.User.CentreId);
+                var Users = _allFaculty.GetAllFacultyByCentreId(SessionWrapper.User.CentreId);
                 m.classDetais.DisciplaneName = Discipline.Where(x => x.DisciplineId == m.classDetais.DisciplineId).FirstOrDefault().Discipline;
                 var name = Users.Where(s => s.FacultyId == m.classDetais.FacultyId).FirstOrDefault();
                 m.classDetais.FaculityName = name == null ? "" : name.NameOfFaculty;
@@ -174,7 +174,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult ExportToExcel()
         {
             var Discipline = _allDiscipline.GetAllDisciplines();
-            var Users = _allFaculty.GetFacultyByCentreId(SessionWrapper.User.CentreId);
+            var Users = _allFaculty.GetAllFacultyByCentreId(SessionWrapper.User.CentreId);
             List<ClassDetails> cls = _allclass.GetAllClasses(SessionWrapper.User.CentreId);
             cls.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.DisciplineId).FirstOrDefault().Discipline);
             cls.Update(x => x.FaculityName = Users.Where(s => s.FacultyId == x.FacultyId).FirstOrDefault().NameOfFaculty);
