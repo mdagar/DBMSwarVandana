@@ -34,7 +34,7 @@ namespace Code
                     Disciplines = new SelectList((new DisciplineRepository().GetAllDisciplines()), "DisciplineId", "Discipline");
                     break;
                 case "Users":
-                    Users = new SelectList((new UsersRepository().GetAllUsers(SessionWrapper.User.CentreId)), "UserId", "UserName");
+                    Users = new SelectList((new UsersRepository().AllUsers(SessionWrapper.User.CentreId)), "UserId", "UserName");
                     break;
                 case "Faculties":
                     Faculties = new SelectList((new FacultyRepository().GetAllFacultyByCentreId(SessionWrapper.User.CentreId)), "FacultyId", "NameOfFaculty");
