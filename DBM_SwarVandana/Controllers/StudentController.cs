@@ -200,6 +200,14 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
+        public ActionResult RenewalStudentList(string search="")
+        {
+            ViewBag.search = search;
+            var stu = _allstudents.GetStudents(SessionWrapper.User.CentreId, search);
+            return View(stu);
+        }
+
+        [Authenticate]
         public ActionResult RenewalStudent()
         {
             StudentRenewalViewModel sr = new StudentRenewalViewModel();
@@ -214,7 +222,11 @@ namespace DBM_SwarVandana.Controllers
             if (ModelState.IsValid)
             {
                 s.ActionId = 0;
-                s.RenewalDate = DateTime.Now;
+                s.AddDate = DateTime.Now;
+                s.ModifyDate = DateTime.Now;
+                s.ModifyBy = SessionWrapper.User.UserId;
+                s.AddedBy = SessionWrapper.User.UserId;
+                s.CenterId = SessionWrapper.User.CentreId;
                 result = _allstudents.RenewalStudents(s);
                 if (result > 0)
                 {

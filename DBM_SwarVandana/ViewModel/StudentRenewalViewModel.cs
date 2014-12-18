@@ -24,7 +24,11 @@ namespace ViewModel
             this.Description = sr.Description;
             this.Remark = sr.Remark;
             this.Status = sr.Status;
-            this.RenewalDate = sr.RenewalDate;
+            this.AddDate = sr.AddDate;
+            this.CenterId = sr.CenterId;
+            this.AddedBy = sr.AddedBy;
+            this.ModifyDate = null;
+            this.ModifyBy = 0;
         }
 
         public override int ActionId { get; set; }
@@ -36,6 +40,12 @@ namespace ViewModel
         public override string Description { get; set; }
         public override string Remark { get; set; }
         public override string Status { get; set; }
-        public override DateTime? RenewalDate { get; set; }
+        public override DateTime? AddDate { get; set; }
+        public override long CenterId { get; set; }
+        public override long AddedBy { get; set; }
+        public override DateTime? ModifyDate { get; set; }
+        public override long ModifyBy { get; set; }
+        public override string Name { get; set; }
+        public override string Faculty { get; set; }
     }
 }

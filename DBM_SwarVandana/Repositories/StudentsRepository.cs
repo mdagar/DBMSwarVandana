@@ -47,7 +47,7 @@ namespace Repositories
         }
         public DataSet GetStudentsByEnrollmentId(int EnrollmentId)
         {
-            string Query = "SELECT S.StudentId,S.UniqueKey,S.Name,S.CenterId,S.DOB,S.Contact1,S.EmailAddress,S.Address,S.GuardianName,S.HasTransportFacility,(select Discipline from Disciplines where Disciplineid=E.DisciplineId) as Disciplines,(Select ClassName from ClassDetails where ClassId=E.ClassId) as Class,E.NoOfClasses,E.CourseAmount,E.AmountPaid,E.RegistratonAmount" +
+            string Query = "SELECT S.StudentId,S.UniqueKey,S.Name,S.CenterId,S.DOB,S.Contact1,S.EmailAddress,S.Address,S.GuardianName,S.HasTransportFacility,(select Discipline from Disciplines where Disciplineid=E.DisciplineId) as Disciplines,(Select ClassName from ClassDetails where ClassId=E.ClassId) as Class,E.NoOfClasses,E.CourseAmount,E.AmountPaid,E.RegistratonAmount,E.EnrollmentID" +
                            " FROM [DBMSwarVandana].[dbo].[Student] S,[DBMSwarVandana].[dbo].[StudentEnrollment] E where S.StudentId=E.StudentId and E.EnrollmentID=" + EnrollmentId + "";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
@@ -171,12 +171,22 @@ namespace Repositories
                 return d.Tables[0].TableToList<StudentAttendence>();
         }
 
+        public List<StudentRenewal> RenewStudentList(int centerId, string Search = "")
+        {
+            string Query = "select RenewalId,EnrollmentId,(select name from student where studentid=SR.StudentId) AS Name,(select NameOfFaculty from Faculties where FacultyId=SR.FacultyId) AS Faculty,Convert(varchar,AddDate,106) AS Adddate,Description,Remark,Status from [dbo].[StudentRenewal] SR";
+            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetStudents, objParam);
+            if (ds == null)
+                return new List<StudentRenewal>();
+            else
+                return ds.Tables[0].TableToList<StudentRenewal>();
+        }
+
         public int RenewalStudents(StudentRenewal sr)
         {
             try
             {
-                string Query = "Insert into StudentRenewal(EnrollmentId,StudentId,FacultyId,RenewalDate,Description,Remark,Status,CenterId) values(" + sr.EnrollmentId + "," + sr.StudentId + "," + sr.FacultyId + ",'" + sr.RenewalDate + "','" + sr.Description + "','" + sr.Remark + "','" + sr.Status + "'," + SessionWrapper.User.CentreId + ")";
-                var d = SqlHelper.ExecuteNonQuery(db.GetConnection(), CommandType.Text, Query);
+                object[] objParam = {  sr.ActionId, sr.EnrollmentId, sr.StudentId, sr.FacultyId,sr.AddDate,sr.Description,sr.Remark,sr.Status,sr.CenterId,sr.AddedBy,sr.ModifyBy,sr.ModifyDate};
+                var d = SqlHelper.ExecuteScalar(db.GetConnection(), "USP_StudentRenewal_IUD", objParam);
                 return Convert.ToInt32(d);
             }
             catch(Exception ex)
@@ -184,6 +194,7 @@ namespace Repositories
                 return 0;
             }
         }
+
 
     }
 }

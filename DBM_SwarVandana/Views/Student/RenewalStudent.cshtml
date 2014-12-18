@@ -27,9 +27,10 @@
                 $("#ContactNumber").text(result[0].Contact1);
                 $("#EmailID").text(result[0].EmailAddress);
                 $("#Address").text(result[0].Address);
-                $("#GuardianName").text(result[0].GuardianName);
+                $("#GuardianName").text(result[0].GuardianName); 
                 $("#Occupation").text(result[0].Occupation);
                 $("#StudentId").val(result[0].StudentId);
+                $("#EnrollmentId").val(result[0].EnrollmentID);
                 $("#showstudent").show();
             }
             else {
@@ -53,6 +54,7 @@
     <div class="registration-form">
         @using (Html.BeginForm("RenewalStudent", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
+            @Html.HiddenFor(x => x.EnrollmentId)
             @Html.HiddenFor(x => x.StudentId)
             <div>
                 @if (!string.IsNullOrEmpty(ViewBag.Success))
@@ -122,7 +124,7 @@
             </div>
             <div class="row">
                 <label for="Password">Status :</label>
-                @Html.DropDownListFor(x => x.StatusId, status, "-- Select Status --", new { @class = "select" })
+                @Html.DropDownListFor(x => x.Status, status, "-- Select Status --", new { @class = "select" })
 
             </div>
             <div class="rowbutton">
