@@ -49,13 +49,6 @@ namespace Repositories
                 return new List<ClassDetails>();
             else
                 return ds.Tables[0].TableToList<ClassDetails>();
-
-            //string Query = @"select ClassId,ClassName,DisciplineId,FacultyId,StudentLimit,StartDate,EndDate,CentreId,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive,IsDeleted  from [dbo].[ClassDetails] where IsDeleted=0 and isactive=1 and CentreId =" + centerId + " AND(ClassName LIKE '%"+  Search +"%' OR DisciplineId IN (SELECT DisciplineId FROM [dbo].[Disciplines] WHERE Discipline LIKE'%" + Search + "%'))";
-            //DataSet d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
-            //if (d != null)
-            //    return d.Tables[0].TableToList<ClassDetails>();
-            //else
-            //    return new List<ClassDetails>();
         }
 
         public List<ClassDetails> GetAllClasses(int centerId, string Search = "")
