@@ -18,6 +18,7 @@ namespace ViewModel
         public StudentRenewalViewModel(StudentRenewal sr)
         {
             this.ActionId = sr.ActionId;
+            this.RenewalId = sr.RenewalId;
             this.FacultyId = sr.FacultyId;
             this.EnrollmentId = sr.EnrollmentId;
             this.StudentId = sr.StudentId;
@@ -32,6 +33,7 @@ namespace ViewModel
         }
 
         public override int ActionId { get; set; }
+        public override long RenewalId { get; set; }
         public override long EnrollmentId { get; set; }
         public override long StudentId { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "FacultyIdRequired")]

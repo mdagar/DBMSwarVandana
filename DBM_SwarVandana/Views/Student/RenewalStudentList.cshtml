@@ -46,14 +46,14 @@
                     <!-- start row -->
                     <tr>
                         <td class="td">@v.EnrollmentId</td>
-                        <td class="td">@v.StudentId</td>
+                        <td class="td">@v.Name</td>
                         <td class="td">@string.Format("{0:dd MMM yyyy}", v.AddDate)</td>
-                        <td class="td">@v.FacultyId</td>
+                        <td class="td">@v.Faculty</td>
                         <td class="td">@v.Description</td>
                         <td class="td">@v.Remark</td>
                         <td class="td">@v.Status</td>
                         <td class="td">
-                            <a href="@Url.Action("RenewalStudent", "Student", new { enrollmentId = v.EnrollmentId })" title="Edit">Edit</a>
+                            <a href="@Url.Action("RenewalStudent", "Student", new { renewalId = v.EnrollmentId })" title="Edit">Edit</a>
                         </td>
                     </tr>
 

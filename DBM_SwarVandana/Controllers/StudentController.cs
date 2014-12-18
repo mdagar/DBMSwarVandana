@@ -203,14 +203,16 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult RenewalStudentList(string search="")
         {
             ViewBag.search = search;
-            var stu = _allstudents.GetStudents(SessionWrapper.User.CentreId, search);
+            var stu = _allstudents.RenewStudentList(SessionWrapper.User.CentreId, search);
             return View(stu);
         }
 
         [Authenticate]
-        public ActionResult RenewalStudent()
+        public ActionResult RenewalStudent(int renewalId=0)
         {
             StudentRenewalViewModel sr = new StudentRenewalViewModel();
+            //if (renewalId != 0)
+            //    sr = _allstudents.GetStudentsByEnrollmentId(renewalId);
             return View(sr);
         }
 

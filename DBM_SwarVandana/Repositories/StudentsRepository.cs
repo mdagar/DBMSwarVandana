@@ -173,8 +173,8 @@ namespace Repositories
 
         public List<StudentRenewal> RenewStudentList(int centerId, string Search = "")
         {
-            string Query = "select RenewalId,EnrollmentId,(select name from student where studentid=SR.StudentId) AS Name,(select NameOfFaculty from Faculties where FacultyId=SR.FacultyId) AS Faculty,Convert(varchar,AddDate,106) AS Adddate,Description,Remark,Status from [dbo].[StudentRenewal] SR";
-            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetStudents, objParam);
+            string Query = "select RenewalId,EnrollmentId,(select name from student where studentid=SR.StudentId) AS Name,(select NameOfFaculty from Faculties where FacultyId=SR.FacultyId) AS Faculty,AddDate,Description,Remark,Status from [dbo].[StudentRenewal] SR";
+            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             if (ds == null)
                 return new List<StudentRenewal>();
             else
