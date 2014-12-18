@@ -55,9 +55,9 @@
                         <td class="td">
                             <a href="@Url.Action("CreateClassTimming", "Class", new { ClassId = v.ClassId })" title="Edit">Timming</a>
                             @*@if (v.EndDate >= DateTime.Now.AddDays(-1))
-                            {
-                                @Html.Raw("|") <a href="@Url.Action("ClassDetails", "Class", new { ClassId = v.ClassId })" title="Edit">Edit</a>
-                            }*@
+                                {
+                                    @Html.Raw("|") <a href="@Url.Action("ClassDetails", "Class", new { ClassId = v.ClassId })" title="Edit">Edit</a>
+                                }*@
                         </td>
                     </tr>
                     <!-- end row -->
@@ -70,6 +70,7 @@
 
                 }}
             </table>
+            @Html.Partial("_Paging")
         </div>
         <!-- end table -->
     </div>

@@ -98,6 +98,7 @@ namespace DBM_SwarVandana.Controllers
         {
             int TotalPages = 0;
             List<Enquiries> enq = _allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.PE, out TotalPages, page, search);
+            ViewBag.TotalPages = TotalPages;
             var Discipline = _allDiscipline.GetAllDisciplines();
             var sources = _allSources.GetAllSources();
             var Users = _allUsers.GetAllUsers(SessionWrapper.User.CentreId);

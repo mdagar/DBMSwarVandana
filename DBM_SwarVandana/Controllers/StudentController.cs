@@ -185,7 +185,7 @@ namespace DBM_SwarVandana.Controllers
         {
 
             var Discipline = _allDiscipline.GetAllDisciplines();
-            var Classes = _allClassRepository.ListClassDetails(SessionWrapper.User.CentreId);
+            var Classes = _allClassRepository.GetAllClasses(SessionWrapper.User.CentreId);
             var sev = _allstudents.GetStudentDetails(studentId);
             sev.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.DisciplineId).FirstOrDefault().Discipline);
             sev.Update(x => x.ClassName = Classes.Where(s => s.ClassId == x.ClassId).FirstOrDefault().ClassName);
@@ -244,8 +244,7 @@ namespace DBM_SwarVandana.Controllers
         #region Attendence
         [Authenticate]
         public ActionResult MakeAttendence(long classId = 0, DateTime? attendenceDate = null)
-        {
-            AttendenceCollection.Clear();
+        {            
             StudentAttendenceViewModel m = new StudentAttendenceViewModel();
             m.ClassId = classId;
             m.DateOfAttendence = attendenceDate == null ? DateTime.Now : attendenceDate.Value;
@@ -265,7 +264,7 @@ namespace DBM_SwarVandana.Controllers
                 s.WeekDayId = m.WeekDayId;
                 s.DateOfAttendence = m.DateOfAttendence;
                 var status = CurrentAttendence.Where(x => x.StuentId == v.StudentId).FirstOrDefault();
-                s.AttendenceStatus = status == null ? (int)AttendenceStatus.Absent: status.AttendenceStatus;
+                s.AttendenceStatus = status == null ? (int)AttendenceStatus.Absent : status.AttendenceStatus;
                 s.AddBy = SessionWrapper.User.UserId;
                 s.ModifyBy = SessionWrapper.User.UserId;
                 s.AddDate = DateTime.Now;
@@ -286,9 +285,16 @@ namespace DBM_SwarVandana.Controllers
             {
                 if (DateOfAttendence.HasValue)
                 {
-                    AttendenceCollection.Update(u => u.DateOfAttendence = DateOfAttendence.Value);
-                    XmlDocument doc = AttendenceCollection.ConvertToXML();
-                    _allstudents.SaveAttendence(doc);
+                    List<StudentAttendence> FinalCollection = new List<StudentAttendence>();
+                    FinalCollection = AttendenceCollection.Where(x => x.ClassId == classId).ToList();
+                    FinalCollection.Update(u => u.DateOfAttendence = DateOfAttendence.Value);
+                    XmlDocument doc = FinalCollection.ConvertToXML();
+                    if (_allstudents.SaveAttendence(doc) >= 1)
+                    {
+                        foreach (var v in FinalCollection)
+                            AttendenceCollection.Remove(v);
+                        AttendenceCollection.TrimExcess();
+                    }
                 }
             }
             m.ClassId = classId;
