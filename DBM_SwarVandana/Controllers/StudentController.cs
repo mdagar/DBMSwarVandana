@@ -118,6 +118,7 @@ namespace DBM_SwarVandana.Controllers
             var result = _allstudents.GetStudentsByUniqueId(UniqueId);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        
         [Authenticate]
         public ActionResult GetStudentsByEnrollmentId(int EnrollmentId)
         {

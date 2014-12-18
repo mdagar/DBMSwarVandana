@@ -18,25 +18,31 @@
 <script>
     function GetStudentDetails() {
         var uniqueid = $("#UniqueKey").val();
-        $.post('@Url.Action("GetStudentsByEnrollmentId", "Student")', { EnrollmentId: uniqueid }, function (data) {
-            var result = JSON.parse(data);
-            if (result[0].StudentId > 0) {
-                $("#lblName").text(result[0].Name);
-                var finalDate = ConvertDate(result[0].DOB);
-                $("#DOB").text(finalDate);
-                $("#ContactNumber").text(result[0].Contact1);
-                $("#EmailID").text(result[0].EmailAddress);
-                $("#Address").text(result[0].Address);
-                $("#GuardianName").text(result[0].GuardianName); 
-                $("#Occupation").text(result[0].Occupation);
-                $("#StudentId").val(result[0].StudentId);
-                $("#EnrollmentId").val(result[0].EnrollmentID);
-                $("#showstudent").show();
-            }
-            else {
-                alert('No Record Found');
-            }
-        });
+        if (uniqueid == '') {
+            alert("Please Enter Unique Key.");
+            return false;
+        }
+        else {
+            $.post('@Url.Action("GetStudentByUniqueId", "Student")', { UniqueId: uniqueid }, function (data) {
+                var result = JSON.parse(data);
+                if (result[0].StudentId > 0) {
+                    $("#lblName").text(result[0].Name);
+                    var finalDate = ConvertDate(result[0].DOB);
+                    $("#DOB").text(finalDate);
+                    $("#ContactNumber").text(result[0].Contact1);
+                    $("#EmailID").text(result[0].EmailAddress);
+                    $("#Address").text(result[0].Address);
+                    $("#GuardianName").text(result[0].GuardianName);
+                    $("#Occupation").text(result[0].Occupation);
+                    $("#StudentId").val(result[0].StudentId);
+                    $("#EnrollmentId").val(result[0].EnrollmentID);
+                    $("#showstudent").show();
+                }
+                else {
+                    alert('No Record Found');
+                }
+            });
+        }
     }
     function ConvertDate(dat) {
         var parsedDate = new Date(parseInt(dat.substr(6)));
