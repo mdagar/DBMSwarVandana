@@ -162,14 +162,14 @@ namespace Repositories
             }
         }
 
-        public long GetRemainingClassesDetails(int classId, DateTime startDate)
+        public DataTable GetRemainingClassesDetails(int classId, DateTime startDate, int NoofClass)
         {
-            object[] Obj = { classId, startDate };
+            object[] Obj = { classId, startDate, NoofClass };
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), "GetRemainingClasses", Obj);
             if (d == null)
-                return 0;
+                return new DataTable();
             else
-                return Convert.ToInt64(d.Tables[0].Rows[0][0]);
+                return d.Tables[0];
         }
 
         public List<StudentAttendence> GetAttendenceByStudentId(long classId, long studentId, DateTime dateofAttendence)
@@ -194,10 +194,12 @@ namespace Repositories
                 return d.Tables[0].TableToList<StudentAttendence>();
         }
 
-        public List<StudentRenewal> RenewStudentList(int centerId, string Search = "")
+        public List<StudentRenewal> RenewStudentList(int centerId, string search = "")
         {
-            string Query = "select RenewalId,EnrollmentId,(select name from student where studentid=SR.StudentId) AS Name,(select NameOfFaculty from Faculties where FacultyId=SR.FacultyId) AS Faculty,AddDate,Description,Remark,Status from [dbo].[StudentRenewal] SR";
-            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            string Query1 = "select SR.RenewalId,SR.EnrollmentId,(select name from student where studentid=SR.StudentId) AS Name,FT.NameOfFaculty AS Faculty,SR.AddDate,SR.Description,SR.Remark,SR.Status from [dbo].[StudentRenewal] SR,Faculties FT" +
+                       " WHERE SR.FacultyId=FT.FacultyId AND (FT.NameOfFaculty like '%" + search + "%' OR SR.Description like '%" + search + "%' OR SR.Remark like '%" + search + "%')";
+            //string Query = "select RenewalId,EnrollmentId,(select name from student where studentid=SR.StudentId) AS Name,(select NameOfFaculty from Faculties where FacultyId=SR.FacultyId) AS Faculty,AddDate,Description,Remark,Status from [dbo].[StudentRenewal] SR";
+            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query1);
             if (ds == null)
                 return new List<StudentRenewal>();
             else

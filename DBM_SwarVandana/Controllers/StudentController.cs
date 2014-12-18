@@ -195,10 +195,22 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult GetRemainingClassesDetails(int classId, DateTime startDate)
+        public ActionResult GetRemainingClassesDetails(int classId, DateTime startDate,int NoofClass)
         {
-            var sev = _allstudents.GetRemainingClassesDetails(classId, startDate);
-            return Json(sev, JsonRequestBehavior.AllowGet);
+            var sev = _allstudents.GetRemainingClassesDetails(classId, startDate, NoofClass);
+            System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row;
+            foreach (DataRow dr in sev.Rows)
+            {
+                row = new Dictionary<string, object>();
+                foreach (DataColumn col in sev.Columns)
+                {
+                    row.Add(col.ColumnName, dr[col]);
+                }
+                rows.Add(row);
+            }
+            return Json(serializer.Serialize(rows));
         }
 
         [Authenticate]

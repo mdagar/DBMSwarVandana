@@ -67,18 +67,29 @@
 
     function GetRemainingClassesDetails() {
 
-        $.post('@Url.Action("GetRemainingClassesDetails", "Student")', { classid: $("#ClassId").val(), startdate: $("#SatrtDate").val() }, function (data) {
+        $.post('@Url.Action("GetRemainingClassesDetails", "Student")', { classid: $("#ClassId").val(), startdate: $("#SatrtDate").val(), NoofClass: $("#NoOfClasses").val() }, function (data) {
             if (data != null) {
-                if ($("#NoOfClasses").val() > data) {
+                var result = JSON.parse(data);
+                alert(result[0].AlloedClasses);
+                if ($("#NoOfClasses").val() > result[0].AlloedClasses) {
                     $("#NoOfClasses").focus();
                     $("#btnSubmit").hide();
-                    alert("You can not assign more then "+data+" classes.");
+                    alert("You can not assign more then " + result[0].AlloedClasses + " classes.");
                 }
                 else {
+                    alert(ConvertDate(result[0].EndDate));
+                    $("#EndDate").val(ConvertDate(result[0].EndDate));
                     $("#btnSubmit").show();
                 }
             }
         });
+    }
+    function ConvertDate(dat) {
+        var parsedDate = new Date(parseInt(dat.substr(6)));
+        var d = new Date(parsedDate); //Date object
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var finalDate = +d.getDate() + " " + months[(d.getMonth() + 1) - 1] + " " + d.getFullYear();
+        return finalDate;
     }
 
 </script>
@@ -216,7 +227,7 @@
 
             <div class="row">
                 <label for="Password">End Date :</label>
-                @Html.TextBoxFor(x => x.EndDate, new { @class = "input" })
+                @Html.TextBoxFor(x => x.EndDate, new { @class = "input", @readonly = "readonly" })
 
             </div>
             <div class="rowbutton">
@@ -230,7 +241,7 @@
 
 <script>
     $(document).ready(function () {
-        $("#SatrtDate,#EndDate").datepicker({ dateFormat: "dd M yy", minDate: "-1m" });
+        $("#SatrtDate").datepicker({ dateFormat: "dd M yy", minDate: "-1m" });
     });
     function RedirectToHome() {
         window.location.href = ('@Url.Action("AllStudents", "Student")');
