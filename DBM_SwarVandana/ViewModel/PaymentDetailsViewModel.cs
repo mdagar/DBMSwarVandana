@@ -18,7 +18,7 @@ namespace ViewModel
             this.StudentId = p.StudentId;
             this.BankName = p.BankName;
             this.PaymentMode = p.PaymentMode;
-            this.PaymentDetails = p.PaymentDetails;
+            this.TransactionDetails = p.TransactionDetails;
             this.DateOfPayment = p.DateOfPayment;
             this.AmountPaid = p.AmountPaid;
             this.DueDate = p.DueDate;

@@ -12,7 +12,7 @@ namespace Models
         public virtual long StudentId { get; set; }
         public virtual string BankName { get; set; }
         public virtual int PaymentMode { get; set; }
-        public virtual string PaymentDetails { get; set; }
+        public virtual string TransactionDetails { get; set; }
         public virtual DateTime? DateOfPayment { get; set; }
         public virtual decimal AmountPaid { get; set; }
         public virtual DateTime? DueDate { get; set; }
@@ -28,7 +28,7 @@ namespace Models
             this.StudentId = 0;
             this.BankName = string.Empty;
             this.PaymentMode = 0;
-            this.PaymentDetails = string.Empty;
+            this.TransactionDetails = string.Empty;
             this.DateOfPayment = null;
             this.AmountPaid = 0;
             this.DueDate = null;
