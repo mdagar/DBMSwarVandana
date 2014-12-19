@@ -367,8 +367,8 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult PayemntDetails()
         {
-            StudentEntrollmentViewModel se = new StudentEntrollmentViewModel();
-            return View(se);
+            PaymentDetailsViewModel pd = new PaymentDetailsViewModel();
+            return View(pd);
         }
         #endregion
     }

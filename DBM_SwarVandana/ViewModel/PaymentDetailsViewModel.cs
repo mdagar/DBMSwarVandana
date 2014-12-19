@@ -9,8 +9,7 @@ namespace ViewModel
     public class PaymentDetailsViewModel : PaymentDetails
     {
         public PaymentDetailsViewModel()
-        {
-        }
+        {}
 
         public PaymentDetailsViewModel(PaymentDetails p)
         {
