@@ -9,9 +9,11 @@ namespace ViewModel
     {
 
         public virtual decimal BudgetAssign { get; set; }
-        public virtual decimal TotalExpense { get; set; }
-        public virtual decimal FinalResult { get; set; }
-
+        public virtual decimal Revenue { get; set; }
+        public virtual decimal Salary { get; set; }
+        public virtual decimal Expenseses { get; set; }
+        public virtual decimal FinalAmount { get; set; }
+        
         public List<string> financialYears { get; set; }
 
 

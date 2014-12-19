@@ -67,5 +67,18 @@ namespace Repositories
             var res = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.InsertExpenses, objParam);
             return Convert.ToInt32(res);
         }
+
+        public ViewModel.ProfitLossViewModel GetRevenue(int centerId, string FinancialYear)
+        {
+            object[] obj = { centerId, FinancialYear };
+
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), "CalculateProfitLoss", obj);
+            if (d != null)
+                return d.Tables[0].TableToList<ViewModel.ProfitLossViewModel>().FirstOrDefault();
+            else
+                return new ViewModel.ProfitLossViewModel();
+
+        }
+
     }
 }

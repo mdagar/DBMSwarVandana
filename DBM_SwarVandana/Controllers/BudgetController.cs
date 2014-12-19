@@ -38,7 +38,7 @@ namespace DBM_SwarVandana.Controllers
         {
             List<string> Years = new List<string>();
             DateTime startYear = DateTime.Now;
-            while (startYear.Year <= DateTime.Now.AddYears(3).Year)
+            while (startYear.Year <= DateTime.Now.AddYears(1).Year)
             {
                 Years.Add(startYear.Year + " - " + startYear.AddYears(1).Year);
                 startYear = startYear.AddYears(1);
@@ -150,13 +150,16 @@ namespace DBM_SwarVandana.Controllers
         #endregion
 
         #region Profit Loss Management
-        
+
         [Authenticate]
-        public ActionResult ProfitLoss()
+        public ActionResult ProfitLoss(string financialyear = "")
         {
             ProfitLossViewModel p = new ProfitLossViewModel();
             GetYears();
-            p.financialYears = ViewBag.Years = Years;
+            p.financialYears = ViewBag.Years;
+            if (string.IsNullOrEmpty(financialyear))
+                financialyear = p.financialYears.FirstOrDefault();
+            p = _allbudget.GetRevenue(SessionWrapper.User.CentreId, financialyear);
             return View(p);
         }
 
