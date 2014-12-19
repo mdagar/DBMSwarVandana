@@ -8,7 +8,7 @@
 <script src="~/Content/js/jquery-ui.js"></script>
 <script>
     $(document).ready(function () {
-        $("#PayDate,#DueDate").datepicker({ dateFormat: "dd M yy", minDate: "-1m" });
+        $("#DateOfPayment,#DueDate").datepicker({ dateFormat: "dd M yy", minDate: "-1m" });
     });
     function GetStudentDetails() {
         var uniqueid = $("#UniqueKey").val();
@@ -30,7 +30,7 @@
                         $("#ClassId").html('');
                         $("#ClassId").append('<option value="">-- Select Class --</option>');
                         $.each(result, function (i, Class) {
-                            $("#ClassId").append('<option value="' + Class.ClassID + '">' +
+                            $("#ClassId").append('<option value="' + Class.ClassID + '" >' +
                                  Class.ClassName + '</option>');
                         });
                     });
@@ -55,8 +55,20 @@
                 $("#lblCourseamt").val(result[0].CourseAmount);
                 $("#lblpaidmat").val(result[0].PaidAmount);
                 $("#lblbalamt").val(result[0].BalanceAmount);
-            }
+            } 
         });
+    }
+    function CheckBalance() {
+        var amtpaid = $("#AmountPaid").val();
+        var balmat = $("#lblbalamt").val();
+        if (amtpaid > balmat) {
+            alert('Amount should be equal or less then Balance Amount');
+            $("#AmountPaid").val('');
+        }
+        else {
+            var bal = balmat - amtpaid;
+            $("#txtBalance").val(bal);
+        }
     }
 
 </script>
@@ -158,40 +170,40 @@
                         <tr>
                             <td>Bank Name</td>
                             <td>
-                                <input id="BankName" type="text" class="input" />
+                                @Html.TextBoxFor(x => x.BankName, new { @class="input"})
                             </td>
                             <td>Payment Mode</td>
                             <td>
                                 <select>
                                     <option value="">--Select Mode--</option>
-                                    <option value="Cash">Cash</option>
-                                    <option value="Cheque">Cheque</option>
-                                    <option value="Credit card">Credit Card</option>
+                                    <option value="1">Cash</option>
+                                    <option value="2">Cheque</option>
+                                    <option value="3">Credit Card</option>
                                 </select>
                             </td>
                             <td>Amount Paid</td>
                             <td>
-                                <input id="AmountPaid" type="number" class="input" />
+                                @Html.TextBoxFor(x => x.AmountPaid, new { @class = "input", @onchange = "CheckBalance()" })
                             </td>
                         </tr>
                         <tr>
                             <td>Cheque/Credit Card No</td>
                             <td>
-                                <input id="PayDetails" type="text" class="input" />
+                                @Html.TextBoxFor(x => x.TransactionDetails, new { @class = "input" })
                             </td>
                             <td>Pay Date</td>
                             <td>
-                                <input id="PayDate" type="date" class="input" />
+                                @Html.TextBoxFor(x => x.DateOfPayment, new { @class = "input" })
                             </td>
                             <td>Balance</td>
                             <td>
-                                <input id="AmountPaid" type="number" class="input" />
+                                <input id="txtBalance" type="text" readonly="readonly" class="input" />
                             </td>
                         </tr>
                         <tr>
                             <td >Next Due Date</td>
                             <td>
-                                <input id="DueDate" type="text" class="input" />
+                                @Html.TextBoxFor(x => x.DueDate, new { @class = "input" })
                             </td>
                         </tr>
                     </table>

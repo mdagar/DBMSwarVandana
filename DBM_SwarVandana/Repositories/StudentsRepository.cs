@@ -86,7 +86,7 @@ namespace Repositories
         }
         public DataSet GetClassesForPayments(int studentId,int centreId)
         {
-            string Query = "select ClassName,ClassID from [dbo].[ClassDetails] where classid in(select classID from [dbo].[StudentEnrollment] where studentId=" + studentId + " and CentreId=" + centreId + " and (CourseAmount -(RegistratonAmount+AmountPaid))>0)";
+            string Query = "select ClassName,ClassID,EndDate from [dbo].[ClassDetails] where classid in(select classID from [dbo].[StudentEnrollment] where studentId=" + studentId + " and CentreId=" + centreId + " and (CourseAmount -(RegistratonAmount+AmountPaid))>0)";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
         }
