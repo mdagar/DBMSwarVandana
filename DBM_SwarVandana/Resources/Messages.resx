@@ -315,4 +315,7 @@
   <data name="SubmitRenewal" xml:space="preserve">
     <value>Renewal is successfully submitted.</value>
   </data>
+  <data name="SubmitPayment" xml:space="preserve">
+    <value>Payment is successfully submitted.</value>
+  </data>
 </root>

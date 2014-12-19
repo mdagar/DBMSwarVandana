@@ -583,6 +583,15 @@ namespace DBM_SwarVandana.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Payment is successfully submitted..
+        /// </summary>
+        internal static string SubmitPayment {
+            get {
+                return ResourceManager.GetString("SubmitPayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Renewal is successfully submitted..
         /// </summary>
         internal static string SubmitRenewal {

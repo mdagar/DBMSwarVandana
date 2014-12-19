@@ -373,6 +373,33 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
+        [HttpPost]
+        public ActionResult PayemntDetails(PaymentDetailsViewModel pdm, string ClassId)
+        {
+            var result=0;
+            if (string.IsNullOrEmpty(ClassId))
+            {
+                if (ModelState.IsValid)
+                {
+                    pdm.AddDate = DateTime.Now;
+                    pdm.ModifyDate = DateTime.Now;
+                    pdm.ModifyBy = SessionWrapper.User.UserId;
+                    pdm.AddBy = SessionWrapper.User.UserId;
+                    result = _allstudents.SaveStudentPayments(pdm, ClassId);
+                    if (result > 0)
+                    {
+                        ViewBag.Success = Messages.SubmitPayment;
+                    }
+                }
+                else
+                {
+                    pdm = new PaymentDetailsViewModel();
+                }
+            }
+            return View(pdm);
+        }
+
+        [Authenticate]
         public ActionResult GetClassesForPayments(int studentId)
         {
             var result = _allstudents.GetClassesForPayments(studentId,SessionWrapper.User.CentreId);

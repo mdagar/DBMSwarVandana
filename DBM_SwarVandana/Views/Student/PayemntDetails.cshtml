@@ -4,8 +4,12 @@
     ViewBag.Title = "Payemnt Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/Content/js/jquery-ui.js"></script>
 <script>
-
+    $(document).ready(function () {
+        $("#PayDate,#DueDate").datepicker({ dateFormat: "dd M yy", minDate: "-1m" });
+    });
     function GetStudentDetails() {
         var uniqueid = $("#UniqueKey").val();
         if (uniqueid == '') {
@@ -40,6 +44,10 @@
     }
     function GetClassPaymentDetails() {
         var classId = $("#ClassId").val();
+        $("#lblNoofClass").val('');
+        $("#lblCourseamt").val('');
+        $("#lblpaidmat").val('');
+        $("#lblbalamt").val('');
         $.post('@Url.Action("GetClassPaymentDetails", "Student")', { ClassID: classId, studentID: $("#StudentId").val() }, function (data) {
             if (data != null) {
                 var result = JSON.parse(data)
@@ -178,6 +186,12 @@
                             <td>Balance</td>
                             <td>
                                 <input id="AmountPaid" type="number" class="input" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >Next Due Date</td>
+                            <td>
+                                <input id="DueDate" type="text" class="input" />
                             </td>
                         </tr>
                     </table>

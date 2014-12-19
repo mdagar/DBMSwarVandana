@@ -96,6 +96,13 @@ namespace Repositories
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
         }
+        public int SaveStudentPayments(PaymentDetails pd,string classId)
+        {
+            int classid = Convert.ToInt32(classId);
+            object[] objParam = { pd.StudentId, pd.BankName, pd.PaymentMode, pd.TransactionDetails, pd.DateOfPayment, pd.AmountPaid, pd.DueDate, pd.AddBy, pd.AddDate, pd.ModifyBy, pd.ModifyDate, classid };
+            var d = SqlHelper.ExecuteScalar(db.GetConnection(), "InsertPaymentDetails", objParam);
+            return Convert.ToInt32(d);
+        }
         public int EnrollStudents(StudentEnrollment se)
         {
             object[] objParam = {  se.ActionId, se.EnrollmentId, se.StudentId, se.DisciplineId,se.ClassId,se.CourseAmount,se.RegistratonAmount,se.NoOfClasses, 
