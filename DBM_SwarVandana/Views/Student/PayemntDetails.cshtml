@@ -20,6 +20,16 @@
                     $("#EmailID").val(data.EmailAddress);
                     $("#Address").val(data.Address);
                     $("#GuardianName").val(data.GuardianName);
+                    $("#StudentId").val(data.StudentId);
+                    $.post('@Url.Action("GetClassesForPayments", "Student")', { studentId: data.StudentId }, function (classes) {
+                        var result = JSON.parse(classes)
+                        $("#ClassId").html('');
+                        $("#ClassId").append('<option value="">-- Select Class --</option>');
+                        $.each(result, function (i, Class) {
+                            $("#ClassId").append('<option value="' + Class.ClassID + '">' +
+                                 Class.ClassName + '</option>');
+                        });
+                    });
                 }
                 else {
                     alert("No record found");
@@ -27,6 +37,18 @@
 
             });
         }
+    }
+    function GetClassPaymentDetails() {
+        var classId = $("#ClassId").val();
+        $.post('@Url.Action("GetClassPaymentDetails", "Student")', { ClassID: classId, studentID: $("#StudentId").val() }, function (data) {
+            if (data != null) {
+                var result = JSON.parse(data)
+                $("#lblNoofClass").val(result[0].NoOfClasses);
+                $("#lblCourseamt").val(result[0].CourseAmount);
+                $("#lblpaidmat").val(result[0].PaidAmount);
+                $("#lblbalamt").val(result[0].BalanceAmount);
+            }
+        });
     }
 
 </script>
@@ -36,7 +58,8 @@
     <div class="registration-form">
         @using (Html.BeginForm("EntrollStudent", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
-            @Html.HiddenFor(x => x.StudentId)
+
+            @Html.Hidden("StudentId")
             <div>
                 @if (!string.IsNullOrEmpty(ViewBag.Success))
                 {
@@ -78,6 +101,40 @@
                             <td>Guardian</td>
                             <td>
                                 <input id="GuardianName" readonly="readonly" type="text" class="input" />
+                            </td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </div>
+            <div style="padding:1%;height:1px;">
+
+            </div>
+            <div class="row">
+                <label for="Password">Class :</label>
+                <select id="ClassId" onchange="GetClassPaymentDetails()"></select>
+            </div>
+            <div class="row">
+                <fieldset>
+                    <legend>Class Payment Details</legend>
+                    <table id="showstudent">
+                        <tr>
+                            <td>No of Classes</td>
+                            <td>
+                                <input id="lblNoofClass" readonly="readonly" type="text" class="input" />
+                            </td>
+                            <td>Course Amount</td>
+                            <td>
+                                <input id="lblCourseamt" readonly="readonly" type="text" class="input" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Paid Amount</td>
+                            <td>
+                                <input id="lblpaidmat" readonly="readonly" type="text" class="input" />
+                            </td>
+                            <td>Balance Amount</td>
+                            <td>
+                                <input id="lblbalamt" readonly="readonly" type="text" class="input" />
                             </td>
                         </tr>
                     </table>

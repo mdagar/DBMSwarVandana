@@ -271,6 +271,7 @@ namespace DBM_SwarVandana.Controllers
             }
             return View(s);
         }
+
         #endregion
 
         #region Attendence
@@ -370,6 +371,45 @@ namespace DBM_SwarVandana.Controllers
             PaymentDetailsViewModel pd = new PaymentDetailsViewModel();
             return View(pd);
         }
+
+        [Authenticate]
+        public ActionResult GetClassesForPayments(int studentId)
+        {
+            var result = _allstudents.GetClassesForPayments(studentId,SessionWrapper.User.CentreId);
+            System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row;
+            foreach (DataRow dr in result.Tables[0].Rows)
+            {
+                row = new Dictionary<string, object>();
+                foreach (DataColumn col in result.Tables[0].Columns)
+                {
+                    row.Add(col.ColumnName, dr[col]);
+                }
+                rows.Add(row);
+            }
+            return Json(serializer.Serialize(rows));
+        }
+
+        [Authenticate]
+        public ActionResult GetClassPaymentDetails(int ClassID, int studentID)
+        {
+            var result = _allstudents.GetClassPaymentDetails(ClassID, studentID);
+            System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row;
+            foreach (DataRow dr in result.Tables[0].Rows)
+            {
+                row = new Dictionary<string, object>();
+                foreach (DataColumn col in result.Tables[0].Columns)
+                {
+                    row.Add(col.ColumnName, dr[col]);
+                }
+                rows.Add(row);
+            }
+            return Json(serializer.Serialize(rows));
+        }
         #endregion
+
     }
 }

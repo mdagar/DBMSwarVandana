@@ -84,7 +84,18 @@ namespace Repositories
             else
                 return d.Tables[0].TableToList<Students>();
         }
-
+        public DataSet GetClassesForPayments(int studentId,int centreId)
+        {
+            string Query = "select ClassName,ClassID from [dbo].[ClassDetails] where classid in(select classID from [dbo].[StudentEnrollment] where studentId=" + studentId + " and CentreId=" + centreId + " and (CourseAmount -(RegistratonAmount+AmountPaid))>0)";
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            return d;
+        }
+        public DataSet GetClassPaymentDetails(int classId,int studentId)
+        {
+            string Query = "select NoOfClasses,CourseAmount,(RegistratonAmount+AmountPaid) AS PaidAmount,(CourseAmount-(RegistratonAmount+AmountPaid)) AS BalanceAmount from [dbo].[StudentEnrollment] where classID=" + classId + " and StudentId=" + studentId + "";
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            return d;
+        }
         public int EnrollStudents(StudentEnrollment se)
         {
             object[] objParam = {  se.ActionId, se.EnrollmentId, se.StudentId, se.DisciplineId,se.ClassId,se.CourseAmount,se.RegistratonAmount,se.NoOfClasses, 
