@@ -19,12 +19,14 @@ namespace DBM_SwarVandana.Controllers
 
         BudgetRepository _allbudget = new BudgetRepository();
 
+        #region BudgetManagement
         [Authenticate]
         public ActionResult Index()
         {
             return View();
         }
 
+        [Authenticate]
         public ActionResult BudgetList(string search = "")
         {
             List<Budgets> bgt = _allbudget.GetBudgetForAll(search);
@@ -145,5 +147,19 @@ namespace DBM_SwarVandana.Controllers
             }
             return View(exp);
         }
+        #endregion
+
+        #region Profit Loss Management
+        
+        [Authenticate]
+        public ActionResult ProfitLoss()
+        {
+            ProfitLossViewModel p = new ProfitLossViewModel();
+            GetYears();
+            p.financialYears = ViewBag.Years = Years;
+            return View(p);
+        }
+
+        #endregion
     }
 }
