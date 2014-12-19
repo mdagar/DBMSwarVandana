@@ -116,15 +116,20 @@
 
                         </li>
                     }
-
-                    <li>
-                        <a href="@Url.Action("Index", "Main")">Budget Management</a>
-                        <ul>
-                            <li><a href="@Url.Action("BudgetList", "Budget")">View Budget</a></li>
-                            <li><a href="@Url.Action("ExpenseList", "Budget")">View Expenses</a></li>
-
-                        </ul>
-                    </li>
+                    @if (SessionWrapper.User.RoleId > (int)UserRole.User)
+                    {
+                        <li>
+                            <a href="@Url.Action("Index", "Main")">Budget Management</a>
+                            <ul>
+                                @if (SessionWrapper.User.RoleId == (int)UserRole.SuperAdmin)
+                                {
+                                    <li><a href="@Url.Action("BudgetList", "Budget")">View Budget</a></li>
+                                }
+                                <li><a href="@Url.Action("ExpenseList", "Budget")">View Expenses</a></li>
+                                <li><a href="@Url.Action("ProfitLoss", "Budget")">Profit Loss</a></li>
+                            </ul>
+                        </li>
+                    }
 
                 </ul>
             </div>
