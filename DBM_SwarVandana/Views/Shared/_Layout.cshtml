@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <script src="~/Content/JS/jquery-1.11.1.js"></script>
-    @*<link href="~/Content/css/style.css" rel="stylesheet" />*@
+    <link href="~/Content/css/style.css" rel="stylesheet" />
     <link href="~/Content/css/loginstyle.css" rel="stylesheet" />
 
     <link href="~/Content/css/colorbox.css" rel="stylesheet" />
@@ -101,6 +101,8 @@
                             <li><a href="@Url.Action("AllStudents", "Student")"> Students</a></li>
                             <li><a href="@Url.Action("EntrollStudent", "Student")">Enrollment</a></li>
                             <li><a href="@Url.Action("MakeAttendence", "Student")">Attendence</a></li>
+                            <li><a href="@Url.Action("AllRemarks", "Student")">Student Remarks</a></li>
+                            <li><a href="@Url.Action("AllExamDetails", "Exams")">Exam Details</a></li>
                         </ul>
                     </li>
                     @if (SessionWrapper.User.RoleId > (int)UserRole.User)

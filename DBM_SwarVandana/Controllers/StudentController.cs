@@ -24,6 +24,7 @@ namespace DBM_SwarVandana.Controllers
         CentreRepository _allcentre = new CentreRepository();
         SourceRepository _allsource = new SourceRepository();
         DisciplineRepository _allDiscipline = new DisciplineRepository();
+        FacultyRepository _allfaculty = new FacultyRepository();
 
         public static List<StudentAttendence> AttendenceCollection = new List<StudentAttendence>();
 
@@ -35,10 +36,10 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult AllStudents(string search = "",int page=1)
+        public ActionResult AllStudents(string search = "", int page = 1)
         {
             ViewBag.search = search;
-            int TotalPages = 0;         
+            int TotalPages = 0;
             var users = _alluser.AllUsers(SessionWrapper.User.CentreId).Where(x => x.RoleId < SessionWrapper.User.RoleId).ToList();
             var state = _allcentre.GetStates();
             var city = _allcentre.GetCities();
@@ -116,9 +117,14 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult GetStudentByUniqueId(string UniqueId = "")
         {
             var result = _allstudents.GetStudentsByUniqueId(UniqueId);
+            if (result == null)
+            {
+                result = new Students();
+                result.StudentId = 0;
+            }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-        
+
         [Authenticate]
         public ActionResult GetStudentsByEnrollmentId(int EnrollmentId)
         {
@@ -196,7 +202,7 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult GetRemainingClassesDetails(int classId, DateTime startDate,int NoofClass)
+        public ActionResult GetRemainingClassesDetails(int classId, DateTime startDate, int NoofClass)
         {
             var sev = _allstudents.GetRemainingClassesDetails(classId, startDate, NoofClass);
             System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
@@ -215,7 +221,7 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult RenewalStudentList(string search="")
+        public ActionResult RenewalStudentList(string search = "")
         {
             ViewBag.search = search;
             var stu = _allstudents.RenewStudentList(SessionWrapper.User.CentreId, search);
@@ -223,7 +229,7 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult RenewalStudent(int renewalId=0)
+        public ActionResult RenewalStudent(int renewalId = 0)
         {
             StudentRenewalViewModel sr = new StudentRenewalViewModel();
             if (renewalId != 0)
@@ -236,7 +242,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult RenewalStudent(StudentRenewalViewModel s)
         {
             var result = 0;
-            StudentRenewalViewModel sr ;
+            StudentRenewalViewModel sr;
             if (ModelState.IsValid)
             {
                 s.ActionId = 0;
@@ -277,7 +283,7 @@ namespace DBM_SwarVandana.Controllers
         #region Attendence
         [Authenticate]
         public ActionResult MakeAttendence(long classId = 0, DateTime? attendenceDate = null)
-        {            
+        {
             StudentAttendenceViewModel m = new StudentAttendenceViewModel();
             m.ClassId = classId;
             m.DateOfAttendence = attendenceDate == null ? DateTime.Now : attendenceDate.Value;
@@ -304,7 +310,7 @@ namespace DBM_SwarVandana.Controllers
                 s.ModifyDate = DateTime.Now;
                 AttendenceCollection.Add(s);
             }
-            m.studentAttendence = AttendenceCollection.Where(x=> x.ClassId == m.ClassId).ToList();
+            m.studentAttendence = AttendenceCollection.Where(x => x.ClassId == m.ClassId).ToList();
             return View(m);
         }
 
@@ -376,7 +382,7 @@ namespace DBM_SwarVandana.Controllers
         [HttpPost]
         public ActionResult PayemntDetails(PaymentDetailsViewModel pdm, string ClassId)
         {
-            var result=0;
+            var result = 0;
             if (string.IsNullOrEmpty(ClassId))
             {
                 if (ModelState.IsValid)
@@ -402,7 +408,7 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult GetClassesForPayments(int studentId)
         {
-            var result = _allstudents.GetClassesForPayments(studentId,SessionWrapper.User.CentreId);
+            var result = _allstudents.GetClassesForPayments(studentId, SessionWrapper.User.CentreId);
             System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
             List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
             Dictionary<string, object> row;
@@ -436,6 +442,70 @@ namespace DBM_SwarVandana.Controllers
             }
             return Json(serializer.Serialize(rows));
         }
+        #endregion
+
+        #region Student Remarks
+
+        public ActionResult GetUniqueKeyByStudentId(Int64 StudentId)
+        {
+            var d = _allstudents.GetStudentByStudentId(StudentId);
+            return Json(d.UniqueKey, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [Authenticate]
+        public ActionResult AllRemarks(string search = "", int page = 1)
+        {
+            int TotalPages = 0;
+            List<StudentRemarks> sr = _allstudents.GetStudentRemarksByCentreID(SessionWrapper.User.CentreId, page, search);
+            ViewBag.TotalPages = TotalPages;
+            var faculty = _allfaculty.GetAllFacultyByCentreId(SessionWrapper.User.CentreId);
+            var student = _allstudents.GetStudentsByCentreId(SessionWrapper.User.CentreId);
+            sr.Update(x => x.FacultyName = faculty.Where(s => s.FacultyId == x.FacultyID).FirstOrDefault().NameOfFaculty);
+            sr.Update(x => x.StudentName = student.Where(s => s.StudentId == x.StudentId).FirstOrDefault().Name);
+            return View(sr);
+        }
+
+        [Authenticate]
+        public ActionResult AddRemarks(Int64 RemarksID = 0)
+        {
+            StudentRemarksViewModel sr = new StudentRemarksViewModel();
+            if (RemarksID != 0)
+                sr = new StudentRemarksViewModel(_allstudents.GetStudentRemarksByRemarksID(RemarksID));
+            return View(sr);
+        }
+
+        [Authenticate]
+        [HttpPost]
+        public ActionResult AddRemarks(StudentRemarksViewModel sr)
+        {
+            var result = 0;
+            if (ModelState.IsValid)
+            {
+                sr.ActionID = 0;
+                sr.CentreID = SessionWrapper.User.CentreId;
+                sr.CreatedOn = DateTime.Now;
+                sr.CreatedBy = SessionWrapper.User.UserId;
+                sr.ModifiedBy = SessionWrapper.User.UserId;
+                sr.ModifiedOn = DateTime.Now;
+                sr.IsDeleted = false;
+                result = _allstudents.InsertStudentRemarks(sr);
+                if (result > 0)
+                {
+                    ViewBag.Success = Messages.SubmitRemarks;
+                }
+                else
+                {
+                    ModelState.AddModelError("", Messages.RemarksExists);
+                }
+            }
+            else
+            {
+                sr = new StudentRemarksViewModel();
+            }
+            return View(sr);
+        }
+
         #endregion
 
     }

@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Models.ExamDetails>
+@{
+    ViewBag.Title = "AllExamDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function AddNew() {
+        window.location.href = '@Url.Action("AddExamDetails", "Exams")';
+    }
+    function Search() {
+        var va = $("input[type='text'][name='searchtext']").val();
+        window.location.href = '@Url.Action("AllExamDetails", "Exams")?search=' + va;
+    }
+</script>
+
+<div class="container">
+    <!-- table-info -->
+    <div class="table-info">
+        <!-- start table-form -->
+        <div class="table-form">
+            <form action="#">
+                <input type="text" name="searchtext" placeholder="Search" value="@ViewBag.Search" class="input" />
+                <input name="submit" type="button" onclick="Search()" value="Search" class="submit-btn" />
+                <label for="From">&nbsp;</label>
+                <input name="submit" type="button" onclick="AddNew()" value="Add Exams" class="submit-btn" />
+            </form>
+        </div>
+        <!-- end table-form -->
+        <!-- start table -->
+
+        <div style="float: left; width: 100%">
+            <table cellpadding="0" cellspacing="0" class="table">
+                <!-- start row -->
+                <tr bgcolor="#ccc">
+                    <td class="td">Student Name</td>
+                    <td class="td">Exam Name</td>
+                    <td class="td">Exam Date</td>
+                    <td class="td">Faculty Name</td>
+                    <td class="td">Exam Fees</td>
+                    <td class="td">Comments</td>
+                    <td class="td">Result</td>
+                    <td class="td">Action</td>
+                </tr>
+                <!-- end row -->
+                @foreach (var v in Model)
+                {
+                    <!-- start row -->
+                    <tr>
+                        <td class="td">@v.StudentName</td>
+                        <td class="td">@v.ExamName</td>
+                        <td class="td">@string.Format("{0:dd MMM yyyy}", v.ExamDate)</td>
+                        <td class="td">@v.FacultyName</td>
+                        <td class="td">@v.ExamFees</td>
+                        <td class="td">@v.Comments</td>
+                        <td class="td">@v.ResultOfExam</td>
+                        <td class="td">
+                            <a href="@Url.Action("AddExamDetails", "Exams", new { ExamID = v.ExamID })" title="Edit">Edit</a>
+                        </td>
+                    </tr>
+
+                    <!-- end row -->
+                }
+                @{if (Model.Count() == 0)
+                  {
+                    <tr class="row">
+                        <td class="td" style="text-align: center">No record found.</td>
+                    </tr>
+                  }}
+            </table>
+        </div>
+    </div>
+    <!-- end table -->
+</div>
+

@@ -21,7 +21,7 @@ namespace Repositories
         {
             int RowsPerPage = ConfigurationWrapper.PageSize;
             SqlParameter[] spParameter = new SqlParameter[6];
-            var pcenterId = new SqlParameter("@centerId", centerId);            
+            var pcenterId = new SqlParameter("@centerId", centerId);
             var rowsPerpage = new SqlParameter("@RowsPerPage", RowsPerPage);
             var rowNo = new SqlParameter("@PageNumber", PageNumber);
             var total = new SqlParameter("@TotalPages", 0) { Direction = System.Data.ParameterDirection.Output };
@@ -29,7 +29,7 @@ namespace Repositories
             SqlCommand cmd = new SqlCommand("[GetStudents]", db.GetConnection());
             cmd.CommandType = CommandType.StoredProcedure;
             DataSet ds = new DataSet();
-            cmd.Parameters.Add(pcenterId);            
+            cmd.Parameters.Add(pcenterId);
             cmd.Parameters.Add(rowsPerpage);
             cmd.Parameters.Add(rowNo);
             cmd.Parameters.Add(total);
@@ -84,19 +84,19 @@ namespace Repositories
             else
                 return d.Tables[0].TableToList<Students>();
         }
-        public DataSet GetClassesForPayments(int studentId,int centreId)
+        public DataSet GetClassesForPayments(int studentId, int centreId)
         {
             string Query = "select ClassName,ClassID,EndDate from [dbo].[ClassDetails] where classid in(select classID from [dbo].[StudentEnrollment] where studentId=" + studentId + " and CentreId=" + centreId + " and (CourseAmount -(RegistratonAmount+AmountPaid))>0)";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
         }
-        public DataSet GetClassPaymentDetails(int classId,int studentId)
+        public DataSet GetClassPaymentDetails(int classId, int studentId)
         {
             string Query = "select NoOfClasses,CourseAmount,(RegistratonAmount+AmountPaid) AS PaidAmount,(CourseAmount-(RegistratonAmount+AmountPaid)) AS BalanceAmount from [dbo].[StudentEnrollment] where classID=" + classId + " and StudentId=" + studentId + "";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
         }
-        public int SaveStudentPayments(PaymentDetails pd,string classId)
+        public int SaveStudentPayments(PaymentDetails pd, string classId)
         {
             int classid = Convert.ToInt32(classId);
             object[] objParam = { pd.StudentId, pd.BankName, pd.PaymentMode, pd.TransactionDetails, pd.DateOfPayment, pd.AmountPaid, pd.DueDate, pd.AddBy, pd.AddDate, pd.ModifyBy, pd.ModifyDate, classid };
@@ -239,15 +239,54 @@ namespace Repositories
         {
             try
             {
-                object[] objParam = {  sr.ActionId, sr.EnrollmentId, sr.StudentId, sr.FacultyId,sr.AddDate,sr.Description,sr.Remark,sr.Status,sr.CenterId,sr.AddedBy,sr.ModifyBy,sr.ModifyDate};
+                object[] objParam = { sr.ActionId, sr.EnrollmentId, sr.StudentId, sr.FacultyId, sr.AddDate, sr.Description, sr.Remark, sr.Status, sr.CenterId, sr.AddedBy, sr.ModifyBy, sr.ModifyDate };
                 var d = SqlHelper.ExecuteScalar(db.GetConnection(), "USP_StudentRenewal_IUD", objParam);
                 return Convert.ToInt32(d);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return 0;
             }
         }
+
+
+
+        #region Student Remarks
+
+        public Students GetStudentByStudentId(Int64 StudentId)
+        {
+            var Query = "select Name,UniqueKey from [Student] where StudentId=" + StudentId;
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            return d.Tables[0].TableToList<Students>().FirstOrDefault();
+        }
+
+        public int InsertStudentRemarks(StudentRemarks sr)
+        {
+            object[] objParam = {sr.ActionID,sr.RemarksID,sr.FacultyID,sr.StudentId,sr.Remarks,sr.DateOfRemarks,sr.CentreID,sr.CreatedOn,sr.CreatedBy,
+                                    sr.ModifiedOn,sr.ModifiedBy,sr.IsActive,sr.IsDeleted };
+            var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.InsertStudentRemarks, objParam);
+            return Convert.ToInt32(d);
+        }
+
+        public List<StudentRemarks> GetStudentRemarksByCentreID(int CentreID, int page, string search)
+        {
+            var ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetStudentRemarksByCentreId, CentreID, search);
+            if (ds == null)
+                return new List<StudentRemarks>();
+            else
+                return ds.Tables[0].TableToList<StudentRemarks>();
+        }
+
+        public StudentRemarks GetStudentRemarksByRemarksID(Int64 RemarksID)
+        {
+            var ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetStudentRemarksByRemarksID, RemarksID);
+            if (ds == null)
+                return new StudentRemarks();
+            else
+                return ds.Tables[0].TableToList<StudentRemarks>().FirstOrDefault();
+        }
+
+        #endregion
 
 
     }

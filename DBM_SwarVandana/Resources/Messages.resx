@@ -183,8 +183,8 @@
   <data name="SourceRequired" xml:space="preserve">
     <value>Please enter source name.</value>
   </data>
-  <data name="StateIdRequired" xml:space="preserve">
-    <value>Please enter state ID.</value>
+  <data name="StudentRequired" xml:space="preserve">
+    <value>Please enter student.</value>
   </data>
   <data name="StateRequired" xml:space="preserve">
     <value>Please enter state.</value>
@@ -317,5 +317,29 @@
   </data>
   <data name="SubmitPayment" xml:space="preserve">
     <value>Payment is successfully submitted.</value>
+  </data>
+  <data name="RemarksDateRequired" xml:space="preserve">
+    <value>Please enter date.</value>
+  </data>
+  <data name="RemarksExists" xml:space="preserve">
+    <value>Remarks already exists.</value>
+  </data>
+  <data name="SubmitRemarks" xml:space="preserve">
+    <value>Remarks is successfully submitted.</value>
+  </data>
+  <data name="ExamExists" xml:space="preserve">
+    <value>Exam detail already exists.</value>
+  </data>
+  <data name="SubmitExam" xml:space="preserve">
+    <value>Exam detail is successfully submitted.</value>
+  </data>
+  <data name="ExamDateRequired" xml:space="preserve">
+    <value>Please enter exam date.</value>
+  </data>
+  <data name="ExamFeesRequired" xml:space="preserve">
+    <value>Please enter exam fees.</value>
+  </data>
+  <data name="ExamRequired" xml:space="preserve">
+    <value>Please enter exam name.</value>
   </data>
 </root>

@@ -115,6 +115,24 @@ namespace DBM_SwarVandana.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GetExamDetailsByCentreID.
+        /// </summary>
+        internal static string GetExamDetailsByCentreID {
+            get {
+                return ResourceManager.GetString("GetExamDetailsByCentreID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GetExamDetailsByExamID.
+        /// </summary>
+        internal static string GetExamDetailsByExamID {
+            get {
+                return ResourceManager.GetString("GetExamDetailsByExamID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GetExpenseById.
         /// </summary>
         internal static string GetExpenseById {
@@ -129,6 +147,24 @@ namespace DBM_SwarVandana.Resources {
         internal static string GetExpensesForAll {
             get {
                 return ResourceManager.GetString("GetExpensesForAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GetStudentRemarksByCentreId.
+        /// </summary>
+        internal static string GetStudentRemarksByCentreId {
+            get {
+                return ResourceManager.GetString("GetStudentRemarksByCentreId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GetStudentRemarksByRemarksID.
+        /// </summary>
+        internal static string GetStudentRemarksByRemarksID {
+            get {
+                return ResourceManager.GetString("GetStudentRemarksByRemarksID", resourceCulture);
             }
         }
         
@@ -169,11 +205,29 @@ namespace DBM_SwarVandana.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to InsertExamDetails.
+        /// </summary>
+        internal static string InsertExamDetails {
+            get {
+                return ResourceManager.GetString("InsertExamDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to InsertExpenses.
         /// </summary>
         internal static string InsertExpenses {
             get {
                 return ResourceManager.GetString("InsertExpenses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to InsertStudentRemarks.
+        /// </summary>
+        internal static string InsertStudentRemarks {
+            get {
+                return ResourceManager.GetString("InsertStudentRemarks", resourceCulture);
             }
         }
         

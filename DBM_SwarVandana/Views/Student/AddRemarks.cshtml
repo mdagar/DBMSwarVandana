@@ -1,0 +1,144 @@
+﻿@model ViewModel.StudentRemarksViewModel
+@using Code;
+@{
+    ViewBag.Title = "AddRemarks";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/Content/js/jquery-ui.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#DateOfRemarks").datepicker({ dateFormat: "dd M yy", minDate: "-1m" });
+
+        var id = "@Model.StudentId";
+        if (id > 0) {
+            $.post('@Url.Action("GetUniqueKeyByStudentId", "Student")', { StudentId: id }, function (data) {
+                $("#UniqueKey").val(data);
+            });
+        }
+    });
+    function RedirectToHome() {
+        window.location.href = ('@Url.Action("AllRemarks", "Student")');
+    }
+    function ConvertDate(dat) {
+        var parsedDate = new Date(parseInt(dat.substr(6)));
+        var d = new Date(parsedDate); //Date object
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var finalDate = +d.getDate() + " " + months[(d.getMonth() + 1) - 1] + " " + d.getFullYear();
+        return finalDate;
+    }
+    function GetStudentDetails() {
+        var uniqueid = $("#UniqueKey").val();
+        if (uniqueid == '') {
+            alert("Please Enter Unique Key.");
+            return false;
+        }
+        else {
+            $.post('@Url.Action("GetStudentByUniqueId", "Student")', { UniqueId: uniqueid }, function (data) {
+                // var result = JSON.parse(data);
+                if (data.StudentId > 0) {
+                    $("#lblName").text(data.Name);
+                    var finalDate = ConvertDate(data.DOB);
+                    $("#DOB").text(finalDate);
+                    $("#ContactNumber").text(data.Contact1);
+                    $("#EmailID").text(data.EmailAddress);
+                    $("#Address").text(data.Address);
+                    $("#GuardianName").text(data.GuardianName);
+                    $("#Occupation").text(data.Occupation);
+                    $("#StudentId").val(data.StudentId);
+                    $("#EnrollmentId").val(data.EnrollmentID);
+                    $("#showstudent").show();
+                }
+                else {
+                    alert('No Record Found');
+                    $("#showstudent").hide();
+                }
+            });
+        }
+    }
+</script>
+<div class="container">
+    <!-- registration-form -->
+    <div class="registration-form">
+        @using (Html.BeginForm("AddRemarks", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.HiddenFor(x => x.RemarksID)
+            @Html.HiddenFor(x => x.StudentId)
+            <div>
+                @if (!string.IsNullOrEmpty(ViewBag.Success))
+                {
+                    <div class="successvalidation">
+                        @ViewBag.Success
+                    </div>
+                }
+                else
+                {
+                    <div>@Html.ValidationSummary(false)</div>
+                }
+
+            </div>
+            <h3>Add Remarks</h3>
+            <div class="row">
+                <label for="Password">Enrollment Id :</label>
+                <input id="UniqueKey" type="text" class="input" />
+                <a href="#" id="btnGet" onclick="javascript: GetStudentDetails();">Get Details</a>
+            </div>
+            <div class="row">
+                <table id="showstudent" style="display: none; border: 1px solid;">
+                    <tr style="background-color: gray;">
+                        <td>Name</td>
+                        <td>DOB</td>
+                        <td>Contact</td>
+                        <td>Email</td>
+                        <td>Address</td>
+                        <td>Guardian</td>
+                        <td>Occupation</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="lblName"></div>
+                        </td>
+                        <td>
+                            <div id="DOB"></div>
+                        </td>
+                        <td>
+                            <div id="ContactNumber"></div>
+                        </td>
+                        <td>
+                            <div id="EmailID"></div>
+                        </td>
+                        <td>
+                            <div id="Address"></div>
+                        </td>
+                        <td>
+                            <div id="GuardianName"></div>
+                        </td>
+                        <td>
+                            <div id="Occupation"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row">
+                <label for="Password">Faculty :</label>
+                @Html.DropDownListFor(x => x.FacultyID, new ListBound(Model.FacultyID, "Faculties").Faculties, "-- Select Faculty --", new { @class = "select" })
+            </div>
+            <div class="row">
+                <label for="Password">Remarks :</label>
+                @Html.TextAreaFor(x => x.Remarks, new { @class = "textarea" })
+
+            </div>
+            <div class="row">
+                <label for="Password">Date Of Remarks :</label>
+                @Html.TextBoxFor(x => x.DateOfRemarks, new { @class = "input" })
+
+            </div>
+            <div class="rowbutton">
+                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
+                <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
+            </div>
+
+        }
+    </div>
+</div>
+

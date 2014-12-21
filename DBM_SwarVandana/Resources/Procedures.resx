@@ -135,11 +135,23 @@
   <data name="GetEnquiryById" xml:space="preserve">
     <value>GetEnquiryById</value>
   </data>
+  <data name="GetExamDetailsByCentreID" xml:space="preserve">
+    <value>GetExamDetailsByCentreID</value>
+  </data>
+  <data name="GetExamDetailsByExamID" xml:space="preserve">
+    <value>GetExamDetailsByExamID</value>
+  </data>
   <data name="GetExpenseById" xml:space="preserve">
     <value>GetExpenseById</value>
   </data>
   <data name="GetExpensesForAll" xml:space="preserve">
     <value>GetExpensesForAll</value>
+  </data>
+  <data name="GetStudentRemarksByCentreId" xml:space="preserve">
+    <value>GetStudentRemarksByCentreId</value>
+  </data>
+  <data name="GetStudentRemarksByRemarksID" xml:space="preserve">
+    <value>GetStudentRemarksByRemarksID</value>
   </data>
   <data name="GetStudents" xml:space="preserve">
     <value>GetStudents</value>
@@ -153,8 +165,14 @@
   <data name="InsertBudgetMaster" xml:space="preserve">
     <value>InsertBudgetMaster</value>
   </data>
+  <data name="InsertExamDetails" xml:space="preserve">
+    <value>InsertExamDetails</value>
+  </data>
   <data name="InsertExpenses" xml:space="preserve">
     <value>InsertExpenses</value>
+  </data>
+  <data name="InsertStudentRemarks" xml:space="preserve">
+    <value>InsertStudentRemarks</value>
   </data>
   <data name="USP_CentresGetAll" xml:space="preserve">
     <value>USP_CentresGetAll</value>
