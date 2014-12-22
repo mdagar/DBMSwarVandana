@@ -41,7 +41,7 @@
                         $("#ClassId").html('');
                         $("#ClassId").append('<option value="">-- Select Class --</option>');
                         $.each(result, function (i, Class) {
-                            $("#ClassId").append('<option value="' + Class.ClassID + '" >' +
+                            $("#ClassId").append('<option info="' + Class.EndDate + '" value="' + Class.ClassID + '" >' +
                                  Class.ClassName + '</option>');
                         });
                     });
@@ -53,8 +53,15 @@
             });
         }
     }
-    function GetClassPaymentDetails() {
-        var classId = $("#ClassId").val();
+    function SetDueDatePicker() {
+       
+        $("#DueDate").datepicker('option', 'maxDate', $("#ClassEndDate").val() );
+    }
+    function GetClassPaymentDetails(o) {
+        var classId = $(o).val();
+        var date = ConvertDate($(o).find(':selected').attr('info'));
+        $("#ClassEndDate").val(date);
+        SetDueDatePicker();
         $("#lblNoofClass").val('');
         $("#lblCourseamt").val('');
         $("#lblpaidmat").val('');
@@ -81,6 +88,13 @@
             $("#txtBalance").val(bal);
         }
     }
+    function ConvertDate(dat) {
+        var parsedDate = new Date(parseInt(dat.substr(6)));
+        var d = new Date(parsedDate); //Date object
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var finalDate = +d.getDate() + " " + months[(d.getMonth() + 1) - 1] + " " + d.getFullYear();
+        return finalDate;
+    }
 
 </script>
 <div class="container">
@@ -91,6 +105,7 @@
         {
 
             @Html.Hidden("StudentId")
+            @Html.Hidden("ClassEndDate")
             <div>
                 @if (!string.IsNullOrEmpty(ViewBag.Success))
                 {
@@ -142,7 +157,7 @@
             </div>
             <div class="row">
                 <label for="Password">Class :</label>
-                <select name="ClassId" id="ClassId" class="select" onchange="GetClassPaymentDetails()"></select>
+                <select name="ClassId" id="ClassId" class="select" onchange="GetClassPaymentDetails(this)"></select>
             </div>
             <div class="row">
                 <fieldset>
