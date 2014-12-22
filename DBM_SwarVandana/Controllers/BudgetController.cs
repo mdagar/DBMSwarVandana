@@ -168,9 +168,10 @@ namespace DBM_SwarVandana.Controllers
             p = _allbudget.GetRevenue(SessionWrapper.User.CentreId, p.SelectedFinancialyear);
 
             p.financialYears = ViewBag.Years;
+            p.SelectedFinancialyear = final;
             var budgetassign = _allbudget.FindByCenterId(SessionWrapper.User.CentreId, p.SelectedFinancialyear);
             p.BudgetAssign = budgetassign == null ? 0 : Convert.ToDecimal(budgetassign.BudgetAmount);
-            p.SelectedFinancialyear = final;
+
             return View(p);
         }
 
