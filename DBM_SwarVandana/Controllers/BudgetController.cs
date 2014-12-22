@@ -156,10 +156,21 @@ namespace DBM_SwarVandana.Controllers
         {
             ProfitLossViewModel p = new ProfitLossViewModel();
             GetYears();
+            string final = "";
             p.financialYears = ViewBag.Years;
-            if (string.IsNullOrEmpty(financialyear))
-                financialyear = p.financialYears.FirstOrDefault();
-            p = _allbudget.GetRevenue(SessionWrapper.User.CentreId, financialyear);
+            if (!string.IsNullOrEmpty(financialyear))
+                p.SelectedFinancialyear = financialyear;
+            else
+                p.SelectedFinancialyear = p.financialYears.FirstOrDefault();
+
+            final = p.SelectedFinancialyear;
+
+            p = _allbudget.GetRevenue(SessionWrapper.User.CentreId, p.SelectedFinancialyear);
+
+            p.financialYears = ViewBag.Years;
+            var budgetassign = _allbudget.FindByCenterId(SessionWrapper.User.CentreId, p.SelectedFinancialyear);
+            p.BudgetAssign = budgetassign == null ? 0 : Convert.ToDecimal(budgetassign.BudgetAmount);
+            p.SelectedFinancialyear = final;
             return View(p);
         }
 

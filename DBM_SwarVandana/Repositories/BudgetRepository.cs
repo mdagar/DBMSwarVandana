@@ -40,6 +40,16 @@ namespace Repositories
             return Convert.ToInt32(res);
         }
 
+        public Budgets FindByCenterId(int centerId, string financialYear)
+        {
+            string Query = "SELECT BudgetID,BudgetAmount,Description,FinancialYear,CentreID,CreatedBy,CreatedOn,ModifiedBy,ModifiedOn,IsActive,IsDeleted FROM [dbo].[BudgetMaster] WHERE centreId =" + centerId + " and FinancialYear ='" + financialYear + "'";
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            if (d != null)
+                return d.Tables[0].TableToList<Budgets>().FirstOrDefault();
+            else
+                return new Budgets();
+        }
+
         public List<Expenses> GetAllExpenses(int centerid, string Search = "")
         {
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetAllExpenses, centerid, Search);
