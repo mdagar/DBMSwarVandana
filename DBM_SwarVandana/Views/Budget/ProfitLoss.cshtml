@@ -12,9 +12,9 @@
         <div class="table-form">
             <form action="#">
                 @*<input type="text" name="searchtext" placeholder="Search" value="@ViewBag.Search" class="input" />
-                <input name="submit" type="button" onclick="Search()" value="Search" class="submit-btn" />*@
-                <label for="From">Select Year</label>
-                @Html.DropDownList("FinancialYear", new SelectList(Model.financialYears), "-- select Financial Year --")
+                    <input name="submit" type="button" onclick="Search()" value="Search" class="submit-btn" />*@
+                <label for="From">&nbsp;</label>
+                @Html.DropDownListFor(x => x.SelectedFinancialyear, new SelectList(Model.financialYears), "-- Financial Year --", new { @onchange = "ChangeYear(this)" })
             </form>
         </div>
         <!-- end table-form -->
@@ -24,25 +24,92 @@
             <table cellpadding="0" cellspacing="0" class="table">
                 <!-- start row -->
                 <tr bgcolor="#ccc">
-                    <td class="td">Unique Key</td>
-                    <td class="td">Name</td>
-                    <td class="td">DOB</td>
-                    <td class="td">Contact 1</td>
-                    <td class="td">Contact 2</td>
-                    <td class="td">Email ID</td>
-                    <td class="td">State</td>
-                    <td class="td"> City</td>
-                    <td class="td"> Address</td>
-                    <td class="td">Guardian</td>
-                    <td class="td">Occupation</td>
-                    <td class="td">Transport</td>
-                    <td class="td">Action</td>
+                    <td class="td">Budget Assign</td>
+                    <td class="td">Revenue</td>
+                    <td class="td">Salary</td>
+                    <td class="td">Expenses</td>
+                    <td class="td">Profit</td>
                 </tr>
                 <!-- end row -->
-
+                <tr>
+                    <td class="td">@Model.BudgetAssign</td>
+                    <td class="td">@Model.Revenue</td>
+                    <td class="td">@Model.Salary</td>
+                    <td class="td">@Model.Expenseses</td>
+                    <td class="td">@Model.FinalAmount</td>
+                </tr>
             </table>
             @*@Html.Partial("_Paging")*@
         </div>
     </div>
     <!-- end table -->
 </div>
+<script>
+    function ChangeYear(o) {
+        var classId = $(o).val();
+        ReplaceValues("financialyear", classId)
+    }
+
+    // This Jquery Function is Used for change QueryString Values and Used By maximun pages where dropdown Exist
+    function ReplaceValues(dname, value, resetPage) {
+        //0- prepare values
+        resetPage = (typeof resetPage === "undefined") ? false : resetPage;
+        var finalurl = ''
+        var qsTargeted = dname + '=' + value; //"letter=A";
+        var windowUrl = '';
+        var qskey = qsTargeted.split('=')[0];
+        var qsvalue = qsTargeted.split('=')[1];
+        //1- get row url
+        var originalURL = window.location.href;
+        //2- get query string part, and url
+        if (originalURL.split('?').length > 1) //qs is exists
+        {
+            windowUrl = originalURL.split('?')[0];
+            var qs = originalURL.split('?')[1];
+            //3- get list of query strings
+            var qsArray = qs.split('&');
+            var flag = false;
+            //4- try to find query string key
+            for (var i = 0; i < qsArray.length; i++) {
+                if (qsArray[i].split('=').length > 0) {
+                    if (qskey == qsArray[i].split('=')[0]) {
+                        //exists key
+                        qsArray[i] = qskey + '=' + qsvalue;
+                        flag = true;
+                        break;
+                    }
+                }
+            }
+            if (!flag)//   //5- if exists modify,else add
+                qsArray.push(qsTargeted);
+            var finalQs = qsArray.join('&');
+            //6- prepare final url
+            finalurl = windowUrl + '?' + finalQs
+            //window.location = windowUrl + '?' + finalQs;
+        }
+        else {
+            //6- prepare final url
+            //add query string
+            finalurl = originalURL + '?' + qsTargeted;
+            //window.location = originalURL + '?' + qsTargeted;
+        }
+        if (resetPage) {
+            var currentPageNum = getUrlVars()["page"];
+            var newPageNum = 1;
+            finalurl = finalurl.replace("page=" + currentPageNum, "page=" + newPageNum)
+        }
+        window.location = finalurl;
+
+    }
+
+    function getUrlVars() {
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    }
+</script>
