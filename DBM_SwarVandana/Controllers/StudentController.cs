@@ -383,7 +383,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult PayemntDetails(PaymentDetailsViewModel pdm, string ClassId)
         {
             var result = 0;
-            if (string.IsNullOrEmpty(ClassId))
+            if (!string.IsNullOrEmpty(ClassId))
             {
                 if (ModelState.IsValid)
                 {
