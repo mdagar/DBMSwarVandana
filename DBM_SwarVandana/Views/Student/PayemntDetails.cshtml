@@ -18,7 +18,8 @@
 <script src="~/Content/js/jquery-ui.js"></script>
 <script>
     $(document).ready(function () {
-        $("#DateOfPayment,#DueDate").datepicker({ dateFormat: "dd M yy", minDate: "-1m" });
+        $("#DateOfPayment").datepicker({ dateFormat: "dd M yy", minDate: "-1m" });
+        $("#DueDate").datepicker({ dateFormat: "dd M yy", minDate: "-1m", minDate: new Date() });
     });
     function GetStudentDetails() {
         var uniqueid = $("#UniqueKey").val();
@@ -72,7 +73,7 @@
         var amtpaid = $("#AmountPaid").val();
         var balmat = $("#lblbalamt").val();
         if (parseInt(amtpaid) > parseInt(balmat)) {
-            alert('Amount should be equal or less then Balance Amount');
+            alert('Paid Amount is not greater then Balance Amount');
             $("#AmountPaid").val('');
         }
         else {
