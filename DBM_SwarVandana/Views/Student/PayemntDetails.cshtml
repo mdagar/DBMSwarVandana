@@ -3,6 +3,16 @@
 @{
     ViewBag.Title = "Payemnt Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    IEnumerable<PaymentMode> modeid = Enum.GetValues(typeof(PaymentMode))
+                                                      .Cast<PaymentMode>();
+     IEnumerable<SelectListItem> pmode = from u in modeid
+                                         select new SelectListItem
+                                         {
+                                             Text = u.ToString(),
+                                             Value = ((int)u).ToString()
+                                         };
+}
 }
 <link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
 <script src="~/Content/js/jquery-ui.js"></script>
@@ -61,7 +71,7 @@
     function CheckBalance() {
         var amtpaid = $("#AmountPaid").val();
         var balmat = $("#lblbalamt").val();
-        if (amtpaid > balmat) {
+        if (parseInt(amtpaid) > parseInt(balmat)) {
             alert('Amount should be equal or less then Balance Amount');
             $("#AmountPaid").val('');
         }
@@ -131,7 +141,7 @@
             </div>
             <div class="row">
                 <label for="Password">Class :</label>
-                <select id="ClassId" onchange="GetClassPaymentDetails()"></select>
+                <select id="ClassId" class="select" onchange="GetClassPaymentDetails()"></select>
             </div>
             <div class="row">
                 <fieldset>
@@ -174,12 +184,13 @@
                             </td>
                             <td>Payment Mode</td>
                             <td>
-                                <select>
+                                @Html.DropDownListFor(x => x.PaymentMode, pmode, "-- Select Mode --", new { @class = "select" })
+                                @*<select class="select">
                                     <option value="">--Select Mode--</option>
                                     <option value="1">Cash</option>
                                     <option value="2">Cheque</option>
                                     <option value="3">Credit Card</option>
-                                </select>
+                                </select>*@
                             </td>
                             <td>Amount Paid</td>
                             <td>

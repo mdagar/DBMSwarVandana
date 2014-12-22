@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
+using DBM_SwarVandana.Resources;
 
 namespace ViewModel
 {
@@ -27,5 +29,22 @@ namespace ViewModel
             this.ModifyBy = p.ModifyBy;
             this.ModifyDate = p.ModifyDate;
         }
+
+        public override Int64 PaymentId { get; set; }
+        public override Int64 EnrollmentId { get; set; }
+        public override Int64 StudentId { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "BankNameRequire")]
+        public override string BankName { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "TransactionDetailsRequired")]
+        public override string TransactionDetails { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "DateOfPaymentRequired")]
+        public override DateTime? DateOfPayment { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "EnterAmount")]
+        public override Decimal AmountPaid { get; set; }
+        public override DateTime? DueDate { get; set; }
+        public override Int64 AddBy { get; set; }
+        public override DateTime? AddDate { get; set; }
+        public override Int64 ModifyBy { get; set; }
+        public override DateTime? ModifyDate { get; set; }
     }
 }

@@ -74,5 +74,14 @@ namespace Code
         [Description("Leave")]
         Leave
     }
+    public enum PaymentMode
+    {
+        [Description("Cash")]
+        Cash = 1,
+        [Description("Cheque")]
+        Cheque,
+        [Description("Credit Card")]
+        CreditCard
+    }
 
 }

@@ -342,4 +342,16 @@
   <data name="ExamRequired" xml:space="preserve">
     <value>Please enter exam name.</value>
   </data>
+  <data name="BankNameRequire" xml:space="preserve">
+    <value>Please enter Bank Name</value>
+  </data>
+  <data name="DateOfPaymentRequired" xml:space="preserve">
+    <value>Please enter date of payment</value>
+  </data>
+  <data name="EnterAmount" xml:space="preserve">
+    <value>Please enter amount paid</value>
+  </data>
+  <data name="TransactionDetailsRequired" xml:space="preserve">
+    <value>Please enter Cheque/Credit Card No</value>
+  </data>
 </root>
