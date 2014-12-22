@@ -52,7 +52,7 @@ namespace Repositories
             var total = new SqlParameter("@TotalPages", 0) { Direction = ParameterDirection.Output };
             cmd.Parameters.Add(centerid);
             cmd.Parameters.Add(rowsperpage);
-            cmd.Parameters.Add(PageNumber);
+            cmd.Parameters.Add(Page);
             cmd.Parameters.Add(total);            
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet ds = new DataSet();

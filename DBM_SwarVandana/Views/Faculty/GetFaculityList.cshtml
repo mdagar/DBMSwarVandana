@@ -32,6 +32,7 @@
                     <td class="td">Date of Birth</td>
                     <td class="td">Date of Joining</td>
                     <td class="td">Year of Experience</td>
+                    <td class="td">Salary</td>
                     <td class="td">City</td>
                     <td class="td">Action</td>
                 </tr>
@@ -47,6 +48,7 @@
                         <td class="td">@string.Format("{0:dd MMM yyyy}", v.DOJ)</td>
                         <td class="td">@v.YearOfExperience</td>
                         <td class="td">@v.CityId</td>
+                        <td class="td">@v.Salary</td>
                         <td class="td">
                             <a href="@Url.Action("FacultyRegistration", "Faculty", new { facultyId = v.FacultyId })" title="Edit"><span>Edit</span></a>
                             @*&nbsp;<a href="@Url.Action("DeleteFaculty", "Faculty", new { facultyId = v.FacultyId })" title="Edit"><span>Delete</span></a>*@

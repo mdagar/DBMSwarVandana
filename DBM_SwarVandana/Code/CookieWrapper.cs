@@ -36,7 +36,7 @@ namespace Code
 
         public static string LoginKey
         {
-            get { return  GetCookieVal(CookieItem.LoginKey) ?? string.Empty; }
+            get { return GetCookieVal(CookieItem.LoginKey) ?? string.Empty; }
             set { UpdateCookieVal(CookieItem.LoginKey, value.ToString(), 40); }
         }
 
@@ -49,13 +49,13 @@ namespace Code
                 : string.Empty;
         }
 
-        private static void UpdateCookieVal(CookieItem item, string val, int expireDays)
+        private static void UpdateCookieVal(CookieItem item, string val, int expireMinute)
         {
             //get the existing cookie (or new if not exists)
             HttpCookie cookie = GetAppCookie(true);
 
             //modify its contents & meta.
-            cookie.Expires = DateTime.Now.AddDays(expireDays);
+            cookie.Expires = DateTime.Now.AddMinutes(expireMinute);
             cookie.Values[item.ToString()] = val;
 
             //add back to the http response to send back to the browser

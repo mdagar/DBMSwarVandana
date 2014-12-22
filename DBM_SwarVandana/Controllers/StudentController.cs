@@ -192,12 +192,19 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult Studentdetail(long studentId)
         {
-
             var Discipline = _allDiscipline.GetAllDisciplines();
             var Classes = _allClassRepository.GetAllClasses(SessionWrapper.User.CentreId);
             var sev = _allstudents.GetStudentDetails(studentId);
-            sev.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.DisciplineId).FirstOrDefault().Discipline);
-            sev.Update(x => x.ClassName = Classes.Where(s => s.ClassId == x.ClassId).FirstOrDefault().ClassName);
+            foreach (var v in sev)
+            {
+                var disName = Discipline.Where(s => s.DisciplineId == s.DisciplineId).FirstOrDefault();
+                v.DisciplaneName = disName == null ? "" : disName.Discipline;
+            }
+            foreach (var v in sev)
+            {
+                var clas = Classes.Where(s => s.ClassId == s.ClassId).FirstOrDefault();
+                v.ClassName = clas == null ? "" : clas.ClassName;
+            }
             return View(sev);
         }
 
