@@ -13,10 +13,21 @@
                                             Value = ((int)u).ToString()
                                         };
 }
-}
+
 <link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
 <script src="~/Content/js/jquery-ui.js"></script>
+<style>
+    .newform {
+        margin-left: 1px !important;
+        margin-top: 20px !important;
+    }
+
+    tr.spaceUnder > td {
+        padding-bottom: 1em;
+    }
+</style>
 <script>
+
     $(document).ready(function () {
         $("#DateOfPayment").datepicker({ dateFormat: "dd M yy", minDate: "-1m" });
         $("#DueDate").datepicker({ dateFormat: "dd M yy", minDate: "-1m", minDate: new Date() });
@@ -54,7 +65,7 @@
         }
     }
     function SetDueDatePicker() {
-       
+
         $("#DueDate").datepicker('option', 'maxDate', $("#ClassEndDate").val() );
     }
     function GetClassPaymentDetails(o) {
@@ -101,7 +112,7 @@
 
     <!-- registration-form -->
     <div class="registration-form">
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("PayemntDetails", "Student", FormMethod.Post, new { @class = "newform" }))
         {
 
             @Html.Hidden("StudentId")
@@ -125,7 +136,7 @@
                 <fieldset>
                     <legend>Student Details</legend>
                     <table id="showstudent">
-                        <tr>
+                        <tr class="spaceUnder">
                             <td>Name</td>
                             <td>
                                 <input id="lblName" readonly="readonly" type="text" class="input" />
@@ -135,7 +146,7 @@
                                 <input id="ContactNumber" readonly="readonly" type="text" class="input" />
                             </td>
                         </tr>
-                        <tr>
+                        <tr class="spaceUnder">
                             <td>Email</td>
                             <td>
                                 <input id="EmailID" readonly="readonly" type="text" class="input" />
@@ -155,7 +166,7 @@
             <div style="padding:1%;height:1px;">
 
             </div>
-            <div class="row">
+            <div class="row" style="padding-top: 1em;">
                 <label for="Password">Class :</label>
                 <select name="ClassId" id="ClassId" class="select" onchange="GetClassPaymentDetails(this)"></select>
             </div>
@@ -163,7 +174,7 @@
                 <fieldset>
                     <legend>Class Payment Details</legend>
                     <table id="showstudent">
-                        <tr>
+                        <tr class="spaceUnder">
                             <td>No of Classes</td>
                             <td>
                                 <input id="lblNoofClass" readonly="readonly" type="text" class="input" />
@@ -173,7 +184,7 @@
                                 <input id="lblCourseamt" readonly="readonly" type="text" class="input" />
                             </td>
                         </tr>
-                        <tr>
+                        <tr class="spaceUnder">
                             <td>Paid Amount</td>
                             <td>
                                 <input id="lblpaidmat" readonly="readonly" type="text" class="input" />
@@ -193,7 +204,7 @@
                 <fieldset>
                     <legend>Payment Details</legend>
                     <table>
-                        <tr>
+                        <tr class="spaceUnder">
                             <td>Bank Name</td>
                             <td>
                                 @Html.TextBoxFor(x => x.BankName, new { @class = "input" })
@@ -207,7 +218,7 @@
                                 @Html.TextBoxFor(x => x.AmountPaid, new { @class = "input", @onchange = "CheckBalance()" })
                             </td>
                         </tr>
-                        <tr>
+                        <tr class="spaceUnder">
                             <td>Cheque/Credit Card No</td>
                             <td>
                                 @Html.TextBoxFor(x => x.TransactionDetails, new { @class = "input" })
@@ -221,7 +232,7 @@
                                 <input id="txtBalance" type="text" readonly="readonly" class="input" />
                             </td>
                         </tr>
-                        <tr>
+                        <tr class="spaceUnder">
                             <td>Next Due Date</td>
                             <td>
                                 @Html.TextBoxFor(x => x.DueDate, new { @class = "input" })
