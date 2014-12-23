@@ -24,7 +24,8 @@ namespace Repositories
 
         public List<Budgets> GetBudgetForAll(string Search = "")
         {
-            var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetBudgetForAll, Search);
+            object[] obj = { SessionWrapper.User.CentreId, Search };
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetBudgetForAll, obj);
             if (d != null)
                 return d.Tables[0].TableToList<Budgets>();
             else

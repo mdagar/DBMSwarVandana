@@ -20,6 +20,7 @@ namespace DBM_SwarVandana.Controllers
         BudgetRepository _allbudget = new BudgetRepository();
 
         #region BudgetManagement
+
         [Authenticate]
         public ActionResult Index()
         {
@@ -30,20 +31,55 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult BudgetList(string search = "")
         {
             List<Budgets> bgt = _allbudget.GetBudgetForAll(search);
-
+            string currentYear = CurrentFinancialYear();
+            foreach (var v in bgt)
+                v.CurrentFinancialYear = currentYear;
             return View(bgt);
         }
 
-        private void GetYears()
+        public string CurrentFinancialYear()
+        {
+            DateTime date = DateTime.Now;
+            string year = "";
+            if (date.Month >= 4)
+                year = (date.Year + " - " + date.AddYears(1).Year);
+            else
+                year = date.AddYears(-1) + " - " + date.Year;
+            return year;
+
+        }
+
+        private void GetYears(List<string> existingYears)
         {
             List<string> Years = new List<string>();
             DateTime startYear = DateTime.Now;
             while (startYear.Year <= DateTime.Now.AddYears(1).Year)
             {
-                Years.Add(startYear.Year + " - " + startYear.AddYears(1).Year);
+                if (startYear.Month >= 4)
+                    Years.Add(startYear.Year + " - " + startYear.AddYears(1).Year);
+                else
+                    Years.Add(startYear.AddYears(-1) + " - " + startYear.Year);
                 startYear = startYear.AddYears(1);
             }
+            foreach (var v in existingYears)
+                Years.Remove(v);
+
             ViewBag.Years = Years;
+        }
+
+        private List<string> GetPreviousFinancialYears()
+        {
+            List<string> Years = new List<string>();
+            DateTime startYear = DateTime.Now;
+            while (startYear.Year >= DateTime.Now.AddYears(-5).Year)
+            {
+                if (startYear.Month >= 4)
+                    Years.Add(startYear.Year + " - " + startYear.AddYears(1).Year);
+                else
+                    Years.Add(startYear.AddYears(-1) + " - " + startYear.Year);
+                startYear = startYear.AddYears(-1);
+            }
+            return Years;
         }
 
         [Authenticate]
@@ -52,13 +88,18 @@ namespace DBM_SwarVandana.Controllers
             BudgetViewModel b;
             if (BudgetID.HasValue)
             {
-                GetYears();
+                GetYears(new List<string>());
                 b = new BudgetViewModel(_allbudget.GetBudgetForAll("").Where(x => x.BudgetID == BudgetID).FirstOrDefault());
             }
             else
             {
+                List<Budgets> bgt = _allbudget.GetBudgetForAll("");
                 b = new BudgetViewModel();
-                GetYears();
+                var y = new List<string>();
+                foreach (var v in bgt)
+                    y.Add(v.FinancialYear);
+                GetYears(y);
+
             }
             return View(b);
         }
@@ -82,7 +123,7 @@ namespace DBM_SwarVandana.Controllers
                 if (result > 0)
                 {
                     ViewBag.Success = Messages.SubmitBudget;
-                    GetYears();
+                    GetYears(new List<string>());
                 }
                 else
                 {
@@ -91,8 +132,12 @@ namespace DBM_SwarVandana.Controllers
             }
             else
             {
-                bgt = new BudgetViewModel();
-                GetYears();
+                List<Budgets> bgt1 = _allbudget.GetBudgetForAll("");
+                var b = new BudgetViewModel();
+                var y = new List<string>();
+                foreach (var v in bgt1)
+                    y.Add(v.FinancialYear);
+                GetYears(y);
             }
             return View(bgt);
         }
@@ -155,19 +200,17 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult ProfitLoss(string financialyear = "")
         {
             ProfitLossViewModel p = new ProfitLossViewModel();
-            GetYears();
+
             string final = "";
-            p.financialYears = ViewBag.Years;
+            p.financialYears = GetPreviousFinancialYears();
             if (!string.IsNullOrEmpty(financialyear))
                 p.SelectedFinancialyear = financialyear;
             else
                 p.SelectedFinancialyear = p.financialYears.FirstOrDefault();
-
             final = p.SelectedFinancialyear;
-
             p = _allbudget.GetRevenue(SessionWrapper.User.CentreId, p.SelectedFinancialyear);
 
-            p.financialYears = ViewBag.Years;
+            p.financialYears = GetPreviousFinancialYears();
             p.SelectedFinancialyear = final;
             var budgetassign = _allbudget.FindByCenterId(SessionWrapper.User.CentreId, p.SelectedFinancialyear);
             p.BudgetAssign = budgetassign == null ? 0 : Convert.ToDecimal(budgetassign.BudgetAmount);
