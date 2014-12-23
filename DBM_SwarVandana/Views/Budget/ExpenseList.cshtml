@@ -34,7 +34,7 @@
                     <td class="td">Description</td>
                     <td class="td">Date Of Expense</td>
                     <td class="td">Is Active</td>
-                    <td class="td">Action</td>
+
                 </tr>
                 <!-- end row -->
                 @foreach (var v in Model)
@@ -44,8 +44,7 @@
                         <td class="td">@v.ExpenseAmount</td>
                         <td class="td">@v.ExpenseForName</td>
                         <td class="td">@v.Description</td>
-                        <td class="td">@v.DateOfExpense</td>
-                        <td class="td">@v.IsActive</td>
+                        <td class="td">@string.Format("{0:dd MMM yyyy}", v.DateOfExpense)</td>
                         <td class="td">
                             <a href="@Url.Action("AddExpenses", "Budget", new { ExpenseID = v.ExpenseID })" title="Edit">Edit</a>
                         </td>
@@ -53,13 +52,14 @@
                     <!-- end row -->
                 }
                 @{if (Model.Count() == 0)
-                  {
+                {
                     <tr class="row">
                         <td class="td" style="text-align: center">No record found.</td>
                     </tr>
 
-                  }}
+                }}
             </table>
+            @Html.Partial("_Paging")
         </div>
         <!-- end table -->
     </div>
