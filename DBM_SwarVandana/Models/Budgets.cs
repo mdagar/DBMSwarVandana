@@ -19,6 +19,7 @@ namespace Models
         public virtual DateTime? ModifiedOn { get; set; }
         public virtual bool IsActive { get; set; }
         public virtual bool IsDeleted { get; set; }
+        public virtual string CurrentFinancialYear { get; set; }
 
         public Budgets()
         {
@@ -34,6 +35,7 @@ namespace Models
             this.ModifiedOn = null;
             this.IsActive = true;
             this.IsDeleted = false;
+            this.CurrentFinancialYear = string.Empty;
 
         }
 
