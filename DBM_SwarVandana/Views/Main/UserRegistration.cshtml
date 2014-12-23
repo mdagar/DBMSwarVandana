@@ -82,9 +82,9 @@
                 {
                     <div>@Html.ValidationSummary(false)</div>
                 }
-                
-            </div>
 
+            </div>
+            @Html.HiddenFor(x => x.UserId)
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>First Name :</label>
                 @Html.TextBoxFor(x => x.FirstName, new { @class = "input" })
@@ -95,11 +95,11 @@
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>DOB :</label>
-                @Html.TextBoxFor(x => x.DOB, new { @class = "input" })
+                @Html.TextBox("DOB", Model.DOB == null ? "" : Model.DOB.Value.ToString("dd MMM yyyy"), new { @class = "input", @readonly = "readonly" })
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>DOJ :</label>
-                @Html.TextBoxFor(x => x.DOJ, new { @class = "input" })
+                @Html.TextBox("DOJ", Model.DOJ == null ? "" : Model.DOJ.Value.ToString("dd MMM yyyy"), new { @class = "input", @readonly = "readonly" })
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Contact Number :</label>

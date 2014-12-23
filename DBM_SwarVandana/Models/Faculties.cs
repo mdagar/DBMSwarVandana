@@ -17,8 +17,8 @@ namespace Models
         public virtual int CityId { get; set; }
         public virtual DateTime? DOJ { get; set; }
         public virtual int Gender { get; set; }
-        public virtual double Salary { get; set; }
-        public virtual double SalaryRevision { get; set; }
+        public virtual decimal Salary { get; set; }
+        public virtual decimal SalaryRevision { get; set; }
         public virtual int DisciplineId { get; set; }
         public virtual int YearOfExperience { get; set; }
         public virtual int CentreId { get; set; }
@@ -31,6 +31,8 @@ namespace Models
         public virtual bool IsDeleted { get; set; }
         public virtual DateTime? DOB { get; set; }
         public virtual string DisciplaneName { get; set; }
+        public virtual string StateName { get; set; }
+        public virtual string CityName { get; set; }
 
         public Faculties()
         {
@@ -56,6 +58,8 @@ namespace Models
             this.IsActive = true;
             this.IsDeleted = false;
             this.DOB = null;
+            this.StateName = string.Empty;
+            this.CityName = string.Empty;
         }
 
     }

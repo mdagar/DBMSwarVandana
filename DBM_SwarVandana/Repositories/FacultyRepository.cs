@@ -50,10 +50,12 @@ namespace Repositories
             var rowsperpage = new SqlParameter("@RowsPerPage", RowsPerPage);
             var Page = new SqlParameter("@PageNumber", PageNumber);
             var total = new SqlParameter("@TotalPages", 0) { Direction = ParameterDirection.Output };
+            var srch = new SqlParameter("@search", search);
             cmd.Parameters.Add(centerid);
             cmd.Parameters.Add(rowsperpage);
             cmd.Parameters.Add(Page);
-            cmd.Parameters.Add(total);            
+            cmd.Parameters.Add(total);
+            cmd.Parameters.Add(srch);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet ds = new DataSet();
             da.Fill(ds);
@@ -74,13 +76,13 @@ namespace Repositories
 
         public Faculties GetFacultyByFacultyId(long FacultyId)
         {
-            string query = "SELECT FacultyId,NameOfFaculty,EmailID,ContactNumber,Address,StateId,CityId,DOJ,Gender,Salary,SalaryRevision,DisciplineId,YearOfExperience,CentreId,Picture,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive FROM [dbo].[Faculties] WHERE FacultyId=" + FacultyId + "";
+            string query = "SELECT FacultyId,NameOfFaculty,EmailID,ContactNumber,Address,StateId,CityId,DOJ,Gender,Salary,SalaryRevision,DisciplineId,YearOfExperience,CentreId,Picture,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive,DOB FROM [dbo].[Faculties] WHERE FacultyId=" + FacultyId + "";
             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, query);
             if (ds == null)
                 return new Faculties();
             else
                 return ds.Tables[0].TableToList<Faculties>().FirstOrDefault();
         }
-        
+
     }
 }

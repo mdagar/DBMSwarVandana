@@ -18,6 +18,7 @@ namespace DBM_SwarVandana.Controllers
         // GET: /Faculty/
         FacultyRepository _allfaculty = new FacultyRepository();
         DisciplineRepository _allDiscipline = new DisciplineRepository();
+        CentreRepository _allcentre = new CentreRepository();
 
         public ActionResult Index()
         {
@@ -31,6 +32,16 @@ namespace DBM_SwarVandana.Controllers
             List<Faculties> fac = _allfaculty.GetFacultyByCentreId(SessionWrapper.User.CentreId, out TotalPages, page, search);
             ViewBag.TotalPages = TotalPages;
             var Discipline = _allDiscipline.GetAllDisciplines();
+            var state = _allcentre.GetStates();
+            var city = _allcentre.GetCities();
+            foreach (var v in fac)
+            {
+                var sname = state.Where(x => x.StateId == v.StateId).FirstOrDefault();
+                v.StateName = sname == null ? "" : sname.StateName;
+
+                var cname = city.Where(x => x.CityId == v.CityId).FirstOrDefault();
+                v.CityName = cname == null ? "" : cname.CityName;
+            }
             fac.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.DisciplineId).FirstOrDefault().Discipline);
             return View(fac);
         }

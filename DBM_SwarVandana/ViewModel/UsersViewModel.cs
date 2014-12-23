@@ -49,24 +49,24 @@ namespace ViewModel
 
         public override int ActionId { get; set; }
         public override int UserId { get; set; }
-       // [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "FNameRequired")]
+        // [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "FNameRequired")]
         public override string FirstName { get; set; }
-       // [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "LNameRequired")]
+        // [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "LNameRequired")]
         public override string LastName { get; set; }
         public override DateTime? DOB { get; set; }
-       // [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "DOJRequired")]
+        // [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "DOJRequired")]
         public override DateTime? DOJ { get; set; }
         public override string ContactNumber { get; set; }
-      //  [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "EmailIdRequired")]
+        //  [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "EmailIdRequired")]
         public override string EmailID { get; set; }
-      //  [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "CentreIdRequired")]
+        //  [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "CentreIdRequired")]
         public override int CentreId { get; set; }
-        public override double Salary { get; set; }
-      //  [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "RoleIdRequired")]
+        public override decimal Salary { get; set; }
+        //  [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "RoleIdRequired")]
         public override int RoleId { get; set; }
-      //  [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "StateIdRequired")]
+        //  [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "StateIdRequired")]
         public override int StateId { get; set; }
-      //  [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "CityIdRequired")]
+        //  [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "CityIdRequired")]
         public override int CityId { get; set; }
         public override string Address { get; set; }
         public override DateTime? AddDate { get; set; }
@@ -74,6 +74,6 @@ namespace ViewModel
         public override DateTime? ModifyDate { get; set; }
         public override int ModifyBy { get; set; }
         public override bool IsActive { get; set; }
-       
+
     }
 }

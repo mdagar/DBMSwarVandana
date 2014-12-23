@@ -15,7 +15,7 @@
         <div class="table-form">
             <form action="#">
                 <input type="text" name="search" value="" class="input" />
-                <input name="submit" type="submit" value="Excel Button" class="submit-btn" />
+                <input name="submit" type="submit" value="Search" class="submit-btn" />
                 <label for="From">&nbsp;</label>
                 <input name="submit" type="button" onclick="AddNew()" value="Add New" class="submit-btn" />
             </form>
@@ -25,15 +25,17 @@
         <div style="float: left; width: 100%">
             <table cellpadding="0" cellspacing="0" class="table">
                 <!-- start row -->
-                <tr bgcolor="#ccc">
-                    <td class="td">Name of Faculty</td>
+                <tr bgcolor="#ccc">                    
+                    <td class="td">Name </td>
                     <td class="td">Discipline</td>
                     <td class="td">Contact Number</td>
-                    <td class="td">Date of Birth</td>
-                    <td class="td">Date of Joining</td>
-                    <td class="td">Year of Experience</td>
+                    <td class="td">DOB</td>
+                    <td class="td">Joining Date</td>
+                    <td class="td">Experience</td>
                     <td class="td">Salary</td>
+                    <td class="td">State</td>
                     <td class="td">City</td>
+                    <td class="td">Address</td>
                     <td class="td">Action</td>
                 </tr>
                 <!-- end row -->
@@ -47,8 +49,10 @@
                         <td class="td">@string.Format("{0:dd MMM yyyy}", v.DOB)</td>
                         <td class="td">@string.Format("{0:dd MMM yyyy}", v.DOJ)</td>
                         <td class="td">@v.YearOfExperience</td>
-                        <td class="td">@v.CityId</td>
                         <td class="td">@v.Salary</td>
+                        <td class="td">@v.StateName</td>
+                        <td class="td">@v.CityName</td>
+                        <td class="td">@v.Address</td>
                         <td class="td">
                             <a href="@Url.Action("FacultyRegistration", "Faculty", new { facultyId = v.FacultyId })" title="Edit"><span>Edit</span></a>
                             @*&nbsp;<a href="@Url.Action("DeleteFaculty", "Faculty", new { facultyId = v.FacultyId })" title="Edit"><span>Delete</span></a>*@

@@ -49,7 +49,7 @@ namespace ViewModel
         public override string ContactNumber { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "AddressRequired")]
         public override string Address { get; set; }
-        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "StateIdRequired")]
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "StateRequired")]
         public override int StateId { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "CityIdRequired")]
         public override int CityId { get; set; }
@@ -60,8 +60,8 @@ namespace ViewModel
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "GenderRequired")]
         public override int Gender { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "SalaryRequired")]
-        public override double Salary { get; set; }
-        public override double SalaryRevision { get; set; }
+        public override decimal Salary { get; set; }
+        public override decimal SalaryRevision { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "DisciplineRequired")]
         public override int DisciplineId { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "YearExpRequired")]

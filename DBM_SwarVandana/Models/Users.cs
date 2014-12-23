@@ -16,7 +16,7 @@ namespace Models
         public virtual string ContactNumber { get; set; }
         public virtual string EmailID { get; set; }
         public virtual int CentreId { get; set; }
-        public virtual double Salary { get; set; }
+        public virtual decimal Salary { get; set; }
         public virtual int RoleId { get; set; }
         public virtual string UserName { get; set; }
         public virtual string Password { get; set; }
