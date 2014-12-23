@@ -19,7 +19,7 @@
     function GetStudentDetails() {
         var uniqueid = $("#UniqueKey").val();
         if (uniqueid == '') {
-            alert("Please Enter Unique Key.");
+            alert("Please Enter Enrollment no.");
             return false;
         }
         else {
@@ -75,7 +75,7 @@
             </div>
             <h3>Renewal of Student</h3>
             <div class="row">
-                <label for="Password">Enrollment Id :</label>
+                <label for="Password">Enrollment no :</label>
                 <input id="UniqueKey" type="text" class="input" />
                 <a href="#" id="btnGet" onclick="javascript: GetStudentDetails();">Get Details</a>
             </div>

@@ -42,7 +42,8 @@
     }
 
     $(function () {
-        $("#DOB,#DOJ").datepicker({ dateFormat: "dd M yy", minDate: "-1m" });
+        $("#DOB").datepicker({ dateFormat: "dd M yy", maxDate: "-15y" });
+        $("#DOJ").datepicker({ dateFormat: "dd M yy", minDate: "-1m", maxDate: "1d" });
 
         $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
             $("#CityId").html('');
