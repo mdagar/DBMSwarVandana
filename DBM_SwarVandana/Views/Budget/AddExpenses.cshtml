@@ -34,7 +34,6 @@
                 {
                     <div>@Html.ValidationSummary(false)</div>
                 }
-
             </div>
             <h3>Add Budget</h3>
             <div class="row">
@@ -43,7 +42,15 @@
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Expense For:</label>
-                @Html.DropDownListFor(x => x.ExpenseFor, new ListBound(Model.ExpenseFor, "ExpenseFor").ExpenseFor, "-- Select --", new { @class = "select" })
+                @if (@Model.ExpenseID == 0)
+                {
+                    @Html.DropDownListFor(x => x.ExpenseFor, new ListBound(Model.ExpenseFor, "ExpenseFor").ExpenseFor, "-- Select --", new { @class = "select" })
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.ExpenseFor, new ListBound(Model.ExpenseFor, "ExpenseFor").ExpenseFor, "-- Select --", new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.ExpenseFor)
+                }
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Description:</label>
@@ -67,6 +74,3 @@
     <!-- registration-form -->
 </div>
 <!-- end container -->
-
-
-

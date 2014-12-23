@@ -33,13 +33,14 @@
             <h3>Add Budget</h3>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Budget Amount:</label>
-                @if(Model.BudgetID==0)
-                { 
-                @Html.DropDownListFor(x => x.FinancialYear, new SelectList(ViewBag.Years as System.Collections.IEnumerable, Model.FinancialYear), new { @class = "select" })
+                @if (Model.BudgetID == 0)
+                {
+                    @Html.DropDownListFor(x => x.FinancialYear, new SelectList(ViewBag.Years as System.Collections.IEnumerable, Model.FinancialYear), new { @class = "select" })
                 }
                 else
                 {
-                @Html.DropDownListFor(x => x.FinancialYear, new SelectList(ViewBag.Years as System.Collections.IEnumerable, Model.FinancialYear), new { @class = "select", @disabled="disabled" })    
+                    @Html.DropDownListFor(x => x.FinancialYear, new SelectList(ViewBag.Years as System.Collections.IEnumerable, Model.FinancialYear), new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.FinancialYear)
                 }
             </div>
 
