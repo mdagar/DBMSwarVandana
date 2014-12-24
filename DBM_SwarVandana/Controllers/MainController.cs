@@ -89,6 +89,7 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [HttpPost]
+        [Authenticate]
         public ActionResult CentreRegistration(CentresViewModel c)
         {
             var result = 0;
@@ -114,6 +115,7 @@ namespace DBM_SwarVandana.Controllers
             return View(c);
         }
 
+        [Authenticate]
         public ActionResult ExportCenterList()
         {
             var state = _allcentre.GetStates();
@@ -193,6 +195,7 @@ namespace DBM_SwarVandana.Controllers
             return View(u);
         }
 
+        [Authenticate]
         public ActionResult ExportUserList()
         {
             var state = _allcentre.GetStates();

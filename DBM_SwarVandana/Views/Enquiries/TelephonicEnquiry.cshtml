@@ -31,7 +31,7 @@
     }
 
     $(function () {
-        $("#DateOfEnquiry").datepicker({ dateFormat: "dd M yy", minDate: "-1w" });
+        $("#DateOfEnquiry").datepicker({ dateFormat: "dd M yy", minDate: "-1m", maxDate: "0d" });
         $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
             $("#CityId").html('');
             $("#CityId").append('<option value="">-- Select City --</option>');
@@ -108,7 +108,7 @@
             </div>
             <div class="row">
                 <label for="Password">Date of Enquiry :</label>
-                @Html.TextBoxFor(x => x.DateOfEnquiry, new { @class = "input" })
+                @Html.TextBox("DateOfEnquiry", Model.DateOfEnquiry == null ? "" : Model.DateOfEnquiry.Value.ToString("dd MMM yyyy"), new { @class = "input", @Readonly = "readonly" })
             </div>
             <div class="row">
                 <label for="Password">Discipline :</label>

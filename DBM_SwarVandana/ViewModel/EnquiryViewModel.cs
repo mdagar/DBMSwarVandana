@@ -64,7 +64,7 @@ namespace ViewModel
         public override DateTime? DateOfEnquiry { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "DisciplineRequired")]
         public override int Discipline { get; set; }
-        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "StateIdRequired")]
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "StateRequired")]
         public override int StateId { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "CityIdRequired")]
         public override int CityId { get; set; }
