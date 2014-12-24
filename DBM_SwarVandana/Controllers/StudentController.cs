@@ -240,7 +240,12 @@ namespace DBM_SwarVandana.Controllers
         {
             StudentRenewalViewModel sr = new StudentRenewalViewModel();
             if (renewalId != 0)
+            {
                 sr = new StudentRenewalViewModel(_allstudents.GetRenewStudentFromRenewId(SessionWrapper.User.UserId, renewalId));
+                var stu = _allstudents.GetStudentsByCentreId(SessionWrapper.User.CentreId);
+                var unique = stu.Where(s => s.StudentId == s.StudentId).FirstOrDefault();
+                sr.StudentUniqueKey = unique.UniqueKey;
+            }
             return View(sr);
         }
 
@@ -408,6 +413,10 @@ namespace DBM_SwarVandana.Controllers
                 {
                     pdm = new PaymentDetailsViewModel();
                 }
+            }
+            else
+            {
+                ViewBag.Error = "Please select class for payment.";
             }
             return View(pdm);
         }

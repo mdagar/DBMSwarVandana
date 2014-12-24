@@ -62,22 +62,33 @@
         {
             @Html.HiddenFor(x => x.EnrollmentId)
             @Html.HiddenFor(x => x.StudentId)
+            @Html.HiddenFor(x => x.RenewalId)
             <div>
                 @if (!string.IsNullOrEmpty(ViewBag.Success))
                 {
-                    @ViewBag.Success
+                     <div class="successvalidation">
+                        @ViewBag.Success
+                    </div>
                 }
                 else
                 {
-                    @ViewBag.Error
+                    <div>@Html.ValidationSummary(false)</div>
                 }
-                <div>@Html.ValidationSummary(false)</div>
+                
             </div>
             <h3>Renewal of Student</h3>
             <div class="row">
                 <label for="Password">Enrollment no :</label>
-                <input id="UniqueKey" type="text" class="input" />
-                <a href="#" id="btnGet" onclick="javascript: GetStudentDetails();">Get Details</a>
+                @if (Model.RenewalId != 0)
+                {
+                    @Html.TextBoxFor(x => x.StudentUniqueKey, new {@class="input",@readonly="readonly" })
+                }
+                else
+                {
+                     <input id="UniqueKey" type="text" class="input" />
+                     <a href="#" id="btnGet" onclick="javascript: GetStudentDetails();">Get Details</a>
+                }
+               
             </div>
             <div class="row">
                 <table id="showstudent" style="display: none;border:1px solid;">
@@ -117,7 +128,16 @@
             </div>
             <div class="row">
                 <label for="Password">Action By :</label>
-                @Html.DropDownListFor(x => x.FacultyId, new ListBound(Model.FacultyId, "Faculties").Faculties, "-- Select Faculty --", new { @class = "select" })
+                @if (Model.RenewalId != 0)
+                {
+                    @Html.DropDownListFor(x => x.FacultyId, new ListBound(Model.FacultyId, "Faculties").Faculties, "-- Select Faculty --", new { @class = "select" ,@disabled="disabled"})
+                    @Html.HiddenFor(x => x.FacultyId);
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.FacultyId, new ListBound(Model.FacultyId, "Faculties").Faculties, "-- Select Faculty --", new { @class = "select" })
+                }
+                
             </div>
             <div class="row">
                 <label for="Password">Description :</label>
