@@ -57,7 +57,7 @@ namespace DBM_SwarVandana.Controllers
             {
                 en.ActionId = 0;
                 en.CentreId = SessionWrapper.User.CentreId;
-                en.EnquiryTypeId = Convert.ToInt32(EnquiryType.TE);
+                en.EnquiryTypeId = (int)EnquiryType.TE;
                 en.IsEnquiryClosed = false;
                 en.AddDate = DateTime.Now;
                 en.AddedBy = SessionWrapper.User.UserId;
@@ -68,6 +68,7 @@ namespace DBM_SwarVandana.Controllers
                     evm = new EnquiryViewModel(_allenquiry.FindByEnquirieID(en.EnquiryId));
                     evm.ActionId = 1;
                     evm.StatusId = en.StatusId;
+                    evm.FinalComments = en.FinalComments;
                     evm.ModifyDate = DateTime.Now;
                     evm.ModifyBy = SessionWrapper.User.UserId;
                     result = _allenquiry.CreateEnquiry(evm);
