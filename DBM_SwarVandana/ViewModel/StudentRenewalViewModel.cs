@@ -49,5 +49,6 @@ namespace ViewModel
         public override long ModifyBy { get; set; }
         public override string Name { get; set; }
         public override string Faculty { get; set; }
+        public string StudentUniqueKey { get; set; }
     }
 }

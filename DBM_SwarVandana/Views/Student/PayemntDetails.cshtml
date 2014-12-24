@@ -66,7 +66,7 @@
     }
     function SetDueDatePicker() {
 
-        $("#DueDate").datepicker('option', 'maxDate', $("#ClassEndDate").val() );
+        $("#DueDate").datepicker('option', 'maxDate', $("#ClassEndDate").val());
     }
     function GetClassPaymentDetails(o) {
         var classId = $(o).val();
@@ -106,6 +106,9 @@
         var finalDate = +d.getDate() + " " + months[(d.getMonth() + 1) - 1] + " " + d.getFullYear();
         return finalDate;
     }
+    function RedirectToHome() {
+        window.location.href = ('@Url.Action("Index", "Main")');
+    }
 
 </script>
 <div class="container">
@@ -120,11 +123,23 @@
             <div>
                 @if (!string.IsNullOrEmpty(ViewBag.Success))
                 {
-                    @ViewBag.Success
+                    <div class="successvalidation">
+                        @ViewBag.Success
+                    </div>
                 }
                 else
                 {
-                    @ViewBag.Error
+                    if (!string.IsNullOrEmpty(ViewBag.Error))
+                    {
+                        <div class="row" style="text-align:left;font-size:14px;">
+                            @ViewBag.Error
+                        </div>
+                    }
+                    else
+                    {
+                        <div>@Html.ValidationSummary(false)</div>
+                    }
+                    
                 }
             </div>
             <div class="row">
@@ -244,6 +259,7 @@
             </div>
             <div class="rowbutton">
                 <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
+                <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
             </div>
         }
     </div>
