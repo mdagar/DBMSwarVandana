@@ -412,6 +412,24 @@ namespace DBM_SwarVandana.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter Guardian Name.
+        /// </summary>
+        internal static string GuardianNameRequired {
+            get {
+                return ResourceManager.GetString("GuardianNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid email address..
+        /// </summary>
+        internal static string InvalidEmailAddress {
+            get {
+                return ResourceManager.GetString("InvalidEmailAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid user name or password..
         /// </summary>
         internal static string InvalidLogin {
@@ -453,6 +471,15 @@ namespace DBM_SwarVandana.Resources {
         internal static string NewPassword {
             get {
                 return ResourceManager.GetString("NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter Occupation..
+        /// </summary>
+        internal static string Occupationrequired {
+            get {
+                return ResourceManager.GetString("Occupationrequired", resourceCulture);
             }
         }
         

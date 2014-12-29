@@ -354,4 +354,13 @@
   <data name="TransactionDetailsRequired" xml:space="preserve">
     <value>Please enter Cheque/Credit Card No</value>
   </data>
+  <data name="GuardianNameRequired" xml:space="preserve">
+    <value>Please enter Guardian Name</value>
+  </data>
+  <data name="Occupationrequired" xml:space="preserve">
+    <value>Please enter Occupation.</value>
+  </data>
+  <data name="InvalidEmailAddress" xml:space="preserve">
+    <value>Please enter a valid email address.</value>
+  </data>
 </root>

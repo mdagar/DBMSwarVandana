@@ -76,64 +76,60 @@
                 }
 
             </div>
-            <h3>Add/Edit Faculty</h3>
+            <h3>Faculty</h3>
             <div class="row">
-                <label for="Password">Name of Faculty :</label>
+                <label for="Password"><span style="color: red;">*</span> Name of Faculty :</label>
                 @Html.TextBoxFor(x => x.NameOfFaculty, new { @class = "input" })
                 @Html.HiddenFor(x => x.FacultyId)
             </div>
             <div class="row">
-                <label for="Password">Email ID :</label>
+                <label for="Password"><span style="color: red;">*</span> Email ID :</label>
                 @Html.TextBoxFor(x => x.EmailID, new { @class = "input" })
             </div>
             <div class="row">
-                <label for="Password">Contact Number :</label>
+                <label for="Password"><span style="color: red;">*</span> Contact Number :</label>
                 @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input" })
             </div>
             <div class="row">
-                <label for="Password">Date of Birth :</label>
+                <label for="Password"><span style="color: red;">*</span> Date of Birth :</label>
                 @Html.TextBox("DOB", Model.DOB == null ? "" : Model.DOB.Value.ToString("dd MMM yyyy"), new { @class = "input", @readonly = "readonly" })
             </div>
             <div class="row">
-                <label for="Password">Date of Joining :</label>
+                <label for="Password"><span style="color: red;">*</span> Date of Joining :</label>
                 @Html.TextBox("DOJ", Model.DOJ == null ? "" : Model.DOJ.Value.ToString("dd MMM yyyy"), new { @class = "input", @readonly = "readonly" })
             </div>
             <div class="row">
-                <label for="Password">Discipline :</label>
+                <label for="Password"><span style="color: red;">*</span> Discipline :</label>
                 @Html.DropDownListFor(x => x.DisciplineId, new ListBound(Model.DisciplineId, "Disciplines").Disciplines, "-- Select Discipline --", new { @class = "select" })
             </div>
             <div class="row">
-                <label for="Password">Year of Experience :</label>
+                <label for="Password"><span style="color: red;">*</span> Year of Experience :</label>
                 @Html.TextBoxFor(x => x.YearOfExperience, new { @class = "input" })
             </div>
             <div class="row">
-                <label for="Password">State :</label>
+                <label for="Password"><span style="color: red;">*</span> State :</label>
                 @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" })
             </div>
             <div class="row">
-                <label for="Password">City :</label>
+                <label for="Password"><span style="color: red;">*</span> City :</label>
                 @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select" })
             </div>
             <div class="row">
-                <label for="Password">Address :</label>
+                <label for="Password"><span style="color: red;">*</span> Address :</label>
                 @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
             </div>
             <div class="row">
-                <label for="Password">Gender :</label>
+                <label for="Password"><span style="color: red;">*</span> Gender :</label>
                 @Html.DropDownListFor(x => x.Gender, gendermf, "-- Select Gender --", new { @class = "select" })
             </div>
             <div class="row">
-                <label for="Password">Salary :</label>
+                <label for="Password"><span style="color: red;">*</span> Salary :</label>
                 @Html.TextBoxFor(x => x.Salary, new { @class = "input" })
             </div>
             <div class="row">
                 <label for="Password">Salary Revision :</label>
                 @Html.TextBoxFor(x => x.SalaryRevision, new { @class = "input" })
             </div>
-            @*<div class="row">
-                    <label for="Password">Picture :</label>
-                    <input type="file" name="Image" class="input" />
-                </div>*@
             <div class="row">
                 <label for="IsActive">Is Active</label>
                 <div class="column">

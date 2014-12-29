@@ -79,6 +79,8 @@ namespace DBM_SwarVandana.Controllers
                     stu = new StudentsViewModel(_allstudents.GetStudentsByUniqueId(s.UniqueKey));
                     stu.ActionId = 1;
                     stu.Name = s.Name;
+                    stu.EmailAddress = s.EmailAddress;
+                    stu.Contact2 = s.Contact2;
                     stu.Contact1 = s.Contact1;
                     stu.Address = s.Address;
                     stu.ModifyBy = SessionWrapper.User.UserId;

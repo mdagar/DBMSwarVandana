@@ -38,19 +38,32 @@ namespace ViewModel
             this.IsDeleted = s.IsDeleted;
         }
 
+
+
+
         public override long StudentId { get; set; }
         public override int ActionId { get; set; }
         public override string UniqueKey { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "NameRequired")]
         public override string Name { get; set; }
         public override int CenterId { get; set; }
         public override DateTime? DOB { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "ContactNumberRequired")]
         public override string Contact1 { get; set; }
         public override string Contact2 { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "EmailIdRequired")]
+        //[RegularExpression(@"[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}", ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "InvalidEmailAddress")]
+        [RegularExpression(@"[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}", ErrorMessage = "Please enter a valid email address")]
         public override string EmailAddress { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "StateRequired")]
         public override int StateId { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "CityIdRequired")]
         public override int CityId { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "AddressRequired")]
         public override string Address { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "GuardianNameRequired")]
         public override string GuardianName { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "Occupationrequired")]
         public override string Occupation { get; set; }
         public override bool HasTransportFacility { get; set; }
         public override bool IsActive { get; set; }
@@ -60,7 +73,7 @@ namespace ViewModel
         public override DateTime? ModifyDate { get; set; }
         public override bool IsDeleted { get; set; }
 
-        
+
 
     }
 }
