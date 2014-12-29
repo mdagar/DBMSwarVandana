@@ -31,7 +31,7 @@
         <div class="header">
             <!-- start logo -->
             <div class="logo">
-                <a href="index.html" title="Svar Vandana">
+                <a href="@Url.Action("Index","Main")" title="Svar Vandana">
                     <img src="~/Content/images/logo.png" alt="Svar Vandana" />
                 </a>
             </div>
@@ -73,7 +73,7 @@
                             <li><a href="@Url.Action("ChangePassword", "Main")">Change Password</a></li>
                             @if (SessionWrapper.User.RoleId == (int)UserRole.SuperAdmin)
                             {
-                                <li><a href="@Url.Action("CentreList", "Main")">Centre Management</a></li>
+                                <li><a href="@Url.Action("CentreList", "Main")">Center Management</a></li>
                                 <li><a href="@Url.Action("AddSource", "Main")">Add Source</a></li>
                                 <li><a href="@Url.Action("ManageDiscipline", "Main")">Discipline Management</a></li>
                             }
