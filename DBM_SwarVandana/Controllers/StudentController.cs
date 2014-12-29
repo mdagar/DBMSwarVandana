@@ -242,9 +242,6 @@ namespace DBM_SwarVandana.Controllers
             if (renewalId != 0)
             {
                 sr = new StudentRenewalViewModel(_allstudents.GetRenewStudentFromRenewId(SessionWrapper.User.UserId, renewalId));
-                var stu = _allstudents.GetStudentsByCentreId(SessionWrapper.User.CentreId);
-                var unique = stu.Where(s => s.StudentId == s.StudentId).FirstOrDefault();
-                sr.StudentUniqueKey = unique.UniqueKey;
             }
             return View(sr);
         }

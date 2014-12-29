@@ -214,9 +214,8 @@ namespace Repositories
 
         public List<StudentRenewal> RenewStudentList(int centerId, string search = "")
         {
-            string Query1 = "select SR.RenewalId,SR.EnrollmentId,(select name from student where studentid=SR.StudentId) AS Name,FT.NameOfFaculty AS Faculty,SR.AddDate,SR.Description,SR.Remark,SR.Status from [dbo].[StudentRenewal] SR,Faculties FT" +
+            string Query1 = "select SR.RenewalId,SR.EnrollmentNo,(select name from student where studentid=SR.StudentId) AS Name,FT.NameOfFaculty AS Faculty,SR.AddDate,SR.Description,SR.Remark,SR.Status from [dbo].[StudentRenewal] SR,Faculties FT" +
                        " WHERE SR.FacultyId=FT.FacultyId AND (FT.NameOfFaculty like '%" + search + "%' OR SR.Description like '%" + search + "%' OR SR.Remark like '%" + search + "%')";
-            //string Query = "select RenewalId,EnrollmentId,(select name from student where studentid=SR.StudentId) AS Name,(select NameOfFaculty from Faculties where FacultyId=SR.FacultyId) AS Faculty,AddDate,Description,Remark,Status from [dbo].[StudentRenewal] SR";
             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query1);
             if (ds == null)
                 return new List<StudentRenewal>();
@@ -227,7 +226,7 @@ namespace Repositories
         public StudentRenewal GetRenewStudentFromRenewId(int centerId, long renewId)
         {
             StudentRenewal sr = new StudentRenewal();
-            string Query = "select RenewalId,EnrollmentId,StudentId,FacultyId,AddDate,Description,Remark,Status from [dbo].[StudentRenewal]  WHERE RenewalId=" + renewId + " and CenterId=" + centerId + "";
+            string Query = "select RenewalId,EnrollmentNo,StudentId,FacultyId,AddDate,Description,Remark,Status from [dbo].[StudentRenewal]  WHERE RenewalId=" + renewId + " and CenterId=" + centerId + "";
             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             if (ds == null)
                 return sr;
@@ -239,7 +238,7 @@ namespace Repositories
         {
             try
             {
-                object[] objParam = { sr.ActionId, sr.EnrollmentId, sr.StudentId, sr.FacultyId, sr.AddDate, sr.Description, sr.Remark, sr.Status, sr.CenterId, sr.AddedBy, sr.ModifyBy, sr.ModifyDate };
+                object[] objParam = { sr.ActionId,sr.RenewalId, sr.EnrollmentNo, sr.StudentId, sr.FacultyId, sr.AddDate, sr.Description, sr.Remark, sr.Status, sr.CenterId, sr.AddedBy, sr.ModifyBy, sr.ModifyDate };
                 var d = SqlHelper.ExecuteScalar(db.GetConnection(), "USP_StudentRenewal_IUD", objParam);
                 return Convert.ToInt32(d);
             }

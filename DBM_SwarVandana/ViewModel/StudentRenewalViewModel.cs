@@ -20,8 +20,8 @@ namespace ViewModel
             this.ActionId = sr.ActionId;
             this.RenewalId = sr.RenewalId;
             this.FacultyId = sr.FacultyId;
-            this.EnrollmentId = sr.EnrollmentId;
             this.StudentId = sr.StudentId;
+            this.EnrollmentNo = sr.EnrollmentNo;
             this.Description = sr.Description;
             this.Remark = sr.Remark;
             this.Status = sr.Status;
@@ -34,7 +34,6 @@ namespace ViewModel
 
         public override int ActionId { get; set; }
         public override long RenewalId { get; set; }
-        public override long EnrollmentId { get; set; }
         public override long StudentId { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "FacultyIdRequired")]
         public override Int64 FacultyId { get; set; }
@@ -49,6 +48,6 @@ namespace ViewModel
         public override long ModifyBy { get; set; }
         public override string Name { get; set; }
         public override string Faculty { get; set; }
-        public string StudentUniqueKey { get; set; }
+        public override string EnrollmentNo { get; set; }
     }
 }

@@ -24,18 +24,17 @@
         }
         else {
             $.post('@Url.Action("GetStudentByUniqueId", "Student")', { UniqueId: uniqueid }, function (data) {
-                var result = JSON.parse(data);
-                if (result[0].StudentId > 0) {
-                    $("#lblName").text(result[0].Name);
-                    var finalDate = ConvertDate(result[0].DOB);
+                if (data.StudentId > 0) {
+                    $("#lblName").text(data.Name);
+                    var finalDate = ConvertDate(data.DOB);
                     $("#DOB").text(finalDate);
-                    $("#ContactNumber").text(result[0].Contact1);
-                    $("#EmailID").text(result[0].EmailAddress);
-                    $("#Address").text(result[0].Address);
-                    $("#GuardianName").text(result[0].GuardianName);
-                    $("#Occupation").text(result[0].Occupation);
-                    $("#StudentId").val(result[0].StudentId);
-                    $("#EnrollmentId").val(result[0].EnrollmentID);
+                    $("#ContactNumber").text(data.Contact1);
+                    $("#EmailID").text(data.EmailAddress);
+                    $("#Address").text(data.Address);
+                    $("#GuardianName").text(data.GuardianName);
+                    $("#Occupation").text(data.Occupation);
+                    $("#StudentId").val(data.StudentId);
+                    $("#EnrollmentNo").val(data.UniqueKey);
                     $("#showstudent").show();
                 }
                 else {
@@ -58,9 +57,9 @@
 <div class="container">
     <!-- registration-form -->
     <div class="registration-form">
-        @using (Html.BeginForm("RenewalStudent", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm())
         {
-            @Html.HiddenFor(x => x.EnrollmentId)
+            @Html.HiddenFor(x => x.EnrollmentNo)
             @Html.HiddenFor(x => x.StudentId)
             @Html.HiddenFor(x => x.RenewalId)
             <div>
@@ -81,7 +80,7 @@
                 <label for="Password">Enrollment no :</label>
                 @if (Model.RenewalId != 0)
                 {
-                    @Html.TextBoxFor(x => x.StudentUniqueKey, new {@class="input",@readonly="readonly" })
+                    @Html.TextBoxFor(x => x.EnrollmentNo, new { @class = "input", @readonly = "readonly" })
                 }
                 else
                 {
