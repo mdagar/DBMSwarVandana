@@ -10,9 +10,9 @@ namespace Models
         public StudentRenewal()
         {
             this.ActionId = 0;
-            this.EnrollmentId = 0;
             this.RenewalId = 0;
             this.StudentId = 0;
+            this.EnrollmentNo = string.Empty;
             this.FacultyId = 0;
             this.CenterId = 0;
             this.AddedBy = 0;
@@ -26,8 +26,8 @@ namespace Models
 
         public virtual int ActionId { get; set; }
         public virtual long RenewalId { get; set; }
-        public virtual long EnrollmentId { get; set; }
         public virtual long StudentId { get; set; }
+        public virtual string EnrollmentNo { get; set; }
         public virtual long CenterId { get; set; }
         public virtual long AddedBy { get; set; }
         public virtual Int64 FacultyId { get; set; }
