@@ -197,12 +197,12 @@ namespace DBM_SwarVandana.Controllers
             var sev = _allstudents.GetStudentDetails(studentId);
             foreach (var v in sev)
             {
-                var disName = Discipline.Where(s => s.DisciplineId == s.DisciplineId).FirstOrDefault();
+                var disName = Discipline.Where(s => s.DisciplineId == v.DisciplineId).FirstOrDefault();
                 v.DisciplaneName = disName == null ? "" : disName.Discipline;
             }
             foreach (var v in sev)
             {
-                var clas = Classes.Where(s => s.ClassId == s.ClassId).FirstOrDefault();
+                var clas = Classes.Where(s => s.ClassId == v.ClassId).FirstOrDefault();
                 v.ClassName = clas == null ? "" : clas.ClassName;
             }
             return View(sev);
@@ -470,7 +470,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult AllRemarks(string search = "", int page = 1)
         {
             int TotalPages = 0;
-            List<StudentRemarks> sr = _allstudents.GetStudentRemarksByCentreID(SessionWrapper.User.CentreId,out TotalPages, page, search);
+            List<StudentRemarks> sr = _allstudents.GetStudentRemarksByCentreID(SessionWrapper.User.CentreId, out TotalPages, page, search);
             ViewBag.TotalPages = TotalPages;
             var faculty = _allfaculty.GetAllFacultyByCentreId(SessionWrapper.User.CentreId);
             var student = _allstudents.GetStudentsByCentreId(SessionWrapper.User.CentreId);

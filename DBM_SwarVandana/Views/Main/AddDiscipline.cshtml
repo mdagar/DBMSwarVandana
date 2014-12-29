@@ -28,12 +28,12 @@
                 {
                     <div>@Html.ValidationSummary(false)</div>
                 }
-                
+
             </div>
             @Html.HiddenFor(x => x.DisciplineId)
             <h3>Add Discipline</h3>
             <div class="row">
-                <label for="Password">*Discipline Name :</label>
+                <label for="Password"><span style="color: red;">*</span>Discipline Name :</label>
                 @Html.TextBoxFor(x => x.Discipline, new { @class = "input" })
             </div>
             <div class="row">
@@ -55,6 +55,3 @@
     <!-- registration-form -->
 </div>
 <!-- end container -->
-
-
-
