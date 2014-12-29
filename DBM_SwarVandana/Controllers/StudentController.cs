@@ -302,6 +302,7 @@ namespace DBM_SwarVandana.Controllers
                 weekDay = 7;
             m.WeekDayId = weekDay;
             m.Classes = _allClassRepository.GetClassByWeekDays(SessionWrapper.User.CentreId, weekDay);
+            m.ClassId = m.ClassId != 0 ? m.ClassId : m.Classes.Count() > 0 ? m.Classes.FirstOrDefault().ClassId : 0;
             m.students = _allstudents.GetStudentsByClassId(m.ClassId);
             var CurrentAttendence = _allstudents.GetClassAttendence(m.ClassId, m.DateOfAttendence.Value);
             foreach (var v in m.students)
@@ -465,17 +466,22 @@ namespace DBM_SwarVandana.Controllers
             return Json(d.UniqueKey, JsonRequestBehavior.AllowGet);
         }
 
-
         [Authenticate]
         public ActionResult AllRemarks(string search = "", int page = 1)
         {
             int TotalPages = 0;
-            List<StudentRemarks> sr = _allstudents.GetStudentRemarksByCentreID(SessionWrapper.User.CentreId, page, search);
+            List<StudentRemarks> sr = _allstudents.GetStudentRemarksByCentreID(SessionWrapper.User.CentreId,out TotalPages, page, search);
             ViewBag.TotalPages = TotalPages;
             var faculty = _allfaculty.GetAllFacultyByCentreId(SessionWrapper.User.CentreId);
             var student = _allstudents.GetStudentsByCentreId(SessionWrapper.User.CentreId);
             sr.Update(x => x.FacultyName = faculty.Where(s => s.FacultyId == x.FacultyID).FirstOrDefault().NameOfFaculty);
-            sr.Update(x => x.StudentName = student.Where(s => s.StudentId == x.StudentId).FirstOrDefault().Name);
+            foreach (var v in sr)
+            {
+                var stu = student.Where(s => s.StudentId == v.StudentId).FirstOrDefault();
+                v.StudentName = stu == null ? "" : stu.Name;
+                v.EnrollmentNo = stu == null ? "" : stu.UniqueKey;
+            }
+
             return View(sr);
         }
 
@@ -502,6 +508,10 @@ namespace DBM_SwarVandana.Controllers
                 sr.ModifiedBy = SessionWrapper.User.UserId;
                 sr.ModifiedOn = DateTime.Now;
                 sr.IsDeleted = false;
+                if (sr.RemarksID == 0)
+                    sr.ActionID = 0;
+                else
+                    sr.ActionID = 1;
                 result = _allstudents.InsertStudentRemarks(sr);
                 if (result > 0)
                 {
@@ -512,10 +522,7 @@ namespace DBM_SwarVandana.Controllers
                     ModelState.AddModelError("", Messages.RemarksExists);
                 }
             }
-            else
-            {
-                sr = new StudentRemarksViewModel();
-            }
+            sr = new StudentRemarksViewModel(_allstudents.GetStudentRemarksByRemarksID(sr.RemarksID));
             return View(sr);
         }
 

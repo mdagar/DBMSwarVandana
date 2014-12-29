@@ -11,6 +11,7 @@ namespace Models
         public virtual Int64 RemarksID { get; set; }
         public virtual Int64 FacultyID { get; set; }
         public virtual Int64 StudentId { get; set; }
+        public virtual string EnrollmentNo { get; set; }
         public virtual string Remarks { get; set; }
         public virtual DateTime? DateOfRemarks { get; set; }
         public virtual Int64 CentreID { get; set; }
