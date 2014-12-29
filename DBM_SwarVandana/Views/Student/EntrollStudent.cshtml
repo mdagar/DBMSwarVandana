@@ -66,18 +66,18 @@
                 $("#lblStartDate").text(ConvertDate(data.StartDate));
                 $("#lblEndDate").text(ConvertDate(data.EndDate));
                 $("#lblStudentRegister").text(data.NoOfStudent);
+                $("#SatrtDate").datepicker({ dateFormat: "dd M yy", minDate: ConvertDate(data.StartDate) });
             }
         });
     }
 
 
     function GetRemainingClassesDetails() {
-
         $.post('@Url.Action("GetRemainingClassesDetails", "Student")', { classid: $("#ClassId").val(), startdate: $("#SatrtDate").val(), NoofClass: $("#NoOfClasses").val() }, function (data) {
             if (data != null) {
                 var result = JSON.parse(data);
-                if (result[0].AlloedClasses == 'undefined') {
-                    alert("TEst");
+                if (result[0].AlloedClasses == 0) {
+                    alert("Please schedule the class first.");
                     return false;
                 }
                 if ($("#NoOfClasses").val() > result[0].AlloedClasses) {
@@ -226,7 +226,7 @@
             </div>
             <div class="row">
                 <label for="Password">Start Date :</label>
-                @Html.TextBoxFor(x => x.SatrtDate, new { @class = "input" })
+                @Html.TextBoxFor(x => x.SatrtDate, new { @class = "input", @readonly = "readonly" })
 
             </div>
             <div class="row">
@@ -240,7 +240,7 @@
 
             </div>
             <div class="rowbutton">
-                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
+                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" style="display: none;"  />
                 <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
             </div>
 
@@ -249,9 +249,9 @@
 </div>
 
 <script>
-    $(document).ready(function () {
-        $("#SatrtDate").datepicker({ dateFormat: "dd M yy", minDate: "-15d" });
-    });
+    //$(document).ready(function () {
+    //    $("#SatrtDate").datepicker({ dateFormat: "dd M yy", minDate: "-15d" });
+    //});
     function RedirectToHome() {
         window.location.href = ('@Url.Action("AllStudents", "Student")');
     }
