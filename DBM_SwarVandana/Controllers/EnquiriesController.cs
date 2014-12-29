@@ -145,6 +145,11 @@ namespace DBM_SwarVandana.Controllers
                     evm = new EnquiryViewModel(_allenquiry.FindByEnquirieID(en.EnquiryId));
                     evm.ActionId = 1;
                     evm.StatusId = en.StatusId;
+                    evm.RemarksByFaculty = en.RemarksByFaculty;
+                    evm.NoOfClasses = en.NoOfClasses;
+                    evm.Package = en.Package;
+                    evm.RegistrationAmount = en.RegistrationAmount;
+                    evm.FinalComments = en.FinalComments;
                     evm.ModifyDate = DateTime.Now;
                     evm.ModifyBy = SessionWrapper.User.UserId;
                     result = _allenquiry.CreateEnquiry(evm);

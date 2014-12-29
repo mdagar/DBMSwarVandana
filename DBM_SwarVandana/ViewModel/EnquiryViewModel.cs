@@ -83,8 +83,8 @@ namespace ViewModel
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "RemarksRequired")]
         public override string FinalComments { get; set; }
         public override int NoOfClasses { get; set; }
-        public override double Package { get; set; }
-        public override double RegistrationAmount { get; set; }
+        public override decimal Package { get; set; }
+        public override decimal RegistrationAmount { get; set; }
         public override int CentreId { get; set; }
         public override DateTime? AddDate { get; set; }
         public override int AddedBy { get; set; }

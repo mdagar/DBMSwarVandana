@@ -90,12 +90,19 @@
                     <div>@Html.ValidationSummary(false)</div>
                 }
 
-            </div>
+            </div>            
             <h3>Physical Enquiry</h3>
             <div class="row">
                 <label for="Password">Source :</label>
-                @Html.DropDownListFor(x => x.SourceId, new ListBound(Model.SourceId, "Sources").Sources, "-- Select Source --", new { @class = "select" })
-                @Html.HiddenFor(x => x.EnquiryId);
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.DropDownListFor(x => x.SourceId, new ListBound(Model.SourceId, "Sources").Sources, "-- Select Source --", new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.EnquiryId)
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.SourceId, new ListBound(Model.SourceId, "Sources").Sources, "-- Select Source --", new { @class = "select" })
+                }
             </div>
             <div class="row">
                 <label for="Password">Contact Number :</label>
@@ -123,27 +130,43 @@
             </div>
             <div class="row">
                 <label for="Password">Date of Visit :</label>
-                @if (Model.EnquiryId != 0)
-                {
-                    @Html.TextBoxFor(x => x.DateOfEnquiry, new { @class = "input", @readonly = "readonly" })
-                }
-                else
-                {
-                    @Html.TextBoxFor(x => x.DateOfEnquiry, new { @class = "input" })
-                }
-
+                @Html.TextBox("DateOfEnquiry", Model.DateOfEnquiry == null ? "" : Model.DateOfEnquiry.Value.ToString("dd MMM yyyy"), new { @class = "input", @Readonly = "readonly" })
             </div>
             <div class="row">
                 <label for="Password">Discipline :</label>
-                @Html.DropDownListFor(x => x.Discipline, new ListBound(Model.Discipline, "Disciplines").Disciplines, "-- Select Discipline --", new { @class = "select" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.DropDownListFor(x => x.Discipline, new ListBound(Model.Discipline, "Disciplines").Disciplines, "-- Select Discipline --", new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.Discipline)
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.Discipline, new ListBound(Model.Discipline, "Disciplines").Disciplines, "-- Select Discipline --", new { @class = "select" })
+                }
             </div>
             <div class="row">
                 <label for="Password">Probable Student :</label>
-                @Html.DropDownListFor(x => x.ProbableStudentFor, probablefor, "-- Select --", new { @class = "select" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.DropDownListFor(x => x.ProbableStudentFor, probablefor, "-- Select --", new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.ProbableStudentFor)
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.ProbableStudentFor, probablefor, "-- Select --", new { @class = "select" })
+                }
             </div>
             <div class="row">
                 <label for="Password">Gender :</label>
-                @Html.DropDownListFor(x => x.Gender, gendermf, "-- Select --", new { @class = "select" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.DropDownListFor(x => x.Gender, gendermf, "-- Select --", new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.Gender)
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.Gender, gendermf, "-- Select --", new { @class = "select" })
+                }
             </div>
             <div class="row">
                 <label for="Password">Age :</label>
@@ -171,16 +194,40 @@
             </div>
             <div class="row">
                 <label for="Password">Attended By :</label>
-                @Html.DropDownListFor(x => x.AttendedBy, new ListBound(Model.AttendedBy, "Users").Users, "-- Select User --", new { @class = "select" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.DropDownListFor(x => x.AttendedBy, new ListBound(Model.AttendedBy, "Users").Users, "-- Select User --", new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.AttendedBy)
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.AttendedBy, new ListBound(Model.AttendedBy, "Users").Users, "-- Select User --", new { @class = "select" })
+                }
             </div>
 
             <div class="row">
                 <label for="Password">State :</label>
-                @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.StateId)
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" })
+                }
             </div>
             <div class="row">
                 <label for="Password">City :</label>
-                @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.CityId)
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select" })
+                }
             </div>
             <div class="row">
                 <label for="Password">Address :</label>

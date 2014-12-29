@@ -28,8 +28,8 @@ namespace Models
         public virtual string Occupation { get; set; }
         public virtual string FinalComments { get; set; }
         public virtual int NoOfClasses { get; set; }
-        public virtual double Package { get; set; }
-        public virtual double RegistrationAmount { get; set; }
+        public virtual decimal Package { get; set; }
+        public virtual decimal RegistrationAmount { get; set; }
         public virtual int CentreId { get; set; }
         public virtual DateTime? AddDate { get; set; }
         public virtual int AddedBy { get; set; }
