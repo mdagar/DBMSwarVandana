@@ -11,13 +11,11 @@
 <script>
     function GetStudentDetails() {
         var uniqueid = $("#UniqueKey").val();
-        if (uniqueid == '')
-        {
+        if (uniqueid == '') {
             alert('Please enter UniqueId');
             return false;
         }
-        else
-        {
+        else {
             $.post('@Url.Action("GetStudentByUniqueId", "Student")', { UniqueId: uniqueid }, function (data) {
                 if (data.StudentId > 0) {
                     $("#lblName").text(data.Name);
@@ -78,6 +76,10 @@
         $.post('@Url.Action("GetRemainingClassesDetails", "Student")', { classid: $("#ClassId").val(), startdate: $("#SatrtDate").val(), NoofClass: $("#NoOfClasses").val() }, function (data) {
             if (data != null) {
                 var result = JSON.parse(data);
+                if (result[0].AlloedClasses == 'undefined') {
+                    alert("TEst");
+                    return false;
+                }
                 if ($("#NoOfClasses").val() > result[0].AlloedClasses) {
                     $("#NoOfClasses").focus();
                     $("#btnSubmit").hide();
@@ -100,12 +102,11 @@
 
 </script>
 <style>
-    td{
-        border:1px solid;
-        text-align:center;
-        padding:2px;
+    td {
+        border: 1px solid;
+        text-align: center;
+        padding: 2px;
     }
-
 </style>
 <!-- start container -->
 <div class="container">
@@ -134,41 +135,41 @@
                 <a href="#" id="btnGet" onclick="javascript: GetStudentDetails();">Get Details</a>
             </div>
             <div class="row">
-            <table id="showstudent" style="display: none;border:1px solid;" >
-                <tr style="background-color:gray;">
-                    <td>Name</td>
-                    <td>DOB</td>
-                    <td>Contact</td>
-                    <td>Email</td>
-                    <td>Address</td>
-                    <td>Guardian</td>
-                    <td>Occupation</td>
-                </tr>
-                <tr>
-                    <td>
-                        <div id="lblName"></div>
-                    </td>
-                    <td>
-                        <div id="DOB"></div>
-                    </td>
-                    <td>
-                        <div id="ContactNumber"></div>
-                    </td>
-                    <td>
-                        <div id="EmailID"></div>
-                    </td>
-                    <td>
-                        <div id="Address"></div>
-                    </td>
-                    <td>
-                        <div id="GuardianName"></div>
-                    </td>
-                    <td>
-                        <div id="Occupation"></div>
-                    </td>
-                </tr>
-            </table>
-                </div>
+                <table id="showstudent" style="display: none;border:1px solid;">
+                    <tr style="background-color:gray;">
+                        <td>Name</td>
+                        <td>DOB</td>
+                        <td>Contact</td>
+                        <td>Email</td>
+                        <td>Address</td>
+                        <td>Guardian</td>
+                        <td>Occupation</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="lblName"></div>
+                        </td>
+                        <td>
+                            <div id="DOB"></div>
+                        </td>
+                        <td>
+                            <div id="ContactNumber"></div>
+                        </td>
+                        <td>
+                            <div id="EmailID"></div>
+                        </td>
+                        <td>
+                            <div id="Address"></div>
+                        </td>
+                        <td>
+                            <div id="GuardianName"></div>
+                        </td>
+                        <td>
+                            <div id="Occupation"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
             <div class="row">
                 <label for="Password">Discipline :</label>
                 @Html.DropDownListFor(x => x.DisciplineId, new ListBound(Model.DisciplineId, "Disciplines").Disciplines, "-- Select Discipline --", new { onchange = "javascript:GetClassesByDisciplineId();", @class = "select" })
@@ -181,33 +182,33 @@
 
             </div>
             <div class="row">
-            <table id="showclassdet" style="display: none;border: 1px solid;">
-                <tr style="background-color:gray;">
-                    <td>Faculty Name</td>
-                    <td>Student Limit</td>
-                    <td>Student Registerd</td>
-                    <td>Start Date</td>
-                    <td>End Date</td>
-                </tr>
-                <tr>
-                    <td>
-                        <div id="lblNameOfFaculty"></div>
-                    </td>
-                    <td>
-                        <div id="lblStudentLimit"></div>
-                    </td>
-                    <td>
-                        <div id="lblStudentRegister"></div>
-                    </td>
-                    <td>
-                        <div id="lblStartDate"></div>
-                    </td>
-                    <td>
-                        <div id="lblEndDate"></div>
-                    </td>
-                </tr>
-            </table>
-                </div>
+                <table id="showclassdet" style="display: none;border: 1px solid;">
+                    <tr style="background-color:gray;">
+                        <td>Faculty Name</td>
+                        <td>Student Limit</td>
+                        <td>Student Registerd</td>
+                        <td>Start Date</td>
+                        <td>End Date</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="lblNameOfFaculty"></div>
+                        </td>
+                        <td>
+                            <div id="lblStudentLimit"></div>
+                        </td>
+                        <td>
+                            <div id="lblStudentRegister"></div>
+                        </td>
+                        <td>
+                            <div id="lblStartDate"></div>
+                        </td>
+                        <td>
+                            <div id="lblEndDate"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
             <div class="row">
                 <label for="Password">Course Amount :</label>
                 @Html.TextBoxFor(x => x.CourseAmount, new { @class = "input" })
@@ -249,7 +250,7 @@
 
 <script>
     $(document).ready(function () {
-        $("#SatrtDate").datepicker({ dateFormat: "dd M yy", minDate: "-1m" });
+        $("#SatrtDate").datepicker({ dateFormat: "dd M yy", minDate: "-15d" });
     });
     function RedirectToHome() {
         window.location.href = ('@Url.Action("AllStudents", "Student")');
