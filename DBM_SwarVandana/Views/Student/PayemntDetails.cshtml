@@ -29,7 +29,7 @@
 <script>
 
     $(document).ready(function () {
-        $("#DateOfPayment").datepicker({ dateFormat: "dd M yy", minDate: "-1m" });
+        $("#DateOfPayment").datepicker({ dateFormat: "dd M yy", minDate: "-7d" });
         $("#DueDate").datepicker({ dateFormat: "dd M yy", minDate: "-1m", minDate: new Date() });
     });
     function GetStudentDetails() {
@@ -240,7 +240,7 @@
                             </td>
                             <td>Pay Date</td>
                             <td>
-                                @Html.TextBoxFor(x => x.DateOfPayment, new { @class = "input" })
+                                @Html.TextBoxFor(x => x.DateOfPayment, new { @class = "input",@readonly="readonly" })
                             </td>
                             <td>Balance</td>
                             <td>
@@ -250,7 +250,7 @@
                         <tr class="spaceUnder">
                             <td>Next Due Date</td>
                             <td>
-                                @Html.TextBoxFor(x => x.DueDate, new { @class = "input" })
+                                @Html.TextBoxFor(x => x.DueDate, new { @class = "input", @readonly = "readonly" })
                             </td>
                         </tr>
                     </table>
