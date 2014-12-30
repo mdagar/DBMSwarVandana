@@ -55,9 +55,13 @@ namespace DBM_SwarVandana.Controllers
 
         [Authenticate]
         [HttpPost]
-        public ActionResult AddExamDetails(ExamDetailsViewModel ed)
+        public ActionResult AddExamDetails(ExamDetailsViewModel ed, string UniqueKey)
         {
             var result = 0;
+            var student = _allstudents.GetStudentsByUniqueId(UniqueKey);
+            if (student == null)
+                ModelState.AddModelError(string.Empty, "Please enter a valid enrollment No.");
+                
             if (ModelState.IsValid)
             {
 

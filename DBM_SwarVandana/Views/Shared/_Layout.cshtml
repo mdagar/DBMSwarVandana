@@ -68,7 +68,7 @@
                 <ul>
                     <li><a href="@Url.Action("Index", "Main")">Home</a></li>
                     <li>
-                        <a href="#" title="Masters">Masters</a>
+                        <a href="#">Masters</a>
                         <ul>
                             <li><a href="@Url.Action("ChangePassword", "Main")">Change Password</a></li>
                             @if (SessionWrapper.User.RoleId == (int)UserRole.SuperAdmin)
@@ -80,7 +80,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#" title="Enquiries">Enquiries</a>
+                        <a href="#">Enquiries</a>
                         <ul>
                             <li><a href="@Url.Action("TelephonicEnquiryList", "Enquiries")">Telephonic Enquiry</a></li>
                             <li><a href="@Url.Action("PhysicalEnquiryList", "Enquiries")">Physical Enquiry</a></li>
@@ -89,14 +89,14 @@
                     @if (SessionWrapper.User.RoleId > (int)UserRole.User)
                     {
                         <li>
-                            <a href="@Url.Action("Index", "Main")">Class Management</a>
+                            <a href="#">Class Management</a>
                             <ul>
                                 <li><a href="@Url.Action("ClassDetailsList", "Class")">Class Details</a></li>
                             </ul>
                         </li>
                     }
                     <li>
-                        <a href="@Url.Action("Index", "Main")">Student Management</a>
+                        <a href="#">Student Management</a>
                         <ul>
                             <li><a href="@Url.Action("AllStudents", "Student")"> Students</a></li>
                             <li><a href="@Url.Action("EntrollStudent", "Student")">Enrollment</a></li>
@@ -108,7 +108,7 @@
                     @if (SessionWrapper.User.RoleId > (int)UserRole.User)
                     {
                         <li>
-                            <a href="@Url.Action("Index", "Main")">Admin</a>
+                            <a href="#">Admin</a>
                             <ul>
                                 <li><a href="@Url.Action("GetFaculityList", "Faculty")">Faculty Management</a></li>
                                 <li><a href="@Url.Action("UserList", "Main")">User Management</a></li>
@@ -121,7 +121,7 @@
                     @if (SessionWrapper.User.RoleId > (int)UserRole.User)
                     {
                         <li>
-                            <a href="@Url.Action("Index", "Main")">Budget Management</a>
+                            <a href="#">Budget Management</a>
                             <ul>
                                 @if (SessionWrapper.User.RoleId == (int)UserRole.SuperAdmin)
                                 {

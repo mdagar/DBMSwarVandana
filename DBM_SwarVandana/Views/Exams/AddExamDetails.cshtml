@@ -30,7 +30,7 @@
     function GetStudentDetails() {
         var uniqueid = $("#UniqueKey").val();
         if (uniqueid == '') {
-            alert("Please Enter Unique Key.");
+            alert("Please enter enrollment no.");
             return false;
         }
         else {
@@ -80,7 +80,7 @@
             <h3>Exam Details</h3>
             <div class="row">
                 <label for="Password">Enrollment No. :</label>
-                <input id="UniqueKey" type="text" class="input" />
+                <input name="UniqueKey" type="text" class="input" />
                 <a href="Javascript:void(0)" id="btnGet" onclick="javascript: GetStudentDetails();">Get Details</a>
             </div>
             <div class="row">
