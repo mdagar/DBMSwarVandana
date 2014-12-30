@@ -29,7 +29,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult GetFaculityList(string search = "", int page = 1)
         {
             int TotalPages = 0;
-            List<Faculties> fac = _allfaculty.GetFacultyByCentreId(SessionWrapper.User.CentreId, out TotalPages, page, search);
+            List<Faculties> fac = _allfaculty.GetFacultyByCentreId(SessionWrapper.User.CentreId, out TotalPages, page, search.Trim());
             ViewBag.TotalPages = TotalPages;
             var Discipline = _allDiscipline.GetAllDisciplines();
             var state = _allcentre.GetStates();

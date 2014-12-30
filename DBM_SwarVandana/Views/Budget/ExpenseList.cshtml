@@ -18,7 +18,7 @@
                 <input type="text" name="Search" value="" placeholder="Search" class="input" />
                 <input type="submit" value="Search" class="submit-btn" />
                 @*<label for="From">&nbsp;</label>
-                <input type="button" value="Export" onclick="Export()" class="submit-btn" />*@
+                    <input type="button" value="Export" onclick="Export()" class="submit-btn" />*@
                 <label for="From">&nbsp;</label>
                 <input name="submit" type="button" onclick="AddNew()" value="Add New" class="submit-btn" />
             </form>
@@ -46,7 +46,11 @@
                         <td class="td">@v.Description</td>
                         <td class="td">@string.Format("{0:dd MMM yyyy}", v.DateOfExpense)</td>
                         <td class="td">
-                            <a href="@Url.Action("AddExpenses", "Budget", new { ExpenseID = v.ExpenseID })" title="Edit">Edit</a>
+                            @{ var days = (DateTime.Now - v.DateOfExpense.Value).TotalDays;}
+                            @if (days <= 20)
+                            {
+                                <a href="@Url.Action("AddExpenses", "Budget", new { ExpenseID = v.ExpenseID })" title="Edit">Edit</a>
+                            }
                         </td>
                     </tr>
                     <!-- end row -->
