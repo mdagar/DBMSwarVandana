@@ -109,6 +109,8 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult AssignBudget(BudgetViewModel bgt)
         {
             var result = 0;
+            if (bgt.BudgetAmount < 25000)
+                ModelState.AddModelError(string.Empty, "Budget amount should not less then 25000 rs.");
             if (ModelState.IsValid)
             {
 
@@ -169,6 +171,8 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult AddExpenses(ExpensesViewModel exp)
         {
             var result = 0;
+            if (exp.ExpenseAmount < 1000)
+                ModelState.AddModelError(string.Empty, "Expense Amount should be atleast of 1000 rs.");
             if (ModelState.IsValid)
             {
                 exp.ActionId = 0;
