@@ -4,6 +4,8 @@
     ViewBag.Title = "AddStudent";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/Content/js/jquery-ui.js"></script>
 <script>
     function GetCitiesByStateId() {
         $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
@@ -18,7 +20,8 @@
         });
     }
 
-    $(function () {      
+    $(function () {
+        $("#DOB").datepicker({ dateFormat: "dd M yy", maxDate: "-4Y" });
         $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
             $("#CityId").html('');
             $("#CityId").append('<option value="">-- Select City --</option>');
@@ -36,7 +39,7 @@
         });
     });
 
-    $("#DOB").datepicker({ dateFormat: "dd M yy", minDate: "-4Y" });
+
     function RedirectToHome() {
         window.location.href = ('@Url.Action("AllStudents", "Student")');
     }
@@ -52,7 +55,9 @@
             <div>
                 @if (!string.IsNullOrEmpty(ViewBag.Success))
                 {
-                    @ViewBag.Success
+                    <div class="successvalidation">
+                        @ViewBag.Success
+                    </div>
                 }
                 else
                 {

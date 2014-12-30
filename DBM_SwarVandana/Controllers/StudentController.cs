@@ -38,12 +38,12 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult AllStudents(string search = "", int page = 1)
         {
-            ViewBag.search = search;
+            ViewBag.search = search.Trim();
             int TotalPages = 0;
             var users = _alluser.AllUsers(SessionWrapper.User.CentreId).Where(x => x.RoleId < SessionWrapper.User.RoleId).ToList();
             var state = _allcentre.GetStates();
             var city = _allcentre.GetCities();
-            var stu = _allstudents.GetStudents(SessionWrapper.User.CentreId, out TotalPages, page, search);
+            var stu = _allstudents.GetStudents(SessionWrapper.User.CentreId, out TotalPages, page, search.Trim());
             stu.Update(x => x.StateName = state.Where(s => s.StateId == x.StateId).FirstOrDefault().StateName);
             stu.Update(x => x.CityName = city.Where(s => s.CityId == x.CityId).FirstOrDefault().CityName);
             ViewBag.TotalPages = TotalPages;
@@ -94,7 +94,7 @@ namespace DBM_SwarVandana.Controllers
                 }
                 if ((result != "-1") || (result != ""))
                 {
-                    ViewBag.Success = Messages.SubmitStudent + ", Student Id is: " + result;
+                    ViewBag.Success = Messages.SubmitStudent + ", Enrollment No : " + result;
                 }
                 else
                 {
