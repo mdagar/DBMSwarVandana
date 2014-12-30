@@ -220,7 +220,13 @@ namespace DBM_SwarVandana.Controllers
             p.SelectedFinancialyear = final;
             var budgetassign = _allbudget.FindByCenterId(SessionWrapper.User.CentreId, p.SelectedFinancialyear);
             p.BudgetAssign = budgetassign == null ? 0 : Convert.ToDecimal(budgetassign.BudgetAmount);
-
+            if (p.BudgetAssign == 0)
+            {
+                p.Salary = 0;
+                p.Revenue = 0;
+                p.Expenseses = 0;
+                p.FinalAmount = 0;
+            }
             return View(p);
         }
 
