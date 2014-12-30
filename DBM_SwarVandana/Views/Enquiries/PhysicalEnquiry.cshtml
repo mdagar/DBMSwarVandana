@@ -70,6 +70,12 @@
     function RedirectToHome() {
         window.location.href = ('@Url.Action("PhysicalEnquiryList", "Enquiries")');
     }
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
 </script>
 <!-- start container -->
 <div class="container">
@@ -112,7 +118,7 @@
                 }
                 else
                 {
-                    @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input" })
+                    @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input",@onkeypress = "return isNumberKey(event)", @maxlength = "20" })
                 }
 
             </div>
@@ -176,7 +182,7 @@
                 }
                 else
                 {
-                    @Html.TextBoxFor(x => x.Age, new { @class = "input" })
+                    @Html.TextBoxFor(x => x.Age, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "2" })
                 }
 
             </div>
@@ -248,15 +254,15 @@
             </div>
             <div class="row">
                 <label for="Password">No of Classes :</label>
-                @Html.TextBoxFor(x => x.NoOfClasses, new { @class = "input" })
+                @Html.TextBoxFor(x => x.NoOfClasses, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "3" })
             </div>
             <div class="row">
                 <label for="Password">Packages :</label>
-                @Html.TextBoxFor(x => x.Package, new { @class = "input" })
+                @Html.TextBoxFor(x => x.Package, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "15" })
             </div>
             <div class="row">
                 <label for="Password">Registration :</label>
-                @Html.TextBoxFor(x => x.RegistrationAmount, new { @class = "input" })
+                @Html.TextBoxFor(x => x.RegistrationAmount, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "15" })
             </div>
             <div class="row">
                 <label for="Password">Status :</label>

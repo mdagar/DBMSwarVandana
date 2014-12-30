@@ -99,7 +99,12 @@
         var finalDate = +d.getDate() + " " + months[(d.getMonth() + 1) - 1] + " " + d.getFullYear();
         return finalDate;
     }
-
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
 </script>
 <style>
     td {
@@ -211,17 +216,17 @@
             </div>
             <div class="row">
                 <label for="Password">Course Amount :</label>
-                @Html.TextBoxFor(x => x.CourseAmount, new { @class = "input" })
+                @Html.TextBoxFor(x => x.CourseAmount, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "12" })
 
             </div>
             <div class="row">
                 <label for="Password">Registration Amount :</label>
-                @Html.TextBoxFor(x => x.RegistratonAmount, new { @class = "input" })
+                @Html.TextBoxFor(x => x.RegistratonAmount, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "12" })
 
             </div>
             <div class="row">
                 <label for="Password">Amount Paid :</label>
-                @Html.TextBoxFor(x => x.AmountPaid, new { @class = "input" })
+                @Html.TextBoxFor(x => x.AmountPaid, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "12" })
 
             </div>
             <div class="row">
