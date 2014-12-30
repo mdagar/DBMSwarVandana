@@ -148,7 +148,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult ExpenseList(string Search = "", int page = 1)
         {
             int TotalPages = 0;
-            List<Expenses> exp = _allbudget.GetAllExpenses(SessionWrapper.User.CentreId, out TotalPages, page, Search);
+            List<Expenses> exp = _allbudget.GetAllExpenses(SessionWrapper.User.CentreId, out TotalPages, page, Search.Trim());
             var expfor = _allbudget.GetExpenseForAll();
             exp.Update(x => x.ExpenseForName = expfor.Where(s => s.ExpenseForId == x.ExpenseFor).FirstOrDefault().ExpenseFor);
             ViewBag.TotalPages = TotalPages;

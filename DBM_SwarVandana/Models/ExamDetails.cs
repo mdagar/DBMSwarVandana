@@ -24,7 +24,7 @@ namespace Models
         public virtual DateTime? ModifiedOn { get; set; }
         public virtual bool IsActive { get; set; }
         public virtual bool IsDeleted { get; set; }
-
+        public virtual string EnrollmentNo { get; set; }
         public virtual string FacultyName { get; set; }
         public virtual string StudentName { get; set; }
 
@@ -47,6 +47,7 @@ namespace Models
             this.ModifiedOn = null;
             this.IsActive = true;
             this.IsDeleted = false;
+            this.EnrollmentNo = string.Empty;
 
         }
 
