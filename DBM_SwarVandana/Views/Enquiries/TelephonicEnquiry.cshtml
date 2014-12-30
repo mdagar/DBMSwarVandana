@@ -54,7 +54,12 @@
     function RedirectToHome() {
         window.location.href = ('@Url.Action("TelephonicEnquiryList", "Enquiries")');
     }
-
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
 
 </script>
 
@@ -101,7 +106,7 @@
                 }
                 else
                 {
-                    @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input" })
+                    @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "20" })
                 }
             </div>
             <div class="row">

@@ -40,7 +40,12 @@
     function RedirectToHome() {
         window.location.href = ('@Url.Action("AllStudents", "Student")');
     }
-
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
 </script>
 <!-- start container -->
 <div class="container">
@@ -73,12 +78,12 @@
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span> Contact Number 1 :</label>
-                @Html.TextBoxFor(x => x.Contact1, new { @class = "input" })
+                @Html.TextBoxFor(x => x.Contact1, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "20" })
             </div>
 
             <div class="row">
                 <label for="Password">Contact Number 2 :</label>
-                @Html.TextBoxFor(x => x.Contact2, new { @class = "input" })
+                @Html.TextBoxFor(x => x.Contact2, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "20" })
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span> Email ID :</label>
