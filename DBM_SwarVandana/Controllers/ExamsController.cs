@@ -25,14 +25,19 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult AllExamDetails(string search = "")
+        public ActionResult AllExamDetails(string search = "", int page = 1)
         {
             int TotalPages = 0;
-            List<ExamDetails> ed = _allexams.GetExamDetailsByCentreID(SessionWrapper.User.CentreId, search);
+            List<ExamDetails> ed = _allexams.GetExamDetailsByCentreID(SessionWrapper.User.CentreId, out TotalPages, page, search);
             var faculty = _allfaculty.GetAllFacultyByCentreId(SessionWrapper.User.CentreId);
             var student = _allstudents.GetStudentsByCentreId(SessionWrapper.User.CentreId);
             ed.Update(x => x.FacultyName = faculty.Where(s => s.FacultyId == x.FacultyID).FirstOrDefault().NameOfFaculty);
-            ed.Update(x => x.StudentName = student.Where(s => s.StudentId == x.StudentID).FirstOrDefault().Name);
+            foreach (var v in ed)
+            {
+                var stu = student.Where(s => s.StudentId == v.StudentID).FirstOrDefault();
+                v.StudentName = stu == null ? "" : stu.Name;
+                v.EnrollmentNo = stu == null ? "" : stu.UniqueKey;
+            }
             ViewBag.TotalPages = TotalPages;
             return View(ed);
         }
@@ -50,9 +55,13 @@ namespace DBM_SwarVandana.Controllers
 
         [Authenticate]
         [HttpPost]
-        public ActionResult AddExamDetails(ExamDetailsViewModel ed)
+        public ActionResult AddExamDetails(ExamDetailsViewModel ed, string UniqueKey)
         {
             var result = 0;
+            var student = _allstudents.GetStudentsByUniqueId(UniqueKey);
+            if (student == null)
+                ModelState.AddModelError(string.Empty, "Please enter a valid enrollment No.");
+                
             if (ModelState.IsValid)
             {
 

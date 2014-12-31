@@ -30,7 +30,7 @@
     function GetStudentDetails() {
         var uniqueid = $("#UniqueKey").val();
         if (uniqueid == '') {
-            alert("Please Enter Unique Key.");
+            alert("Please enter enrollment no.");
             return false;
         }
         else {
@@ -79,9 +79,9 @@
             </div>
             <h3>Exam Details</h3>
             <div class="row">
-                <label for="Password">Enrollment Id :</label>
-                <input id="UniqueKey" type="text" class="input" />
-                <a href="#" id="btnGet" onclick="javascript: GetStudentDetails();">Get Details</a>
+                <label for="Password">Enrollment No. :</label>
+                <input name="UniqueKey" type="text" class="input" />
+                <a href="Javascript:void(0)" id="btnGet" onclick="javascript: GetStudentDetails();">Get Details</a>
             </div>
             <div class="row">
                 <table id="showstudent" style="display: none; border: 1px solid;">
@@ -125,8 +125,8 @@
 
             </div>
             <div class="row">
-                <label for="Password">Exam Date :</label>
-                @Html.TextBoxFor(x => x.ExamDate, new { @class = "input" })
+                <label for="Password">Exam Date :</label>                
+                @Html.TextBox("ExamDate",Model.ExamDate == null ? "" : Model.ExamDate.Value.ToString("dd MMM yyyy"), new { @class = "input",@readonly="readonly" })
 
             </div>
             <div class="row">
