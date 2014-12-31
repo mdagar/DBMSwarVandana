@@ -8,6 +8,7 @@ using ViewModel;
 using Repositories;
 using DBM_SwarVandana.Resources;
 using Models;
+using ViewModel;
 
 namespace DBM_SwarVandana.Controllers
 {
@@ -26,8 +27,9 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult Index()
         {
-            
-            return View();
+            TransRecordsViewModel tr = new TransRecordsViewModel();
+            tr.DashBoardDataset = _allcentre.GetDashboardData(SessionWrapper.User.CentreId);
+            return View(tr);
         }
 
         public void FillCenterIdSession(int CentreId)

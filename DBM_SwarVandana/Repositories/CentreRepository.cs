@@ -66,5 +66,14 @@ namespace Repositories
             else
                 return ds.Tables[0].TableToList<Centres>().FirstOrDefault();
         }
+        public DataSet GetDashboardData(int centerId)
+        {
+            object[] objParam = { centerId };
+            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), "GetDashboardData", objParam);
+            if (ds == null)
+                return new DataSet();
+            else
+                return ds;
+        }
     }
 }

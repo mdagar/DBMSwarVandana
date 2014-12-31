@@ -364,7 +364,7 @@ body {
     }
 
     .update-box .column {
-        width: 375px;
+        width: 40%;
         float: left;
         border: #da7403 1px solid;
         padding: 2px;
