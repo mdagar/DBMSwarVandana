@@ -31,7 +31,7 @@ namespace DBM_SwarVandana.Controllers
             int TotalPages = 0;
             List<Faculties> fac = _allfaculty.GetFacultyByCentreId(SessionWrapper.User.CentreId, out TotalPages, page, search.Trim());
             ViewBag.TotalPages = TotalPages;
-            var Discipline = _allDiscipline.GetAllDisciplines();
+            var Discipline = _allDiscipline.GetAllDisciplines(SessionWrapper.User.CentreId);
             var state = _allcentre.GetStates();
             var city = _allcentre.GetCities();
             foreach (var v in fac)

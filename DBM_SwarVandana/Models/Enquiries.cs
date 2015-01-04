@@ -31,10 +31,14 @@ namespace Models
         public virtual decimal Package { get; set; }
         public virtual decimal RegistrationAmount { get; set; }
         public virtual int CentreId { get; set; }
+        public virtual Int64 FacultyID { get; set; }
+        public virtual string FacultyName { get; set; }
+        public virtual Int64 EnquiryBy { get; set; }
         public virtual DateTime? AddDate { get; set; }
         public virtual int AddedBy { get; set; }
         public virtual DateTime? ModifyDate { get; set; }
         public virtual int ModifyBy { get; set; }
+        public virtual string UserName { get; set; }
         public virtual bool IsActive { get; set; }
         public virtual bool IsEnquiryClosed { get; set; }
         public virtual bool IsDeleted { get; set; }
@@ -69,6 +73,8 @@ namespace Models
             this.RegistrationAmount = 0;
             this.CentreId = 0;
             this.IsEnquiryClosed = false;
+            this.FacultyID = 0;
+            this.EnquiryBy = 0;
             this.AddDate = null;
             this.AddedBy = 0;
             this.ModifyDate = null;

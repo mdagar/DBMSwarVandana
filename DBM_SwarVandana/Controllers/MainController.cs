@@ -8,7 +8,6 @@ using ViewModel;
 using Repositories;
 using DBM_SwarVandana.Resources;
 using Models;
-using ViewModel;
 
 namespace DBM_SwarVandana.Controllers
 {
@@ -142,9 +141,9 @@ namespace DBM_SwarVandana.Controllers
 
         #region UserRegistration
         [Authenticate]
-        public ActionResult UserList(string search = "",int page=1)
+        public ActionResult UserList(string search = "", int page = 1)
         {
-            int TotalPages = 0;            
+            int TotalPages = 0;
 
             var users = _alluser.GetAllUsers(SessionWrapper.User.CentreId, out TotalPages, page, search).Where(x => x.RoleId < SessionWrapper.User.RoleId).ToList();
             var state = _allcentre.GetStates();
@@ -281,6 +280,7 @@ namespace DBM_SwarVandana.Controllers
                     dis.ActionId = 1;
                 else
                     dis.ActionId = 0;
+                dis.CentreID = SessionWrapper.User.CentreId;
                 dis.AddDate = DateTime.Now;
                 dis.AddedBy = SessionWrapper.User.UserId;
                 dis.ModifyBy = SessionWrapper.User.UserId;
@@ -306,7 +306,7 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult ManageDiscipline(string search = "")
         {
-            var d = _alldiscipline.GetAllDisciplines(search);
+            var d = _alldiscipline.GetAllDisciplines(SessionWrapper.User.CentreId, search);
             return View(d);
         }
 

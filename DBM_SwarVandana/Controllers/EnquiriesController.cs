@@ -31,7 +31,7 @@ namespace DBM_SwarVandana.Controllers
             int TotalPages = 0;
             List<Enquiries> enq = _allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.TE, out TotalPages, page, search);
             ViewBag.TotalPages = TotalPages;
-            var Discipline = _allDiscipline.GetAllDisciplines();
+            var Discipline = _allDiscipline.GetAllDisciplines(SessionWrapper.User.CentreId);
             var sources = _allSources.GetAllSources();
             enq.Update(x => x.SourceName = sources.Where(s => s.SourceId == x.SourceId).FirstOrDefault().Source);
             enq.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.Discipline).FirstOrDefault().Discipline);
@@ -100,7 +100,7 @@ namespace DBM_SwarVandana.Controllers
             int TotalPages = 0;
             List<Enquiries> enq = _allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.PE, out TotalPages, page, search);
             ViewBag.TotalPages = TotalPages;
-            var Discipline = _allDiscipline.GetAllDisciplines();
+            var Discipline = _allDiscipline.GetAllDisciplines(SessionWrapper.User.CentreId);
             var sources = _allSources.GetAllSources();
             var Users = _allUsers.AllUsers(SessionWrapper.User.CentreId);
             enq.Update(x => x.SourceName = sources.Where(s => s.SourceId == x.SourceId).FirstOrDefault().Source);
@@ -132,7 +132,7 @@ namespace DBM_SwarVandana.Controllers
             {
                 en.ActionId = 0;
                 en.CentreId = SessionWrapper.User.CentreId;
-                en.EnquiryTypeId = Convert.ToInt32(EnquiryType.TE);
+                en.EnquiryTypeId = Convert.ToInt32(EnquiryType.PE);
                 en.IsEnquiryClosed = false;
                 en.AddDate = DateTime.Now;
                 en.AddedBy = SessionWrapper.User.UserId;
@@ -195,7 +195,7 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult ExportTelephonicEnq()
         {
-            var Discipline = _allDiscipline.GetAllDisciplines();
+            var Discipline = _allDiscipline.GetAllDisciplines(SessionWrapper.User.CentreId);
             var sources = _allSources.GetAllSources();
             var rec = (_allenquiry.GetAllEnquery(SessionWrapper.User.CentreId, (int)EnquiryType.TE).Select(s => new
             {
@@ -215,7 +215,7 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult ExportPhysicalEnq()
         {
-            var Discipline = _allDiscipline.GetAllDisciplines();
+            var Discipline = _allDiscipline.GetAllDisciplines(SessionWrapper.User.CentreId);
             var sources = _allSources.GetAllSources();
             var Users = _allUsers.AllUsers(SessionWrapper.User.CentreId);
             var rec = (_allenquiry.GetAllEnquery(SessionWrapper.User.CentreId, (int)EnquiryType.PE).Select(s => new

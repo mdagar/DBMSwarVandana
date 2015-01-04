@@ -363,4 +363,10 @@
   <data name="InvalidEmailAddress" xml:space="preserve">
     <value>Please enter a valid email address.</value>
   </data>
+  <data name="GetUsersForEnquiryBy" xml:space="preserve">
+    <value>GetUsersForEnquiryBy</value>
+  </data>
+  <data name="EnquiryByRequired" xml:space="preserve">
+    <value>Please enter enquiry by.</value>
+  </data>
 </root>

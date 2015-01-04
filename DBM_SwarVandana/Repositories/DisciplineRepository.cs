@@ -22,14 +22,14 @@ namespace Repositories
                 dis.ActionId = 1;
             else
                 dis.ActionId = 0;
-            object[] objParam = { dis.ActionId, dis.DisciplineId, dis.Discipline, dis.Description, dis.AddDate, dis.AddedBy, dis.ModifyDate, dis.ModifyBy, dis.IsActive, dis.IsDeleted };
+            object[] objParam = { dis.ActionId, dis.DisciplineId, dis.Discipline, dis.Description, dis.CentreID, dis.AddDate, dis.AddedBy, dis.ModifyDate, dis.ModifyBy, dis.IsActive, dis.IsDeleted };
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_Disciplines_IUD, objParam);
             return Convert.ToInt32(d);
         }
 
-        public List<Disciplines> GetAllDisciplines(string search = "")
+        public List<Disciplines> GetAllDisciplines(int CentreID, string search = "")
         {
-            object[] obj = { search };
+            object[] obj = { search, CentreID };
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.USP_DisciplineGetAll, obj);
             return ConvertList.TableToList<Disciplines>(d.Tables[0]);
         }

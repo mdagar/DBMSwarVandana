@@ -43,7 +43,7 @@ namespace DBM_SwarVandana.Controllers
         {
             int TotalPages = 0;
             List<ClassDetails> cls = _allclass.ListClassDetails(SessionWrapper.User.CentreId,out TotalPages,page,Search);
-            var Discipline = _allDiscipline.GetAllDisciplines();
+            var Discipline = _allDiscipline.GetAllDisciplines(SessionWrapper.User.CentreId);
             var Users = _allFaculty.GetAllFacultyByCentreId(SessionWrapper.User.CentreId);
             cls.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.DisciplineId).FirstOrDefault().Discipline);
             ViewBag.TotalPages = TotalPages;
@@ -94,7 +94,7 @@ namespace DBM_SwarVandana.Controllers
             if (classId.HasValue)
             {
                 m.classDetais = _allclass.FindById(classId.Value);
-                var Discipline = _allDiscipline.GetAllDisciplines();
+                var Discipline = _allDiscipline.GetAllDisciplines(SessionWrapper.User.CentreId);
                 var Users = _allFaculty.GetAllFacultyByCentreId(SessionWrapper.User.CentreId);
                 m.classDetais.DisciplaneName = Discipline.Where(x => x.DisciplineId == m.classDetais.DisciplineId).FirstOrDefault().Discipline;
                 var name = Users.Where(s => s.FacultyId == m.classDetais.FacultyId).FirstOrDefault();
@@ -108,7 +108,7 @@ namespace DBM_SwarVandana.Controllers
         [HttpPost]
         public ActionResult CreateClassTimming()
         {
-            DateTime time;
+            
             long classId = 0;
             bool InsertDate = true;
             if (timepattern.Count > 0)
@@ -173,7 +173,7 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult ExportToExcel()
         {
-            var Discipline = _allDiscipline.GetAllDisciplines();
+            var Discipline = _allDiscipline.GetAllDisciplines(SessionWrapper.User.CentreId);
             var Users = _allFaculty.GetAllFacultyByCentreId(SessionWrapper.User.CentreId);
             List<ClassDetails> cls = _allclass.GetAllClasses(SessionWrapper.User.CentreId);
             cls.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.DisciplineId).FirstOrDefault().Discipline);

@@ -17,6 +17,7 @@ namespace Code
         public SelectList Faculties;
         public SelectList Students;
         public SelectList ExpenseFor;
+        public SelectList EnquiriesByUser;
         public ListBound(object SLvalue, string type)
         {
             switch (type)
@@ -31,7 +32,7 @@ namespace Code
                     Sources = new SelectList((new SourceRepository().GetAllSources()), "SourceId", "Source");
                     break;
                 case "Disciplines":
-                    Disciplines = new SelectList((new DisciplineRepository().GetAllDisciplines()), "DisciplineId", "Discipline");
+                    Disciplines = new SelectList((new DisciplineRepository().GetAllDisciplines(SessionWrapper.User.CentreId)), "DisciplineId", "Discipline");
                     break;
                 case "Users":
                     Users = new SelectList((new UsersRepository().AllUsers(SessionWrapper.User.CentreId)), "UserId", "UserName");
@@ -44,6 +45,9 @@ namespace Code
                     break;
                 case "ExpenseFor":
                     ExpenseFor = new SelectList((new BudgetRepository().GetExpenseForAll()), "ExpenseForId", "ExpenseFor");
+                    break;
+                case "EnquiriesByUser":
+                    EnquiriesByUser = new SelectList((new EnquiryRepository().GetUsersForEnquiryBy(SessionWrapper.User.CentreId)), "UserId", "UserName");
                     break;
                 default:
                     // commisionTypeSL = new SelectList(commisionType);

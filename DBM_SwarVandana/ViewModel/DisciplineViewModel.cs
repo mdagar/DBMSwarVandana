@@ -19,6 +19,7 @@ namespace ViewModel
             this.DisciplineId = d.DisciplineId;
             this.Discipline = d.Discipline;
             this.Description = d.Description;
+            this.CentreID = d.CentreID;
             this.AddDate = d.AddDate;
             this.AddedBy = d.AddedBy;
             this.ModifyDate = d.ModifyDate;
@@ -32,6 +33,8 @@ namespace ViewModel
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "DisciplineRequired")]
         public override string Discipline { get; set; }
         public override string Description { get; set; }
+        public override int CentreID { get; set; }
+       
         public override DateTime? AddDate { get; set; }
         public override int AddedBy { get; set; }
         public override DateTime? ModifyDate { get; set; }

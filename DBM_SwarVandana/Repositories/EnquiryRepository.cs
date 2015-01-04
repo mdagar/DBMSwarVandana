@@ -27,7 +27,7 @@ namespace Repositories
             object[] objParam = { e.ActionId, e.EnquiryId, e.SourceId, e.EnquiryTypeId, e.ContactNumber, e.Name, 
                                     e.DateOfEnquiry, e.Discipline, e.StateId, e.CityId, e.Address, e.AttendedBy,
                                     e.Demo,e.RemarksByFaculty, e.StatusId,e.ProbableStudentFor,e.Gender,e.Age,e.Occupation,
-                                    e.FinalComments,e.NoOfClasses,e.Package,e.RegistrationAmount,e.CentreId,e.IsEnquiryClosed,
+                                    e.FinalComments,e.NoOfClasses,e.Package,e.RegistrationAmount,e.CentreId,e.IsEnquiryClosed,e.FacultyID,
                                     e.AddDate, e.AddedBy, e.ModifyDate, e.ModifyBy, e.IsActive,e.IsDeleted };
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_Enquiries_IUD, objParam);
             return Convert.ToInt32(d);
@@ -65,7 +65,7 @@ namespace Repositories
         {
             object[] objParam = { centerId, EnqueryType };
             string Query = "SELECT EnquiryId,SourceId,EnquiryTypeId,ContactNumber,Name,DateOfEnquiry,Discipline,StateId,CityId,[Address],AttendedBy,Demo,RemarksByFaculty,StatusId,ProbableStudentFor,Gender,Age,Occupation,FinalComments,"
-                           + "NoOfClasses,Package,RegistrationAmount,CentreId,IsEnquiryClosed,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive,IsDeleted FROM [dbo].[Enquiries]"
+                           + "NoOfClasses,Package,RegistrationAmount,CentreId,IsEnquiryClosed,AddDate,AddedBy,ModifyDate,ModifyBy,UserName,IsActive,IsDeleted FROM [dbo].[Enquiries]"
                             + "WHERE EnquiryTypeId = " + EnqueryType + " AND CentreId = " + centerId + "AND IsDeleted=0";
             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Query, objParam);
             if (ds == null)
@@ -86,6 +86,16 @@ namespace Repositories
                 return ds.Tables[0].TableToList<Enquiries>().FirstOrDefault();
 
 
+        }
+
+        public List<Users> GetUsersForEnquiryBy(int CentreId)
+        {
+            object[] objParam = { CentreId };
+            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetUsersForEnquiryBy, objParam);
+            if (ds == null)
+                return new List<Users>();
+            else
+                return ds.Tables[0].TableToList<Users>();
         }
 
     }

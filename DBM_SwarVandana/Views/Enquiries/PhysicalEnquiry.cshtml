@@ -76,6 +76,16 @@
             return false;
         return true;
     }
+
+    function DemoChange(demo) {
+        if (demo == 1) {
+            $("#demoid").show();
+        }
+        else {
+            $("#demoid").hide();
+        }
+    }
+
 </script>
 <!-- start container -->
 <div class="container">
@@ -118,7 +128,7 @@
                 }
                 else
                 {
-                    @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input",@onkeypress = "return isNumberKey(event)", @maxlength = "20" })
+                    @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "20" })
                 }
 
             </div>
@@ -242,11 +252,23 @@
             <div class="row">
                 <label for="Password">Demo :</label>
                 <div class="column">
-                    @Html.RadioButtonFor(x => x.Demo, true, new { @class = "radio" })
+                    @Html.RadioButtonFor(x => x.Demo, true, new { @class = "radio", onchange = "javascript:DemoChange(1);" })
                     <label for="male">Yes</label>
-                    @Html.RadioButtonFor(x => x.Demo, false, new { @class = "radio" })
+                    @Html.RadioButtonFor(x => x.Demo, false, new { @class = "radio", onchange = "javascript:DemoChange(0);" })
                     <label for="female">No</label>
                 </div>
+            </div>
+            <div class="row" id="demoid" style="display: none;">
+                <label for="Password">Faculty :</label>
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.DropDownListFor(x => x.FacultyID, new ListBound(Model.FacultyID, "Faculties").Faculties, "-- Select Faculty --", new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.FacultyID);
+                }
+                else
+                { 
+                    @Html.DropDownListFor(x => x.FacultyID, new ListBound(Model.FacultyID, "Faculties").Faculties, "-- Select Faculty --", new { @class = "select" })
+                }
             </div>
             <div class="row">
                 <label for="Password">Remarks By Faculty :</label>

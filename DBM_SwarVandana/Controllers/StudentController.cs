@@ -194,7 +194,7 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult Studentdetail(long studentId)
         {
-            var Discipline = _allDiscipline.GetAllDisciplines();
+            var Discipline = _allDiscipline.GetAllDisciplines(SessionWrapper.User.CentreId);
             var Classes = _allClassRepository.GetAllClasses(SessionWrapper.User.CentreId);
             var sev = _allstudents.GetStudentDetails(studentId);
             foreach (var v in sev)

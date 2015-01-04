@@ -162,6 +162,9 @@
   <data name="GetStudentsByUniqueId" xml:space="preserve">
     <value>GetStudentsByUniqueId</value>
   </data>
+  <data name="GetUsersForEnquiryBy" xml:space="preserve">
+    <value>GetUsersForEnquiryBy</value>
+  </data>
   <data name="InsertBudgetMaster" xml:space="preserve">
     <value>InsertBudgetMaster</value>
   </data>
