@@ -10,29 +10,30 @@
         <div class="column">
             <h3>Fee To collect</h3>
             <ul>
-                @foreach (System.Data.DataRow v in Model.DashBoardDataset.Tables[0].Rows)
+                @*@foreach (System.Data.DataRow v in Model.DashBoardDataset.Tables[0].Rows)
                 {
-                    <li><a style="font-size:12px;" href="#">@v["Name"] (@v["UniqueKey"]) for @v["Class"] ( @Math.Round(Convert.ToDecimal(v["Balance"]),2) /- on : @(string.IsNullOrEmpty(Convert.ToString(v["DueDate"])) ? "Date Not Defined" : v["DueDate"]) )</a></li>
+                    <li><a style="font-size:12px;" href="#">@v["Name"] (@v["UniqueKey"]) for @v["Class"] ( @Math.Round(Convert.ToDecimal(v["Balance"]), 2) /- on : @(string.IsNullOrEmpty(Convert.ToString(v["DueDate"])) ? "Date Not Defined" : v["DueDate"]) )</a></li>
                 }
                 @if (Model.DashBoardDataset.Tables[0].Rows.Count == 0)
                 {
                     <li>No Fee Collection</li>
-                }
+                }*@
+                <li>No Fee Collection</li>
             </ul>
         </div>
 
         <div class="column">
             <h3>Upcoming  Renewal</h3>
             <ul>
-                @foreach (System.Data.DataRow v in Model.DashBoardDataset.Tables[1].Rows)
+                @*@foreach (System.Data.DataRow v in Model.DashBoardDataset.Tables[1].Rows)
                 {
                     <li><a style="font-size:12px;" href="#">@v["Name"] (@v["UniqueKey"]) Date : (@v["EndDate"] )</a></li>
                 }
                 @if (Model.DashBoardDataset.Tables[1].Rows.Count == 0)
                 {
                     <li>No Upcoming Renewal</li>
-                }
-
+                }*@
+                <li>No Upcoming Renewal</li>
             </ul>
         </div>
     </div>
@@ -40,15 +41,8 @@
         <div class="column">
             <h3>Upcomming Classes</h3>
             <ul>
-                @foreach (System.Data.DataRow v in Model.DashBoardDataset.Tables[2].Rows)
-                {
-                    <li><a style="font-size:12px;" href="#">(@v["ClassName"]) by (@v["Faculty"]) From (@v["StartDate"] )</a></li>
-                }
-                @if (Model.DashBoardDataset.Tables[2].Rows.Count == 0)
-                {
-                    <li>No Upcoming Classes</li>
-                }
 
+                <li>No Upcoming Classes</li>
             </ul>
         </div>
     </div>

@@ -18,5 +18,7 @@ namespace Models
         public virtual DateTime? CreatedDate { get; set; }
         public virtual long ModifyBy { get; set; }
         public virtual DateTime? ModifyDate { get; set; }
+        public virtual long CenterId { get; set; }
+
     }
 }

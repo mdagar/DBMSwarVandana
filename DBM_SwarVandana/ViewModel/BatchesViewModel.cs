@@ -21,6 +21,7 @@ namespace ViewModel
             this.CreatedDate = b.CreatedDate;
             this.ModifyBy = b.ModifyBy;
             this.ModifyDate = b.ModifyDate;
+            this.CenterId = b.CenterId;
         }
     }
 }

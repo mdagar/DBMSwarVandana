@@ -25,8 +25,8 @@
         }
         else
         {
-             <div style="font-weight:bold;font-size:13px;padding:10px;">
-                 Student is not yet enrolled.
+            <div style="font-weight:bold;font-size:13px;padding:10px;">
+                Student is not yet enrolled.
             </div>
         }
         <!-- end table-form -->
@@ -37,7 +37,7 @@
                 <!-- start row -->
                 <tr bgcolor="#ccc">
                     <td class="td">Discipline</td>
-                    <td class="td">Class</td>
+                    <td class="td">Class Assign</td>
                     <td class="td">Attended</td>
                     <td class="td">Absents</td>
                     <td class="td">Start Date</td>
@@ -53,7 +53,7 @@
                     <!-- start row -->
                     <tr>
                         <td class="td">@v.DisciplaneName</td>
-                        <td class="td">@v.ClassName</td>
+                        <td class="td">@v.NoOfClasses</td>
                         <td class="td">@v.Presents</td>
                         <td class="td">@v.Absents</td>
                         <td class="td">@v.SatrtDate.Value.ToString("dd MMM yyyy")</td>
