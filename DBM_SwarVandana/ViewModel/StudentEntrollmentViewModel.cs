@@ -36,6 +36,9 @@ namespace ViewModel
             this.Absents = se.Absents;
             this.Presents = se.Presents;
             this.StudentName = se.StudentName;
+            this.BankName = se.BankName;
+            this.PaymentMode = se.PaymentMode;
+            this.PaymentDetails = se.PaymentDetails;
         }
 
         public override long EnrollmentId { get; set; }

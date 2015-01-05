@@ -109,7 +109,7 @@
     function RedirectToHome() {
         window.location.href = ('@Url.Action("Index", "Main")');
     }
-    
+
 </script>
 <div class="container">
 
@@ -139,7 +139,7 @@
                     {
                         <div>@Html.ValidationSummary(false)</div>
                     }
-                    
+
                 }
             </div>
             <div class="row">
@@ -220,13 +220,13 @@
                     <legend>Payment Details</legend>
                     <table>
                         <tr class="spaceUnder">
-                            <td>Bank Name</td>
-                            <td>
-                                @Html.TextBoxFor(x => x.BankName, new { @class = "input" })
-                            </td>
                             <td>Payment Mode</td>
                             <td>
                                 @Html.DropDownListFor(x => x.PaymentMode, pmode, "-- Select Mode --", new { @class = "select" })
+                            </td>
+                            <td>Bank Name</td>
+                            <td>
+                                @Html.TextBoxFor(x => x.BankName, new { @class = "input" })
                             </td>
                             <td>Amount Paid</td>
                             <td>
@@ -240,7 +240,7 @@
                             </td>
                             <td>Pay Date</td>
                             <td>
-                                @Html.TextBoxFor(x => x.DateOfPayment, new { @class = "input",@readonly="readonly" })
+                                @Html.TextBoxFor(x => x.DateOfPayment, new { @class = "input", @readonly = "readonly" })
                             </td>
                             <td>Balance</td>
                             <td>

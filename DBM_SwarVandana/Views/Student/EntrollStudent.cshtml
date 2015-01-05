@@ -3,6 +3,15 @@
 @{
     ViewBag.Title = "EntrollStudent";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    IEnumerable<PaymentMode> modeid = Enum.GetValues(typeof(PaymentMode))
+                                                  .Cast<PaymentMode>();
+    IEnumerable<SelectListItem> pmode = from u in modeid
+                                        select new SelectListItem
+                                        {
+                                            Text = u.ToString(),
+                                            Value = ((int)u).ToString()
+                                        };
 }
 @*<script src="~/Content/JS/jquery-1.11.1.js"></script>*@
 <link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
@@ -230,6 +239,21 @@
 
             </div>
             <div class="row">
+                <label for="Password">Paynent Mode :</label>
+                @Html.DropDownListFor(x => x.PaymentMode, pmode, "-- Select Mode --", new { @class = "select" })
+
+            </div>
+            <div class="row">
+                <label for="Password">Bank Name:</label>
+                @Html.TextBoxFor(x => x.BankName, new { @class = "input", })
+
+            </div>
+            <div class="row">
+                <label for="Password">Tranaaction No:</label>
+                @Html.TextBoxFor(x => x.PaymentMode, new { @class = "input" })
+
+            </div>
+            <div class="row">
                 <label for="Password">Start Date :</label>
                 @Html.TextBoxFor(x => x.SatrtDate, new { @class = "input", @readonly = "readonly" })
 
@@ -245,7 +269,7 @@
 
             </div>
             <div class="rowbutton">
-                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" style="display: none;"  />
+                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" style="display: none;" />
                 <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
             </div>
 
@@ -254,9 +278,6 @@
 </div>
 
 <script>
-    //$(document).ready(function () {
-    //    $("#SatrtDate").datepicker({ dateFormat: "dd M yy", minDate: "-15d" });
-    //});
     function RedirectToHome() {
         window.location.href = ('@Url.Action("AllStudents", "Student")');
     }

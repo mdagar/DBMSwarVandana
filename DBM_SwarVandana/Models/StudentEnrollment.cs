@@ -48,9 +48,12 @@ namespace Models
         public virtual decimal PendingAmount { get; set; }
         public virtual int Absents { get; set; }
         public virtual int Presents { get; set; }
+        public virtual int PaymentMode { get; set; }
+        public virtual string BankName { get; set; }
+        public virtual string PaymentDetails { get; set; }
         public virtual string DisciplaneName { get; set; }
         public virtual string ClassName { get; set; }
         public virtual string StudentName { get; set; }
-        
+
     }
 }
