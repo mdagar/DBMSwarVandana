@@ -214,9 +214,36 @@ namespace Repositories
 
         public List<StudentRenewal> RenewStudentList(int centerId, string search = "")
         {
-            string Query1 = "select SR.RenewalId,SR.EnrollmentNo,(select name from student where studentid=SR.StudentId) AS Name,FT.NameOfFaculty AS Faculty,SR.AddDate,SR.Description,SR.Remark,SR.Status from [dbo].[StudentRenewal] SR,Faculties FT" +
-                       " WHERE SR.FacultyId=FT.FacultyId AND (FT.NameOfFaculty like '%" + search + "%' OR SR.Description like '%" + search + "%' OR SR.Remark like '%" + search + "%')";
-            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query1);
+            bool IsStatus = false;
+            switch (search.ToLower())
+            {
+                case "red":
+                    search = "1";
+                    IsStatus = true;
+                    break;
+                case "green":
+                    search = "2";
+                    IsStatus = true;
+                    break;
+                case "yellow":
+                    search = "3";
+                    IsStatus = true;
+                    break;
+                default:
+                    break;
+            }
+            string Query =string.Empty;
+            if (IsStatus == false)
+            {
+                Query = "select SR.RenewalId,SR.EnrollmentNo,(select name from student where studentid=SR.StudentId) AS Name,FT.NameOfFaculty AS Faculty,SR.AddDate,SR.Description,SR.Remark,SR.Status from [dbo].[StudentRenewal] SR,Faculties FT" +
+                           " WHERE SR.FacultyId=FT.FacultyId AND (FT.NameOfFaculty like '%" + search + "%' OR SR.Description like '%" + search + "%' OR SR.Remark like '%" + search + "%')";
+            }
+            else
+            {
+                Query = "  select SR.RenewalId,SR.EnrollmentNo,(select name from student where studentid=SR.StudentId) AS Name,FT.NameOfFaculty AS Faculty,SR.AddDate,SR.Description,SR.Remark,SR.Status from [dbo].[StudentRenewal] SR,Faculties FT" +
+                        " WHERE SR.FacultyId=FT.FacultyId AND SR.Status=" + search + "";
+            }
+            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             if (ds == null)
                 return new List<StudentRenewal>();
             else
