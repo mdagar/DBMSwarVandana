@@ -21,7 +21,7 @@
     function GetStudentDetails() {
         var uniqueid = $("#UniqueKey").val();
         if (uniqueid == '') {
-            alert('Please enter UniqueId');
+            alert('Please enter Enrollment No.');
             return false;
         }
         else {
@@ -144,7 +144,7 @@
             </div>
             <h3>Enrollment of Student</h3>
             <div class="row">
-                <label for="Password">Student ID :</label>
+                <label for="Password">Enrollment No :</label>
                 <input id="UniqueKey" type="text" class="input" />
                 <a href="#" id="btnGet" onclick="javascript: GetStudentDetails();">Get Details</a>
             </div>
@@ -186,13 +186,11 @@
             </div>
             <div class="row">
                 <label for="Password">Discipline :</label>
-                @Html.DropDownListFor(x => x.DisciplineId, new ListBound(Model.DisciplineId, "Disciplines").Disciplines, "-- Select Discipline --", new { onchange = "javascript:GetClassesByDisciplineId();", @class = "select" })
-                @Html.ValidationMessageFor(x => x.DisciplineId)
+                @Html.DropDownListFor(x => x.DisciplineId, new ListBound(Model.DisciplineId, "Disciplines").Disciplines, "-- Select Discipline --", new { onchange = "javascript:GetClassesByDisciplineId();", @class = "select" })                
             </div>
             <div class="row">
                 <label for="Password">Class Name :</label>
                 @Html.DropDownListFor(x => x.ClassId, Enumerable.Empty<SelectListItem>(), new { @class = "select", onchange = "javascript:ShowClassDetails();" })
-                @Html.ValidationMessageFor(x => x.ClassId)
 
             </div>
             <div class="row">
