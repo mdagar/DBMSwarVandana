@@ -1,19 +1,33 @@
 ﻿using DBConnection;
+using Models;
+using SqlRepositories;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
-
+using Code;
+using ListConversion;
 namespace Repositories
 {
     public class AllBatches
     {
 
-        DBConnections db = new DBConnections();        
+        DBConnections db = new DBConnections();
+
+        public List<Batches> FindAllBatches(long CenterId)
+        {
+            string Query = "select Day,Timming,StudentLinit,CreatedBy,CreatedDate,ModifyBy,ModifyDate,CenterId from [dbo].[Batches] where centerid =" + CenterId;
+            var ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            if (ds == null)
+                return new List<Batches>();
+            else
+                return ConvertList.TableToList<Batches>(ds.Tables[0]);
+        }
 
         //public List<Expenses> GetAllExpenses(int centerId, out int TotalPages, int PageNumber = 1, string search = "")
         //{
-        //    int RowsPerPage = ConfigurationWrapper.PageSize;
+        //    int RowsPerPage = ConfigurationWrapper.PageSize; 
         //    SqlParameter[] spParameter = new SqlParameter[6];
         //    var pcenterId = new SqlParameter("@CentreId", centerId);
         //    var rowsPerpage = new SqlParameter("@RowsPerPage", RowsPerPage);
@@ -37,6 +51,6 @@ namespace Repositories
         //        return ds.Tables[0].TableToList<Expenses>();
         //}
 
-     
+
     }
 }

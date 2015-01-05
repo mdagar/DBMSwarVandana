@@ -13,108 +13,6 @@
                                             Value = ((int)u).ToString()
                                         };
 }
-@*<script src="~/Content/JS/jquery-1.11.1.js"></script>*@
-<link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
-<script src="~/Content/js/jquery-ui.js"></script>
-
-<script>
-    function GetStudentDetails() {
-        var uniqueid = $("#UniqueKey").val();
-        if (uniqueid == '') {
-            alert('Please enter Enrollment No.');
-            return false;
-        }
-        else {
-            $.post('@Url.Action("GetStudentByUniqueId", "Student")', { UniqueId: uniqueid }, function (data) {
-                if (data.StudentId > 0) {
-                    $("#lblName").text(data.Name);
-                    var finalDate = ConvertDate(data.DOB);
-                    $("#DOB").text(finalDate);
-                    $("#ContactNumber").text(data.Contact1);
-                    $("#EmailID").text(data.EmailAddress);
-                    $("#Address").text(data.Address);
-                    $("#GuardianName").text(data.GuardianName);
-                    $("#Occupation").text(data.Occupation);
-                    $("#StudentId").val(data.StudentId);
-                    $("#showstudent").show();
-                }
-                else {
-                    alert('No Record Found');
-                }
-            });
-        }
-    }
-
-    function ConvertDate(dat) {
-        var parsedDate = new Date(parseInt(dat.substr(6)));
-        var d = new Date(parsedDate); //Date object
-        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        var finalDate = +d.getDate() + " " + months[(d.getMonth() + 1) - 1] + " " + d.getFullYear();
-        return finalDate;
-    }
-
-    function GetClassesByDisciplineId() {
-        $.post('@Url.Action("GetClassByDisciplineId", "Student")', { DisciplineId: $("#DisciplineId").val() }, function (cities) {
-            $("#ClassId").html('');
-            $("#ClassId").append('<option value="">-- Select Class --</option>');
-            $.each(cities, function (i, Class) {
-                $("#ClassId").append('<option value="' + Class.ClassId + '">' +
-                     Class.ClassName + '</option>');
-                // here we are adding option for States
-
-            });
-        });
-    }
-
-    function ShowClassDetails() {
-        $.post('@Url.Action("GetClassByClassId", "Student")', { ClassId: $("#ClassId").val() }, function (data) {
-            if (data.ClassId > 0) {
-                $("#showclassdet").show();
-                $("#lblNameOfFaculty").text(data.FaculityName);
-                $("#lblStudentLimit").text(data.StudentLimit);
-                $("#lblStartDate").text(ConvertDate(data.StartDate));
-                $("#lblEndDate").text(ConvertDate(data.EndDate));
-                $("#lblStudentRegister").text(data.NoOfStudent);
-                $("#SatrtDate").datepicker({ dateFormat: "dd M yy", minDate: ConvertDate(data.StartDate) });
-            }
-        });
-    }
-
-
-    function GetRemainingClassesDetails() {
-        $.post('@Url.Action("GetRemainingClassesDetails", "Student")', { classid: $("#ClassId").val(), startdate: $("#SatrtDate").val(), NoofClass: $("#NoOfClasses").val() }, function (data) {
-            if (data != null) {
-                var result = JSON.parse(data);
-                if (result[0].AlloedClasses == 0) {
-                    alert("Please schedule the class first.");
-                    return false;
-                }
-                if ($("#NoOfClasses").val() > result[0].AlloedClasses) {
-                    $("#NoOfClasses").focus();
-                    $("#btnSubmit").hide();
-                    alert("You can not assign more then " + result[0].AlloedClasses + " classes.");
-                }
-                else {
-                    $("#EndDate").val(ConvertDate(result[0].EndDate));
-                    $("#btnSubmit").show();
-                }
-            }
-        });
-    }
-    function ConvertDate(dat) {
-        var parsedDate = new Date(parseInt(dat.substr(6)));
-        var d = new Date(parsedDate); //Date object
-        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        var finalDate = +d.getDate() + " " + months[(d.getMonth() + 1) - 1] + " " + d.getFullYear();
-        return finalDate;
-    }
-    function isNumberKey(evt) {
-        var charCode = (evt.which) ? evt.which : event.keyCode
-        if (charCode > 31 && (charCode < 48 || charCode > 57))
-            return false;
-        return true;
-    }
-</script>
 <style>
     td {
         border: 1px solid;
@@ -186,11 +84,11 @@
             </div>
             <div class="row">
                 <label for="Password">Discipline :</label>
-                @Html.DropDownListFor(x => x.DisciplineId, new ListBound(Model.DisciplineId, "Disciplines").Disciplines, "-- Select Discipline --", new { onchange = "javascript:GetClassesByDisciplineId();", @class = "select" })                
+                @Html.DropDownListFor(x => x.DisciplineId, new ListBound(Model.DisciplineId, "Disciplines").Disciplines, "-- Select Discipline --", new { onchange = "javascript:GetClassesByDisciplineId();", @class = "select" })
             </div>
             <div class="row">
-                <label for="Password">Class Name :</label>
-                @Html.DropDownListFor(x => x.ClassId, Enumerable.Empty<SelectListItem>(), new { @class = "select", onchange = "javascript:ShowClassDetails();" })
+                <label for="Password">Assign batch :</label>
+                @Html.Action("Listbatches")
 
             </div>
             <div class="row">
@@ -275,8 +173,93 @@
     </div>
 </div>
 
+<link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/Content/js/jquery-ui.js"></script>
+
 <script>
+
     function RedirectToHome() {
         window.location.href = ('@Url.Action("AllStudents", "Student")');
+    }
+    function GetStudentDetails() {
+        var uniqueid = $("#UniqueKey").val();
+        if (uniqueid == '') {
+            alert('Please enter Enrollment No.');
+            return false;
+        }
+        else {
+            $.post('@Url.Action("GetStudentByUniqueId", "Student")', { UniqueId: uniqueid }, function (data) {
+                if (data.StudentId > 0) {
+                    $("#lblName").text(data.Name);
+                    var finalDate = ConvertDate(data.DOB);
+                    $("#DOB").text(finalDate);
+                    $("#ContactNumber").text(data.Contact1);
+                    $("#EmailID").text(data.EmailAddress);
+                    $("#Address").text(data.Address);
+                    $("#GuardianName").text(data.GuardianName);
+                    $("#Occupation").text(data.Occupation);
+                    $("#StudentId").val(data.StudentId);
+                    $("#showstudent").show();
+                }
+                else {
+                    alert('No Record Found');
+                }
+            });
+        }
+    }
+
+    function ConvertDate(dat) {
+        var parsedDate = new Date(parseInt(dat.substr(6)));
+        var d = new Date(parsedDate); //Date object
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var finalDate = +d.getDate() + " " + months[(d.getMonth() + 1) - 1] + " " + d.getFullYear();
+        return finalDate;
+    }
+
+    function GetClassesByDisciplineId() {
+        $.post('@Url.Action("GetClassByDisciplineId", "Student")', { DisciplineId: $("#DisciplineId").val() }, function (cities) {
+            $("#ClassId").html('');
+            $("#ClassId").append('<option value="">-- Select Class --</option>');
+            $.each(cities, function (i, Class) {
+                $("#ClassId").append('<option value="' + Class.ClassId + '">' +
+                     Class.ClassName + '</option>');
+                // here we are adding option for States
+
+            });
+        });
+    }
+
+    function GetRemainingClassesDetails() {
+        $.post('@Url.Action("GetRemainingClassesDetails", "Student")', { classid: $("#ClassId").val(), startdate: $("#SatrtDate").val(), NoofClass: $("#NoOfClasses").val() }, function (data) {
+            if (data != null) {
+                var result = JSON.parse(data);
+                if (result[0].AlloedClasses == 0) {
+                    alert("Please schedule the class first.");
+                    return false;
+                }
+                if ($("#NoOfClasses").val() > result[0].AlloedClasses) {
+                    $("#NoOfClasses").focus();
+                    $("#btnSubmit").hide();
+                    alert("You can not assign more then " + result[0].AlloedClasses + " classes.");
+                }
+                else {
+                    $("#EndDate").val(ConvertDate(result[0].EndDate));
+                    $("#btnSubmit").show();
+                }
+            }
+        });
+    }
+    function ConvertDate(dat) {
+        var parsedDate = new Date(parseInt(dat.substr(6)));
+        var d = new Date(parsedDate); //Date object
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var finalDate = +d.getDate() + " " + months[(d.getMonth() + 1) - 1] + " " + d.getFullYear();
+        return finalDate;
+    }
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
     }
 </script>

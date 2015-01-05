@@ -105,7 +105,7 @@ namespace Repositories
         }
         public int EnrollStudents(StudentEnrollment se)
         {
-            object[] objParam = {  se.ActionId, se.EnrollmentId, se.StudentId, se.DisciplineId,se.ClassId,se.CourseAmount,se.RegistratonAmount,se.NoOfClasses, 
+            object[] objParam = {  se.ActionId, se.EnrollmentId, se.StudentId, se.DisciplineId,0,se.CourseAmount,se.RegistratonAmount,se.NoOfClasses, 
                                     se.AmountPaid,se.SatrtDate,se.EndDate, se.CreatedDate,se.CreatedBy,se.ModifyDate,se.ModifBy,se.IsActive,se.IsDeleted};
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_StudentEntrollment_IUD, objParam);
             return Convert.ToInt32(d);
@@ -122,10 +122,6 @@ namespace Repositories
             else
                 return d.Tables[0].TableToList<Students>();
         }
-
-     
-
-     
 
         public List<StudentEnrollment> GetStudentDetails(long studentId)
         {
@@ -207,7 +203,7 @@ namespace Repositories
                 default:
                     break;
             }
-            string Query =string.Empty;
+            string Query = string.Empty;
             if (IsStatus == false)
             {
                 Query = "select SR.RenewalId,SR.EnrollmentNo,(select name from student where studentid=SR.StudentId) AS Name,FT.NameOfFaculty AS Faculty,SR.AddDate,SR.Description,SR.Remark,SR.Status from [dbo].[StudentRenewal] SR,Faculties FT" +
@@ -240,7 +236,7 @@ namespace Repositories
         {
             try
             {
-                object[] objParam = { sr.ActionId,sr.RenewalId, sr.EnrollmentNo, sr.StudentId, sr.FacultyId, sr.AddDate, sr.Description, sr.Remark, sr.Status, sr.CenterId, sr.AddedBy, sr.ModifyBy, sr.ModifyDate };
+                object[] objParam = { sr.ActionId, sr.RenewalId, sr.EnrollmentNo, sr.StudentId, sr.FacultyId, sr.AddDate, sr.Description, sr.Remark, sr.Status, sr.CenterId, sr.AddedBy, sr.ModifyBy, sr.ModifyDate };
                 var d = SqlHelper.ExecuteScalar(db.GetConnection(), "USP_StudentRenewal_IUD", objParam);
                 return Convert.ToInt32(d);
             }
@@ -249,8 +245,6 @@ namespace Repositories
                 return 0;
             }
         }
-
-
 
         #region Student Remarks
 
@@ -269,7 +263,7 @@ namespace Repositories
             return Convert.ToInt32(d);
         }
 
-        public List<StudentRemarks> GetStudentRemarksByCentreID(int CentreID,out int TotalPages, int page, string search)
+        public List<StudentRemarks> GetStudentRemarksByCentreID(int CentreID, out int TotalPages, int page, string search)
         {
             int RowsPerPage = ConfigurationWrapper.PageSize;
             SqlParameter[] spParameter = new SqlParameter[6];
@@ -311,7 +305,6 @@ namespace Repositories
         }
 
         #endregion
-
 
     }
 }

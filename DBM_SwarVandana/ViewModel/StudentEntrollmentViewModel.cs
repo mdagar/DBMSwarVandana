@@ -18,8 +18,7 @@ namespace ViewModel
         {
             this.EnrollmentId = se.EnrollmentId;
             this.StudentId = se.StudentId;
-            this.DisciplineId = se.DisciplineId;
-            this.ClassId = se.ClassId;
+            this.DisciplineId = se.DisciplineId;            
             this.CourseAmount = se.CourseAmount;
             this.RegistratonAmount = se.RegistratonAmount;
             this.NoOfClasses = se.NoOfClasses;
@@ -43,13 +42,18 @@ namespace ViewModel
 
         public override long EnrollmentId { get; set; }
         public override long StudentId { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "DisplaneSelect")]
         public override long DisciplineId { get; set; }
-        public override long ClassId { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "CourseAmount")]
         public override decimal CourseAmount { get; set; }
         public override decimal RegistratonAmount { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "NoofClasses")]
         public override int NoOfClasses { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "AmountPaid")]
         public override decimal AmountPaid { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "StartDateRequired")]
         public override DateTime? SatrtDate { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "EndDateRequired")]
         public override DateTime? EndDate { get; set; }
         public override DateTime? CreatedDate { get; set; }
         public override long CreatedBy { get; set; }

@@ -24,6 +24,7 @@ namespace DBM_SwarVandana.Controllers
         SourceRepository _allsource = new SourceRepository();
         DisciplineRepository _allDiscipline = new DisciplineRepository();
         FacultyRepository _allfaculty = new FacultyRepository();
+        AllBatches _allBatches = new AllBatches();
 
         public static List<StudentAttendence> AttendenceCollection = new List<StudentAttendence>();
 
@@ -153,17 +154,10 @@ namespace DBM_SwarVandana.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        [Authenticate]
-        public ActionResult GetClassByClassId(int ClassId)
-        {
-            //var result = _allstudents.GetClassByClassId(ClassId);
-            var result = "";
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
 
         [Authenticate]
         [HttpPost]
-        public ActionResult EntrollStudent(StudentEntrollmentViewModel s)
+        public ActionResult EntrollStudent(StudentEntrollmentViewModel s, List<string> BatchIds)
         {
             var result = 0;
             if (ModelState.IsValid)
@@ -524,6 +518,15 @@ namespace DBM_SwarVandana.Controllers
             return View(sr);
         }
 
+        #endregion
+
+        #region Batches
+        public ActionResult Listbatches()
+        {
+            List<Batches> b = new List<Batches>();
+            b = _allBatches.FindAllBatches(SessionWrapper.User.CentreId);
+            return View(b);
+        }
         #endregion
 
     }

@@ -261,9 +261,6 @@
   <data name="StartDateRequired" xml:space="preserve">
     <value>Please enter start date.</value>
   </data>
-  <data name="ClassExists" xml:space="preserve">
-    <value>Class detail already exists.</value>
-  </data>
   <data name="SubmitClass" xml:space="preserve">
     <value>Class detail is successfully submitted.</value>
   </data>
@@ -368,5 +365,17 @@
   </data>
   <data name="EnquiryByRequired" xml:space="preserve">
     <value>Please enter enquiry by.</value>
+  </data>
+  <data name="AmountPaid" xml:space="preserve">
+    <value>Please enter amount paid.</value>
+  </data>
+  <data name="CourseAmount" xml:space="preserve">
+    <value>Please enter course amount.</value>
+  </data>
+  <data name="DisplaneSelect" xml:space="preserve">
+    <value>Please select a Discipline.</value>
+  </data>
+  <data name="NoofClasses" xml:space="preserve">
+    <value>Please enter no of classes.</value>
   </data>
 </root>

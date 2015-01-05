@@ -1,0 +1,32 @@
+﻿@model List<Models.Batches>
+@using Code;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<table>
+    @{
+        var days = Model.Select(s => s.Day).Distinct();
+    }
+    @foreach (var v in days)
+    {
+        <tr>
+            <td>
+                @((WeekDays)Enum.Parse(typeof(WeekDays), v.ToString()))
+            </td>
+            @foreach (var timminmg in Model.Where(x => x.Day == v))
+            {
+
+                <td><input type="checkbox" name="BatchIds" value="@timminmg.BatchId" /> @timminmg.Timming  (@timminmg.StudentLinit)</td>
+            }
+        </tr>
+
+    }
+
+</table>
