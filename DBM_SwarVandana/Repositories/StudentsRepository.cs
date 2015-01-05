@@ -123,34 +123,9 @@ namespace Repositories
                 return d.Tables[0].TableToList<Students>();
         }
 
-        public List<ClassDetails> GetClassByDisciplineId(int DisciplineId)
-        {
-            object[] Obj = { DisciplineId, SessionWrapper.User.CentreId };
-            var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetClassByDisciplineId, Obj);
-            if (d == null)
-                return new List<ClassDetails>();
-            else
-                return d.Tables[0].TableToList<ClassDetails>();
-        }
+     
 
-        public ClassDetails GetClassByClassId(int ClassId)
-        {
-            ClassDetails cl = new ClassDetails();
-            var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetClassByClassId, ClassId);
-            if (d == null)
-                return cl;
-            else
-            {
-                cl.ClassId = Convert.ToInt32(d.Tables[0].Rows[0][0]);
-                cl.ClassName = Convert.ToString(d.Tables[0].Rows[0][1]);
-                cl.FaculityName = Convert.ToString(d.Tables[0].Rows[0][2]);
-                cl.StudentLimit = Convert.ToInt32(d.Tables[0].Rows[0][3]);
-                cl.StartDate = Convert.ToDateTime(d.Tables[0].Rows[0][4]);
-                cl.EndDate = Convert.ToDateTime(d.Tables[0].Rows[0][5]);
-                cl.NoOfStudent = Convert.ToInt32(d.Tables[0].Rows[0][7]);
-                return cl;
-            }
-        }
+     
 
         public List<StudentEnrollment> GetStudentDetails(long studentId)
         {

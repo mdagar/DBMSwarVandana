@@ -18,8 +18,7 @@ namespace DBM_SwarVandana.Controllers
         //
         // GET: /Student/
 
-        StudentsRepository _allstudents = new StudentsRepository();
-        ClassRepository _allClassRepository = new ClassRepository();
+        StudentsRepository _allstudents = new StudentsRepository();        
         UsersRepository _alluser = new UsersRepository();
         CentreRepository _allcentre = new CentreRepository();
         SourceRepository _allsource = new SourceRepository();
@@ -149,14 +148,16 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult GetClassByDisciplineId(int DisciplineId)
         {
-            var result = _allstudents.GetClassByDisciplineId(DisciplineId);
+           // var result = _allstudents.GetClassByDisciplineId(DisciplineId);
+            var result = "";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [Authenticate]
         public ActionResult GetClassByClassId(int ClassId)
         {
-            var result = _allstudents.GetClassByClassId(ClassId);
+            //var result = _allstudents.GetClassByClassId(ClassId);
+            var result = "";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -195,18 +196,18 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult Studentdetail(long studentId)
         {
             var Discipline = _allDiscipline.GetAllDisciplines(SessionWrapper.User.CentreId);
-            var Classes = _allClassRepository.GetAllClasses(SessionWrapper.User.CentreId);
+           // var Classes = _allClassRepository.GetAllClasses(SessionWrapper.User.CentreId);
             var sev = _allstudents.GetStudentDetails(studentId);
             foreach (var v in sev)
             {
                 var disName = Discipline.Where(s => s.DisciplineId == v.DisciplineId).FirstOrDefault();
                 v.DisciplaneName = disName == null ? "" : disName.Discipline;
             }
-            foreach (var v in sev)
-            {
-                var clas = Classes.Where(s => s.ClassId == v.ClassId).FirstOrDefault();
-                v.ClassName = clas == null ? "" : clas.ClassName;
-            }
+            //foreach (var v in sev)
+            //{
+            //    var clas = Classes.Where(s => s.ClassId == v.ClassId).FirstOrDefault();                
+            //    v.ClassName = clas == null ? "" : clas.ClassName;
+            //}
             return View(sev);
         }
 
@@ -303,8 +304,8 @@ namespace DBM_SwarVandana.Controllers
             if (weekDay == 0)
                 weekDay = 7;
             m.WeekDayId = weekDay;
-            m.Classes = _allClassRepository.GetClassByWeekDays(SessionWrapper.User.CentreId, weekDay);
-            m.ClassId = m.ClassId != 0 ? m.ClassId : m.Classes.Count() > 0 ? m.Classes.FirstOrDefault().ClassId : 0;
+           // m.Classes = _allClassRepository.GetClassByWeekDays(SessionWrapper.User.CentreId, weekDay);
+           // m.ClassId = m.ClassId != 0 ? m.ClassId : m.Classes.Count() > 0 ? m.Classes.FirstOrDefault().ClassId : 0;
             m.students = _allstudents.GetStudentsByClassId(m.ClassId);
             var CurrentAttendence = _allstudents.GetClassAttendence(m.ClassId, m.DateOfAttendence.Value);
             foreach (var v in m.students)
@@ -352,7 +353,7 @@ namespace DBM_SwarVandana.Controllers
             m.DateOfAttendence = DateOfAttendence == null ? DateTime.Now : DateOfAttendence.Value;
             int weekDay = (int)m.DateOfAttendence.Value.DayOfWeek;
             m.WeekDayId = weekDay;
-            m.Classes = _allClassRepository.GetClassByWeekDays(SessionWrapper.User.CentreId, weekDay);
+            //m.Classes = _allClassRepository.GetClassByWeekDays(SessionWrapper.User.CentreId, weekDay);
             //m.students = _allstudents.GetStudentsByClassId(m.ClassId);
             m.students = new List<Students>();
             return View(m);
