@@ -35,6 +35,24 @@ namespace Repositories
 
         public List<Enquiries> ListEnquuiry(int centerId, int EnqueryType, out int TotalPages, int PageNumber = 1, string search = "")
         {
+            bool IsStatus = false;
+            switch (search.ToLower())
+            {
+                case "red":
+                    search = "1";
+                    IsStatus = true;
+                    break;
+                case "green":
+                    search = "2";
+                    IsStatus = true;
+                    break;
+                case "yellow":
+                    search = "3";
+                    IsStatus = true;
+                    break;
+                default:
+                    break;
+            }
             int RowsPerPage = ConfigurationWrapper.PageSize;
             SqlParameter[] spParameter = new SqlParameter[6];
             var pcenterId = new SqlParameter("@centerId", centerId);
@@ -43,6 +61,7 @@ namespace Repositories
             var rowNo = new SqlParameter("@PageNumber", PageNumber);
             var total = new SqlParameter("@TotalPages", 0) { Direction = System.Data.ParameterDirection.Output };
             var psearch = new SqlParameter("@search", search);
+            var isstatus = new SqlParameter("@IsStatus", IsStatus);
             SqlCommand cmd = new SqlCommand("GetEnquiry", db.GetConnection());
             cmd.CommandType = CommandType.StoredProcedure;
             DataSet ds = new DataSet();
@@ -52,6 +71,7 @@ namespace Repositories
             cmd.Parameters.Add(rowNo);
             cmd.Parameters.Add(total);
             cmd.Parameters.Add(psearch);
+            cmd.Parameters.Add(isstatus);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(ds);
             TotalPages = Convert.ToInt32(total.Value);
