@@ -25,12 +25,24 @@ namespace Repositories
                 return ConvertList.TableToList<Batches>(ds.Tables[0]);
         }
 
+        public List<Batches> FindBatchByDayId(long CenterId, int dayId)
+        {
+            string Query = "select BatchId,Day,Timming,StudentLinit,CreatedBy,CreatedDate,ModifyBy,ModifyDate,CenterId from [dbo].[Batches] where centerid =" + CenterId + "AND Day=" + dayId;
+            var ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            if (ds == null)
+                return new List<Batches>();
+            else
+                return ConvertList.TableToList<Batches>(ds.Tables[0]);
+        }
+
         public int SaveBatches(List<StudentBatchMapping> b)
         {
-            string Query = "INSERT INTO [dbo].[StudentBatchMapping]";
+            string Query = "INSERT INTO [dbo].[StudentBatchMapping] VALUES";
             foreach (var v in b)
-                Query += "VALUES(" + v.StudentId + "" + "," + v.EnrollmentId + "" + "," + v.BatchId + "" + "," + v.CreatedBy + "" + ",'" + v.CreatedDate + "" + "'," + v.ModifyBy + "" + ",'" + v.ModifyDate + "'";
+                Query += "(" + v.StudentId + "" + "," + v.EnrollmentId + "" + "," + v.BatchId + "" + "," + v.CreatedBy + "" + ",'" + v.CreatedDate + "" + "'," + v.ModifyBy + "" + ",'" + v.ModifyDate + "'),";
 
+            Query = Query.Substring(0, Query.LastIndexOf(","));
+            var result = SqlHelper.ExecuteNonQuery(db.GetConnection(), CommandType.Text, Query);
             return 0;
         }
 

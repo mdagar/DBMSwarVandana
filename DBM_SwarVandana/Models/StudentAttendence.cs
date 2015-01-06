@@ -10,8 +10,8 @@ namespace Models
         public StudentAttendence()
         {
             this.Id = 0;
-            this.ClassId = 0;
-            this.WeekDayId = 0;
+            this.BatchId = 0;
+            this.EnrollmentId = 0;
             this.StuentId = 0;
             this.AttendenceStatus = 0;
             this.DateOfAttendence = null;
@@ -22,8 +22,8 @@ namespace Models
         }
 
         public virtual long Id { get; set; }
-        public virtual long ClassId { get; set; }
-        public virtual long WeekDayId { get; set; }
+        public virtual long BatchId { get; set; }
+        public virtual long EnrollmentId { get; set; }
         public virtual long StuentId { get; set; }
         public virtual int AttendenceStatus { get; set; }
         public virtual DateTime? DateOfAttendence { get; set; }

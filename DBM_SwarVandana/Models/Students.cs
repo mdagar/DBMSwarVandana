@@ -56,5 +56,6 @@ namespace Models
         public virtual bool IsDeleted { get; set; }
         public virtual string StateName { get; set; }
         public virtual string CityName { get; set; }
+        public virtual long EnrollmentId { get; set; }
     }
 }

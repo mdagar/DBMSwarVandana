@@ -105,17 +105,18 @@ namespace Repositories
         }
         public int EnrollStudents(StudentEnrollment se)
         {
-            object[] objParam = {  se.ActionId, se.EnrollmentId, se.StudentId, se.DisciplineId,0,se.CourseAmount,se.RegistratonAmount,se.NoOfClasses, 
-                                    se.AmountPaid,se.SatrtDate,se.EndDate, se.CreatedDate,se.CreatedBy,se.ModifyDate,se.ModifBy,se.IsActive,se.IsDeleted};
+            object[] objParam = {  se.ActionId, se.EnrollmentId, se.StudentId, se.DisciplineId,se.CourseAmount,se.RegistratonAmount,se.NoOfClasses, 
+                                    se.AmountPaid,se.SatrtDate,se.EndDate, se.CreatedDate,se.CreatedBy,se.ModifyDate,se.ModifBy,se.IsActive,se.IsDeleted,se.BankName,se.PaymentMode,se.PaymentDetails};
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_StudentEntrollment_IUD, objParam);
             return Convert.ToInt32(d);
         }
 
-        public List<Students> GetStudentsByClassId(long ClassId)
+        public List<Students> GetStudentsByDisciplane(long displaneId, long batchId, int weekDay)
         {
-            string Query = @"SELECT StudentId,UniqueKey,Name,CenterId,DOB,Contact1,Contact2,EmailAddress,StateId,CityId,Address,GuardianName,Occupation,
-                           HasTransportFacility,IsActive,CreatedBy,CreatedDate,ModifyBy,ModifyDate,IsDeleted FROM [dbo].[Student] WHERE StudentId
-                           IN(SELECT StudentId FROM [dbo].[StudentEnrollment] WHERE ClassId='" + ClassId + "' AND IsActive =1 AND IsDeleted =0)";
+            string Query = "SELECT  e.EnrollmentId,s.StudentId,s.UniqueKey,s.Name"
+                         + "FROM  [dbo].[student] s ,StudentEnrollment e where s.studentId IN(SELECT e.StudentId FROM [dbo].[StudentEnrollment] WHERE  DisciplineId = " + displaneId
+                         + "and EnrollmentId IN (SELECT EnrollmentId FROM [dbo].[StudentBatchMapping] WHERE BatchId =" + batchId + "))";
+
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             if (d == null)
                 return new List<Students>();
@@ -125,10 +126,10 @@ namespace Repositories
 
         public List<StudentEnrollment> GetStudentDetails(long studentId)
         {
-            string Query = "select e.StudentID,(select Name from student where StudentID=e.StudentID) as StudentName,e.DisciplineID,e.NoOfClasses,e.SatrtDate,e.EndDate,e.ClassID,e.RegistratonAmount,e.CourseAmount,e.AmountPaid" +
+            string Query = "select e.StudentID,(select Name from student where StudentID=e.StudentID) as StudentName,e.DisciplineID,e.NoOfClasses,e.SatrtDate,e.EndDate,e.RegistratonAmount,e.CourseAmount,e.AmountPaid" +
                            ",(e.CourseAmount-(e.AmountPaid+e.RegistratonAmount)) as PendingAmount" +
-                           ",(select count(*)  from studentattendence  where stuentid=e.StudentID and classid=e.ClassID and Attendencestatus= 1) as Presents" +
-                           ",(select count(*)  from studentattendence  where stuentid=e.StudentID and classid=e.ClassID and Attendencestatus= 2) as Absents" +
+                           ",(select count(*)  from studentattendence  where stuentid=e.StudentID and  Attendencestatus= 1) as Presents" +
+                           ",(select count(*)  from studentattendence  where stuentid=e.StudentID and Attendencestatus= 2) as Absents" +
                            " from studentenrollment  e where e.StudentID=" + studentId;
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             if (d == null)
@@ -172,10 +173,10 @@ namespace Repositories
                 return d.Tables[0].TableToList<StudentAttendence>();
         }
 
-        public List<StudentAttendence> GetClassAttendence(long classId, DateTime dateofAttendence)
+        public List<StudentAttendence> GetClassAttendence(long batchId, DateTime dateofAttendence)
         {
-            string Query = "SELECT Id,ClassId,WeekDayId,StuentId,AttendenceStatus,DateOfAttendence,AddDate,AddBy,ModifyDate,ModifyBy FROM [dbo].[StudentAttendence]" +
-                            "WHERE ClassId =" + classId + " AND CONVERT(VARCHAR(10),DateOfAttendence,106)= CONVERT(VARCHAR(10),'" + dateofAttendence + "',106)";
+            string Query = "SELECT Id,BatchId,EnrollmentId,StuentId,AttendenceStatus,DateOfAttendence,AddDate,AddBy,ModifyDate,ModifyBy FROM [dbo].[StudentAttendence]" +
+                            "WHERE BatchId =" + batchId + " AND CONVERT(VARCHAR(10),DateOfAttendence,106)= CONVERT(VARCHAR(10),'" + dateofAttendence + "',106)";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             if (d == null)
                 return new List<StudentAttendence>();

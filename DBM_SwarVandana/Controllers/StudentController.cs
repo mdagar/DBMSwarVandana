@@ -173,9 +173,7 @@ namespace DBM_SwarVandana.Controllers
                 s.ModifyDate = DateTime.Now;
                 s.IsActive = true;
                 s.IsDeleted = false;
-
-                // result = _allstudents.EnrollStudents(s);
-                result = 1;
+                result = _allstudents.EnrollStudents(s);
                 if (result > 0)
                 {
                     foreach (var v in BatchIds)
@@ -302,26 +300,22 @@ namespace DBM_SwarVandana.Controllers
 
         #region Attendence
         [Authenticate]
-        public ActionResult MakeAttendence(long classId = 0, DateTime? attendenceDate = null)
+        public ActionResult MakeAttendence(long displaneId = 0, long batchId = 0, DateTime? attendenceDate = null)
         {
             StudentAttendenceViewModel m = new StudentAttendenceViewModel();
-            m.ClassId = classId;
             m.DateOfAttendence = attendenceDate == null ? DateTime.Now : attendenceDate.Value;
-            int weekDay = (int)m.DateOfAttendence.Value.DayOfWeek;
-            //week day seven means it is sunday.
-            if (weekDay == 0)
-                weekDay = 7;
-            m.WeekDayId = weekDay;
-            // m.Classes = _allClassRepository.GetClassByWeekDays(SessionWrapper.User.CentreId, weekDay);
-            // m.ClassId = m.ClassId != 0 ? m.ClassId : m.Classes.Count() > 0 ? m.Classes.FirstOrDefault().ClassId : 0;
-            m.students = _allstudents.GetStudentsByClassId(m.ClassId);
-            var CurrentAttendence = _allstudents.GetClassAttendence(m.ClassId, m.DateOfAttendence.Value);
+            int weekday = (int)m.DateOfAttendence.Value.DayOfWeek;
+            m.Disciplines = _allDiscipline.GetAllDisciplines(SessionWrapper.User.CentreId);
+            m.Batches = _allBatches.FindBatchByDayId(SessionWrapper.User.CentreId, weekday);
+
+            m.students = _allstudents.GetStudentsByDisciplane(displaneId, batchId, weekday);
+            var CurrentAttendence = _allstudents.GetClassAttendence(m.BatchId, m.DateOfAttendence.Value);
             foreach (var v in m.students)
             {
                 StudentAttendence s = new StudentAttendence();
                 s.StuentId = v.StudentId;
-                s.ClassId = m.ClassId;
-                s.WeekDayId = m.WeekDayId;
+                s.BatchId = m.BatchId;
+                s.EnrollmentId = m.EnrollmentId;
                 s.DateOfAttendence = m.DateOfAttendence;
                 var status = CurrentAttendence.Where(x => x.StuentId == v.StudentId).FirstOrDefault();
                 s.AttendenceStatus = status == null ? (int)AttendenceStatus.Absent : status.AttendenceStatus;
@@ -331,7 +325,7 @@ namespace DBM_SwarVandana.Controllers
                 s.ModifyDate = DateTime.Now;
                 AttendenceCollection.Add(s);
             }
-            m.studentAttendence = AttendenceCollection.Where(x => x.ClassId == m.ClassId).ToList();
+           // m.studentAttendence = AttendenceCollection.Where(x => x.ClassId == m.ClassId).ToList();
             return View(m);
         }
 
@@ -341,34 +335,34 @@ namespace DBM_SwarVandana.Controllers
         {
             StudentAttendenceViewModel m = new StudentAttendenceViewModel();
 
-            if (AttendenceCollection.Count > 0)
-            {
-                if (DateOfAttendence.HasValue)
-                {
-                    List<StudentAttendence> FinalCollection = new List<StudentAttendence>();
-                    FinalCollection = AttendenceCollection.Where(x => x.ClassId == classId).ToList();
-                    FinalCollection.Update(u => u.DateOfAttendence = DateOfAttendence.Value);
-                    XmlDocument doc = FinalCollection.ConvertToXML();
-                    if (_allstudents.SaveAttendence(doc) >= 1)
-                    {
-                        foreach (var v in FinalCollection)
-                            AttendenceCollection.Remove(v);
-                        AttendenceCollection.TrimExcess();
-                    }
-                }
-            }
-            m.ClassId = classId;
-            m.DateOfAttendence = DateOfAttendence == null ? DateTime.Now : DateOfAttendence.Value;
-            int weekDay = (int)m.DateOfAttendence.Value.DayOfWeek;
-            m.WeekDayId = weekDay;
-            //m.Classes = _allClassRepository.GetClassByWeekDays(SessionWrapper.User.CentreId, weekDay);
-            //m.students = _allstudents.GetStudentsByClassId(m.ClassId);
-            m.students = new List<Students>();
+            //if (AttendenceCollection.Count > 0)
+            //{
+            //    if (DateOfAttendence.HasValue)
+            //    {
+            //        List<StudentAttendence> FinalCollection = new List<StudentAttendence>();
+            //        FinalCollection = AttendenceCollection.Where(x => x.ClassId == classId).ToList();
+            //        FinalCollection.Update(u => u.DateOfAttendence = DateOfAttendence.Value);
+            //        XmlDocument doc = FinalCollection.ConvertToXML();
+            //        if (_allstudents.SaveAttendence(doc) >= 1)
+            //        {
+            //            foreach (var v in FinalCollection)
+            //                AttendenceCollection.Remove(v);
+            //            AttendenceCollection.TrimExcess();
+            //        }
+            //    }
+            //}
+            //m.ClassId = classId;
+            //m.DateOfAttendence = DateOfAttendence == null ? DateTime.Now : DateOfAttendence.Value;
+            //int weekDay = (int)m.DateOfAttendence.Value.DayOfWeek;
+            //m.WeekDayId = weekDay;
+            ////m.Classes = _allClassRepository.GetClassByWeekDays(SessionWrapper.User.CentreId, weekDay);
+            ////m.students = _allstudents.GetStudentsByClassId(m.ClassId);
+            //m.students = new List<Students>();
             return View(m);
         }
 
         [Authenticate]
-        public ActionResult CollectAttendence(long classId, long studentId, int Status, int weekDay)
+        public ActionResult CollectAttendence(long batchId, long studentId, int Status, long EnrollmentId)
         {
             var SAttendence = AttendenceCollection.Where(x => x.StuentId == studentId).FirstOrDefault();
             if (SAttendence != null)
@@ -381,8 +375,8 @@ namespace DBM_SwarVandana.Controllers
                 s.AddDate = DateTime.Now;
                 s.ModifyDate = DateTime.Now;
                 s.AttendenceStatus = Status;
-                s.ClassId = classId;
-                s.WeekDayId = weekDay;
+                s.BatchId = batchId;
+                s.EnrollmentId = EnrollmentId;
                 s.StuentId = studentId;
                 AttendenceCollection.Add(s);
             }

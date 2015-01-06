@@ -11,22 +11,28 @@
         <!-- start table-form -->
         <div style="padding-top:10px;">
         </div>
-        @Html.DropDownListFor(x => x.ClassId, new SelectList(Model.Classes, "ClassId", "ClassName", Model.ClassId), "-- Select Class", new { @onchange = "ChangeClass(this)" })
+
+        @Html.DropDownList("Disciplines", new SelectList(Model.Disciplines, "DisciplineId", "Discipline", Model.Disciplines), "-- Select Discipline", new { @class = "select" })
+
+        @Html.DropDownListFor(x => x.BatchId, new SelectList(Model.Batches, "BatchId", "Timming", Model.BatchId), "-- Select Batch")
+
+        <input type="button" class="submit-btn" value="Get Students" onclick="GetStudent()" />
+
         <p style="font-weight:bold;padding:5px; text-align:center">Date Of Attendence : @Model.DateOfAttendence.Value.ToString("dd MMM yyyy")</p>
-        @Html.Hidden("WeekDayId", Model.WeekDayId)
+
         <div style="padding-left:30%; width: 40%">
             @using (Html.BeginForm())
             {
                 @Html.Hidden("DateOfAttendence", @Model.DateOfAttendence.Value)
-                @Html.Hidden("classId", @Model.ClassId)
                 <table cellpadding="0" cellspacing="0" class="table">
-                    <tr bgcolor="#ccc">
+                    <tr bgcolor="#ccc">                        
                         <td class="td">Student Name</td>
                         <td class="td">Attendaene</td>
                     </tr>
                     @foreach (var s in Model.students)
                     {
                         <tr>
+                            
                             <td class="td">
                                 @s.Name
                             </td>
@@ -46,83 +52,23 @@
 <script type="text/javascript">
 
     function PutAttendence(attendenceStatus, studentId) {
-        var classId = $("#ClassId").val();
+        var BatchId = $("#BatchId").val();
         var status = $(attendenceStatus).val();
         var weekDay = $("#WeekDayId").val();
-        $.get('@Url.Action("CollectAttendence", "Student")?classId=' + classId + "&studentId=" + studentId + "&Status=" + status + "&weekDay=" + weekDay, function (data) {
+        $.get('@Url.Action("CollectAttendence", "Student")?batchId=' + BatchId + "&studentId=" + studentId + "&Status=" + status , function (data) {
 
 
         });
 
 
     }
-    function ChangeClass(o) {
-        var classId = $(o).val();
-        ReplaceValues("classId", classId)
+    function GetStudent() {
+        var disId = $("#Disciplines").val();
+        var batchId = $("#BatchId").val()
+        window.location = window.location.href + "?displaneId=" + disId + "&batchId=" + batchId
     }
 
-    // This Jquery Function is Used for change QueryString Values and Used By maximun pages where dropdown Exist
-    function ReplaceValues(dname, value, resetPage) {
-        //0- prepare values
-        resetPage = (typeof resetPage === "undefined") ? false : resetPage;
-        var finalurl = ''
-        var qsTargeted = dname + '=' + value; //"letter=A";
-        var windowUrl = '';
-        var qskey = qsTargeted.split('=')[0];
-        var qsvalue = qsTargeted.split('=')[1];
-        //1- get row url
-        var originalURL = window.location.href;
-        //2- get query string part, and url
-        if (originalURL.split('?').length > 1) //qs is exists
-        {
-            windowUrl = originalURL.split('?')[0];
-            var qs = originalURL.split('?')[1];
-            //3- get list of query strings
-            var qsArray = qs.split('&');
-            var flag = false;
-            //4- try to find query string key
-            for (var i = 0; i < qsArray.length; i++) {
-                if (qsArray[i].split('=').length > 0) {
-                    if (qskey == qsArray[i].split('=')[0]) {
-                        //exists key
-                        qsArray[i] = qskey + '=' + qsvalue;
-                        flag = true;
-                        break;
-                    }
-                }
-            }
-            if (!flag)//   //5- if exists modify,else add
-                qsArray.push(qsTargeted);
-            var finalQs = qsArray.join('&');
-            //6- prepare final url
-            finalurl = windowUrl + '?' + finalQs
-            //window.location = windowUrl + '?' + finalQs;
-        }
-        else {
-            //6- prepare final url
-            //add query string
-            finalurl = originalURL + '?' + qsTargeted;
-            //window.location = originalURL + '?' + qsTargeted;
-        }
-        if (resetPage) {
-            var currentPageNum = getUrlVars()["page"];
-            var newPageNum = 1;
-            finalurl = finalurl.replace("page=" + currentPageNum, "page=" + newPageNum)
-        }
-        window.location = finalurl;
 
-    }
-
-    function getUrlVars() {
-        var vars = [], hash;
-        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-        for (var i = 0; i < hashes.length; i++) {
-            hash = hashes[i].split('=');
-            vars.push(hash[0]);
-            vars[hash[0]] = hash[1];
-        }
-        return vars;
-    }
 
 </script>
 <style>

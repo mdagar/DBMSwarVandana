@@ -14,8 +14,8 @@ namespace ViewModel
         public StudentAttendenceViewModel(StudentAttendence s)
         {
             this.Id = s.Id;
-            this.ClassId = s.ClassId;
-            this.WeekDayId = s.WeekDayId;
+            this.BatchId = s.BatchId;
+            this.EnrollmentId = s.EnrollmentId;
             this.StuentId = s.StuentId;
             this.AttendenceStatus = s.AttendenceStatus;
             this.DateOfAttendence = s.DateOfAttendence;
@@ -25,7 +25,9 @@ namespace ViewModel
             this.ModifyBy = s.ModifyBy;
         }
 
-        public IEnumerable<Students> students { get; set; }        
+        public IEnumerable<Students> students { get; set; }
+        public IEnumerable<Disciplines> Disciplines { get; set; }
+        public IEnumerable<Batches> Batches { get; set; }
         public List<StudentAttendence> studentAttendence { get; set; }
     }
 }
