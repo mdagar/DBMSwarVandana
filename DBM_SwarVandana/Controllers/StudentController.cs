@@ -157,8 +157,12 @@ namespace DBM_SwarVandana.Controllers
 
         [Authenticate]
         [HttpPost]
-        public ActionResult EntrollStudent(StudentEntrollmentViewModel s, List<string> BatchIds)
+        public ActionResult EntrollStudent(StudentEntrollmentViewModel s, List<int> BatchIds)
         {
+            List<StudentBatchMapping> batchmapping = new List<StudentBatchMapping>();
+            if (BatchIds.Count <= 0)
+                ModelState.AddModelError(string.Empty, "Please assign batch.");
+
             var result = 0;
             if (ModelState.IsValid)
             {
@@ -169,9 +173,24 @@ namespace DBM_SwarVandana.Controllers
                 s.ModifyDate = DateTime.Now;
                 s.IsActive = true;
                 s.IsDeleted = false;
-                result = _allstudents.EnrollStudents(s);
+
+                // result = _allstudents.EnrollStudents(s);
+                result = 1;
                 if (result > 0)
                 {
+                    foreach (var v in BatchIds)
+                    {
+                        StudentBatchMapping m = new StudentBatchMapping();
+                        m.BatchId = v;
+                        m.StudentId = s.StudentId;
+                        m.EnrollmentId = result;
+                        m.CreatedBy = SessionWrapper.User.UserId;
+                        m.ModifyBy = SessionWrapper.User.UserId;
+                        m.CreatedDate = DateTime.Now;
+                        m.ModifyDate = DateTime.Now;
+                        batchmapping.Add(m);
+                    }
+                    _allBatches.SaveBatches(batchmapping);
                     ViewBag.Success = Messages.SubmitEnroll;
                 }
                 else
@@ -201,9 +220,9 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult GetRemainingClassesDetails(int classId, DateTime startDate, int NoofClass)
+        public ActionResult GetClassEndDate(DateTime startDate, int NoofClass, string batchids)
         {
-            var sev = _allstudents.GetRemainingClassesDetails(classId, startDate, NoofClass);
+            var sev = _allstudents.GetEndDate(startDate, NoofClass, batchids, SessionWrapper.User.CentreId);
             System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
             List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
             Dictionary<string, object> row;

@@ -151,10 +151,10 @@ namespace Repositories
             }
         }
 
-        public DataTable GetRemainingClassesDetails(int classId, DateTime startDate, int NoofClass)
+        public DataTable GetEndDate(DateTime startDate, int NoofClass, string Batches, long centerId)
         {
-            object[] Obj = { classId, startDate, NoofClass };
-            var d = SqlHelper.ExecuteDataset(db.GetConnection(), "GetRemainingClasses", Obj);
+            object[] Obj = { startDate, NoofClass, Batches, centerId };
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), "GetEndClassDate", Obj);
             if (d == null)
                 return new DataTable();
             else

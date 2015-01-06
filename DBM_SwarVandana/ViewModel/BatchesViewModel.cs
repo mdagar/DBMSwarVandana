@@ -16,7 +16,7 @@ namespace ViewModel
             this.BatchId = b.BatchId;
             this.Day = b.Day;
             this.Timming = b.Timming;
-            this.StudentLinit = b.StudentLinit;
+            this.Studentid = b.Studentid;
             this.CreatedBy = b.CreatedBy;
             this.CreatedDate = b.CreatedDate;
             this.ModifyBy = b.ModifyBy;

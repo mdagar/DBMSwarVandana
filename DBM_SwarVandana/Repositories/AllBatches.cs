@@ -17,12 +17,21 @@ namespace Repositories
 
         public List<Batches> FindAllBatches(long CenterId)
         {
-            string Query = "select Day,Timming,StudentLinit,CreatedBy,CreatedDate,ModifyBy,ModifyDate,CenterId from [dbo].[Batches] where centerid =" + CenterId;
+            string Query = "select BatchId,Day,Timming,StudentLinit,CreatedBy,CreatedDate,ModifyBy,ModifyDate,CenterId from [dbo].[Batches] where centerid =" + CenterId;
             var ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             if (ds == null)
                 return new List<Batches>();
             else
                 return ConvertList.TableToList<Batches>(ds.Tables[0]);
+        }
+
+        public int SaveBatches(List<StudentBatchMapping> b)
+        {
+            string Query = "INSERT INTO [dbo].[StudentBatchMapping]";
+            foreach (var v in b)
+                Query += "VALUES(" + v.StudentId + "" + "," + v.EnrollmentId + "" + "," + v.BatchId + "" + "," + v.CreatedBy + "" + ",'" + v.CreatedDate + "" + "'," + v.ModifyBy + "" + ",'" + v.ModifyDate + "'";
+
+            return 0;
         }
 
         //public List<Expenses> GetAllExpenses(int centerId, out int TotalPages, int PageNumber = 1, string search = "")

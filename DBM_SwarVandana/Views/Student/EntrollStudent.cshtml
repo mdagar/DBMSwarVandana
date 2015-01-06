@@ -84,7 +84,7 @@
             </div>
             <div class="row">
                 <label for="Password">Discipline :</label>
-                @Html.DropDownListFor(x => x.DisciplineId, new ListBound(Model.DisciplineId, "Disciplines").Disciplines, "-- Select Discipline --", new { onchange = "javascript:GetClassesByDisciplineId();", @class = "select" })
+                @Html.DropDownListFor(x => x.DisciplineId, new ListBound(Model.DisciplineId, "Disciplines").Disciplines, "-- Select Discipline --", new { @class = "select" })
             </div>
             <div class="row">
                 <label for="Password">Assign batch :</label>
@@ -165,7 +165,7 @@
 
             </div>
             <div class="rowbutton">
-                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" style="display: none;" />
+                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" style="display:none" />
                 <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
             </div>
 
@@ -177,6 +177,12 @@
 <script src="~/Content/js/jquery-ui.js"></script>
 
 <script>
+
+    $(document).ready(function () {
+        $("#SatrtDate").datepicker({ dateFormat: "dd M yy", minDate: "-10d", maxDate: "10d" });
+    });
+
+
 
     function RedirectToHome() {
         window.location.href = ('@Url.Action("AllStudents", "Student")');
@@ -216,36 +222,23 @@
         return finalDate;
     }
 
-    function GetClassesByDisciplineId() {
-        $.post('@Url.Action("GetClassByDisciplineId", "Student")', { DisciplineId: $("#DisciplineId").val() }, function (cities) {
-            $("#ClassId").html('');
-            $("#ClassId").append('<option value="">-- Select Class --</option>');
-            $.each(cities, function (i, Class) {
-                $("#ClassId").append('<option value="' + Class.ClassId + '">' +
-                     Class.ClassName + '</option>');
-                // here we are adding option for States
-
-            });
-        });
-    }
 
     function GetRemainingClassesDetails() {
-        $.post('@Url.Action("GetRemainingClassesDetails", "Student")', { classid: $("#ClassId").val(), startdate: $("#SatrtDate").val(), NoofClass: $("#NoOfClasses").val() }, function (data) {
+
+        var batches = $('input[name="BatchIds"]:checked').map(function () {
+            return this.value;
+        }).get();
+
+        if (batches.length <= 0) {
+            alert("Please select batch");
+            return false;
+        }
+
+        $.post('@Url.Action("GetClassEndDate", "Student")', { startdate: $("#SatrtDate").val(), NoofClass: $("#NoOfClasses").val(), batchids: batches.join() }, function (data) {
             if (data != null) {
                 var result = JSON.parse(data);
-                if (result[0].AlloedClasses == 0) {
-                    alert("Please schedule the class first.");
-                    return false;
-                }
-                if ($("#NoOfClasses").val() > result[0].AlloedClasses) {
-                    $("#NoOfClasses").focus();
-                    $("#btnSubmit").hide();
-                    alert("You can not assign more then " + result[0].AlloedClasses + " classes.");
-                }
-                else {
-                    $("#EndDate").val(ConvertDate(result[0].EndDate));
-                    $("#btnSubmit").show();
-                }
+                $("#EndDate").val(ConvertDate(result[0].EndDate));
+                $("#btnSubmit").show();
             }
         });
     }
