@@ -49,11 +49,11 @@
                     $("#StudentId").val(data.StudentId);
                     $.post('@Url.Action("GetClassesForPayments", "Student")', { studentId: data.StudentId }, function (classes) {
                         var result = JSON.parse(classes)
-                        $("#ClassId").html('');
-                        $("#ClassId").append('<option value="">-- Select Class --</option>');
-                        $.each(result, function (i, Class) {
-                            $("#ClassId").append('<option info="' + Class.EndDate + '" value="' + Class.ClassID + '" >' +
-                                 Class.ClassName + '</option>');
+                        $("#DisciplineId").html('');
+                        $("#DisciplineId").append('<option value="">-- Select Discipline --</option>');
+                        $.each(result, function (i, Discipline) {
+                            $("#DisciplineId").append('<option info="' + Discipline.EnrollmentId + '" value="' + Discipline.DisciplineId + '" >' +
+                                 Discipline.Discipline + '</option>');
                         });
                     });
                 }
@@ -68,22 +68,25 @@
 
         $("#DueDate").datepicker('option', 'maxDate', $("#ClassEndDate").val());
     }
-    function GetClassPaymentDetails(o) {
-        var classId = $(o).val();
-        var date = ConvertDate($(o).find(':selected').attr('info'));
-        $("#ClassEndDate").val(date);
-        SetDueDatePicker();
+    function GetDisciplinePaymentDetails(o) {
+        var disciplineId = $(o).val();
+        var enrollmentId = $(o).find(':selected').attr('info');
+        $("#EnrollmentId").val(enrollmentId);
         $("#lblNoofClass").val('');
         $("#lblCourseamt").val('');
         $("#lblpaidmat").val('');
         $("#lblbalamt").val('');
-        $.post('@Url.Action("GetClassPaymentDetails", "Student")', { ClassID: classId, studentID: $("#StudentId").val() }, function (data) {
+        $.post('@Url.Action("GetDisciplinePaymentDetails", "Student")', { disciplineId: disciplineId, studentID: $("#StudentId").val(), enrollmentId: enrollmentId }, function (data) {
             if (data != null) {
                 var result = JSON.parse(data)
                 $("#lblNoofClass").val(result[0].NoOfClasses);
                 $("#lblCourseamt").val(result[0].CourseAmount);
-                $("#lblpaidmat").val(result[0].PaidAmount);
+                $("#lblpaidmat").val(result[0].PaidAmount); 
                 $("#lblbalamt").val(result[0].BalanceAmount);
+                $("#lblsDate").val(ConvertDate(result[0].SatrtDate));
+                $("#lbleDate").val(ConvertDate(result[0].EndDate));
+                $("#ClassEndDate").val(ConvertDate(result[0].EndDate));
+                SetDueDatePicker();
             }
         });
     }
@@ -120,6 +123,7 @@
 
             @Html.Hidden("StudentId")
             @Html.Hidden("ClassEndDate")
+            @Html.HiddenFor(v => v.EnrollmentId);
             <div>
                 @if (!string.IsNullOrEmpty(ViewBag.Success))
                 {
@@ -182,24 +186,32 @@
 
             </div>
             <div class="row" style="padding-top: 1em;">
-                <label for="Password">Class :</label>
-                <select name="ClassId" id="ClassId" class="select" onchange="GetClassPaymentDetails(this)"></select>
+                <label for="Password">Discipline :</label>
+                <select name="DisciplineId" id="DisciplineId" class="select" onchange="GetDisciplinePaymentDetails(this)"></select>
             </div>
             <div class="row">
                 <fieldset>
-                    <legend>Class Payment Details</legend>
+                    <legend>Discipline Payment Details</legend>
                     <table id="showstudent">
                         <tr class="spaceUnder">
                             <td>No of Classes</td>
                             <td>
                                 <input id="lblNoofClass" readonly="readonly" type="text" class="input" />
                             </td>
+                            <td>Start Date</td>
+                            <td>
+                                <input id="lblsDate" readonly="readonly" type="text" class="input" />
+                            </td>
+                            <td>End Date</td>
+                            <td>
+                                <input id="lbleDate" readonly="readonly" type="text" class="input" />
+                            </td>
+                        </tr>
+                        <tr class="spaceUnder">
                             <td>Course Amount</td>
                             <td>
                                 <input id="lblCourseamt" readonly="readonly" type="text" class="input" />
                             </td>
-                        </tr>
-                        <tr class="spaceUnder">
                             <td>Paid Amount</td>
                             <td>
                                 <input id="lblpaidmat" readonly="readonly" type="text" class="input" />
