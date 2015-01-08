@@ -127,8 +127,8 @@ namespace Repositories
         {
             string Query = "select e.StudentID,(select Name from student where StudentID=e.StudentID) as StudentName,e.DisciplineID,e.NoOfClasses,e.SatrtDate,e.EndDate,e.RegistratonAmount,e.CourseAmount,e.AmountPaid" +
                            ",(e.CourseAmount-(e.AmountPaid+e.RegistratonAmount)) as PendingAmount" +
-                           ",(select count(*)  from studentattendence  where stuentid=e.StudentID and  Attendencestatus= 1) as Presents" +
-                           ",(select count(*)  from studentattendence  where stuentid=e.StudentID and Attendencestatus= 2) as Absents" +
+                           ",(select count(*)  from studentattendence  where enrollmentId=e.enrollmentId and  Attendencestatus= 1) as Presents" +
+                           ",(select count(*)  from studentattendence  where enrollmentId=e.enrollmentId and Attendencestatus= 2) as Absents" +
                            " from studentenrollment  e where e.StudentID=" + studentId;
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             if (d == null)
