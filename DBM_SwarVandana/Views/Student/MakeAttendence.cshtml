@@ -68,7 +68,8 @@
     function PutAttendence(attendenceStatus, studentId, enrollmentId) {
         var BatchId = $("#BatchId").val();
         var status = $(attendenceStatus).val();
-        $.get('@Url.Action("CollectAttendence", "Student")?batchId=' + BatchId + "&studentId=" + studentId + "&Status=" + status + "&EnrollmentId=" + enrollmentId, function (data) {
+        var disciplaneId = $("#DisciplaneId").val()
+        $.get('@Url.Action("CollectAttendence", "Student")?batchId=' + BatchId + "&studentId=" + studentId + "&Status=" + status + "&EnrollmentId=" + enrollmentId + "&disciplaneid=" + disciplaneId, function (data) {
         });
 
 
