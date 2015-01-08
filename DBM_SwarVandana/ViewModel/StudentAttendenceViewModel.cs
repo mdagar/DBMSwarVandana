@@ -25,6 +25,7 @@ namespace ViewModel
             this.ModifyBy = s.ModifyBy;
         }
 
+        public virtual long disciplaneid { get; set; }
         public IEnumerable<Students> students { get; set; }
         public IEnumerable<Disciplines> Disciplines { get; set; }
         public IEnumerable<Batches> Batches { get; set; }

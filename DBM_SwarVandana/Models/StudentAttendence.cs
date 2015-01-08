@@ -23,6 +23,7 @@ namespace Models
 
         public virtual long Id { get; set; }
         public virtual long BatchId { get; set; }
+        public virtual long DisciplaneId { get; set; }
         public virtual long EnrollmentId { get; set; }
         public virtual long StuentId { get; set; }
         public virtual int AttendenceStatus { get; set; }

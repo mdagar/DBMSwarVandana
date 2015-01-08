@@ -113,9 +113,8 @@ namespace Repositories
 
         public List<Students> GetStudentsByDisciplane(long displaneId, long batchId, int weekDay)
         {
-            string Query = "SELECT  e.EnrollmentId,s.StudentId,s.UniqueKey,s.Name"
-                         + "FROM  [dbo].[student] s ,StudentEnrollment e where s.studentId IN(SELECT e.StudentId FROM [dbo].[StudentEnrollment] WHERE  DisciplineId = " + displaneId
-                         + "and EnrollmentId IN (SELECT EnrollmentId FROM [dbo].[StudentBatchMapping] WHERE BatchId =" + batchId + "))";
+            string Query = "SELECT s.StudentId, s.Name , e.EnrollmentId FROM [dbo].[student] s , [dbo].[StudentEnrollment] e  WHERE s.StudentId= e.StudentId and  DisciplineId = " + displaneId + ""
+                            + " and s.StudentId IN(SELECT e.StudentId FROM [dbo].[StudentEnrollment] WHERE EnrollmentId IN (SELECT EnrollmentId FROM [dbo].[StudentBatchMapping] WHERE BatchId =" + batchId + "))";
 
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             if (d == null)
