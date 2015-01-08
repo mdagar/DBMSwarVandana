@@ -33,8 +33,14 @@ namespace DBM_SwarVandana.Controllers
             ViewBag.TotalPages = TotalPages;
             var Discipline = _allDiscipline.GetAllDisciplines(SessionWrapper.User.CentreId);
             var sources = _allSources.GetAllSources();
+            var users = _allUsers.AllUsers(SessionWrapper.User.CentreId);
             enq.Update(x => x.SourceName = sources.Where(s => s.SourceId == x.SourceId).FirstOrDefault().Source);
             enq.Update(x => x.DisciplaneName = Discipline.Where(s => s.DisciplineId == x.Discipline).FirstOrDefault().Discipline);
+            foreach (var v in enq)
+            {
+                var u = users.Where(s => s.UserId == v.ModifyBy).FirstOrDefault();
+                v.UserName = u == null ? "" : (u.FirstName + " " + u.LastName);
+            }
             return View(enq);
         }
 
