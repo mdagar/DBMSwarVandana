@@ -16,7 +16,9 @@ namespace ViewModel
         {
             this.ActionId = b.ActionId;
             this.BudgetID = b.BudgetID;
+            this.ExpenseFor = b.ExpenseFor;
             this.BudgetAmount = b.BudgetAmount;
+            this.Month = b.Month;
             this.Description = b.Description;
             this.FinancialYear = b.FinancialYear;
             this.CentreID = b.CentreID;
@@ -30,8 +32,12 @@ namespace ViewModel
 
         public override int ActionId { get; set; }
         public override int BudgetID { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "ExpenseForRequired")]
+        public override int ExpenseFor { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "BudgetAmountRequired")]
         public override decimal BudgetAmount { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "MonthRequired")]
+        public override int Month { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "FinancialYearRequired")]
         public override string FinancialYear { get; set; }
         public override string Description { get; set; }

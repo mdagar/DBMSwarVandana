@@ -3,6 +3,16 @@
 @{
     ViewBag.Title = "AssignBudget";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    IEnumerable<Months> months = Enum.GetValues(typeof(Months))
+                                                      .Cast<Months>();
+    IEnumerable<SelectListItem> month = from u in months
+                                        select new SelectListItem
+                                        {
+                                            Text = u.ToString(),
+                                            Value = ((int)u).ToString()
+                                        };
+    
 }
 
 <script>
@@ -32,7 +42,19 @@
             </div>
             <h3>Add Budget</h3>
             <div class="row">
-                <label for="Password"><span style="color: red;">*</span>Budget Amount:</label>
+                <label for="Password"><span style="color: red;">*</span>Budget For:</label>
+                @if (@Model.BudgetID == 0)
+                {
+                    @Html.DropDownListFor(x => x.ExpenseFor, new ListBound(Model.ExpenseFor, "ExpenseFor").ExpenseFor, "-- Select --", new { @class = "select" })
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.ExpenseFor, new ListBound(Model.ExpenseFor, "ExpenseFor").ExpenseFor, "-- Select --", new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.ExpenseFor)
+                }
+            </div>
+            <div class="row">
+                <label for="Password"><span style="color: red;">*</span>Financial Year:</label>
                 @if (Model.BudgetID == 0)
                 {
                     @Html.DropDownListFor(x => x.FinancialYear, new SelectList(ViewBag.Years as System.Collections.IEnumerable, Model.FinancialYear), new { @class = "select" })
@@ -43,12 +65,22 @@
                     @Html.HiddenFor(x => x.FinancialYear)
                 }
             </div>
-
+            <div class="row">
+                <label for="Password"><span style="color: red;">*</span>Select Month:</label>
+                @if (@Model.BudgetID == 0)
+                {
+                    @Html.DropDownListFor(x => x.Month, month, "-- Select Month --", new { @class = "select" })
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.Month, month, "-- Select Month --", new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.Month)
+                }
+            </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Budget Amount:</label>
                 @Html.TextBoxFor(x => x.BudgetAmount, new { @class = "input" })
             </div>
-
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Description:</label>
                 @Html.TextAreaFor(x => x.Description, new { @class = "textarea" })

@@ -378,4 +378,7 @@
   <data name="NoofClasses" xml:space="preserve">
     <value>Please enter no of classes.</value>
   </data>
+  <data name="MonthRequired" xml:space="preserve">
+    <value>Please enter month.</value>
+  </data>
 </root>

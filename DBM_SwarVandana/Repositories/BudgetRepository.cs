@@ -37,14 +37,14 @@ namespace Repositories
         {
             if (b.BudgetID > 0)
                 b.ActionId = 1;
-            object[] objParam = { b.ActionId, b.BudgetID, b.BudgetAmount, b.Description, b.FinancialYear, b.CentreID, b.CreatedBy, b.CreatedOn, b.ModifiedBy, b.ModifiedOn, b.IsActive, b.IsDeleted };
+            object[] objParam = { b.ActionId, b.BudgetID, b.ExpenseFor, b.BudgetAmount, b.Month, b.Description, b.FinancialYear, b.CentreID, b.CreatedBy, b.CreatedOn, b.ModifiedBy, b.ModifiedOn, b.IsActive, b.IsDeleted };
             var res = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.InsertBudgetMaster, objParam);
             return Convert.ToInt32(res);
         }
 
         public Budgets FindByCenterId(int centerId, string financialYear)
         {
-            string Query = "SELECT BudgetID,BudgetAmount,Description,FinancialYear,CentreID,CreatedBy,CreatedOn,ModifiedBy,ModifiedOn,IsActive,IsDeleted FROM [dbo].[BudgetMaster] WHERE centreId =" + centerId + " and FinancialYear ='" + financialYear + "'";
+            string Query = "SELECT BudgetID,ExpenseFor,BudgetAmount,Month,Description,FinancialYear,CentreID,CreatedBy,CreatedOn,ModifiedBy,ModifiedOn,IsActive,IsDeleted FROM [dbo].[BudgetMaster] WHERE centreId =" + centerId + " and FinancialYear ='" + financialYear + "'";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             if (d != null)
                 return d.Tables[0].TableToList<Budgets>().FirstOrDefault();

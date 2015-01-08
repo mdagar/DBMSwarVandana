@@ -32,6 +32,10 @@ namespace DBM_SwarVandana.Controllers
         {
             List<Budgets> bgt = _allbudget.GetBudgetForAll(search);
             string currentYear = CurrentFinancialYear();
+            var expfor = _allbudget.GetExpenseForAll();
+            bgt.Update(x => x.ExpenseForName = expfor.Where(s => s.ExpenseForId == x.ExpenseFor).FirstOrDefault().ExpenseFor);
+            var month = Enum.GetValues(typeof(Months)).Cast<Months>().ToList();
+            //bgt.Update(x => x.MonthName = month.Where(s=>s.
             foreach (var v in bgt)
                 v.CurrentFinancialYear = currentYear;
             return View(bgt);
@@ -113,7 +117,6 @@ namespace DBM_SwarVandana.Controllers
                 ModelState.AddModelError(string.Empty, "Budget amount should not less then 25000 rs.");
             if (ModelState.IsValid)
             {
-
                 bgt.ActionId = 0;
                 bgt.CentreID = SessionWrapper.User.CentreId;
                 bgt.CreatedOn = DateTime.Now;

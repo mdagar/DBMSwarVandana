@@ -59,7 +59,7 @@
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Date Of Expense:</label>
                 @*@Html.TextBoxFor(x => x.DateOfExpense, new { @class = "input" })*@
-                @Html.TextBox("DateOfExpense",Model.DateOfExpense== null ?"" : Model.DateOfExpense.Value.ToString("dd MMM yyyy"), new { @class = "input",@readonly="readonly" })
+                @Html.TextBox("DateOfExpense", Model.DateOfExpense == null ? "" : Model.DateOfExpense.Value.ToString("dd MMM yyyy"), new { @class = "input", @readonly = "readonly" })
             </div>
             <div class="row">
                 <label for="Password">Is Active :</label>
