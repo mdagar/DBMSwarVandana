@@ -86,20 +86,20 @@ namespace Repositories
         }
         public DataSet GetClassesForPayments(int studentId, int centreId)
         {
-            string Query = "select ClassName,ClassID,EndDate from [dbo].[ClassDetails] where classid in(select classID from [dbo].[StudentEnrollment] where studentId=" + studentId + " and CentreId=" + centreId + " and (CourseAmount -(RegistratonAmount+AmountPaid))>0)";
+            string Query = "select S.EnrollmentId,S.DisciplineId,D.Discipline from [dbo].[StudentEnrollment] S,[dbo].[Disciplines] D where D.CentreID=" + centreId + " and S.StudentId=" + studentId + " and S.DisciplineId=D.DisciplineId and (S.CourseAmount -(S.RegistratonAmount+S.AmountPaid))>0";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
         }
-        public DataSet GetClassPaymentDetails(int classId, int studentId)
+        public DataSet GetDisciplinePaymentDetails(int disciplineId, int studentId, long enrollmentId)
         {
-            string Query = "select NoOfClasses,CourseAmount,(RegistratonAmount+AmountPaid) AS PaidAmount,(CourseAmount-(RegistratonAmount+AmountPaid)) AS BalanceAmount from [dbo].[StudentEnrollment] where classID=" + classId + " and StudentId=" + studentId + "";
+            string Query = "select NoOfClasses,CourseAmount,(RegistratonAmount+AmountPaid) AS PaidAmount,(CourseAmount-(RegistratonAmount+AmountPaid)) AS BalanceAmount,SatrtDate,EndDate from [dbo].[StudentEnrollment] where DisciplineId=" + disciplineId + " and StudentId=" + studentId + " and EnrollmentId=" + enrollmentId + "";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
         }
-        public int SaveStudentPayments(PaymentDetails pd, string classId)
+        public int SaveStudentPayments(PaymentDetails pd, string disciplineId)
         {
-            int classid = Convert.ToInt32(classId);
-            object[] objParam = { pd.StudentId, pd.BankName, pd.PaymentMode, pd.TransactionDetails, pd.DateOfPayment, pd.AmountPaid, pd.DueDate, pd.AddBy, pd.AddDate, pd.ModifyBy, pd.ModifyDate, classid };
+            int DisciplineId = Convert.ToInt32(disciplineId);
+            object[] objParam = { pd.StudentId, pd.BankName, pd.PaymentMode, pd.TransactionDetails, pd.DateOfPayment, pd.AmountPaid, pd.DueDate, pd.AddBy, pd.AddDate, pd.ModifyBy, pd.ModifyDate, DisciplineId,pd.EnrollmentId };
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), "InsertPaymentDetails", objParam);
             return Convert.ToInt32(d);
         }

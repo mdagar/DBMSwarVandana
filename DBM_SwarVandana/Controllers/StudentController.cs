@@ -395,10 +395,10 @@ namespace DBM_SwarVandana.Controllers
 
         [Authenticate]
         [HttpPost]
-        public ActionResult PayemntDetails(PaymentDetailsViewModel pdm, string ClassId)
+        public ActionResult PayemntDetails(PaymentDetailsViewModel pdm, string DisciplineId)
         {
             var result = 0;
-            if (!string.IsNullOrEmpty(ClassId))
+            if (!string.IsNullOrEmpty(DisciplineId))
             {
                 if (ModelState.IsValid)
                 {
@@ -406,7 +406,7 @@ namespace DBM_SwarVandana.Controllers
                     pdm.ModifyDate = DateTime.Now;
                     pdm.ModifyBy = SessionWrapper.User.UserId;
                     pdm.AddBy = SessionWrapper.User.UserId;
-                    result = _allstudents.SaveStudentPayments(pdm, ClassId);
+                    result = _allstudents.SaveStudentPayments(pdm, DisciplineId);
                     if (result > 0)
                     {
                         ViewBag.Success = Messages.SubmitPayment;
@@ -419,7 +419,7 @@ namespace DBM_SwarVandana.Controllers
             }
             else
             {
-                ViewBag.Error = "Please select class for payment.";
+                ViewBag.Error = "Please select discipline for payment.";
             }
             return View(pdm);
         }
@@ -444,9 +444,9 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult GetClassPaymentDetails(int ClassID, int studentID)
+        public ActionResult GetDisciplinePaymentDetails(int disciplineId, int studentID, long enrollmentId)
         {
-            var result = _allstudents.GetClassPaymentDetails(ClassID, studentID);
+            var result = _allstudents.GetDisciplinePaymentDetails(disciplineId, studentID, enrollmentId);
             System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
             List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
             Dictionary<string, object> row;
