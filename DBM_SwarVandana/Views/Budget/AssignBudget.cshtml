@@ -54,18 +54,6 @@
                 }
             </div>
             <div class="row">
-                <label for="Password"><span style="color: red;">*</span>Financial Year:</label>
-                @if (Model.BudgetID == 0)
-                {
-                    @Html.DropDownListFor(x => x.FinancialYear, new SelectList(ViewBag.Years as System.Collections.IEnumerable, Model.FinancialYear), new { @class = "select" })
-                }
-                else
-                {
-                    @Html.DropDownListFor(x => x.FinancialYear, new SelectList(ViewBag.Years as System.Collections.IEnumerable, Model.FinancialYear), new { @class = "select", @disabled = "disabled" })
-                    @Html.HiddenFor(x => x.FinancialYear)
-                }
-            </div>
-            <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Select Month:</label>
                 @if (@Model.BudgetID == 0)
                 {
@@ -78,6 +66,19 @@
                 }
             </div>
             <div class="row">
+                <label for="Password"><span style="color: red;">*</span>Financial Year:</label>
+                @if (Model.BudgetID == 0)
+                {
+                    @Html.DropDownListFor(x => x.FinancialYear, new SelectList(ViewBag.Years as System.Collections.IEnumerable, Model.FinancialYear), new { @class = "select" })
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.FinancialYear, new SelectList(ViewBag.Years as System.Collections.IEnumerable, Model.FinancialYear), new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.FinancialYear)
+                }
+            </div>
+            
+            <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Budget Amount:</label>
                 @Html.TextBoxFor(x => x.BudgetAmount, new { @class = "input" })
             </div>
@@ -86,10 +87,10 @@
                 @Html.TextAreaFor(x => x.Description, new { @class = "textarea" })
             </div>
 
-            <div class="row">
+            @*<div class="row">
                 <label for="Password">Is Active :</label>
                 @Html.CheckBoxFor(x => x.IsActive, new { @class = "input" })
-            </div>
+            </div>*@
 
             <div class="rowbutton">
 

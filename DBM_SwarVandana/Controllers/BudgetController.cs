@@ -53,7 +53,7 @@ namespace DBM_SwarVandana.Controllers
 
         }
 
-        private void GetYears(List<string> existingYears)
+        private void GetYears()
         {
             List<string> Years = new List<string>();
             DateTime startYear = DateTime.Now;
@@ -62,12 +62,9 @@ namespace DBM_SwarVandana.Controllers
                 if (startYear.Month >= 4)
                     Years.Add(startYear.Year + " - " + startYear.AddYears(1).Year);
                 else
-                    Years.Add(startYear.AddYears(-1) + " - " + startYear.Year);
+                    Years.Add(startYear.AddYears(-1).Year + " - " + startYear.Year);
                 startYear = startYear.AddYears(1);
             }
-            foreach (var v in existingYears)
-                Years.Remove(v);
-
             ViewBag.Years = Years;
         }
 
@@ -80,7 +77,7 @@ namespace DBM_SwarVandana.Controllers
                 if (startYear.Month >= 4)
                     Years.Add(startYear.Year + " - " + startYear.AddYears(1).Year);
                 else
-                    Years.Add(startYear.AddYears(-1) + " - " + startYear.Year);
+                    Years.Add(startYear.AddYears(-1).Year + " - " + startYear.Year);
                 startYear = startYear.AddYears(-1);
             }
             return Years;
@@ -92,17 +89,14 @@ namespace DBM_SwarVandana.Controllers
             BudgetViewModel b;
             if (BudgetID.HasValue)
             {
-                GetYears(new List<string>());
+                GetYears();
                 b = new BudgetViewModel(_allbudget.GetBudgetForAll("").Where(x => x.BudgetID == BudgetID).FirstOrDefault());
             }
             else
             {
                 List<Budgets> bgt = _allbudget.GetBudgetForAll("");
                 b = new BudgetViewModel();
-                var y = new List<string>();
-                foreach (var v in bgt)
-                    y.Add(v.FinancialYear);
-                GetYears(y);
+                GetYears();
 
             }
             return View(b);
@@ -113,7 +107,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult AssignBudget(BudgetViewModel bgt)
         {
             var result = 0;
-            if (bgt.BudgetAmount < 25000)
+            if (bgt.BudgetAmount < 1000)
                 ModelState.AddModelError(string.Empty, "Budget amount should not less then 25000 rs.");
             if (ModelState.IsValid)
             {
@@ -123,12 +117,13 @@ namespace DBM_SwarVandana.Controllers
                 bgt.CreatedBy = SessionWrapper.User.UserId;
                 bgt.ModifiedBy = SessionWrapper.User.UserId;
                 bgt.ModifiedOn = DateTime.Now;
+                bgt.IsActive = true;
                 bgt.IsDeleted = false;
                 result = _allbudget.AddBudget(bgt);
                 if (result > 0)
                 {
                     ViewBag.Success = Messages.SubmitBudget;
-                    GetYears(new List<string>());
+                    GetYears();
                 }
                 else
                 {
@@ -139,10 +134,7 @@ namespace DBM_SwarVandana.Controllers
             {
                 List<Budgets> bgt1 = _allbudget.GetBudgetForAll("");
                 var b = new BudgetViewModel();
-                var y = new List<string>();
-                foreach (var v in bgt1)
-                    y.Add(v.FinancialYear);
-                GetYears(y);
+                GetYears();
             }
             return View(bgt);
         }
@@ -184,6 +176,7 @@ namespace DBM_SwarVandana.Controllers
                 exp.CreatedBy = SessionWrapper.User.UserId;
                 exp.ModifiedBy = SessionWrapper.User.UserId;
                 exp.ModifiedOn = DateTime.Now;
+                exp.IsActive = true;
                 exp.IsDeleted = false;
                 result = _allbudget.AddExpenses(exp);
                 if (result > 0)

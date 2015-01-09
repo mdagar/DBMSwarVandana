@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Models.Budgets>
+@using Code
 @{
     ViewBag.Title = "BudgetList";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -32,8 +33,9 @@
                     <td class="td">Budget For</td>
                     <td class="td">Budget Amount</td>
                     <td class="td">Month</td>
-                    <td class="td">Description</td>
                     <td class="td">Financial Year</td>
+                    <td class="td">Description</td>
+
                     <td class="td">Is Active</td>
                     <td class="td">Action</td>
                 </tr>
@@ -44,9 +46,10 @@
                     <tr>
                         <td class="td">@v.ExpenseForName</td>
                         <td class="td">@v.BudgetAmount</td>
-                        <td class="td">@v.MonthName</td>
-                        <td class="td">@v.Description</td>
+                        <td class="td">@(((Months)Enum.Parse(typeof(Months), v.Month.ToString())).Desciption())</td>
                         <td class="td">@v.FinancialYear</td>
+                        <td class="td">@v.Description</td>
+
                         <td class="td">@v.IsActive</td>
                         <td class="td">
                             @if (v.FinancialYear == v.CurrentFinancialYear)

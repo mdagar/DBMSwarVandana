@@ -61,10 +61,10 @@
                 @*@Html.TextBoxFor(x => x.DateOfExpense, new { @class = "input" })*@
                 @Html.TextBox("DateOfExpense", Model.DateOfExpense == null ? "" : Model.DateOfExpense.Value.ToString("dd MMM yyyy"), new { @class = "input", @readonly = "readonly" })
             </div>
-            <div class="row">
+            @*<div class="row">
                 <label for="Password">Is Active :</label>
                 @Html.CheckBoxFor(x => x.IsActive, new { @class = "input" })
-            </div>
+            </div>*@
             <div class="rowbutton">
                 <input type="submit" id="btnSubmit" value="Submit" class="submit-btn gap" />
                 <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
