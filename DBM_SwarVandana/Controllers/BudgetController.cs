@@ -50,7 +50,6 @@ namespace DBM_SwarVandana.Controllers
             else
                 year = date.AddYears(-1) + " - " + date.Year;
             return year;
-
         }
 
         private void GetYears()

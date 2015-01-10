@@ -35,8 +35,7 @@
                     <td class="td">Month</td>
                     <td class="td">Financial Year</td>
                     <td class="td">Description</td>
-
-                    <td class="td">Is Active</td>
+                    @*<td class="td">Is Active</td>*@
                     <td class="td">Action</td>
                 </tr>
                 <!-- end row -->
@@ -49,8 +48,7 @@
                         <td class="td">@(((Months)Enum.Parse(typeof(Months), v.Month.ToString())).Desciption())</td>
                         <td class="td">@v.FinancialYear</td>
                         <td class="td">@v.Description</td>
-
-                        <td class="td">@v.IsActive</td>
+                        @*<td class="td">@v.IsActive</td>*@
                         <td class="td">
                             @if (v.FinancialYear == v.CurrentFinancialYear)
                             { 
