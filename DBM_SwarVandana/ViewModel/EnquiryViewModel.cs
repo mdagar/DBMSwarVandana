@@ -43,6 +43,7 @@ namespace ViewModel
             this.CentreId = e.CentreId;
             this.IsEnquiryClosed = e.IsEnquiryClosed;
             this.EnquiryBy = e.EnquiryBy;
+            this.TelephonicEnquiryId = e.TelephonicEnquiryId;
             this.AddDate = e.AddDate;
             this.AddedBy = e.AddedBy;
             this.ModifyDate = e.ModifyDate;
@@ -90,6 +91,7 @@ namespace ViewModel
         public override decimal Package { get; set; }
         public override decimal RegistrationAmount { get; set; }
         public override int CentreId { get; set; }
+        public override Int64 TelephonicEnquiryId { get; set; }
         public override DateTime? AddDate { get; set; }
         public override int AddedBy { get; set; }
         public override DateTime? ModifyDate { get; set; }

@@ -11,6 +11,7 @@ namespace Models
         public virtual long EnquiryId { get; set; }
         public virtual int SourceId { get; set; }
         public virtual int EnquiryTypeId { get; set; }
+        public virtual Int64 EnquiryNumber { get; set; }
         public virtual string ContactNumber { get; set; }
         public virtual string Name { get; set; }
         public virtual DateTime? DateOfEnquiry { get; set; }
@@ -34,6 +35,7 @@ namespace Models
         public virtual Int64 FacultyID { get; set; }
         public virtual string FacultyName { get; set; }
         public virtual Int64 EnquiryBy { get; set; }
+        public virtual Int64 TelephonicEnquiryId { get; set; }
         public virtual DateTime? AddDate { get; set; }
         public virtual int AddedBy { get; set; }
         public virtual DateTime? ModifyDate { get; set; }
@@ -75,6 +77,7 @@ namespace Models
             this.IsEnquiryClosed = false;
             this.FacultyID = 0;
             this.EnquiryBy = 0;
+            this.TelephonicEnquiryId = 0;
             this.AddDate = null;
             this.AddedBy = 0;
             this.ModifyDate = null;

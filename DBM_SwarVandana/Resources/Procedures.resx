@@ -132,6 +132,9 @@
   <data name="GetEnquiry" xml:space="preserve">
     <value>GetEnquiry</value>
   </data>
+  <data name="GetEnquiryByEnquiryNumber" xml:space="preserve">
+    <value>GetEnquiryByEnquiryNumber</value>
+  </data>
   <data name="GetEnquiryById" xml:space="preserve">
     <value>GetEnquiryById</value>
   </data>

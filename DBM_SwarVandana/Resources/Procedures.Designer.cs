@@ -106,6 +106,15 @@ namespace DBM_SwarVandana.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GetEnquiryByEnquiryNumber.
+        /// </summary>
+        internal static string GetEnquiryByEnquiryNumber {
+            get {
+                return ResourceManager.GetString("GetEnquiryByEnquiryNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GetEnquiryById.
         /// </summary>
         internal static string GetEnquiryById {

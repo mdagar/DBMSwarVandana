@@ -28,7 +28,7 @@ namespace Repositories
                                     e.DateOfEnquiry, e.Discipline, e.StateId, e.CityId, e.Address, e.AttendedBy,
                                     e.Demo,e.RemarksByFaculty, e.StatusId,e.ProbableStudentFor,e.Gender,e.Age,e.Occupation,
                                     e.FinalComments,e.NoOfClasses,e.Package,e.RegistrationAmount,e.CentreId,e.IsEnquiryClosed,e.FacultyID,
-                                    e.AddDate, e.AddedBy, e.ModifyDate, e.ModifyBy, e.IsActive,e.IsDeleted };
+                                    e.TelephonicEnquiryId,e.AddDate, e.AddedBy, e.ModifyDate, e.ModifyBy, e.IsActive,e.IsDeleted };
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_Enquiries_IUD, objParam);
             return Convert.ToInt32(d);
         }
@@ -85,7 +85,7 @@ namespace Repositories
         {
             object[] objParam = { centerId, EnqueryType };
             string Query = "SELECT EnquiryId,SourceId,EnquiryTypeId,ContactNumber,Name,DateOfEnquiry,Discipline,StateId,CityId,[Address],AttendedBy,Demo,RemarksByFaculty,StatusId,ProbableStudentFor,Gender,Age,Occupation,FinalComments,"
-                           + "NoOfClasses,Package,RegistrationAmount,CentreId,IsEnquiryClosed,AddDate,AddedBy,ModifyDate,ModifyBy,UserName,IsActive,IsDeleted FROM [dbo].[Enquiries]"
+                           + "NoOfClasses,Package,RegistrationAmount,CentreId,IsEnquiryClosed,TelePhonicEnquiryId,AddDate,AddedBy,ModifyDate,ModifyBy,UserName,IsActive,IsDeleted FROM [dbo].[Enquiries]"
                             + "WHERE EnquiryTypeId = " + EnqueryType + " AND CentreId = " + centerId + "AND IsDeleted=0";
             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Query, objParam);
             if (ds == null)
@@ -100,6 +100,18 @@ namespace Repositories
         {
             object[] objParam = { enquiryId };
             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetEnquiryById, objParam);
+            if (ds == null)
+                return new Enquiries();
+            else
+                return ds.Tables[0].TableToList<Enquiries>().FirstOrDefault();
+
+
+        }
+
+        public Enquiries FindByEnquirieNumber(long EnquiryNumber)
+        {
+            object[] objParam = { EnquiryNumber };
+            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetEnquiryByEnquiryNumber, objParam);
             if (ds == null)
                 return new Enquiries();
             else
