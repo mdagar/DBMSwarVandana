@@ -30,6 +30,7 @@
             <table cellpadding="0" cellspacing="0" class="table">
                 <!-- start row -->
                 <tr bgcolor="#ccc">
+                    <td class="td">Enquery Id</td>
                     <td class="td">Name</td>
                     <td class="td">Source</td>
                     <td class="td">Discipline</td>
@@ -54,6 +55,7 @@
                 {
                     <!-- start row -->
                     <tr>
+                        <td class="td">@v.EnquiryNumber</td>
                         <td class="td">@v.Name</td>
                         <td class="td">@v.SourceName</td>
                         <td class="td">@v.DisciplaneName</td>
@@ -87,7 +89,7 @@
                         }
                         <td style="background-color:@backgroundColor" class="td">@(((Status)Enum.Parse(typeof(Status), v.StatusId.ToString())).Desciption())</td>
                         <td class="td">
-                             @if (v.ModifyBy != 1 || SessionWrapper.User.UserId == 1)
+                            @if (v.ModifyBy != 1 || SessionWrapper.User.UserId == 1)
                             {
                                 <a href="@Url.Action("PhysicalEnquiry", "Enquiries", new { enquiryId = v.EnquiryId })" title="Edit"><span>Edit</span></a>
                             }
@@ -96,12 +98,12 @@
                     <!-- end row -->
                 }
                 @{if (Model.Count() == 0)
-                  {
+                {
                     <tr class="row">
                         <td class="td" style="text-align: center">No record found.</td>
                     </tr>
 
-                  }}
+                }}
             </table>
             @Html.Partial("_Paging")
 

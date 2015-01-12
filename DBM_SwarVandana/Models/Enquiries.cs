@@ -11,7 +11,7 @@ namespace Models
         public virtual long EnquiryId { get; set; }
         public virtual int SourceId { get; set; }
         public virtual int EnquiryTypeId { get; set; }
-        public virtual Int64 EnquiryNumber { get; set; }
+        public virtual string EnquiryNumber { get; set; }
         public virtual string ContactNumber { get; set; }
         public virtual string Name { get; set; }
         public virtual DateTime? DateOfEnquiry { get; set; }
@@ -32,10 +32,10 @@ namespace Models
         public virtual decimal Package { get; set; }
         public virtual decimal RegistrationAmount { get; set; }
         public virtual int CentreId { get; set; }
-        public virtual Int64 FacultyID { get; set; }
+        public virtual long FacultyID { get; set; }
         public virtual string FacultyName { get; set; }
-        public virtual Int64 EnquiryBy { get; set; }
-        public virtual Int64 TelephonicEnquiryId { get; set; }
+        public virtual long EnquiryBy { get; set; }
+        public virtual long TelephonicEnquiryId { get; set; }
         public virtual DateTime? AddDate { get; set; }
         public virtual int AddedBy { get; set; }
         public virtual DateTime? ModifyDate { get; set; }
@@ -84,6 +84,7 @@ namespace Models
             this.ModifyBy = 0;
             this.IsActive = true;
             this.IsDeleted = false;
+            this.EnquiryNumber = string.Empty;
 
         }
 

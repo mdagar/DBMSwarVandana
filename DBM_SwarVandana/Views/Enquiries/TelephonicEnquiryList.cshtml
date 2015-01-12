@@ -32,16 +32,16 @@
             <table cellpadding="0" cellspacing="0" class="table">
                 <!-- start row -->
                 <tr bgcolor="#ccc">
+                    <td class="td">Enquiry Id</td>
                     <td class="td">Name</td>
-                    <td class="td">Enquiry Number</td>
                     <td class="td">Source</td>
                     <td class="td">Discipline</td>
                     <td class="td">Contact Number</td>
                     <td class="td">Date of Enquiry</td>
                     <td class="td">Address</td>
-                    <td class="td">Remarks</td>                    
+                    <td class="td">Remarks</td>
                     <td class="td">Updated By</td>
-                    <td class="td">Updated Date</td>                    
+                    <td class="td">Updated Date</td>
                     <td class="td">Status</td>
                     <td class="td">Action</td>
                 </tr>
@@ -50,8 +50,8 @@
                 {
                     <!-- start row -->
                     <tr>
-                        <td class="td">@v.Name</td>
                         <td class="td">@v.EnquiryNumber</td>
+                        <td class="td">@v.Name</td>
                         <td class="td">@v.SourceName</td>
                         <td class="td">@v.DisciplaneName</td>
                         <td class="td">@v.ContactNumber</td>
@@ -59,7 +59,7 @@
                         <td class="td">@v.Address</td>
                         <td class="td">@v.FinalComments</td>
                         <td class="td">@v.UserName</td>
-                        <td class="td">@string.Format("{0:dd MMM yyyy}", v.ModifyDate)</td>                        
+                        <td class="td">@string.Format("{0:dd MMM yyyy}", v.ModifyDate)</td>
                         @{
                     var backgroundColor = "";
                     if (((Status)Enum.Parse(typeof(Status), v.StatusId.ToString())).Desciption() == "Red")

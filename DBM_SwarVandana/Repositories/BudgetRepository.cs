@@ -23,14 +23,37 @@ namespace Repositories
             return ConvertList.TableToList<ExpensesFor>(d.Tables[0]);
         }
 
-        public List<Budgets> GetBudgetForAll(string Search = "")
+        public List<Budgets> GetBudgetForAll(out int TotalPages, int PageNumber = 1, string Search = "")
         {
-            object[] obj = { SessionWrapper.User.CentreId, Search };
-            var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetBudgetForAll, obj);
-            if (d != null)
-                return d.Tables[0].TableToList<Budgets>();
-            else
+            //object[] obj = { SessionWrapper.User.CentreId, Search };
+            //var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetBudgetForAll, obj);
+            //if (d != null)
+            //    return d.Tables[0].TableToList<Budgets>();
+            //else
+            //    return new List<Budgets>();
+
+            int RowsPerPage = ConfigurationWrapper.PageSize;
+            SqlParameter[] spParameter = new SqlParameter[6];
+            var pcenterId = new SqlParameter("@centerId", SessionWrapper.User.CentreId);
+            var rowsPerpage = new SqlParameter("@RowsPerPage", RowsPerPage);
+            var rowNo = new SqlParameter("@PageNumber", PageNumber);
+            var total = new SqlParameter("@TotalPages", 0) { Direction = System.Data.ParameterDirection.Output };
+            var psearch = new SqlParameter("@search", Search);
+            SqlCommand cmd = new SqlCommand("GetBudgetForAll", db.GetConnection());
+            cmd.CommandType = CommandType.StoredProcedure;
+            DataSet ds = new DataSet();
+            cmd.Parameters.Add(pcenterId);
+            cmd.Parameters.Add(rowsPerpage);
+            cmd.Parameters.Add(rowNo);
+            cmd.Parameters.Add(total);
+            cmd.Parameters.Add(psearch);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(ds);
+            TotalPages = Convert.ToInt32(total.Value);
+            if (ds == null)
                 return new List<Budgets>();
+            else
+                return ds.Tables[0].TableToList<Budgets>();
         }
 
         public int AddBudget(Budgets b)
@@ -50,6 +73,26 @@ namespace Repositories
                 return d.Tables[0].TableToList<Budgets>().FirstOrDefault();
             else
                 return new Budgets();
+        }
+
+        public Budgets FindByBudgetId(int budgetId)
+        {
+            string Query = "SELECT BudgetID,ExpenseFor,BudgetAmount,Month,Description,FinancialYear,CentreID,CreatedBy,CreatedOn,ModifiedBy,ModifiedOn,IsActive,IsDeleted FROM [dbo].[BudgetMaster] WHERE BudgetID =" + budgetId + "";
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            if (d != null)
+                return d.Tables[0].TableToList<Budgets>().FirstOrDefault();
+            else
+                return new Budgets();
+        }
+
+        public decimal ConsolidatedCenterBudget(int centerId, string financialYear)
+        {
+            string Query = "SELECT ISNULL(sum(BudgetAmount),0) as FinancialYearBudget FROM [dbo].[BudgetMaster] WHERE centreId =" + centerId + " and FinancialYear ='" + financialYear + "'";
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            if (d != null)
+                return Convert.ToDecimal(d.Tables[0].Rows[0][0] == null ? 0 : d.Tables[0].Rows[0][0]);
+            else
+                return 0;
         }
 
         public List<Expenses> GetAllExpenses(int centerId, out int TotalPages, int PageNumber = 1, string search = "")
