@@ -28,9 +28,11 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult BudgetList(string search = "")
+        public ActionResult BudgetList(string search = "", int page = 1)
         {
-            List<Budgets> bgt = _allbudget.GetBudgetForAll(search);
+            int TotalPages = 0;
+            List<Budgets> bgt = _allbudget.GetBudgetForAll(out TotalPages, page, search);
+            ViewBag.TotalPages = TotalPages;
             string currentYear = CurrentFinancialYear();
             var expfor = _allbudget.GetExpenseForAll();
             bgt.Update(x => x.ExpenseForName = expfor.Where(s => s.ExpenseForId == x.ExpenseFor).FirstOrDefault().ExpenseFor);
@@ -89,14 +91,12 @@ namespace DBM_SwarVandana.Controllers
             if (BudgetID.HasValue)
             {
                 GetYears();
-                b = new BudgetViewModel(_allbudget.GetBudgetForAll("").Where(x => x.BudgetID == BudgetID).FirstOrDefault());
+                b = new BudgetViewModel(_allbudget.FindByBudgetId(BudgetID.Value));
             }
             else
             {
-                List<Budgets> bgt = _allbudget.GetBudgetForAll("");
                 b = new BudgetViewModel();
                 GetYears();
-
             }
             return View(b);
         }
@@ -107,7 +107,7 @@ namespace DBM_SwarVandana.Controllers
         {
             var result = 0;
             if (bgt.BudgetAmount < 1000)
-                ModelState.AddModelError(string.Empty, "Budget amount should not less then 25000 rs.");
+                ModelState.AddModelError(string.Empty, "Budget amount should not less then 1000 rs.");
             if (ModelState.IsValid)
             {
                 bgt.ActionId = 0;
@@ -120,21 +120,11 @@ namespace DBM_SwarVandana.Controllers
                 bgt.IsDeleted = false;
                 result = _allbudget.AddBudget(bgt);
                 if (result > 0)
-                {
                     ViewBag.Success = Messages.SubmitBudget;
-                    GetYears();
-                }
                 else
-                {
                     ModelState.AddModelError("", Messages.BudgetExists);
-                }
             }
-            else
-            {
-                List<Budgets> bgt1 = _allbudget.GetBudgetForAll("");
-                var b = new BudgetViewModel();
-                GetYears();
-            }
+            GetYears();
             return View(bgt);
         }
 
@@ -201,7 +191,6 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult ProfitLoss(string financialyear = "")
         {
             ProfitLossViewModel p = new ProfitLossViewModel();
-
             string final = "";
             p.financialYears = GetPreviousFinancialYears();
             if (!string.IsNullOrEmpty(financialyear))
@@ -213,8 +202,7 @@ namespace DBM_SwarVandana.Controllers
 
             p.financialYears = GetPreviousFinancialYears();
             p.SelectedFinancialyear = final;
-            var budgetassign = _allbudget.FindByCenterId(SessionWrapper.User.CentreId, p.SelectedFinancialyear);
-            p.BudgetAssign = budgetassign == null ? 0 : Convert.ToDecimal(budgetassign.BudgetAmount);
+            p.BudgetAssign = _allbudget.ConsolidatedCenterBudget(SessionWrapper.User.CentreId, p.SelectedFinancialyear);
             if (p.BudgetAssign == 0)
             {
                 p.Salary = 0;
