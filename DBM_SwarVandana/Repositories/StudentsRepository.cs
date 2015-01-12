@@ -90,6 +90,12 @@ namespace Repositories
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
         }
+        public DataSet GetAllDiscliplineForStudents(int studentId, int centreId)
+        {
+            string Query = "select S.EnrollmentId,S.DisciplineId,D.Discipline from [dbo].[StudentEnrollment] S,[dbo].[Disciplines] D where D.CentreID=" + centreId + " and S.StudentId=" + studentId + " and S.DisciplineId=D.DisciplineId";
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            return d;
+        }
         public DataSet GetDisciplinePaymentDetails(int disciplineId, int studentId, long enrollmentId)
         {
             string Query = "select NoOfClasses,CourseAmount,(RegistratonAmount+AmountPaid) AS PaidAmount,(CourseAmount-(RegistratonAmount+AmountPaid)) AS BalanceAmount,SatrtDate,EndDate from [dbo].[StudentEnrollment] where DisciplineId=" + disciplineId + " and StudentId=" + studentId + " and EnrollmentId=" + enrollmentId + "";

@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "StudentAttendence";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    function GetStudentDetails() {
+        var uniqueid = $("#UniqueKey").val();
+        if (uniqueid == '') {
+            alert('Please enter Enrollment No.');
+            return false;
+        }
+        else {
+            $.post('@Url.Action("GetStudentByUniqueId", "Student")', { UniqueId: uniqueid }, function (data) {
+                if (data.StudentId > 0) {
+                    $("#lblName").text(data.Name);
+                    var finalDate = ConvertDate(data.DOB);
+                    $("#DOB").text(finalDate);
+                    $("#ContactNumber").text(data.Contact1);
+                    $("#EmailID").text(data.EmailAddress);
+                    $("#Address").text(data.Address);
+                    $("#GuardianName").text(data.GuardianName);
+                    $("#Occupation").text(data.Occupation);
+                    $("#StudentId").val(data.StudentId);
+                    $("#showstudent").show();
+                    $.post('@Url.Action("GetAllDisciplineForStudent", "Student")', { studentId: data.StudentId }, function (classes) {
+                        var result = JSON.parse(classes)
+                        $("#DisciplineId").html('');
+                        $("#DisciplineId").append('<option value="">-- Select Discipline --</option>');
+                        $.each(result, function (i, Discipline) {
+                            $("#DisciplineId").append('<option info="' + Discipline.EnrollmentId + '" value="' + Discipline.DisciplineId + '" >' +
+                                 Discipline.Discipline + '</option>');
+                        });
+                    });
+                }
+                else {
+                    alert('No Record Found');
+                }
+            });
+        }
+    }
+    function ConvertDate(dat) {
+        var parsedDate = new Date(parseInt(dat.substr(6)));
+        var d = new Date(parsedDate); //Date object
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var finalDate = +d.getDate() + " " + months[(d.getMonth() + 1) - 1] + " " + d.getFullYear();
+        return finalDate;
+    }
+    function GetDisciplineAttendentDetails(o) {
+        var disciplineId = $(o).val();
+        var enrollmentId = $(o).find(':selected').attr('info');
+    }
+</script>
+<div class="container">
+    <!-- registration-form -->
+    <div class="registration-form">
+        @using (Html.BeginForm())
+        {
+           <div>
+                @if (!string.IsNullOrEmpty(ViewBag.Success))
+                {
+                    <div class="successvalidation">
+                        @ViewBag.Success
+                    </div>
+                }
+                else
+                {
+                    @ViewBag.Error
+                }
+                <div>@Html.ValidationSummary(false)</div>
+            </div>
+            <h3>Student Attendence</h3>
+            <div class="row">
+                <label for="Password">Enrollment No :</label>
+                <input id="UniqueKey" type="text" class="input" />
+                <a href="#" id="btnGet" onclick="javascript: GetStudentDetails();">Get Details</a>
+            </div>
+            <div class="row">
+                <table id="showstudent" style="display: none;border:1px solid;">
+                    <tr style="background-color:gray;">
+                        <td>Name</td>
+                        <td>DOB</td>
+                        <td>Contact</td>
+                        <td>Email</td>
+                        <td>Address</td>
+                        <td>Guardian</td>
+                        <td>Occupation</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="lblName"></div>
+                        </td>
+                        <td>
+                            <div id="DOB"></div>
+                        </td>
+                        <td>
+                            <div id="ContactNumber"></div>
+                        </td>
+                        <td>
+                            <div id="EmailID"></div>
+                        </td>
+                        <td>
+                            <div id="Address"></div>
+                        </td>
+                        <td>
+                            <div id="GuardianName"></div>
+                        </td>
+                        <td>
+                            <div id="Occupation"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row" style="padding-top: 1em;">
+                <label for="Password">Discipline :</label>
+                <select name="DisciplineId" id="DisciplineId" class="select" onchange="GetDisciplineAttendentDetails(this)"></select>
+            </div>
+            <div class="rowbutton">
+                <input type="submit" id="btnSubmit" value="Show Report" class="submit-btn" style="display:none" />
+            </div>
+            <div class="row">
+                <table id="showattendence" style="display: none;border:1px solid;">
+                    <tr style="background-color:gray;">
+                        <td>Date</td>
+                        <td>Status</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="lblName"></div>
+                        </td>
+                        <td>
+                            <div id="DOB"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+
+        }
+    </div>
+</div>

@@ -463,6 +463,24 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
+        public ActionResult GetAllDisciplineForStudent(int studentId)
+        {
+            var result = _allstudents.GetAllDiscliplineForStudents(studentId, SessionWrapper.User.CentreId);
+            System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row;
+            foreach (DataRow dr in result.Tables[0].Rows)
+            {
+                row = new Dictionary<string, object>();
+                foreach (DataColumn col in result.Tables[0].Columns)
+                {
+                    row.Add(col.ColumnName, dr[col]);
+                }
+                rows.Add(row);
+            }
+            return Json(serializer.Serialize(rows));
+        }
+        [Authenticate]
         public ActionResult GetDisciplinePaymentDetails(int disciplineId, int studentID, long enrollmentId)
         {
             var result = _allstudents.GetDisciplinePaymentDetails(disciplineId, studentID, enrollmentId);
