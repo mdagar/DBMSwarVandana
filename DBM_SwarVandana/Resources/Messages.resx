@@ -381,4 +381,10 @@
   <data name="MonthRequired" xml:space="preserve">
     <value>Please enter month.</value>
   </data>
+  <data name="DisciplineRequire" xml:space="preserve">
+    <value>Please select discipline</value>
+  </data>
+  <data name="EnrollmentNoRequire" xml:space="preserve">
+    <value>Please enter enrollment no</value>
+  </data>
 </root>

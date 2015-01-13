@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ViewModel.ReportViewModel
+@{
     ViewBag.Title = "StudentAttendence";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -48,6 +49,16 @@
     function GetDisciplineAttendentDetails(o) {
         var disciplineId = $(o).val();
         var enrollmentId = $(o).find(':selected').attr('info');
+        $("#EnrollmentId").val(enrollmentId);
+    }
+    function ShowReport() {
+        var enrol = $("#EnrollmentId").val();
+        var stuid = $("#StudentId").val();
+        if (enrol != "") {
+            $.post('@Url.Action("StudentAttendenceAjaxView", "Report")', { enrollmentId: $("#EnrollmentId").val(), studentId: $("#StudentId").val() }, function (data) {
+                $("#AttendenceView").html(data);
+            });
+        }
     }
 </script>
 <div class="container">
@@ -55,19 +66,8 @@
     <div class="registration-form">
         @using (Html.BeginForm())
         {
-           <div>
-                @if (!string.IsNullOrEmpty(ViewBag.Success))
-                {
-                    <div class="successvalidation">
-                        @ViewBag.Success
-                    </div>
-                }
-                else
-                {
-                    @ViewBag.Error
-                }
-                <div>@Html.ValidationSummary(false)</div>
-            </div>
+            @Html.HiddenFor(v => v.StudentId);
+            @Html.HiddenFor(v => v.EnrollmentId);
             <h3>Student Attendence</h3>
             <div class="row">
                 <label for="Password">Enrollment No :</label>
@@ -115,25 +115,12 @@
                 <select name="DisciplineId" id="DisciplineId" class="select" onchange="GetDisciplineAttendentDetails(this)"></select>
             </div>
             <div class="rowbutton">
-                <input type="submit" id="btnSubmit" value="Show Report" class="submit-btn" style="display:none" />
+                <input name="button" type="button" value="Show Report" class="submit-btn" onclick="javascript: ShowReport();" />
             </div>
-            <div class="row">
-                <table id="showattendence" style="display: none;border:1px solid;">
-                    <tr style="background-color:gray;">
-                        <td>Date</td>
-                        <td>Status</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div id="lblName"></div>
-                        </td>
-                        <td>
-                            <div id="DOB"></div>
-                        </td>
-                    </tr>
-                </table>
+            <div id="AttendenceView">
+
             </div>
-            
+
 
         }
     </div>
