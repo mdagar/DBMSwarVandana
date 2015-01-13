@@ -120,6 +120,20 @@
                 </table>
             </div>
             <div class="row">
+                <label for="Password">Has Enquery Id :</label>
+                <div class="column">
+                    <input type="radio" value="True" onchange="javascript:PEChange(1);" name="PE" id="PE" class="radio">
+                    <label for="male">Yes</label>
+                    <input type="radio" value="False" checked="checked" onchange="javascript:PEChange(0);" name="PE" id="PE" class="radio">
+                    <label for="female">No</label>
+                </div>
+            </div>
+            <div class="row" id="peid" style="display: none;">
+                <label for="Password">TE ID :</label>
+                @Html.TextBoxFor(x => x.EnqueryNo, new { @class = "input" })
+            </div>
+
+            <div class="row">
                 <label for="Password">Course Amount :</label>
                 @Html.TextBoxFor(x => x.CourseAmount, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "12" })
 
@@ -182,7 +196,14 @@
         $("#SatrtDate").datepicker({ dateFormat: "dd M yy", minDate: "-10d", maxDate: "10d" });
     });
 
-
+    function PEChange(PE) {
+        if (PE == 1) {
+            $("#peid").show();
+        }
+        else {
+            $("#peid").hide();
+        }
+    }
 
     function RedirectToHome() {
         window.location.href = ('@Url.Action("AllStudents", "Student")');

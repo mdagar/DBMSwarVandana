@@ -38,6 +38,7 @@ namespace ViewModel
             this.BankName = se.BankName;
             this.PaymentMode = se.PaymentMode;
             this.PaymentDetails = se.PaymentDetails;
+            this.EnqueryNo = se.EnqueryNo;
         }
 
         public override long EnrollmentId { get; set; }

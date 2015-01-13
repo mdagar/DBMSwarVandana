@@ -97,6 +97,10 @@
 
     function PopulateTelephonicEnquiry() {
         var TelephonicEnquiryId = $("#TelephonicEnquiryId").val();
+        if (TelephonicEnquiryId == '') {
+            alert('Please enter TE ID');
+            return false;
+        }
         $.post('@Url.Action("GetEnquiryByEnquiryNumber", "Enquiries")', { EnquiryNumber: TelephonicEnquiryId }, function (data) {
             if (data.EnquiryId > 0) {
 
@@ -161,25 +165,25 @@
                     <div>@Html.ValidationSummary(false)</div>
                 }
 
-            </div>            
+            </div>
             <h3>Physical Enquiry</h3>
-                if (Model.EnquiryId == 0)
-                {
-            <div class="row">
-                <label for="Password">New OR Conveeted :</label>
-                <div class="column">
-                    <input type="radio" value="True" onchange="javascript:PEChange(1);" name="PE" id="PE" class="radio">
-                    <label for="male">Yes</label>
-                    <input type="radio" value="False" checked="checked" onchange="javascript:PEChange(0);" name="PE" id="PE" class="radio">
-                    <label for="female">No</label>
+            if (Model.EnquiryId == 0)
+            {
+                <div class="row">
+                    <label for="Password">New OR Conveeted :</label>
+                    <div class="column">
+                        <input type="radio" value="True" onchange="javascript:PEChange(1);" name="PE" id="PE" class="radio">
+                        <label for="male">Yes</label>
+                        <input type="radio" value="False" checked="checked" onchange="javascript:PEChange(0);" name="PE" id="PE" class="radio">
+                        <label for="female">No</label>
+                    </div>
                 </div>
-            </div>
-            <div class="row" id="peid" style="display: none;">
-                <label for="Password">Telephonic Enquiry ID :</label>
-                @Html.TextBoxFor(x => x.TelephonicEnquiryId, new { @class = "input" })
-                <a href="#" id="btnGet" onclick="javascript:PopulateTelephonicEnquiry();">Get Details</a>
-            </div>
-                }
+                <div class="row" id="peid" style="display: none;">
+                    <label for="Password">TE ID :</label>
+                    @Html.TextBoxFor(x => x.TelephonicEnquiryId, new { @class = "input" })
+                    <a href="#" id="btnGet" onclick="javascript:PopulateTelephonicEnquiry();">Get Details</a>
+                </div>
+            }
             <div class="row">
                 <label for="Password">Source :</label>
                 @if (Model.EnquiryId != 0)
@@ -338,7 +342,7 @@
                     @Html.HiddenFor(x => x.FacultyID);
                 }
                 else
-                { 
+                {
                     @Html.DropDownListFor(x => x.FacultyID, new ListBound(Model.FacultyID, "Faculties").Faculties, "-- Select Faculty --", new { @class = "select" })
                 }
             </div>

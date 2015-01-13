@@ -108,7 +108,7 @@ namespace Repositories
 
         }
 
-        public Enquiries FindByEnquirieNumber(long EnquiryNumber)
+        public Enquiries FindByEnquirieNumber(string EnquiryNumber)
         {
             object[] objParam = { EnquiryNumber };
             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetEnquiryByEnquiryNumber, objParam);
