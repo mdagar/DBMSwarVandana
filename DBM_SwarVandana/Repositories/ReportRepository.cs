@@ -20,5 +20,15 @@ namespace Repositories
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
         }
+
+        public DataSet GetStudentsPaymentDetails(long EnrollmentId, long StudentId)
+        {
+            object[] Obj = { EnrollmentId, StudentId };
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), "GetPaymentDetailsReportData", Obj);
+            if (d == null)
+                return new DataSet();
+            else
+                return d;
+        }
     }
 }

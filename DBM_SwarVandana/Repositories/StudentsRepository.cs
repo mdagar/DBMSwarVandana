@@ -111,8 +111,8 @@ namespace Repositories
         }
         public int EnrollStudents(StudentEnrollment se)
         {
-            object[] objParam = {  se.ActionId, se.EnrollmentId, se.StudentId, se.DisciplineId,se.CourseAmount,se.RegistratonAmount,se.NoOfClasses, 
-                                    se.AmountPaid,se.SatrtDate,se.EndDate, se.CreatedDate,se.CreatedBy,se.ModifyDate,se.ModifBy,se.IsActive,se.IsDeleted,se.BankName,se.PaymentMode,se.PaymentDetails};
+            object[] objParam = { se.ActionId, se.EnrollmentId, se.StudentId, se.DisciplineId,se.CourseAmount,se.RegistratonAmount,se.NoOfClasses, 
+                                    se.AmountPaid,se.SatrtDate,se.EndDate, se.CreatedDate,se.CreatedBy,se.ModifyDate,se.ModifBy,se.IsActive,se.IsDeleted,se.BankName,se.PaymentMode,se.PaymentDetails,se.DueDate};
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_StudentEntrollment_IUD, objParam);
             return Convert.ToInt32(d);
         }

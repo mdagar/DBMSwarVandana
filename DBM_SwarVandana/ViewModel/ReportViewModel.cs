@@ -16,8 +16,10 @@ namespace ViewModel
         public long EnrollmentId { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "DisciplineRequire")]
         public long StudentId { get; set; }
+        public long DisciplineId { get; set; }
         public DateTime? DateOfAttendence { get; set; }
         public string AttendenceStatus { get; set; }
-        public DataSet ReportDataset { get; set; }  
+        public DataSet ReportDataset { get; set; }
+        public DataSet ReportDatasetPayment { get; set; } 
     }
 }

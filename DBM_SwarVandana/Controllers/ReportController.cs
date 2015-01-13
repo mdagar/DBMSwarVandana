@@ -41,5 +41,31 @@ namespace DBM_SwarVandana.Controllers
             }
             return View(rm);
         }
+
+
+        [Authenticate]
+        public ActionResult StudentPaymentDetails()
+        {
+            ReportViewModel rm = new ReportViewModel();
+            return View(rm);
+        }
+
+        [Authenticate]
+        public ActionResult StudentPaymentDetailsAjaxView(string enrollmentId, string studentId)
+        {
+            ReportViewModel rm = new ReportViewModel();
+            if (!string.IsNullOrEmpty(enrollmentId))
+            {
+                long EnrollmentId = Convert.ToInt64(enrollmentId);
+                if (!string.IsNullOrEmpty(studentId))
+                {
+                    long StudentId = Convert.ToInt64(studentId);
+                    var d = _reports.GetStudentsPaymentDetails(EnrollmentId, StudentId);
+                    rm.ReportDatasetPayment = d;
+                    return View(rm);
+                }
+            }
+            return View(rm);
+        }
     }
 }

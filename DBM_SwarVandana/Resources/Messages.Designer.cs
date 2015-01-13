@@ -286,6 +286,15 @@ namespace DBM_SwarVandana.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Due Date Required.
+        /// </summary>
+        internal static string DueDateRequired {
+            get {
+                return ResourceManager.GetString("DueDateRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter email ID..
         /// </summary>
         internal static string EmailIdRequired {

@@ -38,7 +38,7 @@ namespace ViewModel
             this.BankName = se.BankName;
             this.PaymentMode = se.PaymentMode;
             this.PaymentDetails = se.PaymentDetails;
-            this.EnqueryNo = se.EnqueryNo;
+            this.DueDate = se.DueDate;
         }
 
         public override long EnrollmentId { get; set; }
@@ -66,5 +66,7 @@ namespace ViewModel
         public override int Absents { get; set; }
         public override int Presents { get; set; }
         public override string StudentName { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "DueDateRequired")]
+        public override DateTime? DueDate { get; set; }
     }
 }
