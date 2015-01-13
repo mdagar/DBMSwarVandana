@@ -15,17 +15,31 @@ namespace DBM_SwarVandana.Controllers
         //
         // GET: /Report/
 
+        ReportRepository _reports = new ReportRepository();
+
         [Authenticate]
         public ActionResult StudentAttendence()
         {
-            return View();
+            ReportViewModel rm = new ReportViewModel();
+            return View(rm);
         }
 
         [Authenticate]
-        [HttpPost]
-        public ActionResult StudentAttendence(string disciplineId)
+        public ActionResult StudentAttendenceAjaxView(string enrollmentId, string studentId)
         {
-            return View();
+            ReportViewModel rm = new ReportViewModel();
+            if (!string.IsNullOrEmpty(enrollmentId))
+            {
+                long EnrollmentId = Convert.ToInt64(enrollmentId);
+                if (!string.IsNullOrEmpty(studentId))
+                {
+                    long StudentId = Convert.ToInt64(studentId);
+                    var d = _reports.GetStudentsAttendenceEnrollmentId(EnrollmentId, StudentId);
+                    rm.ReportDataset = d;
+                    return View(rm);
+                }
+            }
+            return View(rm);
         }
     }
 }

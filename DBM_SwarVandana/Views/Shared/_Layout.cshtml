@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>DBM - Swar Vandana : @ViewBag.Title</title>
     <script src="~/Content/JS/jquery-1.11.1.js"></script>
-    <link href="~/Content/css/style.css" rel="stylesheet" />
+    @*<link href="~/Content/css/style.css" rel="stylesheet" />*@
     <link href="~/Content/css/loginstyle.css" rel="stylesheet" />
 
     <link href="~/Content/css/colorbox.css" rel="stylesheet" />
@@ -126,7 +126,7 @@
                         <li>
                             <a href="#">Reports</a>
                             <ul>
-                                <li><a href="#">Report Menu 1</a></li>
+                                <li><a href="@Url.Action("StudentAttendence", "Report")">Student Attendence</a></li>
                                 <li><a href="#">Report Menu 2</a></li>
                             </ul>
                         </li>
