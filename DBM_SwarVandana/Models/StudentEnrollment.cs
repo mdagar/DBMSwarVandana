@@ -25,6 +25,7 @@ namespace Models
             this.ModifBy = 0;
             this.IsActive = true;
             this.IsDeleted = false;
+            this.DueDate = null;
         }
 
         public virtual int ActionId { get; set; }
@@ -52,6 +53,6 @@ namespace Models
         public virtual string DisciplaneName { get; set; }
         public virtual string ClassName { get; set; }
         public virtual string StudentName { get; set; }
-
+        public virtual DateTime? DueDate { get; set; }
     }
 }

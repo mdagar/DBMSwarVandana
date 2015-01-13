@@ -387,4 +387,7 @@
   <data name="EnrollmentNoRequire" xml:space="preserve">
     <value>Please enter enrollment no</value>
   </data>
+  <data name="DueDateRequired" xml:space="preserve">
+    <value>Due Date Required</value>
+  </data>
 </root>

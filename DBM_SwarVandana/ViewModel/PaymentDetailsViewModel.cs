@@ -41,6 +41,7 @@ namespace ViewModel
         public override DateTime? DateOfPayment { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "EnterAmount")]
         public override Decimal AmountPaid { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "DueDateRequired")]
         public override DateTime? DueDate { get; set; }
         public override Int64 AddBy { get; set; }
         public override DateTime? AddDate { get; set; }

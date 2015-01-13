@@ -1,0 +1,67 @@
+﻿@model ViewModel.ReportViewModel
+@using Code;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<body>
+    <table id="showattendence" style="border: 1px solid; width: 60%;">
+        <tr style="background-color:gray;">
+            <td>Date of Payment</td>
+            <td>Bank Name</td>
+            <td>Payment Mode</td>
+            <td>Amount</td>
+            <td>Due Date</td>
+        </tr>
+
+        @foreach (System.Data.DataRow v in Model.ReportDatasetPayment.Tables[0].Rows)
+        {
+            <tr>
+                <td>
+                    @v["DateofPayment"]
+                </td>
+                <td>
+                    @v["BankName"]
+                </td>
+                @{
+                   var mode = "";
+                   if (((AttendenceStatus)Enum.Parse(typeof(AttendenceStatus), @v["PaymentMode"].ToString())).Desciption() == "Cash")
+                   {
+                       mode = "Cash";
+                   }
+                   else if (((AttendenceStatus)Enum.Parse(typeof(AttendenceStatus), @v["PaymentMode"].ToString())).Desciption() == "Cheque")
+                   {
+                       mode = "Cheque";
+                   }
+                   else
+                   {
+                       mode = "Credit Card";
+                   }
+                }
+                <td>
+                    @mode
+                </td>
+                <td>
+                    @v["AmountPid"]
+                </td>
+                <td>
+                    @v["DueDate"]
+                </td>
+                
+            </tr>
+        }
+        @if (Model.ReportDataset.Tables[0].Rows.Count == 0)
+        {
+            <tr>
+                <td colspan="2">No Record Found</td>
+            </tr>
+        }
+
+
+    </table>
+
+</body>
+</html>
