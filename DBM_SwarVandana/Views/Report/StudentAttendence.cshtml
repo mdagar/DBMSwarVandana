@@ -50,6 +50,15 @@
         var disciplineId = $(o).val();
         var enrollmentId = $(o).find(':selected').attr('info');
         $("#EnrollmentId").val(enrollmentId);
+        $.post('@Url.Action("GetDisciplinePaymentDetails", "Student")', { disciplineId: disciplineId, studentID: $("#StudentId").val(), enrollmentId: enrollmentId }, function (data) {
+            if (data != null) {
+                var result = JSON.parse(data)
+                $("#lblNoofClass").text(result[0].NoOfClasses);
+                $("#lblsDate").text(ConvertDate(result[0].SatrtDate));
+                $("#lbleDate").text(ConvertDate(result[0].EndDate));
+                $("#showdiscipline").show();
+            }
+        });
     }
     function ShowReport() {
         var enrol = $("#EnrollmentId").val();
@@ -73,6 +82,8 @@
                 <label for="Password">Enrollment No :</label>
                 <input id="UniqueKey" type="text" class="input" />
                 <a href="#" id="btnGet" onclick="javascript: GetStudentDetails();">Get Details</a>
+            </div>
+            <div style="padding:1%;height:1px;">
             </div>
             <div class="row">
                 <table id="showstudent" style="display: none;border:1px solid;">
@@ -114,10 +125,36 @@
                 <label for="Password">Discipline :</label>
                 <select name="DisciplineId" id="DisciplineId" class="select" onchange="GetDisciplineAttendentDetails(this)"></select>
             </div>
+            <div style="padding:1%;height:1px;">
+            </div>
+            <div class="row">
+                <table id="showdiscipline" style="display: none;border:1px solid;">
+                    <tr style="background-color:gray;">
+                        <td>Start Date</td>
+                        <td>End Date</td>
+                        <td>No Of Classes</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="lblsDate"></div>
+                        </td>
+                        <td>
+                            <div id="lbleDate"></div>
+                        </td>
+                        <td>
+                            <div id="lblNoofClass"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="padding:1%;height:1px;">
+            </div>
             <div class="rowbutton">
                 <input name="button" type="button" value="Show Report" class="submit-btn" onclick="javascript: ShowReport();" />
             </div>
-            <div id="AttendenceView">
+            <div style="padding:1%;height:1px;">
+            </div>
+            <div id="AttendenceView" class="row">
 
             </div>
 

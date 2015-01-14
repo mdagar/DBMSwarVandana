@@ -16,7 +16,7 @@ namespace Repositories
 
         public DataSet GetStudentsAttendenceEnrollmentId(long EnrollmentId,long StudentId)
         {
-            string Query = "select convert(varchar,DateOfAttendence,106) DateOfAttendence,AttendenceStatus from [dbo].[StudentAttendence] where StuentId=" + StudentId + " and EnrollmentId=" + EnrollmentId + "";
+            string Query = "select convert(varchar,DateOfAttendence,106) DateOfAttendence,(select Timming from [dbo].[Batches]  where BatchId=SA.BatchId) Timming,AttendenceStatus from [dbo].[StudentAttendence] SA where StuentId=" + StudentId + " and EnrollmentId=" + EnrollmentId + "";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
         }
