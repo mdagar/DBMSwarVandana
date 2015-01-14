@@ -22,10 +22,10 @@
                     $("#StudentId").val(data.StudentId);
                     $.post('@Url.Action("GetAllDisciplineForStudent", "Student")', { studentId: data.StudentId }, function (classes) {
                         var result = JSON.parse(classes)
-                        $("#DisciplineId").html('');
-                        $("#DisciplineId").append('<option value="">-- Select Discipline --</option>');
+                        $("#DisciplineId1").html('');
+                        $("#DisciplineId1").append('<option value="">-- Select Discipline --</option>');
                         $.each(result, function (i, Discipline) {
-                            $("#DisciplineId").append('<option info="' + Discipline.EnrollmentId + '" value="' + Discipline.DisciplineId + '" >' +
+                            $("#DisciplineId1").append('<option info="' + Discipline.EnrollmentId + '" value="' + Discipline.DisciplineId + '" >' +
                                  Discipline.Discipline + '</option>');
                         });
                     });
@@ -127,7 +127,7 @@
             </div>
             <div class="row" style="padding-top: 1em;">
                 <label for="Password">Discipline :</label>
-                <select name="DisciplineId" id="DisciplineId" class="select" onchange="GetDisciplinePaymentDetails(this)"></select>
+                <select name="DisciplineId1" id="DisciplineId1" class="select" onchange="GetDisciplinePaymentDetails(this)"></select>
             </div>
             <div class="row">
                 <fieldset>
@@ -170,7 +170,9 @@
             <div class="rowbutton">
                 <input name="button" type="button" value="Show Report" class="submit-btn" onclick="javascript: ShowReport();" />
             </div>
-            <div id="PaymentView">
+             <div style="padding:1%;height:1px;">
+            </div>
+            <div id="PaymentView" class="row">
 
             </div>
 
