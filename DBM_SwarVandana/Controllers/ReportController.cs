@@ -76,28 +76,58 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult TelephonicToPhysicalEnquiryAjaxView()
+        public ActionResult TelephonicToPhysicalEnquiryAjaxView(string fromdate,string todate)
         {
             ReportViewModel rm = new ReportViewModel();
-            var d = _reports.GetTe_to_PE_Details();
+            DateTime fDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            DateTime tDate = fDate.AddMonths(1).AddDays(-1);
+            if (!string.IsNullOrEmpty(fromdate))
+            {
+                fDate = Convert.ToDateTime(fromdate);
+            }
+            if (!string.IsNullOrEmpty(todate))
+            {
+                tDate = Convert.ToDateTime(todate);
+            }
+            var d = _reports.GetTe_to_PE_Details(fDate, tDate);
             rm.ReportDataset = d;
             return View(rm);
         }
 
         [Authenticate]
-        public ActionResult PhysicalEnquiryToEnrollmentAjaxView()
+        public ActionResult PhysicalEnquiryToEnrollmentAjaxView(string fromdate, string todate)
         {
             ReportViewModel rm = new ReportViewModel();
-            var d = _reports.GetPE_to_Enrollment_Details();
+            DateTime fDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            DateTime tDate = fDate.AddMonths(1).AddDays(-1);
+            if (!string.IsNullOrEmpty(fromdate))
+            {
+                fDate = Convert.ToDateTime(fromdate);
+            }
+            if (!string.IsNullOrEmpty(todate))
+            {
+                tDate = Convert.ToDateTime(todate);
+            }
+            var d = _reports.GetPE_to_Enrollment_Details(fDate, tDate);
             rm.ReportDataset = d;
             return View(rm);
         }
 
         [Authenticate]
-        public ActionResult DemoToEnrollmentAjaxView()
+        public ActionResult DemoToEnrollmentAjaxView(string fromdate, string todate)
         {
             ReportViewModel rm = new ReportViewModel();
-            var d = _reports.GetDemo_to_Enrollment_Details();
+            DateTime fDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            DateTime tDate = fDate.AddMonths(1).AddDays(-1);
+            if (!string.IsNullOrEmpty(fromdate))
+            {
+                fDate = Convert.ToDateTime(fromdate);
+            }
+            if (!string.IsNullOrEmpty(todate))
+            {
+                tDate = Convert.ToDateTime(todate);
+            }
+            var d = _reports.GetDemo_to_Enrollment_Details(fDate, tDate);
             rm.ReportDataset = d;
             return View(rm);
         }

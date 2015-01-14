@@ -1,24 +1,31 @@
-﻿@{
+﻿@model ViewModel.ReportViewModel
+@{
     ViewBag.Title = "Reports On Enquiry";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script src="~/Content/js/jquery-ui.js"></script>
 <script>
+
+    $(document).ready(function () {
+        $("#FromDate").datepicker({ dateFormat: "dd M yy", minDate: "-1m" });
+        $("#ToDate").datepicker({ dateFormat: "dd M yy", minDate: "-1m", maxDate:"1m" });
+    });
 
     function ShowReport() {
         var reportid = $("#ReportId").val();
         if (reportid != "0") {
             if (reportid == 1) {
-                $.post('@Url.Action("TelephonicToPhysicalEnquiryAjaxView", "Report")', function (data) {
+                $.post('@Url.Action("TelephonicToPhysicalEnquiryAjaxView", "Report")', { fromdate: $("#FromDate").val(), todate: $("#ToDate").val() }, function (data) {
                     $("#ReportView").html(data);
                 });
             }
             else if (reportid == 2) {
-                $.post('@Url.Action("PhysicalEnquiryToEnrollmentAjaxView", "Report")', function (data) {
+                $.post('@Url.Action("PhysicalEnquiryToEnrollmentAjaxView", "Report")', { fromdate: $("#FromDate").val(), todate: $("#ToDate").val() }, function (data) {
                     $("#ReportView").html(data);
                 });
             }
             else if (reportid == 3) {
-                $.post('@Url.Action("DemoToEnrollmentAjaxView", "Report")', function (data) {
+                $.post('@Url.Action("DemoToEnrollmentAjaxView", "Report")', { fromdate: $("#FromDate").val(), todate: $("#ToDate").val() }, function (data) {
                     $("#ReportView").html(data);
                 });
             }
@@ -34,6 +41,14 @@
         @using (Html.BeginForm())
         {
            @Html.Hidden("StudentId")
+            <div class="row">
+                <label for="Password">From Date: </label>
+                @Html.TextBoxFor(x => x.FromDate, new { @class = "input", @readonly = "readonly" })
+            </div>
+            <div class="row">
+                <label for="Password">To Date: </label>
+                @Html.TextBoxFor(x => x.ToDate, new { @class = "input", @readonly = "readonly" })
+            </div>
            <div class="row">
                 <label for="Password">Reports On: </label>
                <select name="ReportId" id="ReportId" class="select">

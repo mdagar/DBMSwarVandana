@@ -31,23 +31,23 @@ namespace Repositories
                 return d;
         }
 
-        public DataSet GetTe_to_PE_Details()
+        public DataSet GetTe_to_PE_Details(DateTime fromdate,DateTime todate)
         {
-            string Query = "select (select Description from [dbo].[Sources] where SourceId=a.SourceId) SourceId,a.Name,a.ContactNumber,convert(varchar,a.DateOfEnquiry,106)DateOfEnquiry,(select Description from [dbo].[Disciplines] where DisciplineId=a.Discipline) Discipline,(select FirstName+' '+LastName from [dbo].[Users] where UserId=a.AttendedBy) AttendedBy from [dbo].[Enquiries] a,[Enquiries] b where a.TelephonicEnquiryId=b.EnquiryNumber and a.CentreId=" + SessionWrapper.User.CentreId + "";
+            string Query = "select (select Description from [dbo].[Sources] where SourceId=a.SourceId) SourceId,a.Name,a.ContactNumber,convert(varchar,a.DateOfEnquiry,106)DateOfEnquiry,(select Description from [dbo].[Disciplines] where DisciplineId=a.Discipline) Discipline,(select FirstName+' '+LastName from [dbo].[Users] where UserId=a.AttendedBy) AttendedBy from [dbo].[Enquiries] a,[Enquiries] b where a.TelephonicEnquiryId=b.EnquiryNumber and a.CentreId=" + SessionWrapper.User.CentreId + " and a.DateOfEnquiry between '" + fromdate + "' and '" + todate + "'";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
         }
 
-        public DataSet GetPE_to_Enrollment_Details()
+        public DataSet GetPE_to_Enrollment_Details(DateTime fromdate, DateTime todate)
         {
-            string Query = "select convert(varchar,SE.CreatedDate,106) CDate,(select Description from [dbo].[Disciplines] where DisciplineId=SE.DisciplineId)DisciplineId,convert(varchar,SE.SatrtDate,106)SatrtDate,convert(varchar,SE.EndDate,106)EndDate,EN.Name,EN.ContactNumber,SE.NoOfClasses from [dbo].[StudentEnrollment] SE,[dbo].[Enquiries] EN where SE.EnqueryNo=EN.EnquiryNumber and EN.CentreID=" + SessionWrapper.User.CentreId + "";
+            string Query = "select convert(varchar,SE.CreatedDate,106) CDate,(select Description from [dbo].[Disciplines] where DisciplineId=SE.DisciplineId)DisciplineId,convert(varchar,SE.SatrtDate,106)SatrtDate,convert(varchar,SE.EndDate,106)EndDate,EN.Name,EN.ContactNumber,SE.NoOfClasses from [dbo].[StudentEnrollment] SE,[dbo].[Enquiries] EN where SE.EnqueryNo=EN.EnquiryNumber and EN.CentreID=" + SessionWrapper.User.CentreId + " and SE.CreatedDate  between '" + fromdate + "' and '" + todate + "' ";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
         }
 
-        public DataSet GetDemo_to_Enrollment_Details()
+        public DataSet GetDemo_to_Enrollment_Details(DateTime fromdate, DateTime todate)
         {
-            string Query = "select convert(varchar,SE.CreatedDate,106) CDate,(select Description from [dbo].[Disciplines] where DisciplineId=SE.DisciplineId)DisciplineId,convert(varchar,SE.SatrtDate,106)SatrtDate,convert(varchar,SE.EndDate,106)EndDate,EN.Name,EN.ContactNumber,SE.NoOfClasses,(select NameOfFaculty from [dbo].[Faculties] where FacultyId=EN.FacultyId) FacultyId from [dbo].[StudentEnrollment] SE,[dbo].[Enquiries] EN where SE.EnqueryNo=EN.EnquiryNumber and EN.CentreID=" + SessionWrapper.User.CentreId + " and EN.Demo=1";
+            string Query = "select convert(varchar,SE.CreatedDate,106) CDate,(select Description from [dbo].[Disciplines] where DisciplineId=SE.DisciplineId)DisciplineId,convert(varchar,SE.SatrtDate,106)SatrtDate,convert(varchar,SE.EndDate,106)EndDate,EN.Name,EN.ContactNumber,SE.NoOfClasses,(select NameOfFaculty from [dbo].[Faculties] where FacultyId=EN.FacultyId) FacultyId from [dbo].[StudentEnrollment] SE,[dbo].[Enquiries] EN where SE.EnqueryNo=EN.EnquiryNumber and EN.CentreID=" + SessionWrapper.User.CentreId + " and EN.Demo=1 and SE.CreatedDate  between '" + fromdate + "' and '" + todate + "'";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
         }
