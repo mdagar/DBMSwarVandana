@@ -18,6 +18,8 @@ namespace ViewModel
         public long StudentId { get; set; }
         public long DisciplineId { get; set; }
         public DateTime? DateOfAttendence { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
         public string AttendenceStatus { get; set; }
         public DataSet ReportDataset { get; set; }
         public DataSet ReportDatasetPayment { get; set; } 
