@@ -23,12 +23,16 @@
         else {
             $.post('@Url.Action("GetStudentByUniqueId", "Student")', { UniqueId: uniqueid }, function (data) {
                 if (data.Name != "") {
-                    $("#lblName").val(data.Name);
-                    $("#ContactNumber").val(data.Contact1);
-                    $("#EmailID").val(data.EmailAddress);
-                    $("#Address").val(data.Address);
-                    $("#GuardianName").val(data.GuardianName);
+                    $("#lblName").text(data.Name);
+                    var finalDate = ConvertDate(data.DOB);
+                    $("#DOB").text(finalDate);
+                    $("#ContactNumber").text(data.Contact1);
+                    $("#EmailID").text(data.EmailAddress);
+                    $("#Address").text(data.Address);
+                    $("#GuardianName").text(data.GuardianName);
+                    $("#Occupation").text(data.Occupation);
                     $("#StudentId").val(data.StudentId);
+                    $("#showstudent").show();
                     $.post('@Url.Action("GetAllDisciplineForStudent", "Student")', { studentId: data.StudentId }, function (classes) {
                         var result = JSON.parse(classes)
                         $("#DisciplineId1").html('');
@@ -58,14 +62,13 @@
         $.post('@Url.Action("GetDisciplinePaymentDetails", "Student")', { disciplineId: disciplineId, studentID: $("#StudentId").val(), enrollmentId: enrollmentId }, function (data) {
             if (data != null) {
                 var result = JSON.parse(data)
-                $("#lblNoofClass").val(result[0].NoOfClasses);
-                $("#lblCourseamt").val(result[0].CourseAmount);
-                $("#lblpaidmat").val(result[0].PaidAmount);
-                $("#lblbalamt").val(result[0].BalanceAmount);
-                $("#lblsDate").val(ConvertDate(result[0].SatrtDate));
-                $("#lbleDate").val(ConvertDate(result[0].EndDate));
-                $("#ClassEndDate").val(ConvertDate(result[0].EndDate));
-                SetDueDatePicker();
+                $("#lblNoofClass").text(result[0].NoOfClasses);
+                $("#lblCourseamt").text(result[0].CourseAmount);
+                $("#lblpaidmat").text(result[0].PaidAmount);
+                $("#lblbalamt").text(result[0].BalanceAmount);
+                $("#lblsDate").text(ConvertDate(result[0].SatrtDate));
+                $("#lbleDate").text(ConvertDate(result[0].EndDate));
+                $("#showDiscipline").show();
             }
         });
     }
@@ -101,36 +104,43 @@
                 <input id="UniqueKey" type="text" class="input" />
                 <a href="#" id="btnGet" onclick="javascript: GetStudentDetails();">Get Details</a>
             </div>
+            <div style="padding:1%;height:1px;">
+            </div>
             <div class="row">
-                <fieldset>
-                    <legend>Student Details</legend>
-                    <table id="showstudent">
-                        <tr class="spaceUnder">
-                            <td>Name</td>
-                            <td>
-                                <input id="lblName" readonly="readonly" type="text" class="input" />
-                            </td>
-                            <td>Contact</td>
-                            <td>
-                                <input id="ContactNumber" readonly="readonly" type="text" class="input" />
-                            </td>
-                        </tr>
-                        <tr class="spaceUnder">
-                            <td>Email</td>
-                            <td>
-                                <input id="EmailID" readonly="readonly" type="text" class="input" />
-                            </td>
-                            <td>Address</td>
-                            <td>
-                                <input id="Address" readonly="readonly" type="text" class="input" />
-                            </td>
-                            <td>Guardian</td>
-                            <td>
-                                <input id="GuardianName" readonly="readonly" type="text" class="input" />
-                            </td>
-                        </tr>
-                    </table>
-                </fieldset>
+                <table id="showstudent" style="display: none;border:1px solid;">
+                    <tr style="background-color:gray;">
+                        <td>Name</td>
+                        <td>DOB</td>
+                        <td>Contact</td>
+                        <td>Email</td>
+                        <td>Address</td>
+                        <td>Guardian</td>
+                        <td>Occupation</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="lblName"></div>
+                        </td>
+                        <td>
+                            <div id="DOB"></div>
+                        </td>
+                        <td>
+                            <div id="ContactNumber"></div>
+                        </td>
+                        <td>
+                            <div id="EmailID"></div>
+                        </td>
+                        <td>
+                            <div id="Address"></div>
+                        </td>
+                        <td>
+                            <div id="GuardianName"></div>
+                        </td>
+                        <td>
+                            <div id="Occupation"></div>
+                        </td>
+                    </tr>
+                </table>
             </div>
             <div style="padding:1%;height:1px;">
             </div>
@@ -138,43 +148,41 @@
                 <label for="Password">Discipline :</label>
                 <select name="DisciplineId1" id="DisciplineId1" class="select" onchange="GetDisciplinePaymentDetails(this)"></select>
             </div>
+            <div style="padding:1%;height:1px;">
+            </div>
             <div class="row">
-                <fieldset>
-                    <legend>Discipline Details</legend>
-                    <table id="showstudent">
-                        <tr class="spaceUnder">
-                            <td>No of Classes</td>
-                            <td>
-                                <input id="lblNoofClass" readonly="readonly" type="text" class="input" />
-                            </td>
-                            <td>Start Date</td>
-                            <td>
-                                <input id="lblsDate" readonly="readonly" type="text" class="input" />
-                            </td>
-                            <td>End Date</td>
-                            <td>
-                                <input id="lbleDate" readonly="readonly" type="text" class="input" />
-                            </td>
-                        </tr>
-                        <tr class="spaceUnder">
-                            <td>Course Amount</td>
-                            <td>
-                                <input id="lblCourseamt" readonly="readonly" type="text" class="input" />
-                            </td>
-                            <td>Paid Amount</td>
-                            <td>
-                                <input id="lblpaidmat" readonly="readonly" type="text" class="input" />
-                            </td>
-                            <td>Balance Amount</td>
-                            <td>
-                                <input id="lblbalamt" readonly="readonly" type="text" class="input" />
-                            </td>
-                        </tr>
-                    </table>
-                </fieldset>
+                <table id="showDiscipline" style="display: none;border:1px solid;">
+                    <tr style="background-color:gray;">
+                        <td>No of Classes</td>
+                        <td>Start Date</td>
+                        <td>End Date</td>
+                        <td>Course Amount</td>
+                        <td>Paid Amount</td>
+                        <td>Balance Amount</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="lblNoofClass"></div>
+                        </td>
+                        <td>
+                            <div id="lblsDate"></div>
+                        </td>
+                        <td>
+                            <div id="lbleDate"></div>
+                        </td>
+                        <td>
+                            <div id="lblCourseamt"></div>
+                        </td>
+                        <td>
+                            <div id="lblpaidmat"></div>
+                        </td>
+                        <td>
+                            <div id="lblbalamt"></div>
+                        </td>
+                    </tr>
+                </table>
             </div>
             <div style="padding:1%;height:1px;">
-
             </div>
             <div class="rowbutton">
                 <input name="button" type="button" value="Show Report" class="submit-btn" onclick="javascript: ShowReport();" />
