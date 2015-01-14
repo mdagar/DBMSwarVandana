@@ -67,5 +67,39 @@ namespace DBM_SwarVandana.Controllers
             }
             return View(rm);
         }
+
+        [Authenticate]
+        public ActionResult ReportsOnEnquiry()
+        {
+            ReportViewModel rm = new ReportViewModel();
+            return View(rm);
+        }
+
+        [Authenticate]
+        public ActionResult TelephonicToPhysicalEnquiryAjaxView()
+        {
+            ReportViewModel rm = new ReportViewModel();
+            var d = _reports.GetTe_to_PE_Details();
+            rm.ReportDataset = d;
+            return View(rm);
+        }
+
+        [Authenticate]
+        public ActionResult PhysicalEnquiryToEnrollmentAjaxView()
+        {
+            ReportViewModel rm = new ReportViewModel();
+            var d = _reports.GetPE_to_Enrollment_Details();
+            rm.ReportDataset = d;
+            return View(rm);
+        }
+
+        [Authenticate]
+        public ActionResult DemoToEnrollmentAjaxView()
+        {
+            ReportViewModel rm = new ReportViewModel();
+            var d = _reports.GetDemo_to_Enrollment_Details();
+            rm.ReportDataset = d;
+            return View(rm);
+        }
     }
 }

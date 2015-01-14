@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Reports On Enquiry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+
+    function ShowReport() {
+        var reportid = $("#ReportId").val();
+        if (reportid != "0") {
+            if (reportid == 1) {
+                $.post('@Url.Action("TelephonicToPhysicalEnquiryAjaxView", "Report")', function (data) {
+                    $("#ReportView").html(data);
+                });
+            }
+            else if (reportid == 2) {
+                $.post('@Url.Action("PhysicalEnquiryToEnrollmentAjaxView", "Report")', function (data) {
+                    $("#ReportView").html(data);
+                });
+            }
+            else if (reportid == 3) {
+                $.post('@Url.Action("DemoToEnrollmentAjaxView", "Report")', function (data) {
+                    $("#ReportView").html(data);
+                });
+            }
+        }
+        else {
+            $("#ReportView").html('');
+        }
+    }
+
+</script>
+<div class="container">
+    <div class="registration-form">
+        @using (Html.BeginForm())
+        {
+           @Html.Hidden("StudentId")
+           <div class="row">
+                <label for="Password">Reports On: </label>
+               <select name="ReportId" id="ReportId" class="select">
+                   <option value="0">-- Select Report --</option>
+                   <option value="1">Telephonic to Physical Enquiry</option>
+                   <option value="2">Physical Enquiry to Enrollment</option>
+                   <option value="3">Demo to Enrollment</option>
+               </select>
+            </div>
+            <div style="padding:1%;height:1px;">
+            </div>
+            <div class="rowbutton">
+                <input name="button" type="button" value="Show Report" class="submit-btn" onclick="javascript: ShowReport();" />
+            </div>
+            <div style="padding:1%;height:1px;">
+            </div>
+            <div id="ReportView" class="row">
+            </div>
+        }
+    </div>
+</div>

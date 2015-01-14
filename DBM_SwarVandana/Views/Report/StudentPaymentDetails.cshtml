@@ -3,7 +3,16 @@
     ViewBag.Title = "Student PaymentDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .newform {
+        margin-left: 1px !important;
+        margin-top: 20px !important;
+    }
 
+    tr.spaceUnder > td {
+        padding-bottom: 1em;
+    }
+</style>
 <script>
     function GetStudentDetails() {
         var uniqueid = $("#UniqueKey").val();
@@ -81,7 +90,7 @@
 <div class="container">
     <!-- registration-form -->
     <div class="registration-form">
-        @using (Html.BeginForm())
+        @using (Html.BeginForm(new { @class = "newform" }))
         {
             @Html.HiddenFor(v => v.StudentId);
             @Html.HiddenFor(v => v.EnrollmentId);
