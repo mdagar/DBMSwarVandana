@@ -40,14 +40,14 @@ namespace Repositories
 
         public DataSet GetPE_to_Enrollment_Details(DateTime fromdate, DateTime todate)
         {
-            string Query = "select convert(varchar,SE.CreatedDate,106) CDate,(select Description from [dbo].[Disciplines] where DisciplineId=SE.DisciplineId)DisciplineId,convert(varchar,SE.SatrtDate,106)SatrtDate,convert(varchar,SE.EndDate,106)EndDate,EN.Name,EN.ContactNumber,SE.NoOfClasses from [dbo].[StudentEnrollment] SE,[dbo].[Enquiries] EN where SE.EnqueryNo=EN.EnquiryNumber and EN.CentreID=" + SessionWrapper.User.CentreId + " and SE.CreatedDate  between '" + fromdate + "' and '" + todate + "' ";
+            string Query = "select convert(varchar,SE.CreatedDate,106) CDate,(select Description from [dbo].[Disciplines] where DisciplineId=SE.DisciplineId)DisciplineId,convert(varchar,SE.SatrtDate,106)SatrtDate,convert(varchar,SE.EndDate,106)EndDate,EN.Name,EN.ContactNumber,SE.NoOfClasses from [dbo].[StudentEnrollment] SE,[dbo].[Enquiries] EN where SE.EnqueryNo=EN.EnquiryNumber and EN.CentreID=" + SessionWrapper.User.CentreId + " and SE.CreatedDate  between '" + fromdate + "' and '" + todate + "' and SE.IsRenewal=0";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
         }
 
         public DataSet GetDemo_to_Enrollment_Details(DateTime fromdate, DateTime todate)
         {
-            string Query = "select convert(varchar,SE.CreatedDate,106) CDate,(select Description from [dbo].[Disciplines] where DisciplineId=SE.DisciplineId)DisciplineId,convert(varchar,SE.SatrtDate,106)SatrtDate,convert(varchar,SE.EndDate,106)EndDate,EN.Name,EN.ContactNumber,SE.NoOfClasses,(select NameOfFaculty from [dbo].[Faculties] where FacultyId=EN.FacultyId) FacultyId from [dbo].[StudentEnrollment] SE,[dbo].[Enquiries] EN where SE.EnqueryNo=EN.EnquiryNumber and EN.CentreID=" + SessionWrapper.User.CentreId + " and EN.Demo=1 and SE.CreatedDate  between '" + fromdate + "' and '" + todate + "'";
+            string Query = "select convert(varchar,SE.CreatedDate,106) CDate,(select Description from [dbo].[Disciplines] where DisciplineId=SE.DisciplineId)DisciplineId,convert(varchar,SE.SatrtDate,106)SatrtDate,convert(varchar,SE.EndDate,106)EndDate,EN.Name,EN.ContactNumber,SE.NoOfClasses,(select NameOfFaculty from [dbo].[Faculties] where FacultyId=EN.FacultyId) FacultyId from [dbo].[StudentEnrollment] SE,[dbo].[Enquiries] EN where SE.EnqueryNo=EN.EnquiryNumber and EN.CentreID=" + SessionWrapper.User.CentreId + " and EN.Demo=1 and SE.CreatedDate  between '" + fromdate + "' and '" + todate + "' and SE.IsRenewal=0";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
         }
