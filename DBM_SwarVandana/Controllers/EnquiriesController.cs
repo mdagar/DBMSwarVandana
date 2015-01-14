@@ -129,7 +129,7 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult GetEnquiryByEnquiryNumber(Int64 EnquiryNumber = 0)
+        public ActionResult GetEnquiryByEnquiryNumber(string EnquiryNumber)
         {
             var result = _allenquiry.FindByEnquirieNumber(EnquiryNumber);
             return Json(result, JsonRequestBehavior.AllowGet);
