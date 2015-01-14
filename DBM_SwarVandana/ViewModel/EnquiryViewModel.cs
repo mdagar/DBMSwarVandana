@@ -91,7 +91,7 @@ namespace ViewModel
         public override decimal Package { get; set; }
         public override decimal RegistrationAmount { get; set; }
         public override int CentreId { get; set; }
-        public override Int64 TelephonicEnquiryId { get; set; }
+        public override string TelephonicEnquiryId { get; set; }
         public override DateTime? AddDate { get; set; }
         public override int AddedBy { get; set; }
         public override DateTime? ModifyDate { get; set; }

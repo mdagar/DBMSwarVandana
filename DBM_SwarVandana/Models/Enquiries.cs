@@ -35,7 +35,7 @@ namespace Models
         public virtual long FacultyID { get; set; }
         public virtual string FacultyName { get; set; }
         public virtual long EnquiryBy { get; set; }
-        public virtual long TelephonicEnquiryId { get; set; }
+        public virtual string TelephonicEnquiryId { get; set; }
         public virtual DateTime? AddDate { get; set; }
         public virtual int AddedBy { get; set; }
         public virtual DateTime? ModifyDate { get; set; }
@@ -77,7 +77,7 @@ namespace Models
             this.IsEnquiryClosed = false;
             this.FacultyID = 0;
             this.EnquiryBy = 0;
-            this.TelephonicEnquiryId = 0;
+            this.TelephonicEnquiryId = string.Empty;
             this.AddDate = null;
             this.AddedBy = 0;
             this.ModifyDate = null;
