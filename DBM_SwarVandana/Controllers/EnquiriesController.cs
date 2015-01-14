@@ -137,12 +137,22 @@ namespace DBM_SwarVandana.Controllers
 
         [Authenticate]
         [HttpPost]
-        public ActionResult PhysicalEnquiry(EnquiryViewModel en)
+        public ActionResult PhysicalEnquiry(EnquiryViewModel en, bool PE)
         {
             var result = 0;
             EnquiryViewModel evm = new EnquiryViewModel();
+            if (PE == true)
+            {
+                var res = _allenquiry.FindByEnquirieNumber(en.EnquiryNumber);
+                if (res.EnquiryId == 0)
+                    ModelState.AddModelError(string.Empty, "Invalid Enquery Number");
+            }
+
+            if (en.Demo == false)
+                ModelState.Remove("FacultyID");
             if (ModelState.IsValid)
             {
+                en.FacultyID = en.Demo == true ? en.FacultyID : 0;
                 en.ActionId = 0;
                 en.CentreId = SessionWrapper.User.CentreId;
                 en.EnquiryTypeId = Convert.ToInt32(EnquiryType.PE);

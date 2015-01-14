@@ -113,7 +113,7 @@ namespace Repositories
         {
             object[] objParam = { EnquiryNumber };
             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetEnquiryByEnquiryNumber, objParam);
-            if (ds == null)
+            if (ds.Tables.Count == 0)
                 return new Enquiries();
             else
                 return ds.Tables[0].TableToList<Enquiries>().FirstOrDefault();

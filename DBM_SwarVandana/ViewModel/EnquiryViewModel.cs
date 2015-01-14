@@ -50,7 +50,7 @@ namespace ViewModel
             this.ModifyBy = e.ModifyBy;
             this.IsActive = e.IsActive;
             this.IsDeleted = e.IsDeleted;
-
+            this.FacultyID = e.FacultyID;
         }
 
         public override int ActionId { get; set; }

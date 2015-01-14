@@ -108,11 +108,6 @@
                 $("#ContactNumber").val(data.ContactNumber);
                 $("#Name").val(data.Name);
                 $("#Discipline").val(data.Discipline);
-                //$("#ProbableStudentFor").val(data.ProbableStudentFor);
-                //$("#Gender").val(data.Gender);
-                //$("#Age").val(data.Age);
-                //$("#Occupation").val(data.Occupation);
-                //$("#AttendedBy").val(data.EnquiryBy);
                 $("#StateId").val(data.StateId);
                 $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: data.StateId }, function (cities) {
                     $("#CityId").html('');
@@ -130,17 +125,11 @@
                     });
                 });
                 $("#Address").val(data.Address);
-                // $("#Demo").val(data.Demo);
-                // $("#FacultyID").val(data.FacultyID);
-                // $("#RemarksByFaculty").val(data.RemarksByFaculty);
-                //  $("#NoOfClasses").val(data.NoOfClasses);
-                //  $("#Package").val(data.Package);
-                // $("#RegistrationAmount").val(data.RegistrationAmount);
                 $("#StatusId").val(data.StatusId);
                 $("#FinalComments").val(data.FinalComments);
             }
             else {
-                alert("No data found.");
+                alert("Enquery no is either invalid or already used.");
             }
         });
     }
@@ -170,7 +159,7 @@
             if (Model.EnquiryId == 0)
             {
                 <div class="row">
-                    <label for="Password">Is TE :</label>
+                    <label for="Password">Has TE :</label>
                     <div class="column">
                         <input type="radio" value="True" onchange="javascript:PEChange(1);" name="PE" id="PE" class="radio">
                         <label for="male">Yes</label>
@@ -218,11 +207,18 @@
                 {
                     @Html.TextBoxFor(x => x.Name, new { @class = "input" })
                 }
-
             </div>
             <div class="row">
                 <label for="Password">Date of Visit :</label>
-                @Html.TextBox("DateOfEnquiry", Model.DateOfEnquiry == null ? "" : Model.DateOfEnquiry.Value.ToString("dd MMM yyyy"), new { @class = "input", @Readonly = "readonly" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.TextBox("DateOfEnquiry1", Model.DateOfEnquiry == null ? "" : Model.DateOfEnquiry.Value.ToString("dd MMM yyyy"), new { @class = "input", @Readonly = "readonly" })
+                    @Html.Hidden("DateOfEnquiry", Model.DateOfEnquiry == null ? "" : Model.DateOfEnquiry.Value.ToString("dd MMM yyyy"))
+                }
+                else
+                {
+                    @Html.TextBox("DateOfEnquiry", Model.DateOfEnquiry == null ? "" : Model.DateOfEnquiry.Value.ToString("dd MMM yyyy"), new { @class = "input", @Readonly = "readonly" })
+                }
             </div>
             <div class="row">
                 <label for="Password">Discipline :</label>
@@ -325,16 +321,28 @@
                 <label for="Password">Address :</label>
                 @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
             </div>
-            <div class="row">
-                <label for="Password">Demo :</label>
-                <div class="column">
-                    @Html.RadioButtonFor(x => x.Demo, true, new { @class = "radio", onchange = "javascript:DemoChange(1);" })
-                    <label for="male">Yes</label>
-                    @Html.RadioButtonFor(x => x.Demo, false, new { @class = "radio", onchange = "javascript:DemoChange(0);" })
-                    <label for="female">No</label>
+            if (Model.EnquiryId != 0)
+            {
+                <div class="row">
+                    <label for="Password">Demo :</label>
+                    <div class="column">
+                        <label for="male">@(Model.Demo == true ? "Yes" : "No")</label>
+                    </div>
                 </div>
-            </div>
-            <div class="row" id="demoid" style="display: none;">
+            }
+            else
+            {
+                <div class="row">
+                    <label for="Password">Demo :</label>
+                    <div class="column">
+                        @Html.RadioButtonFor(x => x.Demo, true, new { @class = "radio", onchange = "javascript:DemoChange(1);" })
+                        <label for="male">Yes</label>
+                        @Html.RadioButtonFor(x => x.Demo, false, new { @class = "radio", onchange = "javascript:DemoChange(0);" })
+                        <label for="female">No</label>
+                    </div>
+                </div>
+            }
+            <div class="row" id="demoid" style="@(Model.Demo == false ? "display:none;" : "")">
                 <label for="Password">Faculty :</label>
                 @if (Model.EnquiryId != 0)
                 {
