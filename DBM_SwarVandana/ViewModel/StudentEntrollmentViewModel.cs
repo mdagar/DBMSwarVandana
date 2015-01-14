@@ -39,6 +39,7 @@ namespace ViewModel
             this.PaymentMode = se.PaymentMode;
             this.PaymentDetails = se.PaymentDetails;
             this.DueDate = se.DueDate;
+            this.IsRenewal = se.IsRenewal;
         }
 
         public override long EnrollmentId { get; set; }

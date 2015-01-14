@@ -144,9 +144,12 @@ namespace DBM_SwarVandana.Controllers
             if (PE == true)
             {
                 var res = _allenquiry.FindByEnquirieNumber(en.EnquiryNumber);
-                if (res.EnquiryId == 0)
+                if (res == null)
                     ModelState.AddModelError(string.Empty, "Invalid Enquery Number");
             }
+            else
+                en.EnquiryNumber = string.Empty;
+
 
             if (en.Demo == false)
                 ModelState.Remove("FacultyID");

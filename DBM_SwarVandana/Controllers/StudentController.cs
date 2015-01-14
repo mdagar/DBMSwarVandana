@@ -25,7 +25,7 @@ namespace DBM_SwarVandana.Controllers
         DisciplineRepository _allDiscipline = new DisciplineRepository();
         FacultyRepository _allfaculty = new FacultyRepository();
         AllBatches _allBatches = new AllBatches();
-
+        EnquiryRepository _allenquiry = new EnquiryRepository();
 
         public List<StudentAttendence> AttendenceCollection = new List<StudentAttendence>();
 
@@ -158,11 +158,25 @@ namespace DBM_SwarVandana.Controllers
 
         [Authenticate]
         [HttpPost]
-        public ActionResult EntrollStudent(StudentEntrollmentViewModel s, List<int> BatchIds)
+        public ActionResult EntrollStudent(StudentEntrollmentViewModel s, List<int> BatchIds, bool PE)
         {
             List<StudentBatchMapping> batchmapping = new List<StudentBatchMapping>();
             if (BatchIds.Count <= 0)
                 ModelState.AddModelError(string.Empty, "Please assign batch.");
+
+            if (PE == false)
+            {
+                var res = _allenquiry.FindByEnquirieNumber(s.EnqueryNo);
+                if (res == null)
+                    ModelState.AddModelError(string.Empty, "Invalid Enquery Number");
+                else
+                    s.IsRenewal = false;
+            }
+            else
+            {
+                s.EnqueryNo = string.Empty;
+                s.IsRenewal = true;
+            }
 
             var result = 0;
             if (ModelState.IsValid)
@@ -193,9 +207,7 @@ namespace DBM_SwarVandana.Controllers
                     ViewBag.Success = Messages.SubmitEnroll;
                 }
                 else
-                {
                     ModelState.AddModelError("", Messages.Enrollexists);
-                }
             }
             else
             {

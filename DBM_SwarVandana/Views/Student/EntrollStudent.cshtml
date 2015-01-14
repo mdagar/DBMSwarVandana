@@ -41,6 +41,21 @@
                 <div>@Html.ValidationSummary(false)</div>
             </div>
             <h3>Enrollment of Student</h3>
+
+            <div class="row">
+                <label for="Password">Is Renewal :</label>
+                <div class="column">
+                    <input type="radio" value="True" checked="checked" onchange="javascript:PEChange(1);" name="PE" id="PE" class="radio">
+                    <label for="male">Yes</label>
+                    <input type="radio" value="False" onchange="javascript:PEChange(0);" name="PE" id="PE" class="radio">
+                    <label for="female">No</label>
+                </div>
+            </div>
+            <div class="row" id="peid" style="display: none;">
+                <label for="Password">PE ID :</label>
+                @Html.TextBoxFor(x => x.EnqueryNo, new { @class = "input" })
+            </div>
+
             <div class="row">
                 <label for="Password">Enrollment No :</label>
                 <input id="UniqueKey" type="text" class="input" />
@@ -163,7 +178,7 @@
                 <label for="Password">End Date :</label>
                 @Html.TextBoxFor(x => x.EndDate, new { @class = "input", @readonly = "readonly" })
             </div>
-             <div class="row">
+            <div class="row">
                 <label for="Password">Next Due Date :</label>
                 @Html.TextBoxFor(x => x.DueDate, new { @class = "input", @readonly = "readonly" })
             </div>
@@ -181,15 +196,21 @@
 
 <script>
 
+    function PEChange(PE) {
+        if (PE == 1) {
+            $("#peid").hide();
+        }
+        else {
+            $("#peid").show();
+        }
+    }
+
     $(document).ready(function () {
         $("#SatrtDate").datepicker({ dateFormat: "dd M yy", minDate: "-10d", maxDate: "10d" });
-
+        $("#DueDate").datepicker({ dateFormat: "dd M yy", minDate: "0d" });
     });
 
-    function funDueDate() {
-        $("#DueDate").datepicker('option', 'maxDate', $("#EndDate").val());
-    }
-    
+  
 
     function RedirectToHome() {
         window.location.href = ('@Url.Action("AllStudents", "Student")');
@@ -244,8 +265,7 @@
         $.post('@Url.Action("GetClassEndDate", "Student")', { startdate: $("#SatrtDate").val(), NoofClass: $("#NoOfClasses").val(), batchids: batches.join() }, function (data) {
             if (data != null) {
                 var result = JSON.parse(data);
-                $("#EndDate").val(ConvertDate(result[0].EndDate));
-                funDueDate();
+                $("#EndDate").val(ConvertDate(result[0].EndDate));                
                 $("#btnSubmit").show();
             }
         });

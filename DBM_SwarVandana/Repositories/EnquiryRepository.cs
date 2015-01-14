@@ -111,7 +111,7 @@ namespace Repositories
 
         public Enquiries FindByEnquirieNumber(string EnquiryNumber)
         {
-            object[] objParam = { EnquiryNumber };
+            object[] objParam = { EnquiryNumber,SessionWrapper.User.CentreId };
             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetEnquiryByEnquiryNumber, objParam);
             if (ds.Tables.Count == 0)
                 return new Enquiries();

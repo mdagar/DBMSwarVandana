@@ -26,6 +26,8 @@ namespace Models
             this.IsActive = true;
             this.IsDeleted = false;
             this.DueDate = null;
+            this.EnqueryNo = string.Empty;
+            this.IsRenewal = false;
         }
 
         public virtual int ActionId { get; set; }
@@ -54,5 +56,7 @@ namespace Models
         public virtual string ClassName { get; set; }
         public virtual string StudentName { get; set; }
         public virtual DateTime? DueDate { get; set; }
+        public virtual string EnqueryNo { get; set; }
+        public virtual bool IsRenewal { get; set; }
     }
 }
