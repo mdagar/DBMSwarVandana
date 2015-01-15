@@ -178,6 +178,9 @@ namespace DBM_SwarVandana.Controllers
                 s.IsRenewal = true;
             }
 
+            if (s.StudentId == 0)
+                ModelState.AddModelError(string.Empty, "Invalid Enrollment No.");
+
             var result = 0;
             if (ModelState.IsValid)
             {
@@ -450,7 +453,8 @@ namespace DBM_SwarVandana.Controllers
             }
             else
             {
-                ViewBag.Error = "Please select discipline for payment.";
+                ModelState.AddModelError(string.Empty, "Please select discipline for payment.");
+                //ViewBag.Error = "Please select discipline for payment.";
             }
             return View(pdm);
         }

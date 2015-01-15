@@ -70,13 +70,13 @@ namespace DBM_SwarVandana.Controllers
             {
                 if (!string.IsNullOrEmpty(username))
                 {
-                    string Query = "select UserId,FirstName,LastName,ContactNumber,EmailID,CentreId,Password,IsActive,IsDeleted from users where username = '" + username + "' and IsDeleted =0 and IsActive=1";
+                    string Query = "select UserId,(FirstName+' '+ LastName) as Name,ContactNumber,EmailID,CentreId,Password,IsActive,IsDeleted from users where username = '" + username + "' and IsDeleted =0 and IsActive=1";
                     DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
                     if (ds != null)
                     {
                         string emailAddress = ds.Tables[0].Rows[0]["EmailID"].ToString();
                         string password = ds.Tables[0].Rows[0]["Password"].ToString();
-                        string bodymessage = "Your password is '" + password + "'";
+                        string bodymessage = "Dear " + ds.Tables[0].Rows[0]["Name"] + ", <br/>Your Swarvandana login password is '" + password + "'" + "<br/><br/> Regards <br/>Swarvandana Admin";
                         MailHelper.SendMail(emailAddress, "Swarvandana password", bodymessage);
                         message = "Password has been send to your registered email address. Please check your email";
                     }

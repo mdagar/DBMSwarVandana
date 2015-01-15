@@ -16,7 +16,7 @@ public class MailHelper
             WebMail.UserName = ConfigurationWrapper.SMTP_USER;
             var filesList = new string[] { fileAttachment };
             WebMail.EnableSsl = true;
-            WebMail.Send(to: to, subject: subject, body: body);
+            WebMail.Send(to: to, subject: subject, body: body,isBodyHtml:true);
         }
         catch (Exception e)
         {

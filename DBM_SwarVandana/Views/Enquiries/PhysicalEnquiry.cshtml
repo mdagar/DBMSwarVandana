@@ -83,7 +83,7 @@
         }
         else {
             $("#demoid").hide();
-            
+
         }
     }
 
@@ -174,6 +174,11 @@
                     @Html.TextBoxFor(x => x.TelephonicEnquiryId, new { @class = "input" })
                     <a href="javascript:void(0)" id="btnGet" onclick="javascript:PopulateTelephonicEnquiry();">Get Details</a>
                 </div>
+            }
+            else
+            {
+                @Html.Hidden("PE", string.IsNullOrEmpty(Model.TelephonicEnquiryId) ? false : true)
+                @Html.Hidden("TelephonicEnquiryId", string.IsNullOrEmpty(Model.TelephonicEnquiryId) ? "" : Model.TelephonicEnquiryId)
             }
             <div class="row">
                 <label for="Password">Source :</label>
