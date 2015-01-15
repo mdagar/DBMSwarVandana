@@ -122,7 +122,15 @@
             </div>
             <div class="row">
                 <label for="Password">Date of Enquiry :</label>
-                @Html.TextBox("DateOfEnquiry", Model.DateOfEnquiry == null ? "" : Model.DateOfEnquiry.Value.ToString("dd MMM yyyy"), new { @class = "input", @Readonly = "readonly" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.TextBox("DateOfEnquiry1", Model.DateOfEnquiry == null ? "" : Model.DateOfEnquiry.Value.ToString("dd MMM yyyy"), new { @class = "input", @Readonly = "readonly" })
+                    @Html.Hidden("DateOfEnquiry", Model.DateOfEnquiry == null ? "" : Model.DateOfEnquiry.Value.ToString("dd MMM yyyy"))
+                }
+                else
+                {
+                    @Html.TextBox("DateOfEnquiry", Model.DateOfEnquiry == null ? "" : Model.DateOfEnquiry.Value.ToString("dd MMM yyyy"), new { @class = "input", @Readonly = "readonly" })
+                }
             </div>
             <div class="row">
                 <label for="Password">Discipline :</label>

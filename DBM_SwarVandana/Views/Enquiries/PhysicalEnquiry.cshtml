@@ -83,6 +83,7 @@
         }
         else {
             $("#demoid").hide();
+            
         }
     }
 
@@ -91,6 +92,7 @@
             $("#peid").show();
         }
         else {
+            $("#TelephonicEnquiryId").val('');
             $("#peid").hide();
         }
     }
@@ -170,7 +172,7 @@
                 <div class="row" id="peid" style="display: none;">
                     <label for="Password">TE ID :</label>
                     @Html.TextBoxFor(x => x.TelephonicEnquiryId, new { @class = "input" })
-                    <a href="#" id="btnGet" onclick="javascript:PopulateTelephonicEnquiry();">Get Details</a>
+                    <a href="javascript:void(0)" id="btnGet" onclick="javascript:PopulateTelephonicEnquiry();">Get Details</a>
                 </div>
             }
             <div class="row">

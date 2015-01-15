@@ -26,7 +26,7 @@ namespace Code
                     States = new SelectList((new CentreRepository().GetStates()), "StateId", "StateName");
                     break;
                 case "Centres":
-                    Centres = new SelectList((new UsersRepository().GetAllCentres()), "CentreId", "CentreName",SLvalue);
+                    Centres = new SelectList((new UsersRepository().GetAllCentres()), "CentreId", "CentreName", SLvalue);
                     break;
                 case "Sources":
                     Sources = new SelectList((new SourceRepository().GetAllSources()), "SourceId", "Source");
@@ -35,7 +35,11 @@ namespace Code
                     Disciplines = new SelectList((new DisciplineRepository().GetAllDisciplines(SessionWrapper.User.CentreId)), "DisciplineId", "Discipline");
                     break;
                 case "Users":
-                    Users = new SelectList((new UsersRepository().AllUsers(SessionWrapper.User.CentreId)), "UserId", "UserName");
+                    var u = new UsersRepository().AllUsers(SessionWrapper.User.CentreId);
+                    foreach (var v in u)
+                        v.FirstName = v.FirstName + " " + v.LastName;
+
+                    Users = new SelectList(u, "UserId", "FirstName");
                     break;
                 case "Faculties":
                     Faculties = new SelectList((new FacultyRepository().GetAllFacultyByCentreId(SessionWrapper.User.CentreId)), "FacultyId", "NameOfFaculty");
