@@ -6,6 +6,9 @@
 <script>
     function GetStudentDetails() {
         var uniqueid = $("#UniqueKey").val();
+        $("#showstudent,#showdiscipline").hide();
+        $("#DisciplineId").html('');
+        $("#AttendenceView").html('');
         if (uniqueid == '') {
             alert('Please enter Enrollment No.');
             return false;

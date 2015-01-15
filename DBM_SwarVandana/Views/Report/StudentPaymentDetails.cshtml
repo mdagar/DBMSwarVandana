@@ -16,6 +16,9 @@
 <script>
     function GetStudentDetails() {
         var uniqueid = $("#UniqueKey").val();
+        $("#showstudent,#showDiscipline").hide();
+        $("#DisciplineId1").html('');
+        $("#PaymentView").html('');
         if (uniqueid == '') {
             alert("Please enter enrollment number.");
             return false;
@@ -79,7 +82,7 @@
         var finalDate = +d.getDate() + " " + months[(d.getMonth() + 1) - 1] + " " + d.getFullYear();
         return finalDate;
     }
-    
+
     function ShowReport() {
         var enrol = $("#EnrollmentId").val();
         var stuid = $("#StudentId").val();
@@ -99,7 +102,7 @@
             @Html.HiddenFor(v => v.EnrollmentId);
             @Html.HiddenFor(v => v.DisciplineId);
             <h3>Student Payment Details</h3>
-           <div class="row">
+            <div class="row">
                 <label for="Password">Enrollment Number :</label>
                 <input id="UniqueKey" type="text" class="input" />
                 <a href="#" id="btnGet" onclick="javascript: GetStudentDetails();">Get Details</a>
@@ -187,7 +190,7 @@
             <div class="rowbutton">
                 <input name="button" type="button" value="Show Report" class="submit-btn" onclick="javascript: ShowReport();" />
             </div>
-             <div style="padding:1%;height:1px;">
+            <div style="padding:1%;height:1px;">
             </div>
             <div id="PaymentView" class="row">
 
