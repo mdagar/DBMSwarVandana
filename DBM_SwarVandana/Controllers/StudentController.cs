@@ -181,6 +181,9 @@ namespace DBM_SwarVandana.Controllers
             if (s.StudentId == 0)
                 ModelState.AddModelError(string.Empty, "Invalid Enrollment No.");
 
+            if (s.CourseAmount < (s.RegistratonAmount + s.AmountPaid))
+                ModelState.AddModelError(string.Empty, "Amount paid + Registration should be less then course amount");
+
             var result = 0;
             if (ModelState.IsValid)
             {
