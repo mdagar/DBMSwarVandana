@@ -47,7 +47,7 @@
     }
 
     $(function () {
-        $("#DateOfEnquiry").datepicker({ dateFormat: "dd M yy", minDate: "-1w" });
+        $("#DateOfEnquiry").datepicker({ dateFormat: "dd M yy",maxdate:"0d" });
         $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
             $("#CityId").html('');
             $("#CityId").append('<option value="">-- Select City --</option>');
