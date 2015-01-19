@@ -28,6 +28,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult AllExamDetails(string search = "", int page = 1)
         {
             int TotalPages = 0;
+            ViewBag.Search = search;
             List<ExamDetails> ed = _allexams.GetExamDetailsByCentreID(SessionWrapper.User.CentreId, out TotalPages, page, search);
             var faculty = _allfaculty.GetAllFacultyByCentreId(SessionWrapper.User.CentreId);
             var student = _allstudents.GetStudentsByCentreId(SessionWrapper.User.CentreId);

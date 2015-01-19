@@ -70,6 +70,7 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult CentreList(string Search = "")
         {
+            ViewBag.Search = Search;
             List<Centres> cls = _allcentre.GetAllCentres(Search);
             var state = _allcentre.GetStates();
             var city = _allcentre.GetCities();
@@ -306,6 +307,7 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult ManageDiscipline(string search = "")
         {
+            ViewBag.Search = search;
             var d = _alldiscipline.GetAllDisciplines(SessionWrapper.User.CentreId, search);
             return View(d);
         }
