@@ -155,7 +155,7 @@ namespace DBM_SwarVandana.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-       
+
         [Authenticate]
         [HttpPost]
         public ActionResult EntrollStudent(StudentEntrollmentViewModel s, List<int> BatchIds, bool PE)
@@ -324,7 +324,10 @@ namespace DBM_SwarVandana.Controllers
             Session["Atendence"] = null;
             StudentAttendenceViewModel m = new StudentAttendenceViewModel();
             m.DateOfAttendence = attendenceDate == null ? DateTime.Now : attendenceDate.Value;
+            // IN sql serevr Sunday is 7
             int weekday = (int)m.DateOfAttendence.Value.DayOfWeek;
+            if (weekday == 0)
+                weekday = 7;
             m.Disciplines = _allDiscipline.GetAllDisciplines(SessionWrapper.User.CentreId);
             m.Batches = _allBatches.FindBatchByDayId(SessionWrapper.User.CentreId, weekday);
             m.disciplaneid = displaneId;
