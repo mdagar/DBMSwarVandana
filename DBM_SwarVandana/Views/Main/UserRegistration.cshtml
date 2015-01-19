@@ -8,7 +8,7 @@
     IEnumerable<SelectListItem> roles = from u in userrole
                                         select new SelectListItem
                                         {
-                                            Text = u.ToString(),
+                                            Text = u.Desciption(),
                                             Value = ((int)u).ToString()
                                         };
     if (SessionWrapper.User.RoleId == (int)UserRole.SuperAdmin)

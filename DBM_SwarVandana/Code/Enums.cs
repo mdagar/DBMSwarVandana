@@ -9,11 +9,11 @@ namespace Code
 
     public enum UserRole
     {
-        [Description("User")]
+        [Description("Admin")]
         User = 1,
-        [Description("Center Admin")]
+        [Description("Center Head")]
         Admin,
-        [Description("System Admin")]
+        [Description("Super Admin")]
         SuperAdmin
     }
 

@@ -155,7 +155,7 @@ namespace DBM_SwarVandana.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-
+       
         [Authenticate]
         [HttpPost]
         public ActionResult EntrollStudent(StudentEntrollmentViewModel s, List<int> BatchIds, bool PE)
