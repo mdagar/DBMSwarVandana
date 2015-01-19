@@ -144,7 +144,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult UserList(string search = "", int page = 1)
         {
             int TotalPages = 0;
-
+            ViewBag.Search = search;
             var users = _alluser.GetAllUsers(SessionWrapper.User.CentreId, out TotalPages, page, search).Where(x => x.RoleId < SessionWrapper.User.RoleId).ToList();
             var state = _allcentre.GetStates();
             var city = _allcentre.GetCities();
