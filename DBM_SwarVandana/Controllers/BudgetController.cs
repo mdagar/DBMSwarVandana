@@ -31,6 +31,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult BudgetList(string search = "", int page = 1)
         {
             int TotalPages = 0;
+            ViewBag.Search = search;
             List<Budgets> bgt = _allbudget.GetBudgetForAll(out TotalPages, page, search);
             ViewBag.TotalPages = TotalPages;
             string currentYear = CurrentFinancialYear();
@@ -132,6 +133,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult ExpenseList(string Search = "", int page = 1)
         {
             int TotalPages = 0;
+            ViewBag.Search = Search;
             List<Expenses> exp = _allbudget.GetAllExpenses(SessionWrapper.User.CentreId, out TotalPages, page, Search.Trim());
             var expfor = _allbudget.GetExpenseForAll();
             exp.Update(x => x.ExpenseForName = expfor.Where(s => s.ExpenseForId == x.ExpenseFor).FirstOrDefault().ExpenseFor);

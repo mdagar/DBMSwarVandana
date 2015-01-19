@@ -534,6 +534,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult AllRemarks(string search = "", int page = 1)
         {
             int TotalPages = 0;
+            ViewBag.Search = search;
             List<StudentRemarks> sr = _allstudents.GetStudentRemarksByCentreID(SessionWrapper.User.CentreId, out TotalPages, page, search);
             ViewBag.TotalPages = TotalPages;
             var faculty = _allfaculty.GetAllFacultyByCentreId(SessionWrapper.User.CentreId);
