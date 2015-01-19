@@ -21,6 +21,8 @@ namespace Models
         public virtual int ModifiedBy { get; set; }
         public virtual bool IsActive { get; set; }
         public virtual bool IsDeleted { get; set; }
+        public virtual int Month { get; set; }
+        public virtual string FinancialYear { get; set; }
 
         public Expenses()
         {
@@ -37,7 +39,8 @@ namespace Models
             this.ModifiedBy = 0;
             this.IsActive = true;
             this.IsDeleted = false;
-
+            this.Month = 0;
+            this.FinancialYear = string.Empty;
         }
     }
 }

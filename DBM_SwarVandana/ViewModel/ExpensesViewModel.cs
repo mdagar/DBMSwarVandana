@@ -27,6 +27,8 @@ namespace ViewModel
             this.ModifiedBy = e.ModifiedBy;
             this.IsActive = e.IsActive;
             this.IsDeleted = e.IsDeleted;
+            this.Month = e.Month;
+            this.FinancialYear = e.FinancialYear;
 
         }
 
@@ -46,5 +48,9 @@ namespace ViewModel
         public override int ModifiedBy { get; set; }
         public override bool IsActive { get; set; }
         public override bool IsDeleted { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "MonthRequired")]
+        public override int Month { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "FinancialYearRequired")]
+        public override string FinancialYear { get; set; }
     }
 }

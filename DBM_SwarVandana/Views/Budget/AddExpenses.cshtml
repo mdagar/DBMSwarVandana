@@ -3,6 +3,15 @@
 @{
     ViewBag.Title = "AddExpenses";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    IEnumerable<Months> months = Enum.GetValues(typeof(Months))
+                                                    .Cast<Months>();
+    IEnumerable<SelectListItem> month = from u in months
+                                        select new SelectListItem
+                                        {
+                                            Text = u.ToString(),
+                                            Value = ((int)u).ToString()
+                                        };
 }
 <link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
 <script src="~/Content/js/jquery-ui.js"></script>
@@ -15,6 +24,19 @@
         $("#DateOfExpense").datepicker({ dateFormat: "dd M yy", minDate: "-1w" });
     });
 
+    function CheckBalance() {
+        var expamt = $("#ExpenseAmount").val();
+        var expmon = $("#Month").val();
+        var expyear = $("#FinancialYear").val();
+        $.post('@Url.Action("GetBudgetAmountForMonth", "Budget")', { month: expmon, year: expyear, expensefor: $("#ExpenseFor").val() }, function (data) {
+            if (data != null) {
+                if (parseInt(expamt) > parseInt(data)) {
+                    alert('Expense Amount is not greater then Budget Amount');
+                    $("#ExpenseAmount").val('');
+                }
+            }
+        });
+    }
 </script>
 <!-- start container -->
 <div class="container">
@@ -35,11 +57,8 @@
                     <div>@Html.ValidationSummary(false)</div>
                 }
             </div>
-            <h3>Add Budget</h3>
-            <div class="row">
-                <label for="Password"><span style="color: red;">*</span>Expense Amount:</label>
-                @Html.TextBoxFor(x => x.ExpenseAmount, new { @class = "input" })
-            </div>
+            <h3>Add Expenses</h3>
+            
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Expense For:</label>
                 @if (@Model.ExpenseID == 0)
@@ -51,6 +70,18 @@
                     @Html.DropDownListFor(x => x.ExpenseFor, new ListBound(Model.ExpenseFor, "ExpenseFor").ExpenseFor, "-- Select --", new { @class = "select", @disabled = "disabled" })
                     @Html.HiddenFor(x => x.ExpenseFor)
                 }
+            </div>
+             <div class="row">
+                <label for="Password"><span style="color: red;">*</span>Select Month:</label>
+                @Html.DropDownListFor(x => x.Month, month, "-- Select Month --", new { @class = "select" })
+            </div>
+            <div class="row">
+                <label for="Password"><span style="color: red;">*</span>Financial Year:</label>
+                @Html.DropDownListFor(x => x.FinancialYear, new SelectList(ViewBag.Years as System.Collections.IEnumerable, Model.FinancialYear), new { @class = "select" })
+            </div>
+            <div class="row">
+                <label for="Password"><span style="color: red;">*</span>Expense Amount:</label>
+                @Html.TextBoxFor(x => x.ExpenseAmount, new { @class = "input", @onchange = "CheckBalance()" })
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Description:</label>

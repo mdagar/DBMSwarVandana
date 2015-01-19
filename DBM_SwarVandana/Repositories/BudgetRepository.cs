@@ -152,5 +152,16 @@ namespace Repositories
 
         }
 
+        public decimal GetBudgetAmountForMonth(int month, string year, int expensefor)
+        {
+            //string Query = "select BudgetAmount from [dbo].[BudgetMaster] where [Month]=" + month + " and FinancialYear='" + year + "' and ExpenseFor=" + expensefor + "";
+            string Query = "select (BudgetAmount- isnull((select ExpenseAmount from [dbo].[Expenses] where [Month]=" + month + " and FinancialYear='" + year + "' and ExpenseFor=" + expensefor + "),0)) BalAmt from [dbo].[BudgetMaster] where [Month]=" + month + " and FinancialYear='" + year + "' and ExpenseFor=" + expensefor + "";
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            if (d != null)
+                return Convert.ToDecimal(d.Tables[0].Rows[0][0] == null ? 0 : d.Tables[0].Rows[0][0]);
+            else
+                return 0;
+        }
+
     }
 }

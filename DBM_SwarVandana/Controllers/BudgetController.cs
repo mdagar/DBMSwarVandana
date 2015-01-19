@@ -145,6 +145,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult AddExpenses(int? ExpenseId)
         {
             ExpensesViewModel e;
+            GetYears();
             if (ExpenseId.HasValue)
                 e = new ExpensesViewModel(_allbudget.GetExpenseById(ExpenseId.Value));
             else
@@ -184,6 +185,21 @@ namespace DBM_SwarVandana.Controllers
                 exp = new ExpensesViewModel();
             }
             return View(exp);
+        }
+
+        [Authenticate]
+        public ActionResult GetBudgetAmountForMonth(int month, string year, int expensefor)
+        {
+            decimal amt = 0;
+            if (month != 0)
+            {
+                if (!string.IsNullOrEmpty(year))
+                {
+                    amt = _allbudget.GetBudgetAmountForMonth(month, year, expensefor);
+                }
+            }
+            return Json(amt, JsonRequestBehavior.AllowGet);
+            
         }
         #endregion
 
