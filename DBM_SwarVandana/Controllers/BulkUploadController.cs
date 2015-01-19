@@ -156,7 +156,7 @@ namespace DBM_SwarVandana.Controllers
                                         e.SourceId = src.SourceId;
                                         e.ContactNumber = UserUploadedRecord.Rows[row][1].ToString().Trim();
                                         e.Name = UserUploadedRecord.Rows[row][2].ToString().Trim();
-                                        e.DateOfEnquiry = Convert.ToDateTime(UserUploadedRecord.Rows[row][3].ToString().Trim())
+                                        e.DateOfEnquiry = Convert.ToDateTime(UserUploadedRecord.Rows[row][3].ToString().Trim());
                                         e.Discipline = Dis.DisciplineId;
                                         e.StateId = sta.StateId;
                                         e.CityId = Cit.CityId;
