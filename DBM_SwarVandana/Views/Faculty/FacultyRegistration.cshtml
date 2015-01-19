@@ -31,7 +31,7 @@
     }
 
     $(function () {
-        $("#DOJ").datepicker({ dateFormat: "dd M yy", minDate: "-1m", maxDate: "-1d" });
+        $("#DOJ").datepicker({ dateFormat: "dd M yy", maxDate: "-1d" });
         $("#DOB").datepicker({ dateFormat: "dd M yy", maxDate: "-15y" });
         $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
             $("#CityId").html('');
