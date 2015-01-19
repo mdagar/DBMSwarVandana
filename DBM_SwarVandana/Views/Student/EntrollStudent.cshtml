@@ -182,6 +182,10 @@
                 <label for="Password">Next Due Date :</label>
                 @Html.TextBoxFor(x => x.DueDate, new { @class = "input", @readonly = "readonly" })
             </div>
+             <div class="row">
+                <label for="Password">Remark :</label>
+                 @Html.TextAreaFor(x => x.Remark, new { @class = "textarea" })
+            </div>
             <div class="rowbutton">
                 <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" style="display:none" />
                 <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />

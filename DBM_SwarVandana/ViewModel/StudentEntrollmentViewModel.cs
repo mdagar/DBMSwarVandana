@@ -40,6 +40,7 @@ namespace ViewModel
             this.PaymentDetails = se.PaymentDetails;
             this.DueDate = se.DueDate;
             this.IsRenewal = se.IsRenewal;
+            this.Remark = se.Remark;
         }
 
         public override long EnrollmentId { get; set; }
@@ -69,5 +70,6 @@ namespace ViewModel
         public override string StudentName { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "DueDateRequired")]
         public override DateTime? DueDate { get; set; }
+        public override string Remark { get; set; }
     }
 }
