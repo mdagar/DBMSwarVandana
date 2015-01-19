@@ -29,6 +29,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult TelephonicEnquiryList(string search = "", int page = 1)
         {
             int TotalPages = 0;
+            ViewBag.Search = search;
             List<Enquiries> enq = _allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.TE, out TotalPages, page, search);
             ViewBag.TotalPages = TotalPages;
             var Discipline = _allDiscipline.GetAllDisciplines(SessionWrapper.User.CentreId);
@@ -104,6 +105,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult PhysicalEnquiryList(string search = "", int page = 1)
         {
             int TotalPages = 0;
+            ViewBag.Search = search;
             List<Enquiries> enq = _allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.PE, out TotalPages, page, search);
             ViewBag.TotalPages = TotalPages;
             var Discipline = _allDiscipline.GetAllDisciplines(SessionWrapper.User.CentreId);
