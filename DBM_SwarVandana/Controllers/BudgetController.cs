@@ -39,8 +39,7 @@ namespace DBM_SwarVandana.Controllers
             string currentYear = CurrentFinancialYear();
             var expfor = _allbudget.GetExpenseForAll();
             bgt.Update(x => x.ExpenseForName = expfor.Where(s => s.ExpenseForId == x.ExpenseFor).FirstOrDefault().ExpenseFor);
-            var month = Enum.GetValues(typeof(Months)).Cast<Months>().ToList();
-            //bgt.Update(x => x.MonthName = month.Where(s=>s.
+            var month = Enum.GetValues(typeof(Months)).Cast<Months>().ToList();            
             foreach (var v in bgt)
                 v.CurrentFinancialYear = currentYear;
             return View(bgt);
@@ -53,7 +52,7 @@ namespace DBM_SwarVandana.Controllers
             if (date.Month >= 4)
                 year = (date.Year + " - " + date.AddYears(1).Year);
             else
-                year = date.AddYears(-1) + " - " + date.Year;
+                year = date.AddYears(-1).Year + " - " + date.Year;
             return year;
         }
 

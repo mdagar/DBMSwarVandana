@@ -12,7 +12,7 @@
                                             Text = u.ToString(),
                                             Value = ((int)u).ToString()
                                         };
-    
+
 }
 
 <script>
@@ -77,20 +77,15 @@
                     @Html.HiddenFor(x => x.FinancialYear)
                 }
             </div>
-            
+
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Budget Amount:</label>
                 @Html.TextBoxFor(x => x.BudgetAmount, new { @class = "input" })
             </div>
             <div class="row">
-                <label for="Password"><span style="color: red;">*</span>Description:</label>
+                <label for="Password">Description:</label>
                 @Html.TextAreaFor(x => x.Description, new { @class = "textarea" })
             </div>
-
-            @*<div class="row">
-                <label for="Password">Is Active :</label>
-                @Html.CheckBoxFor(x => x.IsActive, new { @class = "input" })
-            </div>*@
 
             <div class="rowbutton">
 
