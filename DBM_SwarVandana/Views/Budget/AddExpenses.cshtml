@@ -30,10 +30,17 @@
         var expyear = $("#FinancialYear").val();
         $.post('@Url.Action("GetBudgetAmountForMonth", "Budget")', { month: expmon, year: expyear, expensefor: $("#ExpenseFor").val() }, function (data) {
             if (data != null) {
-                if (parseInt(expamt) > parseInt(data)) {
-                    alert('Expense Amount is not greater then Budget Amount');
-                    $("#ExpenseAmount").val('');
+                var result = JSON.parse(data);
+                $("#BudgetAmount").val(result[0].BudgetAmount);
+                if (result[0].ExpenseAmt == null)
+                {
+                    $("#ExpenseAmountNow").val(0);
                 }
+                else
+                {
+                    $("#ExpenseAmountNow").val(result[0].ExpenseAmt);
+                }
+                
             }
         });
     }
@@ -72,16 +79,24 @@
                 }
             </div>
              <div class="row">
-                <label for="Password"><span style="color: red;">*</span>Select Month:</label>
-                @Html.DropDownListFor(x => x.Month, month, "-- Select Month --", new { @class = "select" })
-            </div>
-            <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Financial Year:</label>
                 @Html.DropDownListFor(x => x.FinancialYear, new SelectList(ViewBag.Years as System.Collections.IEnumerable, Model.FinancialYear), new { @class = "select" })
             </div>
+             <div class="row">
+                <label for="Password"><span style="color: red;">*</span>Select Month:</label>
+                @Html.DropDownListFor(x => x.Month, month, "-- Select Month --", new { @class = "select", @onchange = "CheckBalance()" })
+            </div>
+            <div class="row">
+                <label for="Password">Total Budget:</label>
+                @Html.TextBoxFor(x => x.BudgetAmount, new { @class = "input", @readonly="readonly" })
+            </div>
+            <div class="row">
+                <label for="Password">Total Expense(Till Now):</label>
+                @Html.TextBoxFor(x => x.ExpenseAmountNow, new { @class = "input", @readonly = "readonly" })
+            </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Expense Amount:</label>
-                @Html.TextBoxFor(x => x.ExpenseAmount, new { @class = "input", @onchange = "CheckBalance()" })
+                @Html.TextBoxFor(x => x.ExpenseAmount, new { @class = "input" })
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Description:</label>
