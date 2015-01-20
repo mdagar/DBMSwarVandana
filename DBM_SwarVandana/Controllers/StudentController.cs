@@ -618,23 +618,27 @@ namespace DBM_SwarVandana.Controllers
             {
                 if (EnrollmentId != 0)
                 {
-                    List<StudentBatchMapping> batchmapping = new List<StudentBatchMapping>();
                     if (BatchIds.Count <= 0)
-                        ModelState.AddModelError(string.Empty, "Please assign batch.");
-                    foreach (var v in BatchIds)
+                        ViewBag.Error = "Please assign batch.";
+                    else
                     {
-                        StudentBatchMapping m = new StudentBatchMapping();
-                        m.BatchId = v;
-                        m.StudentId = StudentId;
-                        m.EnrollmentId = EnrollmentId;
-                        m.CreatedBy = SessionWrapper.User.UserId;
-                        m.ModifyBy = SessionWrapper.User.UserId;
-                        m.CreatedDate = DateTime.Now;
-                        m.ModifyDate = DateTime.Now;
-                        batchmapping.Add(m);
+                        List<StudentBatchMapping> batchmapping = new List<StudentBatchMapping>();
+
+                        foreach (var v in BatchIds)
+                        {
+                            StudentBatchMapping m = new StudentBatchMapping();
+                            m.BatchId = v;
+                            m.StudentId = StudentId;
+                            m.EnrollmentId = EnrollmentId;
+                            m.CreatedBy = SessionWrapper.User.UserId;
+                            m.ModifyBy = SessionWrapper.User.UserId;
+                            m.CreatedDate = DateTime.Now;
+                            m.ModifyDate = DateTime.Now;
+                            batchmapping.Add(m);
+                        }
+                        _allBatches.UpdateBatchesForStudent(batchmapping, StudentId, EnrollmentId);
+                        ViewBag.Success = "Batch timing is successfully updated";
                     }
-                    _allBatches.UpdateBatchesForStudent(batchmapping, StudentId, EnrollmentId);
-                    ViewBag.Success = "Batch timing is successfully updated";
                 }
             }
             return View();
