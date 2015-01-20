@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width" />
     <title>DBM - Swar Vandana : @ViewBag.Title</title>
     <script src="~/Content/JS/jquery-1.11.1.js"></script>
-    @*<link href="~/Content/css/style.css" rel="stylesheet" />*@
-    @*<link href="~/Content/css/loginstyle.css" rel="stylesheet" />*@
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <link href="~/Content/css/loginstyle.css" rel="stylesheet" />
 
     <link href="~/Content/css/colorbox.css" rel="stylesheet" />
     <script src="~/Content/js/Jquery.validate.js"></script>
@@ -31,9 +31,9 @@
         <div class="header">
             <!-- start logo -->
             <div class="logo">
-                @*<a href="@Url.Action("Index","Main")" title="Svar Vandana">
+                <a href="@Url.Action("Index","Main")" title="Svar Vandana">
                     <img src="~/Content/images/logo.png" alt="Svar Vandana" />
-                </a>*@
+                </a>
             </div>
             <!-- end logo -->
             <!-- start header-right -->
@@ -41,10 +41,8 @@
                 <!-- start top-bar -->
                 <div class="top-bar">
                     <ul>
-
                         <li><a href="#" title="User" style="min-width: 115px">@SessionWrapper.User.FirstName&nbsp;@SessionWrapper.User.LastName</a></li>
                         <li><a href="@Url.Action("LogOut", "Home")">Logout</a></li>
-
                     </ul>
                 </div>
                 <form action="#">

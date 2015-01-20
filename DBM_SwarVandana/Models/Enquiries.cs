@@ -19,7 +19,7 @@ namespace Models
         public virtual int StateId { get; set; }
         public virtual int CityId { get; set; }
         public virtual string Address { get; set; }
-        public virtual int AttendedBy { get; set; }
+        public virtual long AttendedBy { get; set; }
         public virtual bool Demo { get; set; }
         public virtual string RemarksByFaculty { get; set; }
         public virtual int StatusId { get; set; }
@@ -34,7 +34,7 @@ namespace Models
         public virtual int CentreId { get; set; }
         public virtual long FacultyID { get; set; }
         public virtual string FacultyName { get; set; }
-        public virtual long EnquiryBy { get; set; }
+        //public virtual long EnquiryBy { get; set; }
         public virtual string TelephonicEnquiryId { get; set; }
         public virtual DateTime? AddDate { get; set; }
         public virtual int AddedBy { get; set; }
@@ -76,7 +76,7 @@ namespace Models
             this.CentreId = 0;
             this.IsEnquiryClosed = false;
             this.FacultyID = 0;
-            this.EnquiryBy = 0;
+            //this.EnquiryBy = 0;
             this.TelephonicEnquiryId = string.Empty;
             this.AddDate = null;
             this.AddedBy = 0;

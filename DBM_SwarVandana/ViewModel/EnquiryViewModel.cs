@@ -21,7 +21,7 @@ namespace ViewModel
             this.EnquiryId = e.EnquiryId;
             this.SourceId = e.SourceId;
             this.EnquiryTypeId = e.EnquiryTypeId;
-            this.ContactNumber = e.ContactNumber;
+            this.ContactNumber = e.ContactNumber;            
             this.Name = e.Name;
             this.DateOfEnquiry = e.DateOfEnquiry;
             this.Discipline = e.Discipline;
@@ -42,7 +42,7 @@ namespace ViewModel
             this.RegistrationAmount = e.RegistrationAmount;
             this.CentreId = e.CentreId;
             this.IsEnquiryClosed = e.IsEnquiryClosed;
-            this.EnquiryBy = e.EnquiryBy;
+            //this.EnquiryBy = e.EnquiryBy;
             this.TelephonicEnquiryId = e.TelephonicEnquiryId;
             this.AddDate = e.AddDate;
             this.AddedBy = e.AddedBy;
@@ -73,14 +73,14 @@ namespace ViewModel
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "AddressRequired")]
         public override string Address { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "AttendedByRequired")]
-        public override int AttendedBy { get; set; }
+        public override long AttendedBy { get; set; }
         public override bool Demo { get; set; }
         public override string RemarksByFaculty { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "StatusIdRequired")]
         public override int StatusId { get; set; }
         public override Int64 FacultyID { get; set; }
-        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "EnquiryByRequired")]
-        public override Int64 EnquiryBy { get; set; }
+        //[Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "EnquiryByRequired")]
+        //public override Int64 EnquiryBy { get; set; }
         public override int ProbableStudentFor { get; set; }
         public override int Gender { get; set; }
         public override int Age { get; set; }
