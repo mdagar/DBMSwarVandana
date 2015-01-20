@@ -31,6 +31,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult BudgetList(string search = "", int page = 1)
         {
             int TotalPages = 0;
+            search = search.Trim();
             ViewBag.Search = search;
             List<Budgets> bgt = _allbudget.GetBudgetForAll(out TotalPages, page, search);
             ViewBag.TotalPages = TotalPages;
@@ -133,6 +134,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult ExpenseList(string Search = "", int page = 1)
         {
             int TotalPages = 0;
+            Search = Search.Trim();
             ViewBag.Search = Search;
             List<Expenses> exp = _allbudget.GetAllExpenses(SessionWrapper.User.CentreId, out TotalPages, page, Search.Trim());
             var expfor = _allbudget.GetExpenseForAll();
@@ -199,7 +201,7 @@ namespace DBM_SwarVandana.Controllers
                 }
             }
             return Json(amt, JsonRequestBehavior.AllowGet);
-            
+
         }
         #endregion
 

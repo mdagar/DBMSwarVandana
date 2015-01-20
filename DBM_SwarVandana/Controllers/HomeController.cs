@@ -55,8 +55,39 @@ namespace DBM_SwarVandana.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult ForgotPassword(string UserName)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(UserName))
+                {
+                    string Query = "select UserId,(FirstName+' '+ LastName) as Name,ContactNumber,EmailID,CentreId,Password,IsActive,IsDeleted from users where username = '" + UserName + "' and IsDeleted =0 and IsActive=1";
+                    DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+                    if (ds != null)
+                    {
+                        string emailAddress = ds.Tables[0].Rows[0]["EmailID"].ToString();
+                        string password = ds.Tables[0].Rows[0]["Password"].ToString();
+                        string bodymessage = "Dear " + ds.Tables[0].Rows[0]["Name"] + ", <br/>Your Swarvandana login password is '" + password + "'" + "<br/><br/> Regards <br/>Swarvandana Admin";
+                        MailHelper.SendMail(emailAddress, "Swarvandana password", bodymessage);
+                        ViewBag.Success = "Password has been send to your registered email address. Please check your email";
+                    }
+                    else
+                        ViewBag.ErrorMessage = "Invalid username";
+                }
+                else
+                    ViewBag.ErrorMessage = "Please enter userName";
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+            }
+            return View();
+        }
+
         [Authenticate]
-        public ActionResult UpdateCenter(int centerId,string number)
+        public ActionResult UpdateCenter(int centerId, string number)
         {
             if (SessionWrapper.User.RoleId == (int)UserRole.SuperAdmin)
                 SessionWrapper.User.CentreId = centerId;
@@ -91,6 +122,8 @@ namespace DBM_SwarVandana.Controllers
             return Json(message, JsonRequestBehavior.AllowGet);
 
         }
+
+
 
 
     }

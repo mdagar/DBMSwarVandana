@@ -31,7 +31,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult Index(HttpPostedFileBase file)
         {
             List<string> MessageList = new List<string>();
-            List<Enquiries> RecordCollection = new List<Enquiries>();
+            List<StudentAttendence> RecordCollection = new List<StudentAttendence>();
             string path = string.Empty;
             int EnqueryType = 1;
             var Source = _allSources.GetAllSources();
@@ -142,7 +142,7 @@ namespace DBM_SwarVandana.Controllers
                                         continue;
                                     }
 
-                                       var Usr = users.Where(x => x.UserName == UserUploadedRecord.Rows[row][6]).FirstOrDefault();
+                                       var Usr = users.Where(x => x.UserName == UserUploadedRecord.Rows[row][6].ToString().Trim()).FirstOrDefault();
                                     if (Cit == null)
                                     {
                                         MessageList.Add(UserUploadedRecord.Rows[row][6].ToString() + " Not exist in our record.");
@@ -151,16 +151,16 @@ namespace DBM_SwarVandana.Controllers
 
                                     for (int column = 1; column < Columnloop; column++)
                                     {
-                                        
-                                        Enquiries e = new Enquiries();
-                                        e.SourceId = src.SourceId;
-                                        e.ContactNumber = UserUploadedRecord.Rows[row][1].ToString().Trim();
-                                        e.Name = UserUploadedRecord.Rows[row][2].ToString().Trim();
-                                        e.DateOfEnquiry = Convert.ToDateTime(UserUploadedRecord.Rows[row][3].ToString().Trim());
-                                        e.Discipline = Dis.DisciplineId;
-                                        e.StateId = sta.StateId;
-                                        e.CityId = Cit.CityId;
-                                        e.EnquiryBy =1;                                        
+
+                                        StudentAttendence e = new StudentAttendence();
+                                        //e.SourceId = src.SourceId;
+                                        //e.ContactNumber = UserUploadedRecord.Rows[row][1].ToString().Trim();
+                                        //e.Name = UserUploadedRecord.Rows[row][2].ToString().Trim();
+                                        //e.DateOfEnquiry = Convert.ToDateTime(UserUploadedRecord.Rows[row][3].ToString().Trim());
+                                        //e.Discipline = Dis.DisciplineId;
+                                        //e.StateId = sta.StateId;
+                                        //e.CityId = Cit.CityId;
+                                        //e.EnquiryBy =1;                                        
                                         RecordCollection.Add(e);
                                     }
                                 }
