@@ -600,6 +600,50 @@ namespace DBM_SwarVandana.Controllers
             b = _allBatches.FindAllBatches(SessionWrapper.User.CentreId);
             return View(b);
         }
+
+        [Authenticate]
+        public ActionResult BatchTimingUpdate()
+        {
+            return View();
+        }
+
+        [Authenticate]
+        [HttpPost]
+        public ActionResult BatchTimingUpdate(long StudentId, long EnrollmentId, List<int> BatchIds)
+        {
+            if (StudentId != 0)
+            {
+                if (EnrollmentId != 0)
+                {
+                    List<StudentBatchMapping> batchmapping = new List<StudentBatchMapping>();
+                    if (BatchIds.Count <= 0)
+                        ModelState.AddModelError(string.Empty, "Please assign batch.");
+                    foreach (var v in BatchIds)
+                    {
+                        StudentBatchMapping m = new StudentBatchMapping();
+                        m.BatchId = v;
+                        m.StudentId = StudentId;
+                        m.EnrollmentId = EnrollmentId;
+                        m.CreatedBy = SessionWrapper.User.UserId;
+                        m.ModifyBy = SessionWrapper.User.UserId;
+                        m.CreatedDate = DateTime.Now;
+                        m.ModifyDate = DateTime.Now;
+                        batchmapping.Add(m);
+                    }
+                    _allBatches.UpdateBatchesForStudent(batchmapping, StudentId, EnrollmentId);
+                    ViewBag.Success = "Batch timing is successfully updated";
+                }
+            }
+            return View();
+        }
+
+        public ActionResult GetDisciplineBatchDetails(long disciplineId, long studentID, long enrollmentId)
+        {
+            StudentBatchDetailsViewModel stu = new StudentBatchDetailsViewModel();
+            stu.allbatch = _allBatches.FindAllBatches(SessionWrapper.User.CentreId);
+            stu.selectbatch = _allBatches.FindBatchesForStudentDescipline(studentID, enrollmentId, disciplineId);
+            return View(stu);
+        }
         #endregion
 
     }

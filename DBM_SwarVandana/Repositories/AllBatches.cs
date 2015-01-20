@@ -46,6 +46,35 @@ namespace Repositories
             return 0;
         }
 
+        public List<int> FindBatchesForStudentDescipline(long studentid, long enrollmentid, long disciplineid)
+        {
+            string Query = "select BatchId from [dbo].[StudentBatchMapping] where StudentId=(select StudentId from [dbo].[StudentEnrollment] where DisciplineId=" + disciplineid + " and EnrollmentId=" + enrollmentid + " and StudentId=" + studentid + ") and EnrollmentId=(select EnrollmentId from [dbo].[StudentEnrollment] where DisciplineId=" + disciplineid + " and EnrollmentId=" + enrollmentid + " and StudentId=" + studentid + ")";
+            var ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            if (ds == null)
+                return new List<int>();
+            else
+            {
+                var x = new List<int>();
+                foreach (DataRow v in ds.Tables[0].Rows)
+                    x.Add(Convert.ToInt32(v[0]));
+                return x;
+            }
+        }
+
+        public int UpdateBatchesForStudent(List<StudentBatchMapping> b,long studentId,long enrollemntId)
+        {
+            string Query = string.Empty;
+            Query = "delete from [StudentBatchMapping] where studentid=" + studentId + " and Enrollmentid=" + enrollemntId + "";
+            var result = SqlHelper.ExecuteNonQuery(db.GetConnection(), CommandType.Text, Query);
+            Query = string.Empty;
+            Query = "INSERT INTO [dbo].[StudentBatchMapping] VALUES";
+            foreach (var v in b)
+                Query += "(" + v.StudentId + "" + "," + v.EnrollmentId + "" + "," + v.BatchId + "" + "," + v.CreatedBy + "" + ",'" + v.CreatedDate + "" + "'," + v.ModifyBy + "" + ",'" + v.ModifyDate + "'),";
+
+            Query = Query.Substring(0, Query.LastIndexOf(","));
+            var result1 = SqlHelper.ExecuteNonQuery(db.GetConnection(), CommandType.Text, Query);
+            return 0;
+        }
         //public List<Expenses> GetAllExpenses(int centerId, out int TotalPages, int PageNumber = 1, string search = "")
         //{
         //    int RowsPerPage = ConfigurationWrapper.PageSize; 

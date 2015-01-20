@@ -1,0 +1,40 @@
+﻿@model ViewModel.StudentBatchDetailsViewModel
+@using Code;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<table>
+    @{
+        var days = Model.allbatch.Select(s => s.Day).Distinct();
+    }
+    @foreach (var v in days)
+    {
+        <tr>
+            <td>
+                @((WeekDays)Enum.Parse(typeof(WeekDays), v.ToString()))
+            </td>
+            @foreach (var timminmg in Model.allbatch.Where(x => x.Day == v))
+            {
+                bool flag = Model.selectbatch.Any(x => x == timminmg.BatchId);
+                if (flag)
+                {
+                    <td><input type="checkbox" name="BatchIds" checked="checked" value="@timminmg.BatchId" /> @timminmg.Timming </td>
+                }
+                else
+                { 
+                    <td><input type="checkbox" name="BatchIds" value="@timminmg.BatchId" /> @timminmg.Timming </td>
+                }
+                
+            }
+        </tr>
+
+    }
+
+</table>
