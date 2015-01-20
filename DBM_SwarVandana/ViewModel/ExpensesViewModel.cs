@@ -52,5 +52,7 @@ namespace ViewModel
         public override int Month { get; set; }
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "FinancialYearRequired")]
         public override string FinancialYear { get; set; }
+        public decimal ExpenseAmountNow { get; set; }
+        public decimal BudgetAmount { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using Repositories;
 using DBM_SwarVandana.Resources;
 using Models;
 using System.Xml;
+using System.Data;
 
 namespace DBM_SwarVandana.Controllers
 {
@@ -162,6 +163,8 @@ namespace DBM_SwarVandana.Controllers
             var result = 0;
             if (exp.ExpenseAmount < 1000)
                 ModelState.AddModelError(string.Empty, "Expense Amount should be atleast of 1000 rs.");
+            if (exp.ExpenseAmount > (exp.BudgetAmount-exp.ExpenseAmountNow))
+                ModelState.AddModelError(string.Empty, "Expense Amount should be less then Budget amount");
             if (ModelState.IsValid)
             {
                 exp.ActionId = 0;
@@ -186,22 +189,34 @@ namespace DBM_SwarVandana.Controllers
             {
                 exp = new ExpensesViewModel();
             }
+            GetYears();
             return View(exp);
         }
 
         [Authenticate]
         public ActionResult GetBudgetAmountForMonth(int month, string year, int expensefor)
         {
-            decimal amt = 0;
+            DataSet ds = new DataSet();
             if (month != 0)
             {
                 if (!string.IsNullOrEmpty(year))
                 {
-                    amt = _allbudget.GetBudgetAmountForMonth(month, year, expensefor);
+                    ds = _allbudget.GetBudgetAmountForMonth(month, year, expensefor);
                 }
             }
-            return Json(amt, JsonRequestBehavior.AllowGet);
-
+            System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row;
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                row = new Dictionary<string, object>();
+                foreach (DataColumn col in ds.Tables[0].Columns)
+                {
+                    row.Add(col.ColumnName, dr[col]);
+                }
+                rows.Add(row);
+            }
+            return Json(serializer.Serialize(rows));
         }
         #endregion
 
