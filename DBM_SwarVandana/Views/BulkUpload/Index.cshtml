@@ -1,0 +1,78 @@
+﻿@using Code;
+@{
+    ViewBag.Title = "Enquery Bulk Upload";
+    Layout = null;
+}
+@if (ViewData.ModelState.Keys.Any(k => ViewData.ModelState[k].Errors.Count() > 0))
+{
+    <div class="alert alert-danger">
+        @Html.ValidationSummary(false)
+    </div>
+}
+else
+{
+    if (!string.IsNullOrEmpty(ViewBag.Success))
+    {
+        <div class="alert alert-success">@ViewBag.Success</div>
+    }
+    if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+    }
+}
+<div class="row">
+    <div class="col-md-4"></div>
+    <div id="JqGallery" class="col-md-4">
+        @using (Html.BeginForm("Index", "BulkUpload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+                   
+            <div class="alert alert-warning">
+                <div class="media">
+                    <div class="pull-left">
+                        <div class="alert alert-danger">Step -1</div>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="list-group-item-heading">Browse Your  Template </h4>
+                        <p class="list-group-item-text"><input type="file" data-val="true" data-val-required="please browse the file" id="file_upload" name="file" class="exp_file"></p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="alert alert-warning">
+                <div class="media">
+                    <div class="pull-left">
+                        <div class="alert alert-danger">Step -2</div>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="list-group-item-heading">Click On Upload Button</h4>
+                        <p class="list-group-item-text">
+                            <button class="btn btn-primary" type="submit">Upload</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+    <div class="col-md-4"></div>
+</div>
+<script type="text/javascript">
+
+    function DownloadTemplate() {
+        if ($("#DivisionUploadId").val() == null || $("#DivisionUploadId").val() == '') {
+            alert("Please select template.");
+            return false;
+        }
+        else {
+            window.location.href = '@Url.Action("DownloadTemplate")?uniqueKey=' + $("#DivisionUploadId").val()
+        }
+
+
+    }
+
+    function Reset() {
+        window.location.href = document.URL;
+    }
+
+</script>

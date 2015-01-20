@@ -39,6 +39,7 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult AllStudents(string search = "", int page = 1)
         {
+            search = search.Trim();
             ViewBag.search = search.Trim();
             int TotalPages = 0;
             var users = _alluser.AllUsers(SessionWrapper.User.CentreId).Where(x => x.RoleId < SessionWrapper.User.RoleId).ToList();
@@ -258,6 +259,7 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult RenewalStudentList(string search = "")
         {
+            search = search.Trim();
             ViewBag.search = search.Trim();
             var stu = _allstudents.RenewStudentList(SessionWrapper.User.CentreId, search.Trim());
             return View(stu);
@@ -534,6 +536,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult AllRemarks(string search = "", int page = 1)
         {
             int TotalPages = 0;
+            search = search.Trim();
             ViewBag.Search = search;
             List<StudentRemarks> sr = _allstudents.GetStudentRemarksByCentreID(SessionWrapper.User.CentreId, out TotalPages, page, search);
             ViewBag.TotalPages = TotalPages;

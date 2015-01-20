@@ -145,6 +145,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult UserList(string search = "", int page = 1)
         {
             int TotalPages = 0;
+            search = search.Trim();
             ViewBag.Search = search;
             var users = _alluser.GetAllUsers(SessionWrapper.User.CentreId, out TotalPages, page, search).Where(x => x.RoleId < SessionWrapper.User.RoleId).ToList();
             var state = _allcentre.GetStates();
@@ -307,6 +308,7 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult ManageDiscipline(string search = "")
         {
+            search = search.Trim();
             ViewBag.Search = search;
             var d = _alldiscipline.GetAllDisciplines(SessionWrapper.User.CentreId, search);
             return View(d);
