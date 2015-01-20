@@ -1,4 +1,5 @@
-﻿@model ViewModel.ProfitLossViewModel
+﻿@using Code;
+@model ViewModel.ProfitLossViewModel
 @{
     ViewBag.Title = "Profit Loss";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,10 +12,13 @@
         <!-- start table-form -->
         <div class="table-form">
             <form action="#">
-                @*<input type="text" name="searchtext" placeholder="Search" value="@ViewBag.Search" class="input" />
-                    <input name="submit" type="button" onclick="Search()" value="Search" class="submit-btn" />*@
                 <label for="From">&nbsp;</label>
-                @Html.DropDownListFor(x => x.SelectedFinancialyear, new SelectList(Model.financialYears), "-- Financial Year --", new { @onchange = "ChangeYear(this)" })
+                @Html.DropDownListFor(x => x.month, (typeof(Months).SelectList<Months>(true)), "-- Month --", new { @class = "input" })
+                <label for="From">&nbsp;</label>
+                @Html.DropDownListFor(x => x.SelectedFinancialyear, new SelectList(Model.financialYears), "-- Financial Year --", new { @class = "input" })
+                <label for="From">&nbsp;</label>
+                <input type="submit" value="Show Profit" class="submit-btn" />
+
             </form>
         </div>
         <!-- end table-form -->

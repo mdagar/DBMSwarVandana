@@ -208,9 +208,9 @@ namespace DBM_SwarVandana.Controllers
         #region Profit Loss Management
 
         [Authenticate]
-        public ActionResult ProfitLoss(string financialyear = "")
+        public ActionResult ProfitLoss(string financialyear = "",int month=0)
         {
-            ProfitLossViewModel p = new ProfitLossViewModel();
+            ProfitLossViewModel p = new ProfitLossViewModel();            
             string final = "";
             p.financialYears = GetPreviousFinancialYears();
             if (!string.IsNullOrEmpty(financialyear))
@@ -218,11 +218,11 @@ namespace DBM_SwarVandana.Controllers
             else
                 p.SelectedFinancialyear = p.financialYears.FirstOrDefault();
             final = p.SelectedFinancialyear;
-            p = _allbudget.GetRevenue(SessionWrapper.User.CentreId, p.SelectedFinancialyear);
+            p = _allbudget.GetRevenue(SessionWrapper.User.CentreId, p.SelectedFinancialyear,month);
 
             p.financialYears = GetPreviousFinancialYears();
             p.SelectedFinancialyear = final;
-            p.BudgetAssign = _allbudget.ConsolidatedCenterBudget(SessionWrapper.User.CentreId, p.SelectedFinancialyear);
+            p.BudgetAssign = _allbudget.ConsolidatedCenterBudget(SessionWrapper.User.CentreId, p.SelectedFinancialyear,month);
             if (p.BudgetAssign == 0)
             {
                 p.Salary = 0;
@@ -230,6 +230,7 @@ namespace DBM_SwarVandana.Controllers
                 p.Expenseses = 0;
                 p.FinalAmount = 0;
             }
+            p.month = month;
             return View(p);
         }
 

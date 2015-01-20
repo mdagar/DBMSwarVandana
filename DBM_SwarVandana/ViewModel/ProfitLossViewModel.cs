@@ -14,6 +14,7 @@ namespace ViewModel
         public virtual decimal Expenseses { get; set; }
         public virtual decimal FinalAmount { get; set; }
         public virtual string SelectedFinancialyear { get; set; }
+        public virtual int month { get; set; }
         public List<string> financialYears { get; set; }
 
 
