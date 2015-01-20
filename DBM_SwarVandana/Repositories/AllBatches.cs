@@ -27,7 +27,7 @@ namespace Repositories
 
         public List<Batches> FindBatchByDayId(long CenterId, int dayId)
         {
-            string Query = "select BatchId,Day,Timming,StudentLinit,CreatedBy,CreatedDate,ModifyBy,ModifyDate,CenterId from [dbo].[Batches] where centerid =" + CenterId + "AND Day=" + dayId;
+            string Query = "select BatchId,Day,Timming,StudentLinit,CreatedBy,CreatedDate,ModifyBy,ModifyDate,CenterId from [dbo].[Batches] where centerid =" + CenterId + " AND Day=" + dayId;
             var ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             if (ds == null)
                 return new List<Batches>();

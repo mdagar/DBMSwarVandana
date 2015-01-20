@@ -172,12 +172,12 @@
                 <label for="Password">Enquiry By :</label>
                 @if (Model.EnquiryId != 0)
                 {
-                    @Html.DropDownListFor(x => x.EnquiryBy, new ListBound(Model.EnquiryBy, "EnquiriesByUser").EnquiriesByUser, "-- Select Enquiry By --", new { @class = "select", @disabled = "disabled" })
-                    @Html.HiddenFor(x => x.EnquiryBy)
+                    @Html.DropDownListFor(x => x.AttendedBy, new ListBound(Model.AttendedBy, "EnquiriesByUser").EnquiriesByUser, "-- Select Enquiry By --", new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.AttendedBy)
                 }
                 else
                 {
-                    @Html.DropDownListFor(x => x.EnquiryBy, new ListBound(Model.EnquiryBy, "EnquiriesByUser").EnquiriesByUser, "-- Select Enquiry By --", new { @class = "select" })
+                    @Html.DropDownListFor(x => x.AttendedBy, new ListBound(Model.AttendedBy, "EnquiriesByUser").EnquiriesByUser, "-- Select Enquiry By --", new { @class = "select" })
                 }
             </div>
             <div class="row">
