@@ -10,6 +10,8 @@ using Code;
 using System.Data;
 using SqlRepositories;
 using DBConnection;
+using System.Text;
+
 namespace DBM_SwarVandana.Controllers
 {
     public class HomeController : Controller
@@ -121,6 +123,73 @@ namespace DBM_SwarVandana.Controllers
             }
             return Json(message, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public class TEst
+        {
+            public string Destination { get; set; }
+            public string Message { get; set; }
+        }
+
+        public ActionResult TestMessage()
+        {
+            int x = SendSMS("demo03", "demo@123", "8800648085", "Test Message");
+            List<TEst> t = new List<TEst>();
+            TEst t1 = new TEst();
+            t1.Destination = "8800648085";
+            t1.Message = "Test";
+
+            TEst t2 = new TEst();
+            t1.Destination = "8800648085";
+            t1.Message = "Test2";
+            t.Add(t1);
+            t.Add(t2);
+
+            return View();
+        }
+
+
+
+        public int SendSMS(String username, String Password, String Recipient, String Message)
+        {
+            WebClient Client = new WebClient();
+            String RequestURL, RequestData;
+
+            RequestURL = "http://sms3.kingdigital.in/xmlapi/smsapi";
+
+            RequestData = "?uname=" + username
+                + "&Password=" + System.Web.HttpUtility.UrlEncode(Password)
+                + "&sender=Origin&group={}&route=PA&msgtype=1"
+                + "&receiver=" + System.Web.HttpUtility.UrlEncode(Recipient)
+                + "&sms=" + System.Web.HttpUtility.UrlEncode(Message);
+            string finalUrl = RequestURL + RequestData;
+
+
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(finalUrl);
+            req.Method = "POST";
+            req.ContentType = "application/x-www-form-urlencoded";
+            HttpWebResponse res = (HttpWebResponse)req.GetResponse();
+            return 0;
+        }
+
+
+        public int SendSMS(String username, String Password, String xmlFile)
+        {
+            WebClient Client = new WebClient();
+            String RequestURL, RequestData;
+
+            RequestURL = "http://sms3.kingdigital.in/xmlapi/smsapi";
+
+            RequestData = "?uname=" + username
+                + "&Password=" + System.Web.HttpUtility.UrlEncode(Password)
+                + "&sender=Origin&group={}&route=PA&msgtype=1"
+                + "&xmlfile=" + System.Web.HttpUtility.UrlEncode(xmlFile);
+            string finalUrl = RequestURL + RequestData;
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(finalUrl);
+            req.Method = "POST";
+            req.ContentType = "application/x-www-form-urlencoded";
+            HttpWebResponse res = (HttpWebResponse)req.GetResponse();
+            return 0;
         }
 
 
