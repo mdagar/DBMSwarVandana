@@ -10,12 +10,11 @@ public class MailHelper
     {
         try
         {
-
             WebMail.SmtpServer = ConfigurationWrapper.SMTP_SERVER;
             WebMail.From = ConfigurationWrapper.SMTP_FROM;
             WebMail.Password = ConfigurationWrapper.SMTP_PASSWORD;
             WebMail.SmtpPort = ConfigurationWrapper.SMTP_PORT;
-            WebMail.UserName = ConfigurationWrapper.SMTP_USER;            
+            WebMail.UserName = ConfigurationWrapper.SMTP_USER;
             WebMail.SmtpUseDefaultCredentials = false;
             var filesList = new string[] { fileAttachment };
             WebMail.EnableSsl = false;
