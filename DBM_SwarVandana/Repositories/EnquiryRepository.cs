@@ -86,9 +86,10 @@ namespace Repositories
         {
             object[] objParam = { centerId, EnqueryType };
             string Query = "SELECT EnquiryId,SourceId,EnquiryTypeId,ContactNumber,Name,DateOfEnquiry,Discipline,StateId,CityId,[Address],AttendedBy,Demo,RemarksByFaculty,StatusId,ProbableStudentFor,Gender,Age,Occupation,FinalComments,"
-                           + "NoOfClasses,Package,RegistrationAmount,CentreId,IsEnquiryClosed,TelePhonicEnquiryId,AddDate,AddedBy,ModifyDate,ModifyBy,UserName,IsActive,IsDeleted FROM [dbo].[Enquiries]"
-                            + "WHERE EnquiryTypeId = " + EnqueryType + " AND CentreId = " + centerId + "AND IsDeleted=0";
-            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Query, objParam);
+                           + "NoOfClasses,Package,RegistrationAmount,CentreId,IsEnquiryClosed,TelePhonicEnquiryId,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive,IsDeleted FROM [dbo].[Enquiries]"
+                            + " WHERE EnquiryTypeId = " + EnqueryType + " AND CentreId = " + centerId + " AND IsDeleted=0";
+             //DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Query, objParam);
+             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             if (ds == null)
                 return new List<Enquiries>();
             else
