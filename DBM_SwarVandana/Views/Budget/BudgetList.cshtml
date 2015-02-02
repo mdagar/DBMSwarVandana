@@ -44,7 +44,7 @@
                     <!-- start row -->
                     <tr>
                         <td class="td">@v.ExpenseForName</td>
-                        <td class="td">@v.BudgetAmount</td>
+                        <td class="td">@String.Format("{0:0.##}", v.BudgetAmount)</td>
                         <td class="td">@(((Months)Enum.Parse(typeof(Months), v.Month.ToString())).Desciption())</td>
                         <td class="td">@v.FinancialYear</td>
                         <td class="td">@v.Description</td>

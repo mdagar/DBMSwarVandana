@@ -41,7 +41,7 @@
                 {
                     <!-- start row -->
                     <tr>
-                        <td class="td">@v.ExpenseAmount</td>
+                        <td class="td">@String.Format("{0:0.##}", v.ExpenseAmount)</td>
                         <td class="td">@v.ExpenseForName</td>
                         <td class="td">@v.Description</td>
                         <td class="td">@string.Format("{0:dd MMM yyyy}", v.DateOfExpense)</td>
