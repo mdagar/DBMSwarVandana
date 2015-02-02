@@ -1,8 +1,9 @@
 ﻿using System.Net.Mail;
 using Code;
-using System.Web.Mail;
+//using System.Web.Mail;
 using System.Web.Helpers;
 using System;
+using System.Net;
 public class MailHelper
 {
     public static void SendMail(string to, string subject, string body, string fileAttachment = "")
@@ -14,9 +15,10 @@ public class MailHelper
             WebMail.Password = ConfigurationWrapper.SMTP_PASSWORD;
             WebMail.SmtpPort = ConfigurationWrapper.SMTP_PORT;
             WebMail.UserName = ConfigurationWrapper.SMTP_USER;
+            WebMail.SmtpUseDefaultCredentials = false;
             var filesList = new string[] { fileAttachment };
             WebMail.EnableSsl = false;
-            WebMail.Send(to: to, subject: subject, body: body,isBodyHtml:true);
+            WebMail.Send(to: to, subject: subject, body: body, isBodyHtml: true);
         }
         catch (Exception e)
         {
