@@ -36,11 +36,11 @@
                 </tr>
                 <!-- end row -->
                 <tr>
-                    <td class="td">@Model.BudgetAssign</td>
-                    <td class="td">@Model.Revenue</td>
-                    <td class="td">@Model.Salary</td>
-                    <td class="td">@Model.Expenseses</td>
-                    <td class="td">@Model.FinalAmount</td>
+                    <td class="td">@String.Format("{0:0.##}", Model.BudgetAssign)</td>
+                    <td class="td">@String.Format("{0:0.##}", Model.Revenue)</td>
+                    <td class="td">@String.Format("{0:0.##}", Model.Salary)</td>
+                    <td class="td">@String.Format("{0:0.##}", Model.Expenseses)</td>
+                    <td class="td">@String.Format("{0:0.##}", Model.FinalAmount)</td>
                 </tr>
             </table>
             @*@Html.Partial("_Paging")*@
