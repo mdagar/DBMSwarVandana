@@ -21,29 +21,44 @@
     }
 
     $(function () {
-        $("#DateOfExpense").datepicker({ dateFormat: "dd M yy", minDate: "-1w" });
+        $("#DateOfExpense").datepicker({ dateFormat: "dd M yy", minDate: "-1w",maxDate:"1d" });
     });
 
-    @*function CheckBalance() {
+    function ClearValues() {
+        $("#BudgetAmount").val(0);
+    }
+
+    function CheckBalance() {
         var expamt = $("#ExpenseAmount").val();
+        var expFor = $("#ExpenseFor").val();
         var expmon = $("#Month").val();
         var expyear = $("#FinancialYear").val();
+        if (expFor == '') {
+            alert('Please select Expense For.');
+            return false;
+        }
+        if (expmon == '' || expyear == '') {
+            alert("Please select Financial Year and Month First");
+            return false;
+        }
         $.post('@Url.Action("GetBudgetAmountForMonth", "Budget")', { month: expmon, year: expyear, expensefor: $("#ExpenseFor").val() }, function (data) {
             if (data != null) {
+
                 var result = JSON.parse(data);
+                $("#bgtDiv").show();
                 $("#BudgetAmount").val(result[0].BudgetAmount);
-                if (result[0].ExpenseAmt == null)
-                {
-                    $("#ExpenseAmountNow").val(0);
-                }
-                else
-                {
-                    $("#ExpenseAmountNow").val(result[0].ExpenseAmt);
-                }
-                
+                //if (result[0].ExpenseAmt == null)
+                //{
+                //    $("#ExpenseAmountNow").val(0);
+                //}
+                //else
+                //{
+                //    $("#ExpenseAmountNow").val(result[0].ExpenseAmt);
+                //}
+
             }
         });
-    }*@
+    }
 </script>
 <!-- start container -->
 <div class="container">
@@ -65,12 +80,12 @@
                 }
             </div>
             <h3>Add Expenses</h3>
-            
+
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Expense For:</label>
                 @if (@Model.ExpenseID == 0)
                 {
-                    @Html.DropDownListFor(x => x.ExpenseFor, new ListBound(Model.ExpenseFor, "ExpenseFor").ExpenseFor, "-- Select --", new { @class = "select" })
+                    @Html.DropDownListFor(x => x.ExpenseFor, new ListBound(Model.ExpenseFor, "ExpenseFor").ExpenseFor, "-- Select --", new { @class = "select", @onchange = "ClearValues()" })
                 }
                 else
                 {
@@ -78,28 +93,46 @@
                     @Html.HiddenFor(x => x.ExpenseFor)
                 }
             </div>
-             <div class="row">
+            <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Financial Year:</label>
-                @Html.DropDownListFor(x => x.FinancialYear, new SelectList(ViewBag.Years as System.Collections.IEnumerable, Model.FinancialYear), new { @class = "select" })
+                @if (@Model.ExpenseID == 0)
+                {
+                    @Html.DropDownListFor(x => x.FinancialYear, new SelectList(ViewBag.Years as System.Collections.IEnumerable, Model.FinancialYear), new { @class = "select", @onchange = "ClearValues()" })
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.FinancialYear, new SelectList(ViewBag.Years as System.Collections.IEnumerable, Model.FinancialYear), new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.FinancialYear)
+                }
             </div>
-             <div class="row">
+            <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Select Month:</label>
-                @Html.DropDownListFor(x => x.Month, month, "-- Select Month --", new { @class = "select" @*@onchange = "CheckBalance()"*@ })
+                @if (@Model.ExpenseID == 0)
+                {
+                    @Html.DropDownListFor(x => x.Month, month, "-- Select Month --", new { @class = "select" })
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.Month, month, "-- Select Month --", new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.Month)
+
+                }
+                <a href="Javascript:void(0)" onclick="CheckBalance()">Show Budget</a>
             </div>
-            <div class="row">
+            <div class="row" id="bgtDiv" style="display:none">
                 <label for="Password">Budget Assign:</label>
-                @Html.TextBoxFor(x => x.BudgetAmount, new { @class = "input", @readonly="readonly" })
+                @Html.TextBoxFor(x => x.BudgetAmount, new { @class = "input", @readonly = "readonly" })
             </div>
-            <div class="row">
-                <label for="Password">Total Expense(Till Now):</label>
-                @Html.TextBoxFor(x => x.ExpenseAmountNow, new { @class = "input", @readonly = "readonly" })
-            </div>
+            @*<div class="row">
+                    <label for="Password">Total Expense(Till Now):</label>
+                    @Html.TextBoxFor(x => x.ExpenseAmountNow, new { @class = "input", @readonly = "readonly" })
+                </div>*@
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Expense Amount:</label>
                 @Html.TextBoxFor(x => x.ExpenseAmount, new { @class = "input" })
             </div>
             <div class="row">
-                <label for="Password"><span style="color: red;">*</span>Description:</label>
+                <label for="Password">Description:</label>
                 @Html.TextAreaFor(x => x.Description, new { @class = "textarea" })
             </div>
             <div class="row">
@@ -108,9 +141,9 @@
                 @Html.TextBox("DateOfExpense", Model.DateOfExpense == null ? "" : Model.DateOfExpense.Value.ToString("dd MMM yyyy"), new { @class = "input", @readonly = "readonly" })
             </div>
             @*<div class="row">
-                <label for="Password">Is Active :</label>
-                @Html.CheckBoxFor(x => x.IsActive, new { @class = "input" })
-            </div>*@
+                    <label for="Password">Is Active :</label>
+                    @Html.CheckBoxFor(x => x.IsActive, new { @class = "input" })
+                </div>*@
             <div class="rowbutton">
                 <input type="submit" id="btnSubmit" value="Submit" class="submit-btn gap" />
                 <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
