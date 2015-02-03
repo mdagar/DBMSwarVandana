@@ -39,7 +39,7 @@ namespace DBM_SwarVandana.Controllers
             string currentYear = CurrentFinancialYear();
             var expfor = _allbudget.GetExpenseForAll();
             bgt.Update(x => x.ExpenseForName = expfor.Where(s => s.ExpenseForId == x.ExpenseFor).FirstOrDefault().ExpenseFor);
-            var month = Enum.GetValues(typeof(Months)).Cast<Months>().ToList();            
+            var month = Enum.GetValues(typeof(Months)).Cast<Months>().ToList();
             foreach (var v in bgt)
                 v.CurrentFinancialYear = currentYear;
             return View(bgt);
@@ -181,7 +181,10 @@ namespace DBM_SwarVandana.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", Messages.ExpenseExists);
+                    if (result == -1)
+                        ModelState.AddModelError("", Messages.ExpenseExists);
+                    else
+                        ModelState.AddModelError("", "Budget Not Assigned for Selected Expense");
                 }
             }
             else
@@ -222,9 +225,9 @@ namespace DBM_SwarVandana.Controllers
         #region Profit Loss Management
 
         [Authenticate]
-        public ActionResult ProfitLoss(string financialyear = "",int month=0)
+        public ActionResult ProfitLoss(string financialyear = "", int month = 0)
         {
-            ProfitLossViewModel p = new ProfitLossViewModel();            
+            ProfitLossViewModel p = new ProfitLossViewModel();
             string final = "";
             p.financialYears = GetPreviousFinancialYears();
             if (!string.IsNullOrEmpty(financialyear))
@@ -232,11 +235,11 @@ namespace DBM_SwarVandana.Controllers
             else
                 p.SelectedFinancialyear = p.financialYears.FirstOrDefault();
             final = p.SelectedFinancialyear;
-            p = _allbudget.GetRevenue(SessionWrapper.User.CentreId, p.SelectedFinancialyear,month);
+            p = _allbudget.GetRevenue(SessionWrapper.User.CentreId, p.SelectedFinancialyear, month);
 
             p.financialYears = GetPreviousFinancialYears();
             p.SelectedFinancialyear = final;
-            p.BudgetAssign = _allbudget.ConsolidatedCenterBudget(SessionWrapper.User.CentreId, p.SelectedFinancialyear,month);
+            p.BudgetAssign = _allbudget.ConsolidatedCenterBudget(SessionWrapper.User.CentreId, p.SelectedFinancialyear, month);
             if (p.BudgetAssign == 0)
             {
                 p.Salary = 0;
