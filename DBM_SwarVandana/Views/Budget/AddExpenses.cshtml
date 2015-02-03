@@ -24,7 +24,7 @@
         $("#DateOfExpense").datepicker({ dateFormat: "dd M yy", minDate: "-1w" });
     });
 
-    function CheckBalance() {
+    @*function CheckBalance() {
         var expamt = $("#ExpenseAmount").val();
         var expmon = $("#Month").val();
         var expyear = $("#FinancialYear").val();
@@ -43,7 +43,7 @@
                 
             }
         });
-    }
+    }*@
 </script>
 <!-- start container -->
 <div class="container">
@@ -84,7 +84,7 @@
             </div>
              <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Select Month:</label>
-                @Html.DropDownListFor(x => x.Month, month, "-- Select Month --", new { @class = "select", @onchange = "CheckBalance()" })
+                @Html.DropDownListFor(x => x.Month, month, "-- Select Month --", new { @class = "select" @*@onchange = "CheckBalance()"*@ })
             </div>
             <div class="row">
                 <label for="Password">Total Budget:</label>

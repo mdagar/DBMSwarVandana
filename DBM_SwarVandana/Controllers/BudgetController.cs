@@ -162,8 +162,8 @@ namespace DBM_SwarVandana.Controllers
             var result = 0;
             //if (exp.ExpenseAmount < 1000)
             //    ModelState.AddModelError(string.Empty, "Expense Amount should be atleast of 1000 rs.");
-            if (exp.ExpenseAmount > (exp.BudgetAmount-exp.ExpenseAmountNow))
-                ModelState.AddModelError(string.Empty, "Expense Amount should be less then Budget amount");
+            //if (exp.ExpenseAmount > (exp.BudgetAmount-exp.ExpenseAmountNow))
+            //    ModelState.AddModelError(string.Empty, "Expense Amount should be less then Budget amount");
             if (ModelState.IsValid)
             {
                 exp.ActionId = 0;

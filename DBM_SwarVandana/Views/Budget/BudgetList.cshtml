@@ -44,14 +44,14 @@
                     <!-- start row -->
                     <tr>
                         <td class="td">@v.ExpenseForName</td>
-                        <td class="td">@v.BudgetAmount</td>
+                        <td class="td">@string.Format("{0:0}", v.BudgetAmount)</td>
                         <td class="td">@(((Months)Enum.Parse(typeof(Months), v.Month.ToString())).Desciption())</td>
                         <td class="td">@v.FinancialYear</td>
                         <td class="td">@v.Description</td>
                         @*<td class="td">@v.IsActive</td>*@
                         <td class="td">
                             @if (v.FinancialYear == v.CurrentFinancialYear)
-                            { 
+                            {
                                 <a href="@Url.Action("AssignBudget", "Budget", new { BudgetID = v.BudgetID })" title="Edit">Edit</a>
                             }
                         </td>
@@ -59,12 +59,12 @@
                     <!-- end row -->
                 }
                 @{if (Model.Count() == 0)
-                  {
+                {
                     <tr class="row">
                         <td class="td" style="text-align: center">No record found.</td>
                     </tr>
 
-                  }}
+                }}
             </table>
         </div>
         <!-- end table -->
