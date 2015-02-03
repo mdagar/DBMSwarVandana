@@ -45,6 +45,7 @@
             if (data != null) {
 
                 var result = JSON.parse(data);
+                ClearValues();
                 $("#bgtDiv").show();
                 $("#BudgetAmount").val(result[0].BudgetAmount);
                 //if (result[0].ExpenseAmt == null)
