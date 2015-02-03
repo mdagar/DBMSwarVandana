@@ -139,7 +139,7 @@ namespace Repositories
             if (e.ExpenseID > 0)
                 e.ActionId = 1;
             object[] objParam = { e.ActionId, e.ExpenseID, e.ExpenseAmount, e.ExpenseFor, e.Description, e.DateOfExpense, 
-                                    e.CentreID, e.CreatedOn,e.CreatedBy, e.ModifiedOn,e.ModifiedBy,  e.IsActive, e.IsDeleted };
+                                    e.CentreID, e.CreatedOn,e.CreatedBy, e.ModifiedOn,e.ModifiedBy,  e.IsActive, e.IsDeleted,e.Month,e.FinancialYear };
             var res = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.InsertExpenses, objParam);
             return Convert.ToInt32(res);
         }
