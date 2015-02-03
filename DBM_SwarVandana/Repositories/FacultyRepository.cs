@@ -36,7 +36,7 @@ namespace Repositories
                                   f. AddedBy          ,
                                   f. ModifyDate       ,
                                   f. ModifyBy        ,
-                                  f. IsActive,f.IsDeleted};
+                                  f. IsActive,f.IsDeleted,f.DOB};
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.USP_Faculties_IUD, objParam);
             return Convert.ToInt32(d);
         }
