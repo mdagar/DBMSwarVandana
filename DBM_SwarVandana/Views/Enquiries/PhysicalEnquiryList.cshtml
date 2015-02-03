@@ -37,14 +37,14 @@
                     <td class="td">Visit Date</td>
                     <td class="td">Attended By</td>
                     <td class="td">Contact</td>
-                    <td class="td">prob. stu.</td>
+                    <td class="td">Address</td>
                     <td class="td">Gender</td>
                     <td class="td">Age</td>
                     <td class="td">Classes</td>
                     <td class="td">Package</td>
                     <td class="td">Demo</td>
                     <td class="td">Faculty</td>
-                    <td class="td">Faculity Remarks</td>
+                    <td class="td">Faculity Remak</td>
                     <td class="td">Final Remarks</td>
                     <td class="td">Updated on</td>
                     <td class="td">Status</td>
@@ -62,7 +62,7 @@
                         <td class="td">@string.Format("{0:dd MMM yyyy}", v.DateOfEnquiry)</td>
                         <td class="td">@v.AttendedByUser</td>
                         <td class="td">@v.ContactNumber</td>
-                        <td class="td">@(((EnquiryFor)Enum.Parse(typeof(EnquiryFor), v.ProbableStudentFor.ToString())).Desciption())</td>
+                        <td class="td">@v.Address</td>
                         <td class="td">@(((Gender)Enum.Parse(typeof(Gender), v.Gender.ToString())).Desciption())</td>
                         <td class="td">@v.Age</td>
                         <td class="td">@v.NoOfClasses</td>
