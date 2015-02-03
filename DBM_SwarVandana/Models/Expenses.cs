@@ -9,6 +9,7 @@ namespace Models
     {
         public virtual int ActionId { get; set; }
         public virtual int ExpenseID { get; set; }
+        public virtual decimal BudgetAmount { get; set; }
         public virtual decimal ExpenseAmount { get; set; }
         public virtual int ExpenseFor { get; set; }
         public virtual string ExpenseForName { get; set; }
@@ -29,6 +30,7 @@ namespace Models
             this.ActionId = 0;
             this.ExpenseID = 0;
             this.ExpenseAmount = 0;
+            this.BudgetAmount = 0;
             this.ExpenseFor = 0;
             this.Description = string.Empty;
             this.DateOfExpense = null;

@@ -108,8 +108,8 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult AssignBudget(BudgetViewModel bgt)
         {
             var result = 0;
-            if (bgt.BudgetAmount < 1000)
-                ModelState.AddModelError(string.Empty, "Budget amount should not less then 1000 rs.");
+            //if (bgt.BudgetAmount < 100)
+            //    ModelState.AddModelError(string.Empty, "Budget amount should not less then 100 rs.");
             if (ModelState.IsValid)
             {
                 bgt.ActionId = 0;
