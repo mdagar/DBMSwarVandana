@@ -612,7 +612,7 @@ namespace DBM_SwarVandana.Controllers
 
         [Authenticate]
         [HttpPost]
-        public ActionResult BatchTimingUpdate(long StudentId, long EnrollmentId, List<int> BatchIds)
+        public ActionResult BatchTimingUpdate(List<int> BatchIds,long StudentId=0, long EnrollmentId=0)
         {
             if (StudentId != 0)
             {
@@ -640,6 +640,14 @@ namespace DBM_SwarVandana.Controllers
                         ViewBag.Success = "Batch timing is successfully updated";
                     }
                 }
+                else
+                {
+                    ViewBag.Error = "Select Discipline.";
+                }
+            }
+            else
+            {
+                ViewBag.Error = "Enter Student Details.";
             }
             return View();
         }
