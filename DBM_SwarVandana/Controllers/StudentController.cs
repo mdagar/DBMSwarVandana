@@ -612,14 +612,14 @@ namespace DBM_SwarVandana.Controllers
 
         [Authenticate]
         [HttpPost]
-        public ActionResult BatchTimingUpdate(List<int> BatchIds,long StudentId=0, long EnrollmentId=0)
+        public ActionResult BatchTimingUpdate(List<int> BatchIds, long StudentId = 0, long EnrollmentId = 0)
         {
             if (StudentId != 0)
             {
                 if (EnrollmentId != 0)
                 {
                     if (BatchIds.Count <= 0)
-                        ViewBag.Error = "Please assign batch.";
+                        ModelState.AddModelError(string.Empty, "Please assign batch.");
                     else
                     {
                         List<StudentBatchMapping> batchmapping = new List<StudentBatchMapping>();
@@ -641,14 +641,12 @@ namespace DBM_SwarVandana.Controllers
                     }
                 }
                 else
-                {
-                    ViewBag.Error = "Select Discipline.";
-                }
+
+                    ModelState.AddModelError(string.Empty, "Please Select Discipline.");
             }
             else
-            {
-                ViewBag.Error = "Enter Student Details.";
-            }
+                ModelState.AddModelError(string.Empty, "Please enter Student Details.");
+
             return View();
         }
 
