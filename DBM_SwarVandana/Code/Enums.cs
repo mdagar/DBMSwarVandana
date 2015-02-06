@@ -81,7 +81,9 @@ namespace Code
         [Description("Cheque")]
         Cheque,
         [Description("Credit Card")]
-        CreditCard
+        CreditCard,
+        [Description("Old Payment")]
+        OldPayment
     }
 
     public enum Months
