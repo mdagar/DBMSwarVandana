@@ -58,10 +58,10 @@
                         <td class="td">@v.Absents</td>
                         <td class="td">@v.SatrtDate.Value.ToString("dd MMM yyyy")</td>
                         <td class="td">@v.EndDate.Value.ToString("dd MMM yyyy")</td>
-                        <td class="td">@v.CourseAmount</td>
-                        <td class="td">@v.AmountPaid</td>
-                        <td class="td">@v.RegistratonAmount</td>
-                        <td class="td">@v.PendingAmount</td>
+                        <td class="td">@String.Format("{0:0.##}", v.CourseAmount)</td>
+                        <td class="td">@String.Format("{0:0.##}", v.AmountPaid)</td>
+                        <td class="td">@String.Format("{0:0.##}", v.RegistratonAmount)</td>
+                        <td class="td">@String.Format("{0:0.##}", v.PendingAmount)</td>
                         @*<td class="td">
                                 <a href="@Url.Action("AddStudent", "Student", new { uniqueId = v.UniqueKey })" title="Edit">Edit</a>
                                 | <a href="@Url.Action("Studentdetail", "Student", new { uniqueId = v.UniqueKey })" title="Show details">Details</a>
