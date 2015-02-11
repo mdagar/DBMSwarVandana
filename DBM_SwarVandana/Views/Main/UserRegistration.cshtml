@@ -110,7 +110,7 @@
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Contact Number :</label>
-                @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "20" }))
+                @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "20" })
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Email ID :</label>
@@ -134,7 +134,7 @@
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>State :</label>
-                @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" }))
+                @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" })
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>City :</label>
