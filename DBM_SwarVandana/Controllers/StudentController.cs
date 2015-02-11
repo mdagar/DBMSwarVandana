@@ -193,6 +193,8 @@ namespace DBM_SwarVandana.Controllers
                 s.CreatedBy = SessionWrapper.User.UserId;
                 s.ModifBy = SessionWrapper.User.UserId;
                 s.ModifyDate = DateTime.Now;
+                s.BankName = string.IsNullOrEmpty(s.BankName) ? "" : s.BankName;
+                s.PaymentDetails = string.IsNullOrEmpty(s.PaymentDetails) ? "" : s.PaymentDetails;
                 s.IsActive = true;
                 s.IsDeleted = false;
                 result = _allstudents.EnrollStudents(s);
@@ -282,38 +284,43 @@ namespace DBM_SwarVandana.Controllers
         {
             var result = 0;
             StudentRenewalViewModel sr;
-            if (ModelState.IsValid)
-            {
-                s.ActionId = 0;
-                s.AddDate = DateTime.Now;
-                s.ModifyDate = DateTime.Now;
-                s.ModifyBy = SessionWrapper.User.UserId;
-                s.AddedBy = SessionWrapper.User.UserId;
-                s.CenterId = SessionWrapper.User.CentreId;
-                if (s.RenewalId != 0)
+            var s1 = _allstudents.GetStudentsByUniqueId(s.EnrollmentNo);
+
+            if (s1 == null)
+                ModelState.AddModelError(string.Empty,"Please enter valid Enrollment no.");
+
+                if (ModelState.IsValid)
                 {
-                    sr = new StudentRenewalViewModel(_allstudents.GetRenewStudentFromRenewId(SessionWrapper.User.UserId, s.RenewalId));
-                    sr.ActionId = 1;
-                    sr.ModifyDate = DateTime.Now;
-                    sr.ModifyBy = SessionWrapper.User.UserId;
-                    sr.Description = s.Description;
-                    sr.Remark = s.Remark;
-                    sr.Status = s.Status;
-                    result = _allstudents.RenewalStudents(sr);
+                    s.ActionId = 0;
+                    s.AddDate = DateTime.Now;
+                    s.ModifyDate = DateTime.Now;
+                    s.ModifyBy = SessionWrapper.User.UserId;
+                    s.AddedBy = SessionWrapper.User.UserId;
+                    s.CenterId = SessionWrapper.User.CentreId;
+                    if (s.RenewalId != 0)
+                    {
+                        sr = new StudentRenewalViewModel(_allstudents.GetRenewStudentFromRenewId(SessionWrapper.User.UserId, s.RenewalId));
+                        sr.ActionId = 1;
+                        sr.ModifyDate = DateTime.Now;
+                        sr.ModifyBy = SessionWrapper.User.UserId;
+                        sr.Description = s.Description;
+                        sr.Remark = s.Remark;
+                        sr.Status = s.Status;
+                        result = _allstudents.RenewalStudents(sr);
+                    }
+                    else
+                    {
+                        result = _allstudents.RenewalStudents(s);
+                    }
+                    if (result > 0)
+                    {
+                        ViewBag.Success = Messages.SubmitRenewal;
+                    }
                 }
                 else
                 {
-                    result = _allstudents.RenewalStudents(s);
+                    s = new StudentRenewalViewModel();
                 }
-                if (result > 0)
-                {
-                    ViewBag.Success = Messages.SubmitRenewal;
-                }
-            }
-            else
-            {
-                s = new StudentRenewalViewModel();
-            }
             return View(s);
         }
 
