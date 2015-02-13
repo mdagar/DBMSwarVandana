@@ -131,5 +131,31 @@ namespace DBM_SwarVandana.Controllers
             rm.ReportDataset = d;
             return View(rm);
         }
+
+        [Authenticate]
+        public ActionResult EnrollmentStudentList()
+        {
+            ReportViewModel rm = new ReportViewModel();
+            return View(rm);
+        }
+
+        [Authenticate]
+        public ActionResult StudentEnrollmentListAjaxView(string fromdate, string todate)
+        {
+            ReportViewModel rm = new ReportViewModel();
+            DateTime fDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            DateTime tDate = fDate.AddMonths(1).AddDays(-1);
+            if (!string.IsNullOrEmpty(fromdate))
+            {
+                fDate = Convert.ToDateTime(fromdate);
+            }
+            if (!string.IsNullOrEmpty(todate))
+            {
+                tDate = Convert.ToDateTime(todate);
+            }
+            var d = _reports.GetStudentEnrollmentList(fDate, tDate);
+            rm.ReportDataset = d;
+            return View(rm);
+        }
     }
 }

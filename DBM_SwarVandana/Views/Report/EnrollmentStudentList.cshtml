@@ -1,0 +1,46 @@
+﻿@model ViewModel.ReportViewModel
+@{
+    ViewBag.Title = "Enroll Students";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Content/js/jquery-ui.js"></script>
+<link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
+<script>
+    $(document).ready(function () {
+        var date = new Date();
+        alert(date);
+        date.setMonth(date.getMonth(), 1);
+        $("#FromDate").datepicker({ dateFormat: "dd M yy", minDate: "-2m", defaultDate: date });
+        $("#ToDate").datepicker({ dateFormat: "dd M yy", minDate: "-1m", maxDate: "d", defaultDate: date });
+    });
+
+    function ShowRecords() {
+
+        $.post('@Url.Action("StudentEnrollmentListAjaxView", "Report")', { fromdate: $("#FromDate").val(), todate: $("#ToDate").val() }, function (data) {
+                $("#ReportView").html(data);
+            });
+    }
+</script>
+
+<div class="container">
+    <!-- table-info -->
+   
+     <div class="table-info">
+            <!-- start table-form -->
+         
+            <div class="table-form">
+                <form action="#">
+                    <label for="Password">From Date: </label>
+                    @Html.TextBoxFor(x => x.FromDate, new { @class = "input", @readonly = "readonly" })
+                    <label for="From">To Date</label>
+                    @Html.TextBoxFor(x => x.ToDate, new { @class = "input", @readonly = "readonly" })
+                    <input name="button" type="button" value="Show Report" class="submit-btn" onclick="javascript: ShowRecords();" />
+                </form>
+            </div>
+ 
+            <div id="ReportView" class="table-form">
+            </div>
+            
+        </div>
+       
+    </div>
