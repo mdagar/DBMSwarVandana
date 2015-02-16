@@ -51,5 +51,11 @@ namespace Repositories
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
         }
+        public DataSet GetStudentEnrollmentList(DateTime fromdate, DateTime todate)
+        {
+            string Query = "select ST.UniqueKey,ST.Name,ST.Contact1,ST.EmailAddress,(select Discipline from [dbo].[Disciplines] where Disciplineid=SE.DisciplineId)Discipline,CourseAmount,NoOfClasses,convert(varchar,SatrtDate,106)SatrtDate,convert(varchar,EndDate,106)EndDate from [dbo].[StudentEnrollment] SE, [dbo].[Student] ST WHERE SE.StudentId=ST.StudentId and ST.CenterId=" + SessionWrapper.User.CentreId + " and SE.CreatedDate  between '" + fromdate + "' and '" + todate + "' and SE.IsRenewal=0";
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            return d;
+        }
     }
 }
