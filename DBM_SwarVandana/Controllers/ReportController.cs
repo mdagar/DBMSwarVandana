@@ -133,27 +133,33 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult EnrollmentStudentList()
+        public ActionResult EnrollmentStudentList(string fromdate = "", string todate = "", int page = 1)
         {
             ReportViewModel rm = new ReportViewModel();
-            return View(rm);
-        }
-
-        [Authenticate]
-        public ActionResult StudentEnrollmentListAjaxView(string fromdate, string todate)
-        {
-            ReportViewModel rm = new ReportViewModel();
+            int TotalPages = 0, datefilter = 1; ;
             DateTime fDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             DateTime tDate = fDate.AddMonths(1).AddDays(-1);
             if (!string.IsNullOrEmpty(fromdate))
             {
                 fDate = Convert.ToDateTime(fromdate);
             }
+            else
+                datefilter = 0;  
             if (!string.IsNullOrEmpty(todate))
             {
                 tDate = Convert.ToDateTime(todate);
             }
-            var d = _reports.GetStudentEnrollmentList(fDate, tDate, fromdate);
+            var d = _reports.GetStudentEnrollmentList(fDate, tDate, datefilter, out TotalPages, page);
+            rm.ReportDataset = d;
+            ViewBag.TotalPages = TotalPages;
+            return View(rm);
+        }
+
+        [Authenticate]
+        public ActionResult PaymentDetailList()
+        {
+            ReportViewModel rm = new ReportViewModel();
+            var d = _reports.GetUpCommingPaymentDetail();
             rm.ReportDataset = d;
             return View(rm);
         }
