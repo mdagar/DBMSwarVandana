@@ -68,7 +68,18 @@
 
                 }}
             </table>
+            <br />
+            @{
+                var budget = Math.Round(Model.Sum(x => x.BudgetAmount), 0);
+                var Expense = Math.Round(Model.Sum(x => x.ExpenseAmount), 0);
+            }
+            
+            <div style="text-align: right;font-weight:bold; border:1px solid;padding-right:10px; ">
+               Total Budget  =   @budget   <br /> Total Expense  =  @Expense
+            </div>
+            
             @Html.Partial("_Paging")
+
         </div>
         <!-- end table -->
     </div>
