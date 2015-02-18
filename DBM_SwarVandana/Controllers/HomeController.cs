@@ -125,75 +125,24 @@ namespace DBM_SwarVandana.Controllers
 
         }
 
-        public class TEst
-        {
-            public string Destination { get; set; }
-            public string Message { get; set; }
-        }
 
         public ActionResult TestMessage()
         {
-            int x = SendSMS("demo03", "demo@123", "8800648085", "Test Message");
-            List<TEst> t = new List<TEst>();
-            TEst t1 = new TEst();
-            t1.Destination = "8800648085";
-            t1.Message = "Test";
+            //public void send(string uid, string password, string message, string no)
+            string uid = "demo"; string password = "hspsms"; string message = "Test SMS 123"; string no = "8800648085";
+            string senderName = "hspsms";
 
-            TEst t2 = new TEst();
-            t1.Destination = "8800648085";
-            t1.Message = "Test2";
-            t.Add(t1);
-            t.Add(t2);
+            //HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create("http://ubaid.tk/sms/sms.aspx?uid=" + uid + "&pwd=" + password + "&msg=" + message + "&phone=" + no + "&provider=fullonsms");
+            HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create("http://46.4.103.196:8080/SMSAPI.jsp?username=" + uid + "&password=" + password + "&sendername=" + senderName + "&mobileno=" + no + "&message=" + message);
 
+            HttpWebResponse myResp = (HttpWebResponse)myReq.GetResponse();
+            System.IO.StreamReader respStreamReader = new System.IO.StreamReader(myResp.GetResponseStream());
+            string responseString = respStreamReader.ReadToEnd();
+            respStreamReader.Close();
+            myResp.Close();
             return View();
+
         }
-
-
-
-        public int SendSMS(String username, String Password, String Recipient, String Message)
-        {
-            WebClient Client = new WebClient();
-            String RequestURL, RequestData;
-
-            RequestURL = "http://sms3.kingdigital.in/xmlapi/smsapi";
-
-            RequestData = "?uname=" + username
-                + "&Password=" + System.Web.HttpUtility.UrlEncode(Password)
-                + "&sender=Origin&group={}&route=PA&msgtype=1"
-                + "&receiver=" + System.Web.HttpUtility.UrlEncode(Recipient)
-                + "&sms=" + System.Web.HttpUtility.UrlEncode(Message);
-            string finalUrl = RequestURL + RequestData;
-
-
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(finalUrl);
-            req.Method = "POST";
-            req.ContentType = "application/x-www-form-urlencoded";
-            HttpWebResponse res = (HttpWebResponse)req.GetResponse();
-            return 0;
-        }
-
-
-        public int SendSMS(String username, String Password, String xmlFile)
-        {
-            WebClient Client = new WebClient();
-            String RequestURL, RequestData;
-
-            RequestURL = "http://sms3.kingdigital.in/xmlapi/smsapi";
-
-            RequestData = "?uname=" + username
-                + "&Password=" + System.Web.HttpUtility.UrlEncode(Password)
-                + "&sender=Origin&group={}&route=PA&msgtype=1"
-                + "&xmlfile=" + System.Web.HttpUtility.UrlEncode(xmlFile);
-            string finalUrl = RequestURL + RequestData;
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(finalUrl);
-            req.Method = "POST";
-            req.ContentType = "application/x-www-form-urlencoded";
-            HttpWebResponse res = (HttpWebResponse)req.GetResponse();
-            return 0;
-        }
-
-
-
 
     }
 }
