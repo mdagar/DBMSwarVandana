@@ -18,7 +18,7 @@
             <form action="#">
                 @Html.DropDownList("month", (typeof(Months).SelectList<Months>(true)), "-- Month --", new { @class = "input" })
                 @*<input type="text" name="Search" value="@ViewBag.Search" placeholder="Search" class="input" />*@
-                @Html.DropDownList("SelectedFinancialyear", new SelectList(ViewBag.FinancialYears), "-- Financial Year --", new { @class = "input" })
+                @Html.DropDownList("SelectedFinancialyear", new SelectList(ViewBag.FinancialYears), "-- FY  --", new { @class = "input" })
                 <input type="submit" value="Search" class="submit-btn" />
                 @*<label for="From">&nbsp;</label>
                     <input type="button" value="Export" onclick="Export()" class="submit-btn" />*@
