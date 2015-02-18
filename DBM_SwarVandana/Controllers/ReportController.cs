@@ -153,7 +153,7 @@ namespace DBM_SwarVandana.Controllers
             {
                 tDate = Convert.ToDateTime(todate);
             }
-            var d = _reports.GetStudentEnrollmentList(fDate, tDate);
+            var d = _reports.GetStudentEnrollmentList(fDate, tDate, fromdate);
             rm.ReportDataset = d;
             return View(rm);
         }

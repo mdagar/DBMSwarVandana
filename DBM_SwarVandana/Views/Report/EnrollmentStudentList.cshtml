@@ -8,10 +8,10 @@
 <script>
     $(document).ready(function () {
         var date = new Date();
-        alert(date);
         date.setMonth(date.getMonth(), 1);
         $("#FromDate").datepicker({ dateFormat: "dd M yy", minDate: "-2m", defaultDate: date });
         $("#ToDate").datepicker({ dateFormat: "dd M yy", minDate: "-1m", maxDate: "d", defaultDate: date });
+        ShowRecords();
     });
 
     function ShowRecords() {
