@@ -131,12 +131,14 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult ExpenseList(string Search = "", int page = 1)
+        public ActionResult ExpenseList(int month=0, string Search = "", int page = 1)
         {
             int TotalPages = 0;
+            if (month == 0)
+                month = DateTime.Now.Month;
             Search = Search.Trim();
             ViewBag.Search = Search;
-            List<Expenses> exp = _allbudget.GetAllExpenses(SessionWrapper.User.CentreId, out TotalPages, page, Search.Trim());
+            List<Expenses> exp = _allbudget.GetAllExpenses(month, SessionWrapper.User.CentreId, out TotalPages, page, Search.Trim());
             var expfor = _allbudget.GetExpenseForAll();
             exp.Update(x => x.ExpenseForName = expfor.Where(s => s.ExpenseForId == x.ExpenseFor).FirstOrDefault().ExpenseFor);
             ViewBag.TotalPages = TotalPages;
