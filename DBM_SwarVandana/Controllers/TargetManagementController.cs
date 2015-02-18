@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Code;
 using Models;
 using Repositories;
-
+using ViewModel;
 namespace DBM_SwarVandana.Controllers
 {
     public class TargetManagementController : Controller
@@ -16,13 +16,39 @@ namespace DBM_SwarVandana.Controllers
 
         AllTargetManagement _allAarget = new AllTargetManagement();
 
-        public ActionResult Index()
+        private List<string> GetPreviousFinancialYears()
         {
-            return View();
+            List<string> Years = new List<string>();
+            DateTime startYear = DateTime.Now;
+            while (startYear.Year >= DateTime.Now.AddYears(-5).Year)
+            {
+                if (startYear.Month >= 4)
+                    Years.Add(startYear.Year + " - " + startYear.AddYears(1).Year);
+                else
+                    Years.Add(startYear.AddYears(-1).Year + " - " + startYear.Year);
+                startYear = startYear.AddYears(-1);
+            }
+            return Years;
         }
 
         [Authenticate]
-        public ActionResult AddToAgtget(long EnqId,int TargetType)
+        public ActionResult Index(int month = 0, string SelectedFinancialyear = "")
+        {
+            if (month == 0)
+                month = DateTime.Now.Month;
+            var financialYears = GetPreviousFinancialYears();
+            if (string.IsNullOrEmpty(SelectedFinancialyear))
+                SelectedFinancialyear = financialYears.FirstOrDefault();
+
+            ViewBag.FinancialYears = financialYears;
+            TargetManagementViewModel tr = new TargetManagementViewModel();
+            tr.ds = _allAarget.GetTargetData(SessionWrapper.User.CentreId, month, SelectedFinancialyear);
+            return View(tr);
+
+        }
+
+        [Authenticate]
+        public ActionResult AddToAgtget(long EnqId, int TargetType)
         {
             ViewBag.EnqID = EnqId;
             ViewBag.TargetType = TargetType;

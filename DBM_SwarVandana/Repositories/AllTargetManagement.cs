@@ -4,6 +4,7 @@ using Models;
 using SqlRepositories;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -112,6 +113,16 @@ namespace Repositories
         //        return new ViewModel.ProfitLossViewModel();
 
         //}
+
+        public DataSet GetTargetData(int centerId, int Month,string financialYear)
+        {
+            object[] objParam = { centerId,Month,financialYear };
+            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), "MYTarget", objParam);
+            if (ds == null)
+                return new DataSet();
+            else
+                return ds;
+        }
 
         //public DataSet GetBudgetAmountForMonth(int month, string year, int expensefor)
         //{
