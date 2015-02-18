@@ -99,10 +99,11 @@ namespace Repositories
                 return 0;
         }
 
-        public List<Expenses> GetAllExpenses(int centerId, out int TotalPages, int PageNumber = 1, string search = "")
+        public List<Expenses> GetAllExpenses(int month, int centerId, out int TotalPages, int PageNumber = 1, string search = "",string selectedfinancialYear="")
         {
             int RowsPerPage = ConfigurationWrapper.PageSize;
-            SqlParameter[] spParameter = new SqlParameter[6];
+            var ExpenceMonth = new SqlParameter("@Month", month);
+            var FinancialYear = new SqlParameter("@FinancialYear", selectedfinancialYear);
             var pcenterId = new SqlParameter("@CentreId", centerId);
             var rowsPerpage = new SqlParameter("@RowsPerPage", RowsPerPage);
             var rowNo = new SqlParameter("@PageNumber", PageNumber);
@@ -111,6 +112,8 @@ namespace Repositories
             SqlCommand cmd = new SqlCommand("GetAllExpenses", db.GetConnection());
             cmd.CommandType = CommandType.StoredProcedure;
             DataSet ds = new DataSet();
+            cmd.Parameters.Add(FinancialYear);
+            cmd.Parameters.Add(ExpenceMonth);
             cmd.Parameters.Add(pcenterId);
             cmd.Parameters.Add(rowsPerpage);
             cmd.Parameters.Add(rowNo);

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Models.Expenses>
+﻿@using Code;
+@model IEnumerable<Models.Expenses>
 @{
     ViewBag.Title = "ExpenseList";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -15,7 +16,9 @@
         <!-- start table-form -->
         <div class="table-form">
             <form action="#">
-                <input type="text" name="Search" value="@ViewBag.Search" placeholder="Search" class="input" />
+                @Html.DropDownList("month", (typeof(Months).SelectList<Months>(true)), "-- Month --", new { @class = "input" })
+                @*<input type="text" name="Search" value="@ViewBag.Search" placeholder="Search" class="input" />*@
+                @Html.DropDownList("SelectedFinancialyear", new SelectList(ViewBag.FinancialYears), "-- Financial Year --", new { @class = "input" })
                 <input type="submit" value="Search" class="submit-btn" />
                 @*<label for="From">&nbsp;</label>
                     <input type="button" value="Export" onclick="Export()" class="submit-btn" />*@
@@ -41,7 +44,7 @@
                 @foreach (var v in Model)
                 {
                     <!-- start row -->
-                    var color = (v.BudgetAmount < v.ExpenseAmount) ? "Red" : ""; 
+                    var color = (v.BudgetAmount < v.ExpenseAmount) ? "Red" : "";
                     <tr style="background-color:@color">
                         <td class="td">@String.Format("{0:0.##}", v.BudgetAmount)</td>
                         <td class="td">@String.Format("{0:0.##}", v.ExpenseAmount)</td>
@@ -66,7 +69,18 @@
 
                 }}
             </table>
+            <br />
+            @{
+                var budget = Math.Round(Model.Sum(x => x.BudgetAmount), 0);
+                var Expense = Math.Round(Model.Sum(x => x.ExpenseAmount), 0);
+            }
+            
+            <div style="text-align: right;font-weight:bold; border:1px solid;padding-right:10px; ">
+               Total Budget  =   @budget   <br /> Total Expense  =  @Expense
+            </div>
+            
             @Html.Partial("_Paging")
+
         </div>
         <!-- end table -->
     </div>

@@ -131,12 +131,19 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult ExpenseList(string Search = "", int page = 1)
+        public ActionResult ExpenseList(int month = 0, string SelectedFinancialyear = "", string Search = "", int page = 1)
         {
             int TotalPages = 0;
+            if (month == 0)
+                month = DateTime.Now.Month;
+            var financialYears = GetPreviousFinancialYears();
+            if (string.IsNullOrEmpty(SelectedFinancialyear))
+                SelectedFinancialyear = financialYears.FirstOrDefault();
+
             Search = Search.Trim();
             ViewBag.Search = Search;
-            List<Expenses> exp = _allbudget.GetAllExpenses(SessionWrapper.User.CentreId, out TotalPages, page, Search.Trim());
+            ViewBag.FinancialYears = financialYears;
+            List<Expenses> exp = _allbudget.GetAllExpenses(month, SessionWrapper.User.CentreId, out TotalPages, page, Search.Trim(), SelectedFinancialyear);
             var expfor = _allbudget.GetExpenseForAll();
             exp.Update(x => x.ExpenseForName = expfor.Where(s => s.ExpenseForId == x.ExpenseFor).FirstOrDefault().ExpenseFor);
             ViewBag.TotalPages = TotalPages;
@@ -160,10 +167,6 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult AddExpenses(ExpensesViewModel exp)
         {
             var result = 0;
-            //if (exp.ExpenseAmount < 1000)
-            //    ModelState.AddModelError(string.Empty, "Expense Amount should be atleast of 1000 rs.");
-            //if (exp.ExpenseAmount > (exp.BudgetAmount-exp.ExpenseAmountNow))
-            //    ModelState.AddModelError(string.Empty, "Expense Amount should be less then Budget amount");
             if (ModelState.IsValid)
             {
                 exp.ActionId = 0;
