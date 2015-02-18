@@ -5,20 +5,22 @@
 <!DOCTYPE html>
 <html>
 <body>
-    <div>
+    @Html.Hidden("EnqueryId", (long)ViewBag.EnqID)
+    @Html.Hidden("TargetType", (int)ViewBag.TargetType)
+    
+    <div id="msg" style="text-align:center"> </div>
+    <br />    
+    <div id="MainDiv">
         <table>
             <tr>
-                <td>Amount</td>
+                <td>Amount : </td>
                 <td><input type="text" id="txtAmount" name="Amount" maxlength="6" /> </td>
             </tr>
             <tr>
-                <td>
+                <td colspan="2" style="text-align:center">
                     <input type="button" value="Add" onclick="Add()" />
                 </td>
-
-                <td>
-                    <input type="button" value="Cancel" onclick="" />
-                </td>
+                
             </tr>
         </table>
     </div>
@@ -42,9 +44,22 @@
                 e.preventDefault();
             }
         });
+
     });
 
     function Add() {
-
+        var Amount = $("#txtAmount").val();
+        var EnqId = $("#EnqueryId").val();
+        var TargetTypev = $("#TargetType").val();
+        if (Amount == '') {
+            $("#msg").html("Please enter amount.");
+            return false;
+        }
+        else {
+            $.get('@Url.Action("AddTarget", "TargetManagement")?Type=' + TargetTypev + "&Amount=" + Amount + "&EnqId=" + EnqId, function (data) {
+                $("#msg").html(data);
+                $("#MainDiv").hide();
+            });
+        }
     }
 </script>

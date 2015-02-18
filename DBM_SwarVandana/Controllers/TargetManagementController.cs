@@ -22,8 +22,10 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult AddToAgtget()
+        public ActionResult AddToAgtget(long EnqId,int TargetType)
         {
+            ViewBag.EnqID = EnqId;
+            ViewBag.TargetType = TargetType;
             return View();
         }
 
@@ -39,13 +41,13 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult AddTarget(int Type, decimal Amount, long EnqId)
+        public ActionResult AddTarget(int Type, string Amount, long EnqId)
         {
             TargetManagement t = new TargetManagement();
             t.Type = Type;
             t.Month = DateTime.Now.Month;
             t.FinancialYear = CurrentFinancialYear();
-            t.Amount = Amount;
+            t.Amount = Convert.ToDecimal(Amount);
             t.CenterId = SessionWrapper.User.CentreId;
             t.EnqId = EnqId;
             t.CreatedBy = SessionWrapper.User.UserId;
@@ -55,9 +57,9 @@ namespace DBM_SwarVandana.Controllers
             var r = _allAarget.AddTarget(t);
             string msg = "";
             if (r == -1)
-                msg = "Target already assigned";
+                msg = "Target already Added";
             else
-                msg = "Target Assigned successfully";
+                msg = "Target Added successfully";
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
     }

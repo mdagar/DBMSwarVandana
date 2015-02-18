@@ -8,6 +8,13 @@
     function AddNew() {
         window.location.href = '@Url.Action("PhysicalEnquiry", "Enquiries")';
     }
+
+    function AddToTarget(o) {
+        $.get('@Url.Action("AddToAgtget", "TargetManagement")?EnqId=' + o + "&TargetType=" + @((int)Code.TargetType.PE), function (data) {
+            $("#TargetView").html(data).dialog({ title: "Add To Target" });
+
+        });
+    }
 </script>
 <!-- start container -->
 <div class="container">
@@ -66,7 +73,7 @@
                         <td class="td">@(((Gender)Enum.Parse(typeof(Gender), v.Gender.ToString())).Desciption())</td>
                         <td class="td">@v.Age</td>
                         <td class="td">@v.NoOfClasses</td>
-                        <td class="td">@v.Package</td>
+                        <td class="td">@String.Format("{0:0.##}", v.Package) </td>
                         <td class="td">@v.Demo</td>
                         <td class="td">@v.FacultyName</td>
                         <td class="td">@v.RemarksByFaculty</td>
@@ -91,8 +98,9 @@
                         <td class="td">
                             @if (v.ModifyBy != 1 || SessionWrapper.User.UserId == 1)
                             {
-                                <a href="@Url.Action("PhysicalEnquiry", "Enquiries", new { enquiryId = v.EnquiryId })" title="Edit"><span>Edit</span></a>
+                                <a href="@Url.Action("PhysicalEnquiry", "Enquiries", new { enquiryId = v.EnquiryId })" title="Edit"><span>Edit | </span></a>
                             }
+                            <a href="javascript:void(0)" onclick="AddToTarget('@v.EnquiryId')" title="Add To Target"><span>Target</span></a>
                         </td>
                     </tr>
                     <!-- end row -->
@@ -106,13 +114,18 @@
                 }}
             </table>
             @Html.Partial("_Paging")
+            <div id="TargetView"></div>
 
         </div>
         <!-- end table -->
     </div>
 </div>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
 <script type="text/javascript">
+
     function Export() {
         window.location.href = '@Url.Action("ExportPhysicalEnq", "Enquiries")';
     }
+
 </script>

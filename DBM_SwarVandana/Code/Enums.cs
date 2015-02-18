@@ -114,4 +114,12 @@ namespace Code
         December = 12,
     }
 
+    public enum TargetType
+    {
+        PE = 1,
+        TE,
+        Renewal
+    }
+
+
 }

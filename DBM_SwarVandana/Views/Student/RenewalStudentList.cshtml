@@ -69,7 +69,8 @@
                         }
                         <td style="background-color:@backgroundColor" class="td">@(((Status)Enum.Parse(typeof(Status), v.Status.ToString())).Desciption())</td>
                         <td class="td">
-                            <a href="@Url.Action("RenewalStudent", "Student", new { renewalId = v.RenewalId })" title="Edit">Edit</a>
+                            <a href="@Url.Action("RenewalStudent", "Student", new { renewalId = v.RenewalId })" title="Edit">Edit | </a>
+                            <a href="javascript:void(0)" onclick="AddToTarget('@v.RenewalId')" title="Add To Target"><span>Target</span></a>
                         </td>
                     </tr>
 
@@ -82,7 +83,17 @@
                     </tr>
                 }}
             </table>
+            <div id="TargetView"></div>
         </div>
     </div>
     <!-- end table -->
 </div>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+<script type="text/javascript">
+    function AddToTarget(o) {
+        $.get('@Url.Action("AddToAgtget", "TargetManagement")?EnqId=' + o + "&TargetType=" + @((int)Code.TargetType.Renewal), function (data) {
+            $("#TargetView").html(data).dialog({ title: "Add To Target" });
+
+        })}
+</script>
