@@ -14,7 +14,7 @@ namespace Repositories
     {
         DBConnections db = new DBConnections();
 
-        public DataSet GetStudentsAttendenceEnrollmentId(long EnrollmentId,long StudentId)
+        public DataSet GetStudentsAttendenceEnrollmentId(long EnrollmentId, long StudentId)
         {
             string Query = "select convert(varchar,DateOfAttendence,106) DateOfAttendence,(select Timming from [dbo].[Batches]  where BatchId=SA.BatchId) Timming,AttendenceStatus from [dbo].[StudentAttendence] SA where StuentId=" + StudentId + " and EnrollmentId=" + EnrollmentId + "";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
@@ -31,7 +31,7 @@ namespace Repositories
                 return d;
         }
 
-        public DataSet GetTe_to_PE_Details(DateTime fromdate,DateTime todate)
+        public DataSet GetTe_to_PE_Details(DateTime fromdate, DateTime todate)
         {
             string Query = "select (select Description from [dbo].[Sources] where SourceId=a.SourceId) SourceId,a.Name,a.ContactNumber,convert(varchar,a.DateOfEnquiry,106)DateOfEnquiry,(select Description from [dbo].[Disciplines] where DisciplineId=a.Discipline) Discipline,(select FirstName+' '+LastName from [dbo].[Users] where UserId=a.AttendedBy) AttendedBy,a.TelephonicEnquiryId,a.EnquiryNumber from [dbo].[Enquiries] a,[Enquiries] b where a.TelephonicEnquiryId=b.EnquiryNumber and a.CentreId=" + SessionWrapper.User.CentreId + " and a.DateOfEnquiry between '" + fromdate + "' and '" + todate + "'";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
@@ -85,9 +85,13 @@ namespace Repositories
             //return d;
         }
 
-        public DataSet GetUpCommingPaymentDetail()
+        public DataSet GetUpCommingPaymentDetail(int month)
         {
-            string Query = "select ST.UniqueKey,ST.Name,ST.Contact1,ST.EmailAddress,(select Discipline from [dbo].[Disciplines] where Disciplineid=SE.DisciplineId)Discipline,CourseAmount,NoOfClasses,convert(varchar,SatrtDate,106)SatrtDate,convert(varchar,EndDate,106)EndDate,convert(varchar,SE.CreatedDate,106)CreatedDate from [dbo].[StudentEnrollment] SE, [dbo].[Student] ST WHERE SE.StudentId=ST.StudentId and ST.CenterId=" + SessionWrapper.User.CentreId + " order by SE.CreatedDate desc";
+            string Query = string.Empty;
+            if (month != 0)
+                Query = "with t as(select ST.Name,ST.UniqueKey,(select Discipline from [dbo].[Disciplines] where DisciplineId=SE.DisciplineId) as Discipline,(SE.CourseAmount-(SE.RegistratonAmount+SE.AmountPaid)) as Balance,(select convert(varchar,Duedate,106) from [dbo].[PaymentDetails] where paymentid=(select max(paymentid) from [dbo].[PaymentDetails] where enrollmentid=SE.enrollmentid) ) as DueDate from [dbo].[StudentEnrollment] SE,Student ST Where (SE.CourseAmount-(SE.RegistratonAmount+SE.AmountPaid))>0 and SE.StudentId=ST.StudentId and ST.CenterId=" + SessionWrapper.User.CentreId + " ) select * from t where MONTH(duedate)=" + month + "";
+            else
+                Query = "with t as(select ST.Name,ST.UniqueKey,(select Discipline from [dbo].[Disciplines] where DisciplineId=SE.DisciplineId) as Discipline,(SE.CourseAmount-(SE.RegistratonAmount+SE.AmountPaid)) as Balance,(select convert(varchar,Duedate,106) from [dbo].[PaymentDetails] where paymentid=(select max(paymentid) from [dbo].[PaymentDetails] where enrollmentid=SE.enrollmentid) ) as DueDate from [dbo].[StudentEnrollment] SE,Student ST Where (SE.CourseAmount-(SE.RegistratonAmount+SE.AmountPaid))>0 and SE.StudentId=ST.StudentId and ST.CenterId=" + SessionWrapper.User.CentreId + " ) select * from t ";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
         }

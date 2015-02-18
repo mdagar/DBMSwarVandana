@@ -156,12 +156,13 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult PaymentDetailList()
+        public ActionResult PaymentDetailList(int month = 0)
         {
             ReportViewModel rm = new ReportViewModel();
-            var d = _reports.GetUpCommingPaymentDetail();
+            var d = _reports.GetUpCommingPaymentDetail(month);
             rm.ReportDataset = d;
             return View(rm);
         }
+        
     }
 }
