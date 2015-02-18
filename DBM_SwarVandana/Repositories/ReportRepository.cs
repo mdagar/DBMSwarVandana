@@ -51,9 +51,13 @@ namespace Repositories
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
         }
-        public DataSet GetStudentEnrollmentList(DateTime fromdate, DateTime todate)
+        public DataSet GetStudentEnrollmentList(DateTime fromdate, DateTime todate,string datefilter)
         {
-            string Query = "select ST.UniqueKey,ST.Name,ST.Contact1,ST.EmailAddress,(select Discipline from [dbo].[Disciplines] where Disciplineid=SE.DisciplineId)Discipline,CourseAmount,NoOfClasses,convert(varchar,SatrtDate,106)SatrtDate,convert(varchar,EndDate,106)EndDate from [dbo].[StudentEnrollment] SE, [dbo].[Student] ST WHERE SE.StudentId=ST.StudentId and ST.CenterId=" + SessionWrapper.User.CentreId + " and SE.CreatedDate  between '" + fromdate + "' and '" + todate + "' and SE.IsRenewal=0";
+            string Query=string.Empty;
+            if(!string.IsNullOrEmpty(datefilter))
+                Query = "select ST.UniqueKey,ST.Name,ST.Contact1,ST.EmailAddress,(select Discipline from [dbo].[Disciplines] where Disciplineid=SE.DisciplineId)Discipline,CourseAmount,NoOfClasses,convert(varchar,SatrtDate,106)SatrtDate,convert(varchar,EndDate,106)EndDate,convert(varchar,SE.CreatedDate,106)CreatedDate from [dbo].[StudentEnrollment] SE, [dbo].[Student] ST WHERE SE.StudentId=ST.StudentId and ST.CenterId=" + SessionWrapper.User.CentreId + " and SE.CreatedDate  between '" + fromdate + "' and '" + todate + "' order by SE.CreatedDate desc";
+            else
+                Query = "select ST.UniqueKey,ST.Name,ST.Contact1,ST.EmailAddress,(select Discipline from [dbo].[Disciplines] where Disciplineid=SE.DisciplineId)Discipline,CourseAmount,NoOfClasses,convert(varchar,SatrtDate,106)SatrtDate,convert(varchar,EndDate,106)EndDate,convert(varchar,SE.CreatedDate,106)CreatedDate from [dbo].[StudentEnrollment] SE, [dbo].[Student] ST WHERE SE.StudentId=ST.StudentId and ST.CenterId=" + SessionWrapper.User.CentreId + " order by SE.CreatedDate desc";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
         }
