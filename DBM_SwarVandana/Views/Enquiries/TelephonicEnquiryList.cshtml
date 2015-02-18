@@ -79,8 +79,10 @@
                         <td class="td">
                             @if (v.ModifyBy != 1 || SessionWrapper.User.UserId == 1)
                             {
-                                <a href="@Url.Action("TelephonicEnquiry", "Enquiries", new { enquiryId = v.EnquiryId })" title="Edit"><span>Edit</span></a>
+                                <a href="@Url.Action("TelephonicEnquiry", "Enquiries", new { enquiryId = v.EnquiryId })" title="Edit"><span>Edit | </span></a>
                             }
+                            @*<a href="@Url.Action("AddToAgtget", "Target", new { enquiryId = v.EnquiryId })" title="Edit"><span>Target</span></a>*@
+                            <a href="javascript:void(0)" onclick="AddToTaret()" title="Edit"><span>Target</span></a>
                         </td>
                     </tr>
                     <!-- end row -->
@@ -95,11 +97,23 @@
             </table>
             @Html.Partial("_Paging")
 
+            <div id="TargetView">
+            </div>
+
         </div>
         <!-- end table -->
     </div>
 </div>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
 <script type="text/javascript">
+
+    function AddToTaret() {
+        $.get('@Url.Action("AddToAgtget", "TargetManagement")', function (data) {
+            $("#TargetView").html(data).dialog({ title: "Add To Target" });
+
+        });
+    }
     function Export() {
         window.location.href = '@Url.Action("ExportTelephonicEnq", "Enquiries")';
     }

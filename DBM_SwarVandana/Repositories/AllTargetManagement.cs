@@ -13,22 +13,14 @@ namespace Repositories
     {
         DBConnections db = new DBConnections();
 
-        //public List<ExpensesFor> GetExpenseForAll()
-        //{
-        //    var d = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetExpensesForAll);
-        //    return ConvertList.TableToList<ExpensesFor>(d.Tables[0]);
-        //}
 
-        
 
-        //public int AddBudget(Budgets b)
-        //{
-        //    if (b.BudgetID > 0)
-        //        b.ActionId = 1;
-        //    object[] objParam = { b.ActionId, b.BudgetID, b.ExpenseFor, b.BudgetAmount, b.Month, b.Description, b.FinancialYear, b.CentreID, b.CreatedBy, b.CreatedOn, b.ModifiedBy, b.ModifiedOn, b.IsActive, b.IsDeleted };
-        //    var res = SqlHelper.ExecuteScalar(db.GetConnection(), Procedures.InsertBudgetMaster, objParam);
-        //    return Convert.ToInt32(res);
-        //}
+        public int AddTarget(TargetManagement t)
+        {
+            object[] objParam = { t.Type, t.Month, t.FinancialYear, t.Amount, t.CenterId, t.EnqId, t.CreatedBy, t.CreatedDate, t.ModifyBy, t.ModifyDate };
+            var res = SqlHelper.ExecuteScalar(db.GetConnection(), "[TargetManagement]", objParam);
+            return Convert.ToInt32(res);
+        }
 
         //public Budgets FindByCenterId(int centerId, string financialYear)
         //{
