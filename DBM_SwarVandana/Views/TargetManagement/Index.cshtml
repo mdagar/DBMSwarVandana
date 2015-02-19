@@ -5,8 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-  ViewBag.Month
-            ViewBag.financialYer = SelectedFinancialyear;
+  @*ViewBag.Month
+            ViewBag.financialYer = SelectedFinancialyear;*@
 <div class="container">
     <!-- table-info -->
     <div class="table-info">
@@ -59,7 +59,7 @@
                     <td class="td">Pending Payments</td>
                     <td class="td">@Model.ds.Tables[3].Rows[0][0]</td>
                     <td class="td">
-                        <a href="Javascript:void(0)" onclick="GetDatail('@((int)(TargetType.TE))','@ViewBag.Month','@ViewBag.financialYer')"> Details </a>
+                        @*<a href="Javascript:void(0)" onclick="GetDatail('@((int)(TargetType.TE))','@ViewBag.Month','@ViewBag.financialYer')"> Details </a>*@
                     </td>
                 </tr>
             </table>

@@ -113,6 +113,7 @@ namespace DBM_SwarVandana.Controllers
             //}
             //return Json(serializer.Serialize(rows), JsonRequestBehavior.AllowGet);
             tr.ds = d;
+            ViewBag.TargetType = Ttype;
             return View(tr);
 
         }

@@ -132,7 +132,7 @@ namespace Repositories
             else if (TargetType == 4)
                 Query = "select sr.EnrollmentNo,s.Name,c.Amount from [dbo].[StudentRenewal] sr,[dbo].[CenterTarget] c,[dbo].[Student] s where sr.RenewalId = c.EnqId and sr.StudentId= s.StudentId and  sr.RenewalId in (select EnqID from  [dbo].[CenterTarget] where Type=" + TargetType + " and Month =" + Month + " and FinancialYear='" + financialYear + "')";
             else
-                Query = "select e.EnquiryNumber,e.Name,e.Discipline,e.ContactNumber,e.DateOfEnquiry,c.Amount from [dbo].[Enquiries] e,[dbo].[CenterTarget] c where  e.EnquiryId = c.EnqId and EnquiryId in (select EnqID from  [dbo].[CenterTarget] where Type=" + TargetType + " and Month =" + Month + " and FinancialYear='" + financialYear + "')";
+                Query = "select e.EnquiryNumber,e.Name,(select Discipline from [dbo].[Disciplines] where DisciplineId =e.Discipline) as Discipline,e.ContactNumber,e.DateOfEnquiry,c.Amount from [dbo].[Enquiries] e,[dbo].[CenterTarget] c where  e.EnquiryId = c.EnqId and EnquiryId in (select EnqID from  [dbo].[CenterTarget] where Type=" + TargetType + " and Month =" + Month + " and FinancialYear='" + financialYear + "')";
 
             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             if (ds == null)
