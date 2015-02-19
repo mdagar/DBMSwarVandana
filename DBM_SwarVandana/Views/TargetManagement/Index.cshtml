@@ -5,6 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+  ViewBag.Month
+            ViewBag.financialYer = SelectedFinancialyear;
 <div class="container">
     <!-- table-info -->
     <div class="table-info">
@@ -35,22 +37,30 @@
                 <tr>
                     <td class="td">TE Billing</td>
                     <td class="td">@Model.ds.Tables[1].Rows[0][0]</td>
-                    <td class="td">Details</td>
+                    <td class="td">
+                        <a href="Javascript:void(0)" onclick="GetDatail('@((int)(TargetType.TE))','@ViewBag.Month','@ViewBag.financialYer')"> Details </a>
+                    </td>
                 </tr>
                 <tr>
                     <td class="td">PE Billing</td>
                     <td class="td">@Model.ds.Tables[0].Rows[0][0]</td>
-                    <td class="td">Details</td>
+                    <td class="td">
+                        <a href="Javascript:void(0)" onclick="GetDatail('@((int)(TargetType.PE))','@ViewBag.Month','@ViewBag.financialYer')"> Details </a>
+                    </td>
                 </tr>
                 <tr>
                     <td class="td">Renewal Billing</td>
                     <td class="td">@Model.ds.Tables[2].Rows[0][0]</td>
-                    <td class="td">Details</td>
+                    <td class="td">
+                        <a href="Javascript:void(0)" onclick="GetDatail('@((int)(TargetType.Renewal))','@ViewBag.Month','@ViewBag.financialYer')"> Details </a>
+                    </td>
                 </tr>
                 <tr>
                     <td class="td">Pending Payments</td>
                     <td class="td">@Model.ds.Tables[3].Rows[0][0]</td>
-                    <td class="td">Details</td>
+                    <td class="td">
+                        <a href="Javascript:void(0)" onclick="GetDatail('@((int)(TargetType.TE))','@ViewBag.Month','@ViewBag.financialYer')"> Details </a>
+                    </td>
                 </tr>
             </table>
             @{
@@ -62,11 +72,19 @@
                 Total Payment ( PE + TE + Renewal + Pending Payments )  :  @finalPayment
             </div>
         </div>
-
-
-        <div>
+        <div id="Details">
 
         </div>
     </div>
     <!-- end table -->
 </div>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+<script type="text/javascript">
+    function GetDatail(type, month, financialYear) {
+        $.get('@Url.Action("EnqueryDetai","TargetManagement")?Ttype=' + type + "&month=" + month + "&financialYear=" + financialYear, function (data) {
+            $("#Details").html(data).dialog({ minWidth: 550 ,title:"Details"});
+        });
+
+    }
+</script>
