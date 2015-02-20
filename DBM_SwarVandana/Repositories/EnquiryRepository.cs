@@ -82,6 +82,40 @@ namespace Repositories
                 return ds.Tables[0].TableToList<Enquiries>();
         }
 
+        public List<Enquiries> ListEnquuiryAdvance(int centerId, int EnqueryType, out int TotalPages, int PageNumber = 1, string SourceId = "", string StatusId = "", string DateOfEnquiry = "", string Address = "")
+        {
+            int RowsPerPage = ConfigurationWrapper.PageSize;
+            string Query = string.Empty;
+            string Query1 = string.Empty;
+            Query += "EnquiryTypeId=" + EnqueryType + " AND CentreId=" + centerId+" AND IsDeleted=0";
+            if (SourceId!="")
+                Query += "and SourceId=" + SourceId;
+            if (StatusId != "")
+                Query += " and StatusId=" + StatusId;
+            if (DateOfEnquiry != "")
+                Query += " and DateOfEnquiry=" + DateOfEnquiry;
+            if (Address != "")
+                Query += " and [Address]='" + Address+"'";
+            Query1 = "" + (((PageNumber - 1) * RowsPerPage) + 1) + " AND " + RowsPerPage * (PageNumber);
+            SqlParameter[] spParameter = new SqlParameter[6];
+            var total = new SqlParameter("@TotalPages", 0) { Direction = System.Data.ParameterDirection.Output };
+            var psearch = new SqlParameter("@search", Query);
+            var pageno = new SqlParameter("@pageno", Query1);
+            SqlCommand cmd = new SqlCommand("GetEnquiryAdvanceSearch", db.GetConnection());
+            cmd.CommandType = CommandType.StoredProcedure;
+            DataSet ds = new DataSet();
+            cmd.Parameters.Add(total);
+            cmd.Parameters.Add(psearch);
+            cmd.Parameters.Add(pageno);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(ds);
+            TotalPages = Convert.ToInt32(total.Value);
+            if (ds == null)
+                return new List<Enquiries>();
+            else
+                return ds.Tables[0].TableToList<Enquiries>();
+        }
+
         public List<Enquiries> GetAllEnquery(int centerId, int EnqueryType)
         {
             object[] objParam = { centerId, EnqueryType };

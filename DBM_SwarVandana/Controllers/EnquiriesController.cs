@@ -26,12 +26,17 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult TelephonicEnquiryList(string search = "", int page = 1)
+        public ActionResult TelephonicEnquiryList(string search = "", string SearchType = "", string SourceId = "", string StatusId = "", string DateOfEnquiry = "", string Address = "", int page = 1)
         {
+            List<Enquiries> enq = new List<Enquiries>();
             int TotalPages = 0;
             search = search.Trim();
             ViewBag.Search = search;
-            List<Enquiries> enq = _allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.TE, out TotalPages, page, search);
+            ViewBag.SType = SearchType;
+            if (SearchType=="0")
+                enq = _allenquiry.ListEnquuiryAdvance(SessionWrapper.User.CentreId, (int)EnquiryType.TE, out TotalPages, page, SourceId, StatusId, DateOfEnquiry, Address);
+            else
+                enq = _allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.TE, out TotalPages, page, search);
             ViewBag.TotalPages = TotalPages;
             var Discipline = _allDiscipline.GetAllDisciplines(SessionWrapper.User.CentreId);
             var sources = _allSources.GetAllSources();
