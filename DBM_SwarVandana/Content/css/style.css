@@ -516,10 +516,10 @@ body {
 }
 
     .table-form label {
-        font-size: 18px;
+        font-size: 13px;
         color: #000;
         float: left;
-        line-height: 29px;
+        line-height: 14px;
         padding: 0 14px 0 0;
         float: left;
     }
@@ -527,29 +527,29 @@ body {
     .table-form .input,
     .table-form .select {
         background: #fff;
-        width: 145px;
-        height: 27px;
-        font-size: 14px;
+        width: 105px;
+        height: 20px;
+        font-size: 12px;
         color: #585858;
         line-height: 27px;
-        padding: 0 10px;
+        padding: 0 3px;
         float: left;
-        margin-right: 16px;
+        margin-right: 9px;
         border: #da7403 1px solid;
     }
 
     .table-form .select {
-        width: 145px;
-        height: 29px;
+        width: 105px;
+        height: 20px;
     }
 
     .table-form .submit-btn {
         background: #ff9903;
         width: 95px;
-        height: 29px;
+        height: 24px;
         font-size: 14px;
         color: #fff;
-        line-height: 29px;
+        line-height: 24px;
         float: left;
         border: none;
         -moz-border-radius: 4px;
