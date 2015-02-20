@@ -3,8 +3,43 @@
 @{
     ViewBag.Title = "PhysicalEnquiryList";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    IEnumerable<Status> statusid = Enum.GetValues(typeof(Status))
+                                                     .Cast<Status>();
+    IEnumerable<SelectListItem> status = from u in statusid
+                                         select new SelectListItem
+                                         {
+                                             Text = u.ToString(),
+                                             Value = ((int)u).ToString(),
+                                         };
 }
 <script>
+
+    $(document).ready(function () {
+        $("#DateOfEnquiry").datepicker({ dateFormat: "dd M yy",maxDate: "1m" });
+
+        if('@((string)ViewBag.SType)'=="0")
+        {
+            $("#advance").show();
+            $("#simple").hide();
+            $("#SearchType").val("0");
+            $("#AS").prop("checked",true);
+        }
+    });
+
+    function SearchChange(SE) {
+        if (SE == 1) {
+            $("#advance").hide();
+            $("#simple").show();
+            $("#SearchType").val("1");
+        }
+        else {
+            $("#advance").show();
+            $("#simple").hide();
+            $("#SearchType").val("0");
+        }
+    }
+
     function AddNew() {
         window.location.href = '@Url.Action("PhysicalEnquiry", "Enquiries")';
     }
@@ -23,13 +58,42 @@
         <!-- start table-form -->
         <div class="table-form">
             <form action="#">
-                <input type="text" name="search" value="@ViewBag.Search" class="input" />
-                <input type="submit" value="Search" class="submit-btn" />
+                @Html.Hidden("SearchType", "1")
+                <div class="row">
+                    <label for="Password">Search Type :</label>
+                    <div class="column">
+                        <input type="radio" value="True" checked="checked" onchange="javascript:SearchChange(1);" name="SE" id="SE" class="radio">
+                        <label for="male">Simple</label>
+                        <input type="radio" value="False" onchange="javascript:SearchChange(0);" name="SE" id="AS" class="radio">
+                        <label for="female">Advance</label>
+                    </div>
+                </div>
+                <div class="row" id="simple">
+                    <input type="text" name="search" value="@ViewBag.Search" class="input" />
+                    <input type="submit" value="Search" class="submit-btn" />
+
+                    <label for="From">&nbsp;</label>
+                    <input name="submit" type="button" onclick="AddNew()" value="Add New" class="submit-btn" />
+                </div>
+                <div class="row" id="advance" style="display: none;">
+                    <label for="From">Sources</label>
+                    @Html.DropDownList("SourceId", new ListBound("SourceId", "Sources").Sources, "-- Select Source --", new { @class = "select" })
+                    <label for="From">Status</label>
+                    @Html.DropDownList("StatusId", status, "-- Select Status --", new { @class = "select" })
+                    <label for="From">Date of Enquiry</label>
+                    <input type="text" class="input" id="DateOfEnquiry" name="DateOfEnquiry" readonly="readonly" />
+                    <label for="From">Address</label>
+                    <input type="text" class="input" id="Address" name="Address" />
+                    <input type="submit" value="Search" class="submit-btn" />
+                    <label for="From">&nbsp;</label>
+                    <input name="submit" type="button" onclick="AddNew()" value="Add New" class="submit-btn" />
+                </div>
+
                 @*<label for="From">&nbsp;</label>*@
                 @*<input type="button" value="Export" onclick="Export()" class="submit-btn" />*@
-                <label for="From">&nbsp;</label>
-                <input name="submit" type="button" onclick="AddNew()" value="Add New" class="submit-btn" />
+
             </form>
+           
         </div>
         <!-- end table-form -->
         <!-- start table -->
