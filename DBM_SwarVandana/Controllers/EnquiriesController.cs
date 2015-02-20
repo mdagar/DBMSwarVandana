@@ -26,7 +26,7 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult TelephonicEnquiryList(string search = "", string SearchType = "", string SourceId = "", string StatusId = "", string DateOfEnquiry = "", string Address = "", int page = 1)
+        public ActionResult TelephonicEnquiryList(string search = "", string SearchType = "", string SourceId = "", string StatusId = "", string DateOfEnquiry = "", string Address = "",string DisciplineID="", int page = 1)
         {
             List<Enquiries> enq = new List<Enquiries>();
             int TotalPages = 0;
@@ -34,7 +34,7 @@ namespace DBM_SwarVandana.Controllers
             ViewBag.Search = search;
             ViewBag.SType = SearchType;
             if (SearchType=="0")
-                enq = _allenquiry.ListEnquuiryAdvance(SessionWrapper.User.CentreId, (int)EnquiryType.TE, out TotalPages, page, SourceId, StatusId, DateOfEnquiry, Address);
+                enq = _allenquiry.ListEnquuiryAdvance(SessionWrapper.User.CentreId, (int)EnquiryType.TE, out TotalPages, page, SourceId, StatusId, DateOfEnquiry, Address, DisciplineID);
             else
                 enq = _allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.TE, out TotalPages, page, search);
             ViewBag.TotalPages = TotalPages;
@@ -108,7 +108,7 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
-        public ActionResult PhysicalEnquiryList(string search = "", string SearchType = "", string SourceId = "", string StatusId = "", string DateOfEnquiry = "", string Address = "", int page = 1)
+        public ActionResult PhysicalEnquiryList(string search = "", string SearchType = "", string SourceId = "", string StatusId = "", string DateOfEnquiry = "", string Address = "", string DisciplineID = "", int page = 1)
         {
             List<Enquiries> enq = new List<Enquiries>();
             int TotalPages = 0;
@@ -116,7 +116,7 @@ namespace DBM_SwarVandana.Controllers
             ViewBag.Search = search;
             ViewBag.SType = SearchType;
             if (SearchType == "0")
-                enq = _allenquiry.ListEnquuiryAdvance(SessionWrapper.User.CentreId, (int)EnquiryType.PE, out TotalPages, page, SourceId, StatusId, DateOfEnquiry, Address);
+                enq = _allenquiry.ListEnquuiryAdvance(SessionWrapper.User.CentreId, (int)EnquiryType.PE, out TotalPages, page, SourceId, StatusId, DateOfEnquiry, Address, DisciplineID);
             else
                 enq = _allenquiry.ListEnquuiry(SessionWrapper.User.CentreId, (int)EnquiryType.PE, out TotalPages, page, search);
             ViewBag.TotalPages = TotalPages;

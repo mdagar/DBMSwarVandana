@@ -82,7 +82,7 @@ namespace Repositories
                 return ds.Tables[0].TableToList<Enquiries>();
         }
 
-        public List<Enquiries> ListEnquuiryAdvance(int centerId, int EnqueryType, out int TotalPages, int PageNumber = 1, string SourceId = "", string StatusId = "", string DateOfEnquiry = "", string Address = "")
+        public List<Enquiries> ListEnquuiryAdvance(int centerId, int EnqueryType, out int TotalPages, int PageNumber = 1, string SourceId = "", string StatusId = "", string DateOfEnquiry = "", string Address = "", string DisciplineID = "")
         {
             int RowsPerPage = ConfigurationWrapper.PageSize;
             string Query = string.Empty;
@@ -96,6 +96,8 @@ namespace Repositories
                 Query += " and DateOfEnquiry=" + DateOfEnquiry;
             if (Address != "")
                 Query += " and [Address]='" + Address+"'";
+            if (DisciplineID != "")
+                Query += " and Discipline=" + DisciplineID;
             Query1 = "" + (((PageNumber - 1) * RowsPerPage) + 1) + " AND " + RowsPerPage * (PageNumber);
             SqlParameter[] spParameter = new SqlParameter[6];
             var total = new SqlParameter("@TotalPages", 0) { Direction = System.Data.ParameterDirection.Output };

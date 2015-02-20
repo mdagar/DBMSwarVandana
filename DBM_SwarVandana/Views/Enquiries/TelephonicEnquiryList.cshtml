@@ -78,6 +78,8 @@
                     @Html.DropDownList("SourceId", new ListBound("SourceId", "Sources").Sources, "-- Select Source --", new { @class = "select" })
                     <label for="From">Status</label>
                     @Html.DropDownList("StatusId", status, "-- Select Status --", new { @class = "select" })
+                    <label for="From">Discipline</label>
+                    @Html.DropDownList("DisciplineID", new ListBound("DisciplineID", "Disciplines").Disciplines, "-- Select Discipline --", new { @class = "select" })
                     <label for="From">Date of Enquiry</label>
                     <input type="text" class="input" id="DateOfEnquiry" name="DateOfEnquiry" readonly="readonly" />
                     <label for="From">Address</label>
