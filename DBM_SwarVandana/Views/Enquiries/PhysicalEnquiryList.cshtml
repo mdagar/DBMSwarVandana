@@ -60,18 +60,19 @@
             <form action="#">
                 @Html.Hidden("SearchType", "1")
                 <div class="row">
-                    <label for="Password">Search Type :</label>
+                    <label for="SearchType">Search Type :</label>
                     <div class="column">
-                        <input type="radio" value="True" checked="checked" onchange="javascript:SearchChange(1);" name="SE" id="SE" class="radio">
-                        <label for="male">Simple</label>
-                        <input type="radio" value="False" onchange="javascript:SearchChange(0);" name="SE" id="AS" class="radio">
-                        <label for="female">Advance</label>
+                        <input type="radio" value="True" checked="checked" onchange="javascript:SearchChange(1);" name="SE" id="SE" class="input">
+                        <label for="">Simple</label>
+                        <input type="radio" value="False" onchange="javascript:SearchChange(0);" name="SE" id="AS" class="input">
+                        <label for="">Advance</label>
                     </div>
                 </div>
+                <div style="clear:both;height:2%">&nbsp;</div>
+
                 <div class="row" id="simple">
                     <input type="text" name="search" value="@ViewBag.Search" class="input" />
                     <input type="submit" value="Search" class="submit-btn" />
-
                     <label for="From">&nbsp;</label>
                     <input name="submit" type="button" onclick="AddNew()" value="Add New" class="submit-btn" />
                 </div>
@@ -85,15 +86,15 @@
                     <label for="From">Address</label>
                     <input type="text" class="input" id="Address" name="Address" />
                     <input type="submit" value="Search" class="submit-btn" />
-                    <label for="From">&nbsp;</label>
-                    <input name="submit" type="button" onclick="AddNew()" value="Add New" class="submit-btn" />
+                    @*<label for="From">&nbsp;</label>
+                    <input name="submit" type="button" onclick="AddNew()" value="Add New" class="submit-btn" />*@
                 </div>
 
                 @*<label for="From">&nbsp;</label>*@
                 @*<input type="button" value="Export" onclick="Export()" class="submit-btn" />*@
 
             </form>
-           
+
         </div>
         <!-- end table-form -->
         <!-- start table -->
