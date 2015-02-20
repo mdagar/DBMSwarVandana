@@ -7,6 +7,8 @@ using Code;
 using Models;
 using Repositories;
 using ViewModel;
+using System.Data;
+
 namespace DBM_SwarVandana.Controllers
 {
     public class TargetManagementController : Controller
@@ -41,6 +43,8 @@ namespace DBM_SwarVandana.Controllers
                 SelectedFinancialyear = financialYears.FirstOrDefault();
 
             ViewBag.FinancialYears = financialYears;
+            ViewBag.Month = month;
+            ViewBag.financialYer = SelectedFinancialyear;
             TargetManagementViewModel tr = new TargetManagementViewModel();
             tr.ds = _allAarget.GetTargetData(SessionWrapper.User.CentreId, month, SelectedFinancialyear);
             return View(tr);
@@ -88,5 +92,31 @@ namespace DBM_SwarVandana.Controllers
                 msg = "Target Added successfully";
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
+        [Authenticate]
+        public ActionResult EnqueryDetai(int Ttype, int month, string financialYear)
+        {
+            DataSet d = new DataSet();
+            d = _allAarget.GetTargetDetais(Ttype, month, financialYear);
+            TargetManagementViewModel tr = new TargetManagementViewModel();
+            //System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            //List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            //Dictionary<string, object> row;
+            //foreach (DataRow dr in d.Tables[0].Rows)
+            //{
+            //    row = new Dictionary<string, object>();
+            //    foreach (DataColumn col in d.Tables[0].Columns)
+            //    {
+            //        row.Add(col.ColumnName, dr[col]);
+            //    }
+            //    rows.Add(row);
+            //}
+            //return Json(serializer.Serialize(rows), JsonRequestBehavior.AllowGet);
+            tr.ds = d;
+            ViewBag.TargetType = Ttype;
+            return View(tr);
+
+        }
+
     }
 }
