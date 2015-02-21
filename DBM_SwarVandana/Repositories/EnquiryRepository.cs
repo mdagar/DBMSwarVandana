@@ -82,22 +82,23 @@ namespace Repositories
                 return ds.Tables[0].TableToList<Enquiries>();
         }
 
-        public List<Enquiries> ListEnquuiryAdvance(int centerId, int EnqueryType, out int TotalPages, int PageNumber = 1, string SourceId = "", string StatusId = "", string DateOfEnquiry = "", string Address = "", string DisciplineID = "")
+        public List<Enquiries> ListEnquuiryAdvance(int centerId, int EnqueryType, out int TotalPages, int PageNumber = 1, string SourceId = "", string StatusId = "", string search = "", string DisciplineID = "")
         {
             int RowsPerPage = ConfigurationWrapper.PageSize;
             string Query = string.Empty;
             string Query1 = string.Empty;
-            Query += "EnquiryTypeId=" + EnqueryType + " AND CentreId=" + centerId+" AND IsDeleted=0";
-            if (SourceId!="")
+            search = search.Trim();
+            Query += "EnquiryTypeId=" + EnqueryType + " AND CentreId=" + centerId + " AND IsDeleted=0";
+            if (SourceId != "")
                 Query += "and SourceId=" + SourceId;
             if (StatusId != "")
                 Query += " and StatusId=" + StatusId;
-            if (DateOfEnquiry != "")
-                Query += " and DateOfEnquiry=" + DateOfEnquiry;
-            if (Address != "")
-                Query += " and [Address]='" + Address+"'";
             if (DisciplineID != "")
                 Query += " and Discipline=" + DisciplineID;
+            if (search != "")
+                Query += " and ( Name like '%" + search + "%' OR ContactNumber like '%" + search + "%' OR [Address] like '%" + search + "%' OR NoOfClasses like '%" + search + "%' OR Package like '%" + search + "%'  OR EnquiryNumber like '%" + search + "%' )";
+
+
             Query1 = "" + (((PageNumber - 1) * RowsPerPage) + 1) + " AND " + RowsPerPage * (PageNumber);
             SqlParameter[] spParameter = new SqlParameter[6];
             var total = new SqlParameter("@TotalPages", 0) { Direction = System.Data.ParameterDirection.Output };
@@ -124,8 +125,8 @@ namespace Repositories
             string Query = "SELECT EnquiryId,SourceId,EnquiryTypeId,ContactNumber,Name,DateOfEnquiry,Discipline,StateId,CityId,[Address],AttendedBy,Demo,RemarksByFaculty,StatusId,ProbableStudentFor,Gender,Age,Occupation,FinalComments,"
                            + "NoOfClasses,Package,RegistrationAmount,CentreId,IsEnquiryClosed,TelePhonicEnquiryId,AddDate,AddedBy,ModifyDate,ModifyBy,IsActive,IsDeleted FROM [dbo].[Enquiries]"
                             + " WHERE EnquiryTypeId = " + EnqueryType + " AND CentreId = " + centerId + " AND IsDeleted=0";
-             //DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Query, objParam);
-             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            //DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Query, objParam);
+            DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             if (ds == null)
                 return new List<Enquiries>();
             else
@@ -148,7 +149,7 @@ namespace Repositories
 
         public Enquiries FindByEnquirieNumber(string EnquiryNumber)
         {
-            object[] objParam = { EnquiryNumber,SessionWrapper.User.CentreId };
+            object[] objParam = { EnquiryNumber, SessionWrapper.User.CentreId };
             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), Procedures.GetEnquiryByEnquiryNumber, objParam);
             if (ds.Tables.Count == 0)
                 return new Enquiries();

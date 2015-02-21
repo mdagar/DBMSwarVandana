@@ -132,12 +132,14 @@ namespace DBM_SwarVandana.Controllers
             string uid = "demo"; string password = "hspsms"; string message = "Test SMS 123"; string no = "8800648085";
             string senderName = "hspsms";
 
-            //HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create("http://ubaid.tk/sms/sms.aspx?uid=" + uid + "&pwd=" + password + "&msg=" + message + "&phone=" + no + "&provider=fullonsms");
-            HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create("http://46.4.103.196:8080/SMSAPI.jsp?username=" + uid + "&password=" + password + "&sendername=" + senderName + "&mobileno=" + no + "&message=" + message);
+            HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create("http://bhashsms.com/api/sendmsg.php?user=success&pass=123456&sender=BSHSMS&phone=8800648085&text=Testsms&priority=ndnd&stype=normal");
+            
+            //HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create("http://46.4.103.196:8080/SMSAPI.jsp?username=" + uid + "&password=" + password + "&sendername=" + senderName + "&mobileno=" + no + "&message=" + message);
 
             HttpWebResponse myResp = (HttpWebResponse)myReq.GetResponse();
             System.IO.StreamReader respStreamReader = new System.IO.StreamReader(myResp.GetResponseStream());
             string responseString = respStreamReader.ReadToEnd();
+            ViewBag.Message = responseString;
             respStreamReader.Close();
             myResp.Close();
             return View();
