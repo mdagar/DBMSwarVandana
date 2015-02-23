@@ -106,7 +106,7 @@ namespace DBM_SwarVandana.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to It was nice to  know of your interest in Music &amp; Dance. For a truly memorable musical experience pl visit  our Academy. Kindly confirm a suitable date and time of your visit..
+        ///   Looks up a localized string similar to Nice to  know of your interest in Music &amp; Dance. For a memorable musical experience pl visit  our Academy. Pl confirm a suitable date and time of your visit..
         /// </summary>
         public static string TETOPE {
             get {

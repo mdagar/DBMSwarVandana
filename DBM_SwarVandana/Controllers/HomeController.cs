@@ -129,7 +129,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult TestMessage()
         {
             SMSHelper s = new SMSHelper();
-            string SMS =  Server.UrlEncode(Resources.SmsMessages.PETOENROLL);
+            string SMS =  Server.UrlEncode(Resources.SmsMessages.TETOPE);
             int length = SMS.Length;
 
             //s.SmsToMultipleContact(Resources.SmsMessages.TETOPE, "8800648085");
