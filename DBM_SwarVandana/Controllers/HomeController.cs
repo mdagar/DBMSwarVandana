@@ -133,7 +133,7 @@ namespace DBM_SwarVandana.Controllers
             int length = SMS.Length;
 
             //s.SmsToMultipleContact(Resources.SmsMessages.TETOPE, "8800648085");
-            s.SmsToMultipleContact(Resources.SmsMessages.CustomerFeedBack, "8800648085,9654629744");
+            //s.SmsToMultipleContact(Resources.SmsMessages.CustomerFeedBack, "8800648085,9654629744");
             //s.SmsToMultipleContact(Resources.SmsMessages.Enrolled, "8800648085");
             //s.SmsToMultipleContact(Resources.SmsMessages.PaymentPending, "8800648085");
             //s.SmsToMultipleContact(Resources.SmsMessages.PETOENROLL, "8800648085");
