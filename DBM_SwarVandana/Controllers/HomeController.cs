@@ -129,14 +129,15 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult TestMessage()
         {
             SMSHelper s = new SMSHelper();
-            string SMS = Resources.SmsMessages.TETOPE;
+            string SMS =  Server.UrlEncode(Resources.SmsMessages.PETOENROLL);
             int length = SMS.Length;
+
+            //s.SmsToMultipleContact(Resources.SmsMessages.TETOPE, "8800648085");
+            s.SmsToMultipleContact(Resources.SmsMessages.CustomerFeedBack, "8800648085,9654629744");
+            //s.SmsToMultipleContact(Resources.SmsMessages.Enrolled, "8800648085");
+            //s.SmsToMultipleContact(Resources.SmsMessages.PaymentPending, "8800648085");
             //s.SmsToMultipleContact(Resources.SmsMessages.PETOENROLL, "8800648085");
-            //s.SmsToMultipleContact(Resources.SmsMessages.CustomerFeedBack, "7838330700,8800648085");
-            //s.SmsToMultipleContact(Resources.SmsMessages.Enrolled, "7838330700,8800648085");
-            //s.SmsToMultipleContact(Resources.SmsMessages.PaymentPending, "7838330700,8800648085");
-            //s.SmsToMultipleContact(Resources.SmsMessages.PETOENROLL, "7838330700,8800648085");
-            //s.SmsToMultipleContact(Resources.SmsMessages.Renewal, "7838330700,8800648085");
+            //s.SmsToMultipleContact(Resources.SmsMessages.Renewal, "8800648085");
             return View();
 
         }

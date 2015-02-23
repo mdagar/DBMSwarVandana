@@ -18,7 +18,7 @@ namespace Repositories
         public int SaveRecord(MessageTransaction m)
         {
             string Query = string.Empty;
-            Query = "Insert into MessageTransaction(MsgType,SendBy,SendDate,Message,SendTo) values('" + m.MsgType + "'," + m.SendBy + ",'" + m.SendDate + "','" + m.Message + "','" + m.SendTo + "')";
+            Query = "Insert into MessageTransaction(MsgType,SendBy,SendDate,Message,SendTo,IsBrodcast) values('" + m.MsgType + "'," + m.SendBy + ",'" + m.SendDate + "','" + m.Message + "','" + m.SendTo + "','" + m.IsBrodcast + "')";
             var d = SqlHelper.ExecuteNonQuery(db.GetConnection(),CommandType.Text,Query);
             return Convert.ToInt32(d);
         }
