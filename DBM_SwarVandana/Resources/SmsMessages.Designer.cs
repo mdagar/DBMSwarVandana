@@ -22,7 +22,7 @@ namespace DBM_SwarVandana.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class SmsMessages {
+    public class SmsMessages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace DBM_SwarVandana.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DBM_SwarVandana.Resources.SmsMessages", typeof(SmsMessages).Assembly);
@@ -51,7 +51,7 @@ namespace DBM_SwarVandana.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,45 +61,54 @@ namespace DBM_SwarVandana.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Thanks for your visit to our Academy. Our batches r filling fast – come &amp; enrol.
+        ///   Looks up a localized string similar to We are thankful for your support and co-operation. To make your experience even better, pl send your suggestions and inputs to sanjay@swarvanda.com.
         /// </summary>
-        internal static string Enrolled {
+        public static string CustomerFeedBack {
+            get {
+                return ResourceManager.GetString("CustomerFeedBack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thanks for enrolling with us. Welcome to the Svar Vandana family. Please start your classes as per the given schedule. Wishing you a  memorable Musical journey.
+        /// </summary>
+        public static string Enrolled {
             get {
                 return ResourceManager.GetString("Enrolled", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Request you to settle the outstanding amounts and Continue your classes..
+        ///   Looks up a localized string similar to As per our Records, there is a pending outstanding amount which kindly pay immediately and continue your classes as per the schedule given..
         /// </summary>
-        internal static string PaymentPending {
+        public static string PaymentPending {
             get {
                 return ResourceManager.GetString("PaymentPending", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Thanks for your visit to our Academy. Our batches r filling fast – come &amp; enrol.
+        ///   Looks up a localized string similar to Thanks for your visit to our Academy. We welcome u to enrol and begin your Musical Journey with us. Limited seats available - come &amp; enrol fast..
         /// </summary>
-        internal static string PETOENROLL {
+        public static string PETOENROLL {
             get {
                 return ResourceManager.GetString("PETOENROLL", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your existing package needs to be renewed. Please renew in time and avail special offers..
+        ///   Looks up a localized string similar to Hope you are having a wonderful experience with us. Your existing package is soon going to end. Pl Renew and Upgrade and avail special offers...
         /// </summary>
-        internal static string Renewal {
+        public static string Renewal {
             get {
                 return ResourceManager.GetString("Renewal", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Great to know of your interest in Music. Looking forward to your visit  for enrolment.
+        ///   Looks up a localized string similar to It was nice to  know of your interest in Music &amp; Dance. For a truly memorable musical experience pl visit  our Academy. Kindly confirm a suitable date and time of your visit..
         /// </summary>
-        internal static string TETOPE {
+        public static string TETOPE {
             get {
                 return ResourceManager.GetString("TETOPE", resourceCulture);
             }

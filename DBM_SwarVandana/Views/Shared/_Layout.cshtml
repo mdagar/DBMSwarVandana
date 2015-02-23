@@ -1,4 +1,5 @@
 ﻿@using Code;
+@using DBM_SwarVandana.Resources;
 <!DOCTYPE html>
 
 <html>
@@ -177,6 +178,15 @@
 </body>
 </html>
 <script type="text/javascript">
+
+    function SendSMS(contactNo, message, isBroadCast, msgType) {
+
+        var msg = escape(message);
+        $.get('@Url.Action("Index", "EmailSMSCompanion")?contactNo=' + contactNo + "&msgType=" + msgType + "&message=" + msg + "&IsBrodcast=" + isBroadCast, function (data) {
+            alert(data);
+        });
+
+    }
     function UpdateCenter(o) {
         var centerId = $(o).val();
 
