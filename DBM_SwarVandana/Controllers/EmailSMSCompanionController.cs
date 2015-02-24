@@ -5,7 +5,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Code;
-using Repositories;
 using DBM_SwarVandana.Resources;
 using Models;
 namespace DBM_SwarVandana.Controllers
@@ -20,8 +19,7 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult Index(string contactNo, string msgType, int message, bool IsBrodcast = false)
         {
-            var reply = "";
-            //contactNo = "8800648085";
+            var reply = "";            
             string msg = string.Empty;
             switch (message)
             {
