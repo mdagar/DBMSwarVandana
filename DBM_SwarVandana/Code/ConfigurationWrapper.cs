@@ -24,6 +24,10 @@ namespace Code
             get { return GetValue<string>("ErrorLogs"); }
         }
 
+        public static string SiteLink
+        {
+            get { return GetValue<string>("SiteLink"); }
+        }
 
         public static string ConnectionString
         {

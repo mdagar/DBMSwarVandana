@@ -181,8 +181,15 @@
 
     function SendSMS(contactNo, message, isBroadCast, msgType) {
 
-        var msg = escape(message);
-        $.get('@Url.Action("Index", "EmailSMSCompanion")?contactNo=' + contactNo + "&msgType=" + msgType + "&message=" + msg + "&IsBrodcast=" + isBroadCast, function (data) {
+        $.get('@Url.Action("Index", "EmailSMSCompanion")?contactNo=' + contactNo + "&msgType=" + msgType + "&message=" + message + "&IsBrodcast=" + isBroadCast, function (data) {
+            alert(data);
+        });
+
+    }
+
+    function SendMail(mail, message, isBroadCast, msgType) {
+
+        $.get('@Url.Action("EmailNotify", "EmailSMSCompanion")?mailAddress=' + mail + "&msgType=" + msgType + "&message=" + message + "&IsBrodcast=" + isBroadCast, function (data) {
             alert(data);
         });
 

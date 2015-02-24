@@ -1,5 +1,4 @@
 ﻿@model List<Models.Enquiries>
-           @using DBM_SwarVandana.Resources;
 @using Code;
 @{
     ViewBag.Title = "Telephonic Enquiry List";
@@ -107,7 +106,7 @@
                     <td class="td">Updated Date</td>
                     <td class="td">Status</td>
                     <td class="td">Action</td>
-                    <td class="td">SMS</td>
+                    <td class="td">Notify</td>
                 </tr>
                 <!-- end row -->
                 @foreach (var v in Model)
@@ -147,7 +146,10 @@
                             }
                             <a href="javascript:void(0)" onclick="AddToTaret('@v.EnquiryId')" title="Add To Target"><span>Target</span></a>
                         </td>
-                        <td class="td"><a href="javascript:void(0)" onclick="SendSMS('@v.ContactNumber','@SmsMessages.TETOPE','@false','s')">Sms</a></td>
+                        <td class="td">
+                            <a href="javascript:void(0)" onclick="SendSMS('@v.ContactNumber','@((int)Message.TETOPE)','@false','s')">Sms</a>
+                            | <a href="javascript:void(0)" onclick="SendMail('mohitdagar80@gmail.com','@((int)Message.TETOPE)','@false','m')">Mail</a>
+                        </td>
                     </tr>
                     <!-- end row -->
                 }

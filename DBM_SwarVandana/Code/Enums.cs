@@ -121,5 +121,14 @@ namespace Code
         Renewal
     }
 
+    public enum Message
+    {
+        TETOPE = 1,
+        Renewal,
+        PETOENROLL,
+        PaymentPending,
+        Enrolled,
+        CustomerFeedBack
+    }
 
 }
