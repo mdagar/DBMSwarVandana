@@ -77,9 +77,9 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult EmailNotify(string mailAddress, string msgType, int message, bool IsBrodcast = false)
         {
             var reply = "";
-
+            string attachment = string.Empty;
             string msg = string.Empty;
-            //mailAddress = "mohitdagar80@gmail.com";
+           // mailAddress = "mohitdagar80@gmail.com";
 
             switch (message)
             {
@@ -96,7 +96,8 @@ namespace DBM_SwarVandana.Controllers
                     msg = Server.UrlEncode(SmsMessages.PaymentPending);
                     break;
                 case 5:
-                    msg = Server.UrlEncode(SmsMessages.Enrolled);
+                    msg = msg = System.IO.File.ReadAllText(Server.MapPath(@"~\Content\EmalTemplates\Enrollment.html"));
+                    attachment = Server.MapPath(@"~\Content\Downloads\Welcome Presentation.pptx");
                     break;
                 case 6:
                     msg = Server.UrlEncode(SmsMessages.CustomerFeedBack);
@@ -111,7 +112,7 @@ namespace DBM_SwarVandana.Controllers
 
             try
             {
-                reply = MailHelper.SendCompanionMail(mailAddress, "Svar Vandana Music & Dance Academy.", msg);
+                reply = MailHelper.SendCompanionMail(mailAddress, "Svar Vandana Music & Dance Academy.", msg,attachment);
 
                 //if (IsBrodcast)
                 //    reply = s.SmsToMultipleContact(msg, contactNo);
@@ -120,7 +121,7 @@ namespace DBM_SwarVandana.Controllers
 
                 MessageTransaction m = new MessageTransaction();
                 m.IsBrodcast = IsBrodcast;
-                m.Message = msg;
+                m.Message = message.ToString();
                 m.MsgType = msgType;
                 m.SendTo = mailAddress;
                 m.SendBy = SessionWrapper.User.UserId;

@@ -37,7 +37,10 @@ public class MailHelper
             WebMail.UserName = "chairman.svarvandana@gmail.com";
             var filesList = new string[] { fileAttachment };
             WebMail.EnableSsl = true;
-            WebMail.Send(to: to, subject: subject, body: body, isBodyHtml: true);
+            if (!string.IsNullOrEmpty(fileAttachment))
+                WebMail.Send(to: to, subject: subject, body: body, isBodyHtml: true, filesToAttach: filesList);
+            else
+                WebMail.Send(to: to, subject: subject, body: body, isBodyHtml: true);
             msg = "Mail send successfully";
         }
         catch (Exception e)
