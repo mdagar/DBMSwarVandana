@@ -19,8 +19,9 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult Index(string contactNo, string msgType, int message, bool IsBrodcast = false)
         {
-            var reply = "";            
+            var reply = "";
             string msg = string.Empty;
+            //contactNo = "8800648085";
             switch (message)
             {
                 case 1:
@@ -30,12 +31,15 @@ namespace DBM_SwarVandana.Controllers
                     msg = Server.UrlEncode(SmsMessages.Renewal);
                     break;
                 case 3:
-                    msg = Server.UrlEncode(SmsMessages.PaymentPending);
+                    msg = Server.UrlEncode(SmsMessages.PETOENROLL);
                     break;
                 case 4:
-                    msg = Server.UrlEncode(SmsMessages.Enrolled);
+                    msg = Server.UrlEncode(SmsMessages.PaymentPending);
                     break;
                 case 5:
+                    msg = Server.UrlEncode(SmsMessages.Enrolled);
+                    break;
+                case 6:
                     msg = Server.UrlEncode(SmsMessages.CustomerFeedBack);
                     break;
                 default:
@@ -75,7 +79,7 @@ namespace DBM_SwarVandana.Controllers
             var reply = "";
 
             string msg = string.Empty;
-            //mailAddress = "sanjay@swarvandana.com";
+            //mailAddress = "mohitdagar80@gmail.com";
 
             switch (message)
             {
@@ -86,12 +90,15 @@ namespace DBM_SwarVandana.Controllers
                     msg = Server.UrlEncode(SmsMessages.Renewal);
                     break;
                 case 3:
-                    msg = Server.UrlEncode(SmsMessages.PaymentPending);
+                    msg = msg = System.IO.File.ReadAllText(Server.MapPath(@"~\Content\EmalTemplates\PEDoneEnrollPending.html"));
                     break;
                 case 4:
-                    msg = Server.UrlEncode(SmsMessages.Enrolled);
+                    msg = Server.UrlEncode(SmsMessages.PaymentPending);
                     break;
                 case 5:
+                    msg = Server.UrlEncode(SmsMessages.Enrolled);
+                    break;
+                case 6:
                     msg = Server.UrlEncode(SmsMessages.CustomerFeedBack);
                     break;
                 default:

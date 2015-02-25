@@ -116,6 +116,7 @@
                     <td class="td">Updated on</td>
                     <td class="td">Status</td>
                     <td class="td">Action</td>
+                    <td class="td">Notify</td>
                 </tr>
                 <!-- end row -->
                 @foreach (var v in Model)
@@ -161,6 +162,10 @@
                                 <a href="@Url.Action("PhysicalEnquiry", "Enquiries", new { enquiryId = v.EnquiryId })" title="Edit"><span>Edit | </span></a>
                             }
                             <a href="javascript:void(0)" onclick="AddToTarget('@v.EnquiryId')" title="Add To Target"><span>Target</span></a>
+                        </td>
+                        <td class="td">
+                            <a href="javascript:void(0)" onclick="SendSMS('@v.ContactNumber','@((int)Message.PETOENROLL)','@false','s')">Sms</a>
+                            @*| <a href="javascript:void(0)" onclick="SendMail('mohitdagar80@gmail.com','@((int)Message.PETOENROLL)','@false','m')">Mail</a>*@
                         </td>
                     </tr>
                     <!-- end row -->
