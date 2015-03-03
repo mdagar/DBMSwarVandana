@@ -142,5 +142,11 @@ namespace DBM_SwarVandana.Controllers
 
         }
 
+
+        public ActionResult TestPage()
+        {
+            return View();
+        }
+
     }
 }
