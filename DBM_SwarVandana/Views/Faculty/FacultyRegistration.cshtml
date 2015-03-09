@@ -31,8 +31,15 @@
     }
 
     $(function () {
-        $("#DOJ").datepicker({ dateFormat: "dd M yy", maxDate: "-1d" });
-        $("#DOB").datepicker({ dateFormat: "dd M yy", maxDate: "-15y" });
+        $("#DOJ").datepicker({
+            dateFormat: "dd M yy", maxDate: "-1d" });
+        $("#DOB").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            inline: true,
+            dateFormat: "dd M yy", maxDate: "-15y"
+
+        });
         $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
             $("#CityId").html('');
             $("#CityId").append('<option value="">-- Select City --</option>');

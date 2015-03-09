@@ -42,7 +42,12 @@
     }
 
     $(function () {
-        $("#DOB").datepicker({ dateFormat: "dd M yy", maxDate: "-15y" });
+        $("#DOB").datepicker({
+            dateFormat: "dd M yy", maxDate: "-15y",
+            changeMonth: true,
+            changeYear: true,
+            inline: true,
+        });
         $("#DOJ").datepicker({ dateFormat: "dd M yy",maxDate: "1d" });
 
         $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {

@@ -21,7 +21,12 @@
     }
 
     $(function () {
-        $("#DOB").datepicker({ dateFormat: "dd M yy", maxDate: "-4Y" });
+        $("#DOB").datepicker({
+            dateFormat: "dd M yy", maxDate: "-4Y",
+            changeMonth: true,
+            changeYear: true,
+            inline: true,
+        });
         $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
             $("#CityId").html('');
             $("#CityId").append('<option value="">-- Select City --</option>');
