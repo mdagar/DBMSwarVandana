@@ -5,7 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     //Layout = null;
 }
-
+<link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/Content/js/jquery-ui.js"></script>
 
 <div class="container">
     <!-- table-info -->
@@ -24,29 +25,36 @@
         <div style="padding-top:10px;">
         </div>
 
-        @Html.DropDownListFor(x => x.disciplaneid, new SelectList(Model.Disciplines, "DisciplineId", "Discipline", Model.disciplaneid), "-- Select Discipline", new { @class = "select" })
+        <p style="font-weight:bold;padding:5px; text-align:center">
+            Date Of Attendence :
+            @Html.TextBox("DateOfAttendence", Model.DateOfAttendence.Value.ToString("dd MMM yyyy"), new { @class = "input", @readonly = "readonly", onchange = "UpdatebatchTimming()" })
+        </p>
 
-        @Html.DropDownListFor(x => x.BatchId, new SelectList(Model.Batches, "BatchId", "Timming", Model.BatchId), "-- Select Batch")
+        <p style="font-weight:bold;padding:5px; text-align:center">
 
-        <input type="button" class="submit-btn" value="Get Students" onclick="GetStudent()" />
+            @Html.DropDownListFor(x => x.disciplaneid, new SelectList(Model.Disciplines, "DisciplineId", "Discipline", Model.disciplaneid), "-- Select Discipline", new { @class = "select" })
 
-        <p style="font-weight:bold;padding:5px; text-align:center">Date Of Attendence : @Model.DateOfAttendence.Value.ToString("dd MMM yyyy")</p>
+            @Html.DropDownListFor(x => x.BatchId, new SelectList(Model.Batches, "BatchId", "Timming", Model.BatchId), "-- Select Batch")
+
+            <input type="button" class="submit-btn" value="Get Students" onclick="GetStudent()" />
+        </p>
+
+
 
         <div style="padding-left:30%; width: 40%">
             @using (Html.BeginForm())
             {
-                @Html.Hidden("DateOfAttendence", @Model.DateOfAttendence.Value)
+                @*@Html.Hidden("DateOfAttendence", @Model.DateOfAttendence.Value)*@
                 @Html.Hidden("BatchId", @Model.BatchId)
                 @Html.Hidden("DisciplaneId", @Model.disciplaneid)
                 <table cellpadding="0" cellspacing="0" class="table">
                     <tr bgcolor="#ccc">
                         <td class="td">Student Name</td>
-                        <td class="td">Attendaene</td>
+                        <td class="td">Attendance</td>
                     </tr>
                     @foreach (var s in Model.students)
                     {
                         <tr>
-
                             <td class="td">
                                 @s.Name
                             </td>
@@ -55,15 +63,30 @@
                             </td>
                         </tr>
                     }
+                    @if (Model.students.Count() == 0)
+                    {
+                    <tr>
+                        <td colspan="2" style="text-align:center">
+                            No student assigned to selected batch.
+                        </td>
+                    </tr>
+                    }
                 </table>
 
-                <input type="submit" value="Save" class="submit-btn" />
+                if (Model.students.Count() > 0)
+                {
+                    <input type="submit" value="Save" class="submit-btn" />
+                }
             }
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
+
+    $("#DateOfAttendence").datepicker({
+        dateFormat: "dd M yy", maxDate: "+0d", minDate: "-15d"
+    });
 
     function PutAttendence(attendenceStatus, studentId, enrollmentId) {
         var BatchId = $("#BatchId").val();
@@ -77,9 +100,26 @@
     function GetStudent() {
         var disId = $("#disciplaneid").val();
         var batchId = $("#BatchId").val()
-        window.location = "http://" + window.location.host + "/student/MakeAttendence" + "?displaneId=" + disId + "&batchId=" + batchId
+        var attendenceDate = $("#DateOfAttendence").val();
+        window.location = "http://" + window.location.host + "/student/MakeAttendence" + "?displaneId=" + disId + "&batchId=" + batchId + "&DateOfAttendence=" + attendenceDate
     }
 
+    function UpdatebatchTimming() {
+
+        var Date = $("#DateOfAttendence").val();
+        $.get("@Url.Action("GetbatchTimming", "Student")?DateOfAttendence=" + Date, function (data) {
+            $("#BatchId").html('');
+            $("#BatchId").append('<option value="">-- Select Batch --</option>');
+            $.each(data, function (i, data) {
+                $("#BatchId").append('<option value="' + data.BatchId + '">' +
+                     data.Timming + '</option>');
+
+            });
+
+        });
+
+
+    }
 
 
 </script>

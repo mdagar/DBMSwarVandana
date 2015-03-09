@@ -287,40 +287,40 @@ namespace DBM_SwarVandana.Controllers
             var s1 = _allstudents.GetStudentsByUniqueId(s.EnrollmentNo);
 
             if (s1 == null)
-                ModelState.AddModelError(string.Empty,"Please enter valid Enrollment no.");
+                ModelState.AddModelError(string.Empty, "Please enter valid Enrollment no.");
 
-                if (ModelState.IsValid)
+            if (ModelState.IsValid)
+            {
+                s.ActionId = 0;
+                s.AddDate = DateTime.Now;
+                s.ModifyDate = DateTime.Now;
+                s.ModifyBy = SessionWrapper.User.UserId;
+                s.AddedBy = SessionWrapper.User.UserId;
+                s.CenterId = SessionWrapper.User.CentreId;
+                if (s.RenewalId != 0)
                 {
-                    s.ActionId = 0;
-                    s.AddDate = DateTime.Now;
-                    s.ModifyDate = DateTime.Now;
-                    s.ModifyBy = SessionWrapper.User.UserId;
-                    s.AddedBy = SessionWrapper.User.UserId;
-                    s.CenterId = SessionWrapper.User.CentreId;
-                    if (s.RenewalId != 0)
-                    {
-                        sr = new StudentRenewalViewModel(_allstudents.GetRenewStudentFromRenewId(SessionWrapper.User.UserId, s.RenewalId));
-                        sr.ActionId = 1;
-                        sr.ModifyDate = DateTime.Now;
-                        sr.ModifyBy = SessionWrapper.User.UserId;
-                        sr.Description = s.Description;
-                        sr.Remark = s.Remark;
-                        sr.Status = s.Status;
-                        result = _allstudents.RenewalStudents(sr);
-                    }
-                    else
-                    {
-                        result = _allstudents.RenewalStudents(s);
-                    }
-                    if (result > 0)
-                    {
-                        ViewBag.Success = Messages.SubmitRenewal;
-                    }
+                    sr = new StudentRenewalViewModel(_allstudents.GetRenewStudentFromRenewId(SessionWrapper.User.UserId, s.RenewalId));
+                    sr.ActionId = 1;
+                    sr.ModifyDate = DateTime.Now;
+                    sr.ModifyBy = SessionWrapper.User.UserId;
+                    sr.Description = s.Description;
+                    sr.Remark = s.Remark;
+                    sr.Status = s.Status;
+                    result = _allstudents.RenewalStudents(sr);
                 }
                 else
                 {
-                    s = new StudentRenewalViewModel();
+                    result = _allstudents.RenewalStudents(s);
                 }
+                if (result > 0)
+                {
+                    ViewBag.Success = Messages.SubmitRenewal;
+                }
+            }
+            else
+            {
+                s = new StudentRenewalViewModel();
+            }
             return View(s);
         }
 
@@ -328,11 +328,11 @@ namespace DBM_SwarVandana.Controllers
 
         #region Attendence
         [Authenticate]
-        public ActionResult MakeAttendence(long displaneId = 0, long batchId = 0, DateTime? attendenceDate = null)
+        public ActionResult MakeAttendence(long displaneId = 0, long batchId = 0, DateTime? DateOfAttendence = null)
         {
             Session["Atendence"] = null;
             StudentAttendenceViewModel m = new StudentAttendenceViewModel();
-            m.DateOfAttendence = attendenceDate == null ? DateTime.Now : attendenceDate.Value;
+            m.DateOfAttendence = DateOfAttendence == null ? DateTime.Now : DateOfAttendence.Value;
             // IN sql serevr Sunday is 7
             int weekday = (int)m.DateOfAttendence.Value.DayOfWeek;
             if (weekday == 0)
@@ -341,7 +341,7 @@ namespace DBM_SwarVandana.Controllers
             m.Batches = _allBatches.FindBatchByDayId(SessionWrapper.User.CentreId, weekday);
             m.disciplaneid = displaneId;
             m.BatchId = batchId;
-            m.students = _allstudents.GetStudentsByDisciplane(displaneId, batchId, weekday);
+            m.students = _allstudents.GetStudentsByDisciplane(displaneId, batchId, weekday,m.DateOfAttendence.Value);
             var CurrentAttendence = _allstudents.GetClassAttendence(m.BatchId, m.DateOfAttendence.Value);
             foreach (var v in m.students)
             {
@@ -365,6 +365,18 @@ namespace DBM_SwarVandana.Controllers
         }
 
         [Authenticate]
+        public ActionResult GetbatchTimming(DateTime? DateOfAttendence = null)
+        {
+            int weekday = (int)DateOfAttendence.Value.DayOfWeek;
+            if (weekday == 0)
+                weekday = 7;
+            var Batches = _allBatches.FindBatchByDayId(SessionWrapper.User.CentreId, weekday);
+            return Json(Batches, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        [Authenticate]
         [HttpPost]
         public ActionResult MakeAttendence(DateTime? DateOfAttendence, long BatchId, long DisciplaneId)
         {
@@ -379,6 +391,8 @@ namespace DBM_SwarVandana.Controllers
                 if (DateOfAttendence.HasValue)
                 {
                     weekday = (int)DateOfAttendence.Value.DayOfWeek;
+                    if (weekday == 0)
+                        weekday = 7;
                     List<StudentAttendence> FinalCollection = new List<StudentAttendence>();
                     FinalCollection = AttendenceCollection.Where(x => x.BatchId == BatchId && x.DisciplaneId == DisciplaneId).ToList();
                     FinalCollection.Update(u => u.DateOfAttendence = DateOfAttendence.Value);
@@ -391,6 +405,8 @@ namespace DBM_SwarVandana.Controllers
                         ViewBag.Success = "Attendence submit successfully.";
                     }
                 }
+                else
+                    ViewBag.Error = "Please select attendence date";
             }
             m.Disciplines = _allDiscipline.GetAllDisciplines(SessionWrapper.User.CentreId);
             m.DateOfAttendence = DateOfAttendence;
