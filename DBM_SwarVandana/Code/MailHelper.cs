@@ -4,6 +4,8 @@ using Code;
 using System.Web.Helpers;
 using System;
 using System.Net;
+using Models;
+using Repositories;
 public class MailHelper
 {
     public static void SendMail(string to, string subject, string body, string fileAttachment = "")
@@ -24,12 +26,45 @@ public class MailHelper
             throw e;
         }
     }
+    
+    public static void AutoEmail(string mailAddress, string msgType, string message, bool IsBrodcast = false, string attachment = "")
+    {
+        MessageTransactionRepository _allmsg = new MessageTransactionRepository();
+        var reply = "";
+        string msg = message;
+        mailAddress = "sanjay@swarvandana.com";
+        //mailAddress = "mohitdagar80@gmail.com";
+
+        string url = ConfigurationWrapper.SiteLink;
+        string Imgsrc = url + @"Content/images/logo.png";
+        msg = msg.Replace("{imgsrc}", Imgsrc);
+        try
+        {
+            reply = MailHelper.SendCompanionMail(mailAddress, "Svar Vandana Music & Dance Academy.", msg, attachment);
+            MessageTransaction m = new MessageTransaction();
+            m.IsBrodcast = IsBrodcast;
+            m.Message = message.ToString();
+            m.MsgType = msgType;
+            m.SendTo = mailAddress;
+            m.SendBy = SessionWrapper.User.UserId;
+            m.SendDate = DateTime.Now;
+            _allmsg.SaveRecord(m);
+        }
+        catch (Exception e)
+        {
+            reply = e.Message;
+        }
+
+    }
+
 
     public static string SendCompanionMail(string to, string subject, string body, string fileAttachment = "")
     {
         string msg = string.Empty;
         try
         {
+            to = "sanjay@swarvandana.com";
+           // to = "mohitdagar80@gmail.com";
             WebMail.SmtpServer = ConfigurationWrapper.SMTP_SERVER;
             WebMail.From = "chairman.svarvandana@gmail.com";
             WebMail.Password = "mercygod";

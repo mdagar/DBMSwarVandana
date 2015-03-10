@@ -181,7 +181,7 @@ namespace Repositories
         public List<StudentAttendence> GetClassAttendence(long batchId, DateTime dateofAttendence)
         {
             string Query = "SELECT Id,BatchId,EnrollmentId,StuentId,AttendenceStatus,DateOfAttendence,AddDate,AddBy,ModifyDate,ModifyBy FROM [dbo].[StudentAttendence]" +
-                            "WHERE BatchId =" + batchId + " AND CONVERT(VARCHAR(10),DateOfAttendence,106)= CONVERT(VARCHAR(10),'" + dateofAttendence + "',106)";
+                            "WHERE BatchId =" + batchId + " AND CONVERT(VARCHAR(10),cast(DateOfAttendence as date),106)= CONVERT(VARCHAR(10), cast('" + dateofAttendence + "' as date),106)";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             if (d == null)
                 return new List<StudentAttendence>();

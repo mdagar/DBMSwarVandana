@@ -3,7 +3,17 @@
 @{
     ViewBag.Title = "Make Attendence";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    //Layout = null;
+
+    IEnumerable<AttendenceStatus> statusid = Enum.GetValues(typeof(AttendenceStatus))
+                                                         .Cast<AttendenceStatus>();
+
+    Dictionary<string, string> status = new Dictionary<string, string>();
+
+    foreach(var v in statusid)
+    {
+        status.Add(v.ToString(), ((int)v).ToString());
+    }
+   
 }
 <link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
 <script src="~/Content/js/jquery-ui.js"></script>
@@ -60,16 +70,17 @@
                             </td>
                             <td class="td">
                                 @Html.DropDownList("attendenceStatus", (typeof(AttendenceStatus).SelectList<Code.AttendenceStatus>(true)), "-- Select --", new { @class = "select", @onchange = "PutAttendence(this," + @s.StudentId + "," + @s.EnrollmentId + ")" })
+                                @*@Html.DropDownList("attendenceStatus", new SelectList(status, "Value","Key","2"), "-- Select --", new { @class = "select", @onchange = "PutAttendence(this," + @s.StudentId + "," + @s.EnrollmentId + ")" })*@
                             </td>
                         </tr>
                     }
                     @if (Model.students.Count() == 0)
                     {
-                    <tr>
-                        <td colspan="2" style="text-align:center">
-                            No student assigned to selected batch.
-                        </td>
-                    </tr>
+                        <tr>
+                            <td colspan="2" style="text-align:center">
+                                No student assigned to selected batch.
+                            </td>
+                        </tr>
                     }
                 </table>
 

@@ -188,6 +188,8 @@ namespace DBM_SwarVandana.Controllers
             var result = 0;
             if (ModelState.IsValid)
             {
+                var student = _allstudents.GetStudentByStudentId(s.StudentId);
+
                 s.ActionId = 0;
                 s.CreatedDate = DateTime.Now;
                 s.CreatedBy = SessionWrapper.User.UserId;
@@ -212,7 +214,20 @@ namespace DBM_SwarVandana.Controllers
                         m.ModifyDate = DateTime.Now;
                         batchmapping.Add(m);
                     }
+
                     _allBatches.SaveBatches(batchmapping);
+
+                    // Notify User By Email And SMS
+
+                    //student.EmailAddress = "mohitdagar80@gmail.com";
+                    //SMSHelper sms = new SMSHelper();
+                    //var msg = Server.UrlEncode(SmsMessages.Enrolled);
+                    //sms.AutoSMS(student.Contact1, "s", msg, false);
+                    //string Emailmsg = System.IO.File.ReadAllText(Server.MapPath(@"~\Content\EmalTemplates\Enrollment.html"));
+                    //string attachment = Server.MapPath(@"~\Content\Downloads\Welcome Presentation.pptx");
+                    //MailHelper.AutoEmail(student.EmailAddress, "m", Emailmsg, false, attachment);
+
+
                     ViewBag.Success = Messages.SubmitEnroll;
                 }
                 else
@@ -341,7 +356,7 @@ namespace DBM_SwarVandana.Controllers
             m.Batches = _allBatches.FindBatchByDayId(SessionWrapper.User.CentreId, weekday);
             m.disciplaneid = displaneId;
             m.BatchId = batchId;
-            m.students = _allstudents.GetStudentsByDisciplane(displaneId, batchId, weekday,m.DateOfAttendence.Value);
+            m.students = _allstudents.GetStudentsByDisciplane(displaneId, batchId, weekday, m.DateOfAttendence.Value);
             var CurrentAttendence = _allstudents.GetClassAttendence(m.BatchId, m.DateOfAttendence.Value);
             foreach (var v in m.students)
             {
@@ -360,7 +375,7 @@ namespace DBM_SwarVandana.Controllers
                 AttendenceCollection.Add(s);
             }
             Session["Atendence"] = AttendenceCollection;
-            //m.studentAttendence = AttendenceCollection.Where(x => x.BatchId == m.BatchId && x.DisciplaneId == m.disciplaneid).ToList();
+            m.studentAttendence = AttendenceCollection;
             return View(m);
         }
 

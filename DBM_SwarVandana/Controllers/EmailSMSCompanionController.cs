@@ -21,6 +21,7 @@ namespace DBM_SwarVandana.Controllers
         {
             var reply = "";
             string msg = string.Empty;
+            //contactNo = "7838330700";
             //contactNo = "8800648085";
             switch (message)
             {
@@ -73,13 +74,16 @@ namespace DBM_SwarVandana.Controllers
         }
 
 
+
+
         [Authenticate]
         public ActionResult EmailNotify(string mailAddress, string msgType, int message, bool IsBrodcast = false)
         {
             var reply = "";
             string attachment = string.Empty;
             string msg = string.Empty;
-           // mailAddress = "mohitdagar80@gmail.com";
+            //mailAddress = "sanjay@swarvandana.com";
+            //mailAddress = "mohitdagar80@gmail.com";
 
             switch (message)
             {
@@ -94,9 +98,11 @@ namespace DBM_SwarVandana.Controllers
                     break;
                 case 4:
                     msg = Server.UrlEncode(SmsMessages.PaymentPending);
+                    //msg = System.IO.File.ReadAllText(Server.MapPath(@"~\Content\EmalTemplates\Enrollment.html"));
+                    //attachment = Server.MapPath(@"~\Content\Downloads\Welcome Presentation.pptx");
                     break;
                 case 5:
-                    msg = msg = System.IO.File.ReadAllText(Server.MapPath(@"~\Content\EmalTemplates\Enrollment.html"));
+                    msg = System.IO.File.ReadAllText(Server.MapPath(@"~\Content\EmalTemplates\Enrollment.html"));
                     attachment = Server.MapPath(@"~\Content\Downloads\Welcome Presentation.pptx");
                     break;
                 case 6:
@@ -112,7 +118,7 @@ namespace DBM_SwarVandana.Controllers
 
             try
             {
-                reply = MailHelper.SendCompanionMail(mailAddress, "Svar Vandana Music & Dance Academy.", msg,attachment);
+                reply = MailHelper.SendCompanionMail(mailAddress, "Svar Vandana Music & Dance Academy.", msg, attachment);
 
                 //if (IsBrodcast)
                 //    reply = s.SmsToMultipleContact(msg, contactNo);

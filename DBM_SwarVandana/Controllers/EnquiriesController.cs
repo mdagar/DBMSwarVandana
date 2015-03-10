@@ -92,10 +92,17 @@ namespace DBM_SwarVandana.Controllers
                 else
                 {
                     result = _allenquiry.CreateEnquiry(en);
+                    //if (result > 0)
+                    //{
+                    //    SMSHelper s = new SMSHelper();
+                    //    var msg = Server.UrlEncode(SmsMessages.TETOPE);
+                    //    s.AutoSMS(en.ContactNumber, "s", msg, false);
+                    //}
                 }
 
                 if (result > 0)
                 {
+
                     ViewBag.Success = Messages.SubmitEnquiry;
                 }
                 else
@@ -170,9 +177,9 @@ namespace DBM_SwarVandana.Controllers
             else
                 en.EnquiryNumber = string.Empty;
 
-
             if (en.Demo == false)
                 ModelState.Remove("FacultyID");
+
             if (ModelState.IsValid)
             {
                 en.FacultyID = en.Demo == true ? en.FacultyID : 0;
@@ -184,8 +191,8 @@ namespace DBM_SwarVandana.Controllers
                 en.AddedBy = SessionWrapper.User.UserId;
                 en.ModifyBy = SessionWrapper.User.UserId;
                 en.ModifyDate = DateTime.Now;
-
                 en.IsDeleted = false;
+
                 if (en.EnquiryId != 0)
                 {
                     evm = new EnquiryViewModel(_allenquiry.FindByEnquirieID(en.EnquiryId));
@@ -201,7 +208,16 @@ namespace DBM_SwarVandana.Controllers
                     result = _allenquiry.CreateEnquiry(evm);
                 }
                 else
+                {
                     result = _allenquiry.CreateEnquiry(en);
+                    //if (result > 0)
+                    //{
+                    //    SMSHelper s = new SMSHelper();
+                    //    var msg = Server.UrlEncode(SmsMessages.PETOENROLL);
+                    //    s.AutoSMS(en.ContactNumber, "s", msg, false);
+                    //}
+
+                }
                 if (result > 0)
                 {
                     ViewBag.Success = Messages.SubmitEnquiry;

@@ -129,7 +129,7 @@ namespace DBM_SwarVandana.Controllers
         public ActionResult TestMessage()
         {
             SMSHelper s = new SMSHelper();
-            string SMS =  Server.UrlEncode(Resources.SmsMessages.TETOPE);
+            string SMS = Server.UrlEncode(Resources.SmsMessages.TETOPE);
             int length = SMS.Length;
 
             //s.SmsToMultipleContact(Resources.SmsMessages.TETOPE, "8800648085");
@@ -143,8 +143,11 @@ namespace DBM_SwarVandana.Controllers
         }
 
 
-        public ActionResult TestPage()
+        public ActionResult TestPage(string Date, string Time, string Caller_Number, string Call_Status, string Call_Duration, string Extension, string AgentNumber, string RecordingUrl, string Call_ID)
         {
+            ViewBag.Message = Caller_Number;
+            ViewBag.AgentNumber = AgentNumber;
+            MailHelper.SendMail("Mohitdagar80@gmail.com", "Test IVR", Caller_Number);
             return View();
         }
 

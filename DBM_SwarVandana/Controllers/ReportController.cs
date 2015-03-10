@@ -41,8 +41,7 @@ namespace DBM_SwarVandana.Controllers
             }
             return View(rm);
         }
-
-
+        
         [Authenticate]
         public ActionResult StudentPaymentDetails()
         {

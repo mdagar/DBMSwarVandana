@@ -28,6 +28,7 @@
                     <td class="td">Discipline</td>
                     <td class="td">Balance</td>
                     <td class="td">Due Date</td>
+                    <td class="td">Notify</td>
                 </tr>
                 <!-- end row -->
                 @foreach (System.Data.DataRow v in Model.ReportDataset.Tables[0].Rows)
@@ -39,6 +40,10 @@
                         <td class="td">@v["Discipline"]</td>
                         <td class="td">@String.Format("{0:0.##}", v["Balance"])</td>
                         <td class="td">@v["DueDate"]</td>
+                        <td class="td">
+                            <a href="javascript:void(0)" onclick="SendSMS('8800648085','@((int)Message.PaymentPending)','@false','s')">Sms</a>
+                            @*|<a href="javascript:void(0)" onclick="SendMail('mohitdagar80@gmail.com','@((int)Message.PaymentPending)','@false','m')">Mail</a>*@
+                        </td>
                     </tr>
 
                     <!-- end row -->

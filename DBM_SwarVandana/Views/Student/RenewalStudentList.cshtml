@@ -40,6 +40,7 @@
                     <td class="td">Remark</td>
                     <td class="td">Status</td>
                     <td class="td">Action</td>
+                    <td class="td">Notify</td>
                 </tr>
                 <!-- end row -->
                 @foreach (var v in Model)
@@ -71,6 +72,11 @@
                         <td class="td">
                             <a href="@Url.Action("RenewalStudent", "Student", new { renewalId = v.RenewalId })" title="Edit">Edit | </a>
                             <a href="javascript:void(0)" onclick="AddToTarget('@v.RenewalId')" title="Add To Target"><span>Target</span></a>
+                        </td>
+
+                        <td class="td">
+                            <a href="javascript:void(0)" onclick="SendSMS('8800648085','@((int)Message.Renewal)','@false','s')">Sms</a>
+                            @*|<a href="javascript:void(0)" onclick="SendMail('mohitdagar80@gmail.com','@((int)Message.PaymentPending)','@false','m')">Mail</a>*@
                         </td>
                     </tr>
 
