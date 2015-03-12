@@ -42,7 +42,7 @@
                         <td class="td">@v["DueDate"]</td>
                         <td class="td">
                             <a href="javascript:void(0)" onclick="SendSMS('@v["UniqueKey"]','@((int)Message.PaymentPending)','@false','s')">Sms</a>
-                            @*|<a href="javascript:void(0)" onclick="SendMail('mohitdagar80@gmail.com','@((int)Message.PaymentPending)','@false','m')">Mail</a>*@
+                            | <a href="javascript:void(0)" onclick="SendMail('@v["UniqueKey"]','@((int)Message.PaymentPending)','@false','m')">Mail</a>
                         </td>
                     </tr>
 

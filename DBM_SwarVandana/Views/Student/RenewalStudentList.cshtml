@@ -76,7 +76,7 @@
 
                         <td class="td">
                             <a href="javascript:void(0)" onclick="SendSMS('@v.EnrollmentNo','@((int)Message.Renewal)','@false','s')">Sms</a>
-                            @*|<a href="javascript:void(0)" onclick="SendMail('mohitdagar80@gmail.com','@((int)Message.PaymentPending)','@false','m')">Mail</a>*@
+                            | <a href="javascript:void(0)" onclick="SendMail('@v.EnrollmentNo','@((int)Message.Renewal)','@false','m')">Mail</a>
                         </td>
                     </tr>
 

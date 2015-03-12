@@ -61,7 +61,7 @@ namespace DBM_SwarVandana.Controllers
                 else
                     reply = s.SMSToSingleContact(msg, contactNo);
 
-                reply += reply + " Messge Type : " + msgType;
+                reply += reply + " Messge Type : " + message;
                 MessageTransaction m = new MessageTransaction();
                 m.IsBrodcast = IsBrodcast;
                 m.Message = msg;
@@ -97,15 +97,17 @@ namespace DBM_SwarVandana.Controllers
                     msg = System.IO.File.ReadAllText(Server.MapPath(@"~\Content\EmalTemplates\TEDonePEPending.html"));
                     break;
                 case 2:
-                    msg = Server.UrlEncode(SmsMessages.Renewal);
+                    //msg = Server.UrlEncode(SmsMessages.Renewal);
+                    mailAddress = _allStudents.GetStudentsByUniqueId(mailAddress).EmailAddress;
+                    msg = msg = System.IO.File.ReadAllText(Server.MapPath(@"~\Content\EmalTemplates\Renewal.html"));
                     break;
                 case 3:
                     msg = msg = System.IO.File.ReadAllText(Server.MapPath(@"~\Content\EmalTemplates\PEDoneEnrollPending.html"));
                     break;
                 case 4:
-                    msg = Server.UrlEncode(SmsMessages.PaymentPending);
-                    //msg = System.IO.File.ReadAllText(Server.MapPath(@"~\Content\EmalTemplates\Enrollment.html"));
-                    //attachment = Server.MapPath(@"~\Content\Downloads\Welcome Presentation.pptx");
+                    //msg = Server.UrlEncode(SmsMessages.PaymentPending);
+                    mailAddress = _allStudents.GetStudentsByUniqueId(mailAddress).EmailAddress;
+                    msg = System.IO.File.ReadAllText(Server.MapPath(@"~\Content\EmalTemplates\PendingPayment.html"));
                     break;
                 case 5:
                     msg = System.IO.File.ReadAllText(Server.MapPath(@"~\Content\EmalTemplates\Enrollment.html"));
@@ -126,7 +128,7 @@ namespace DBM_SwarVandana.Controllers
             {
                 reply = MailHelper.SendCompanionMail(mailAddress, "Svar Vandana Music & Dance Academy.", msg, attachment);
 
-                reply += reply + "Mail Type : " + msgType;
+                reply += reply + " Mail Type : " + message;
 
                 //if (IsBrodcast)
                 //    reply = s.SmsToMultipleContact(msg, contactNo);

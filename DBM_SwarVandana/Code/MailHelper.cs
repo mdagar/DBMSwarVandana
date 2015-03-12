@@ -64,7 +64,7 @@ public class MailHelper
         try
         {
             //to = "sanjay@swarvandana.com";
-            //to = "mohitdagar80@gmail.com";
+           // to = "mohitdagar80@gmail.com";
             WebMail.SmtpServer = ConfigurationWrapper.SMTP_SERVER;
             WebMail.From = "chairman.svarvandana@gmail.com";
             WebMail.Password = "mercygod";
