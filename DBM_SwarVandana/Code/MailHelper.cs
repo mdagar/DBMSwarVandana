@@ -33,7 +33,7 @@ public class MailHelper
         var reply = "";
         string msg = message;
         //mailAddress = "sanjay@swarvandana.com";
-        //mailAddress = "mohitdagar80@gmail.com";
+       // mailAddress = "mohitdagar80@gmail.com";
 
         string url = ConfigurationWrapper.SiteLink;
         string Imgsrc = url + @"Content/images/logo.png";

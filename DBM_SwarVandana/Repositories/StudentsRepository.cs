@@ -213,12 +213,12 @@ namespace Repositories
             if (IsStatus == false)
             {
                 Query = "select SR.RenewalId,SR.EnrollmentNo,(select name from student where studentid=SR.StudentId) AS Name,FT.NameOfFaculty AS Faculty,SR.AddDate,SR.Description,SR.Remark,SR.Status from [dbo].[StudentRenewal] SR,Faculties FT" +
-                           " WHERE SR.FacultyId=FT.FacultyId AND (FT.NameOfFaculty like '%" + search + "%' OR SR.Description like '%" + search + "%' OR SR.Remark like '%" + search + "%')";
+                           " WHERE SR.CenterId="+centerId+" and SR.FacultyId=FT.FacultyId AND (FT.NameOfFaculty like '%" + search + "%' OR SR.Description like '%" + search + "%' OR SR.Remark like '%" + search + "%')";
             }
             else
             {
                 Query = "  select SR.RenewalId,SR.EnrollmentNo,(select name from student where studentid=SR.StudentId) AS Name,FT.NameOfFaculty AS Faculty,SR.AddDate,SR.Description,SR.Remark,SR.Status from [dbo].[StudentRenewal] SR,Faculties FT" +
-                        " WHERE SR.FacultyId=FT.FacultyId AND SR.Status=" + search + "";
+                        " WHERE  SR.CenterId="+centerId+" and SR.FacultyId=FT.FacultyId AND SR.Status=" + search + "";
             }
             DataSet ds = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             if (ds == null)

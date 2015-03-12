@@ -15,6 +15,7 @@ namespace DBM_SwarVandana.Controllers
         // GET: /EmailSMSCompanion/
 
         MessageTransactionRepository _allmsg = new MessageTransactionRepository();
+        StudentsRepository _allStudents = new StudentsRepository();
 
         [Authenticate]
         public ActionResult Index(string contactNo, string msgType, int message, bool IsBrodcast = false)
@@ -29,12 +30,16 @@ namespace DBM_SwarVandana.Controllers
                     msg = Server.UrlEncode(SmsMessages.TETOPE);
                     break;
                 case 2:
+                    // In case of Panding Payment We send Unique Keyof Student in Contact No.
+                    contactNo = _allStudents.GetStudentsByUniqueId(contactNo).Contact1;
                     msg = Server.UrlEncode(SmsMessages.Renewal);
                     break;
                 case 3:
                     msg = Server.UrlEncode(SmsMessages.PETOENROLL);
                     break;
                 case 4:
+                    // In case of Panding Payment We send Unique Keyof Student in Contact No.
+                    contactNo = _allStudents.GetStudentsByUniqueId(contactNo).Contact1;
                     msg = Server.UrlEncode(SmsMessages.PaymentPending);
                     break;
                 case 5:
@@ -56,6 +61,7 @@ namespace DBM_SwarVandana.Controllers
                 else
                     reply = s.SMSToSingleContact(msg, contactNo);
 
+                reply += reply + " Messge Type : " + msgType;
                 MessageTransaction m = new MessageTransaction();
                 m.IsBrodcast = IsBrodcast;
                 m.Message = msg;
@@ -119,6 +125,8 @@ namespace DBM_SwarVandana.Controllers
             try
             {
                 reply = MailHelper.SendCompanionMail(mailAddress, "Svar Vandana Music & Dance Academy.", msg, attachment);
+
+                reply += reply + "Mail Type : " + msgType;
 
                 //if (IsBrodcast)
                 //    reply = s.SmsToMultipleContact(msg, contactNo);
