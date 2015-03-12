@@ -50,7 +50,7 @@
                     <td class="td">No Of Classes</td>
                     <td class="td">Start Date</td>
                     <td class="td">End Date</td>
-                    <td class="td">Notify</td>
+                    @*<td class="td">Notify</td>*@
                 </tr>
                 <!-- end row -->
                 @foreach (System.Data.DataRow v in Model.ReportDataset.Tables[0].Rows)
@@ -67,10 +67,10 @@
                         <td class="td">@v["NoOfClasses"]</td>
                         <td class="td">@v["SatrtDate"]</td>
                         <td class="td">@v["EndDate"]</td>
-                        <td class="td">
+                        @*<td class="td">
                             <a href="javascript:void(0)" onclick="SendSMS('@v["Contact1"]','@((int)Message.Enrolled)','@false','s')">Sms</a>
                             | <a href="javascript:void(0)" onclick="SendMail('@v["EmailAddress"]','@((int)Message.Enrolled)','@false','m')">Mail</a>
-                        </td>
+                        </td>*@
                     </tr>
                 }
                 @{if (Model.ReportDataset.Tables[0].Rows.Count == 0)

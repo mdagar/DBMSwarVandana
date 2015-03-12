@@ -26,13 +26,13 @@ public class MailHelper
             throw e;
         }
     }
-    
+
     public static void AutoEmail(string mailAddress, string msgType, string message, bool IsBrodcast = false, string attachment = "")
     {
         MessageTransactionRepository _allmsg = new MessageTransactionRepository();
         var reply = "";
         string msg = message;
-        mailAddress = "sanjay@swarvandana.com";
+        //mailAddress = "sanjay@swarvandana.com";
         //mailAddress = "mohitdagar80@gmail.com";
 
         string url = ConfigurationWrapper.SiteLink;
@@ -63,8 +63,8 @@ public class MailHelper
         string msg = string.Empty;
         try
         {
-            to = "sanjay@swarvandana.com";
-           // to = "mohitdagar80@gmail.com";
+            //to = "sanjay@swarvandana.com";
+            //to = "mohitdagar80@gmail.com";
             WebMail.SmtpServer = ConfigurationWrapper.SMTP_SERVER;
             WebMail.From = "chairman.svarvandana@gmail.com";
             WebMail.Password = "mercygod";

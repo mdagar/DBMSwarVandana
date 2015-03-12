@@ -11,6 +11,7 @@ using Models;
 using ListConversion;
 using System.Data;
 using System.Xml;
+using System.Threading.Tasks;
 namespace DBM_SwarVandana.Controllers
 {
     public class StudentController : Controller
@@ -219,13 +220,16 @@ namespace DBM_SwarVandana.Controllers
 
                     // Notify User By Email And SMS
 
-                    //student.EmailAddress = "mohitdagar80@gmail.com";
-                    //SMSHelper sms = new SMSHelper();
-                    //var msg = Server.UrlEncode(SmsMessages.Enrolled);
-                    //sms.AutoSMS(student.Contact1, "s", msg, false);
-                    //string Emailmsg = System.IO.File.ReadAllText(Server.MapPath(@"~\Content\EmalTemplates\Enrollment.html"));
-                    //string attachment = Server.MapPath(@"~\Content\Downloads\Welcome Presentation.pptx");
-                    //MailHelper.AutoEmail(student.EmailAddress, "m", Emailmsg, false, attachment);
+                    //Task.Factory.StartNew(() =>
+                    //{
+                    SMSHelper sms = new SMSHelper();
+                    var msg = Server.UrlEncode(SmsMessages.Enrolled);
+                    sms.AutoSMS(student.Contact1, "s", msg, false);
+                    string Emailmsg = System.IO.File.ReadAllText(Server.MapPath(@"~\Content\EmalTemplates\Enrollment.html"));
+                    string attachment = Server.MapPath(@"~\Content\Downloads\Welcome Presentation.pptx");
+                    MailHelper.AutoEmail(student.EmailAddress, "m", Emailmsg, false, attachment);
+                    //});
+
 
 
                     ViewBag.Success = Messages.SubmitEnroll;
@@ -393,8 +397,6 @@ namespace DBM_SwarVandana.Controllers
             var Batches = _allBatches.FindBatchByDayId(SessionWrapper.User.CentreId, weekday);
             return Json(Batches, JsonRequestBehavior.AllowGet);
         }
-
-
 
         [Authenticate]
         [HttpPost]

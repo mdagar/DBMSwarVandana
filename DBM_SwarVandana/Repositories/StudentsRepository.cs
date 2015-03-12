@@ -256,7 +256,7 @@ namespace Repositories
 
         public Students GetStudentByStudentId(Int64 StudentId)
         {
-            var Query = "select Name,UniqueKey from [Student] where StudentId=" + StudentId;
+            var Query = "select Name,UniqueKey,EmailAddress from [Student] where StudentId=" + StudentId;
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d.Tables[0].TableToList<Students>().FirstOrDefault();
         }

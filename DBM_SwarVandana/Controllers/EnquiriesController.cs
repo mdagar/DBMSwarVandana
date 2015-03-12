@@ -92,12 +92,12 @@ namespace DBM_SwarVandana.Controllers
                 else
                 {
                     result = _allenquiry.CreateEnquiry(en);
-                    //if (result > 0)
-                    //{
-                    //    SMSHelper s = new SMSHelper();
-                    //    var msg = Server.UrlEncode(SmsMessages.TETOPE);
-                    //    s.AutoSMS(en.ContactNumber, "s", msg, false);
-                    //}
+                    if (result > 0)
+                    {
+                        SMSHelper s = new SMSHelper();
+                        var msg = Server.UrlEncode(SmsMessages.TETOPE);
+                        s.AutoSMS(en.ContactNumber, "s", msg, false);
+                    }
                 }
 
                 if (result > 0)
@@ -210,12 +210,12 @@ namespace DBM_SwarVandana.Controllers
                 else
                 {
                     result = _allenquiry.CreateEnquiry(en);
-                    //if (result > 0)
-                    //{
-                    //    SMSHelper s = new SMSHelper();
-                    //    var msg = Server.UrlEncode(SmsMessages.PETOENROLL);
-                    //    s.AutoSMS(en.ContactNumber, "s", msg, false);
-                    //}
+                    if (result > 0)
+                    {
+                        SMSHelper s = new SMSHelper();
+                        var msg = Server.UrlEncode(SmsMessages.PETOENROLL);
+                        s.AutoSMS(en.ContactNumber, "s", msg, false);
+                    }
 
                 }
                 if (result > 0)
