@@ -292,7 +292,7 @@ namespace DBM_SwarVandana.Controllers
             StudentRenewalViewModel sr = new StudentRenewalViewModel();
             if (renewalId != 0)
             {
-                sr = new StudentRenewalViewModel(_allstudents.GetRenewStudentFromRenewId(SessionWrapper.User.UserId, renewalId));
+                sr = new StudentRenewalViewModel(_allstudents.GetRenewStudentFromRenewId(SessionWrapper.User.CentreId, renewalId));
             }
             return View(sr);
         }
@@ -318,7 +318,7 @@ namespace DBM_SwarVandana.Controllers
                 s.CenterId = SessionWrapper.User.CentreId;
                 if (s.RenewalId != 0)
                 {
-                    sr = new StudentRenewalViewModel(_allstudents.GetRenewStudentFromRenewId(SessionWrapper.User.UserId, s.RenewalId));
+                    sr = new StudentRenewalViewModel(_allstudents.GetRenewStudentFromRenewId(SessionWrapper.User.CentreId, s.RenewalId));
                     sr.ActionId = 1;
                     sr.ModifyDate = DateTime.Now;
                     sr.ModifyBy = SessionWrapper.User.UserId;

@@ -1,0 +1,36 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TestEmai</title>
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm())
+        {
+            <table>
+                <tr>
+                    <td>contact number</td>
+                    <td>
+                        <input type="text" name="contactNumber" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Message</td>
+                    <td>
+                        <textarea name="message"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"> <input type="submit" value="Send Test Mail" /></td>
+                </tr>
+            </table>
+        }
+    </div>
+</body>
+</html>

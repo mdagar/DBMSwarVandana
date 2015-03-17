@@ -150,6 +150,10 @@
                     {
                         backgroundColor = "Green";
                     }
+                    else if (((Status)Enum.Parse(typeof(Status), v.StatusId.ToString())).Desciption() == "Blue")
+                    {
+                        backgroundColor = "Blue";
+                    }
                     else
                     {
                         backgroundColor = "Yellow";

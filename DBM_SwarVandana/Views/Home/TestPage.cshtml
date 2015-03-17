@@ -11,11 +11,11 @@
 </head>
 <body>
     <div>
-        This is a sample Test Page
+        @ViewBag.AgentNumber
     </div>
     <table>
         <tr><td>Name</td><td><input type="text" /> </td></tr>
-        <tr><td>Contact</td><td><input type="text" /> </td></tr>
+        <tr><td>Contact</td><td><input type="text" value="@ViewBag.Message" /> </td></tr>
         <tr><td>Address</td><td><input type="text" /> </td></tr>
     </table>
 </body>

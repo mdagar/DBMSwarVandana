@@ -29,7 +29,8 @@ namespace Code
     {
         Red = 1,
         Green,
-        Yellow
+        Yellow,
+        Blue
     }
 
     public enum EnquiryFor

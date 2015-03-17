@@ -80,6 +80,58 @@ namespace DBM_SwarVandana.Controllers
         }
 
 
+        [Authenticate]
+        public ActionResult TestEmai()
+        {
+            return View();
+        }
+
+        [Authenticate]
+        [HttpPost]
+        public ActionResult TestEmai(string emailaddress, string message)
+        {
+            if(!string.IsNullOrEmpty(emailaddress) && !string.IsNullOrEmpty(message))
+            {
+                MailHelper.SendCompanionMail(emailaddress, "Svar Vandana Music & Dance Academy.", message);
+                MessageTransaction m = new MessageTransaction();
+                m.IsBrodcast = false;
+                m.Message = message.ToString();
+                m.MsgType = "m";
+                m.SendTo = emailaddress;
+                m.SendBy = SessionWrapper.User.UserId;
+                m.SendDate = DateTime.Now;
+                _allmsg.SaveRecord(m);
+            }
+            return View();
+
+        }
+
+        [Authenticate]
+        public ActionResult Testsms()
+        {
+            return View();
+        }
+
+        [Authenticate]
+        [HttpPost]
+        public ActionResult Testsms(string contactNumber, string message)
+        {
+
+            if (!string.IsNullOrEmpty(contactNumber) && !string.IsNullOrEmpty(message))
+            {
+                SMSHelper s = new SMSHelper();
+                s.SMSToSingleContact(message, contactNumber);
+                MessageTransaction m = new MessageTransaction();
+                m.IsBrodcast = false;
+                m.Message = message;
+                m.MsgType = "s";
+                m.SendTo = contactNumber;
+                m.SendBy = SessionWrapper.User.UserId;
+                m.SendDate = DateTime.Now;
+                _allmsg.SaveRecord(m);
+            }
+            return View();
+        }
 
 
         [Authenticate]

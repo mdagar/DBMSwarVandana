@@ -51,6 +51,10 @@ namespace Repositories
                     search = "3";
                     IsStatus = true;
                     break;
+                case "blue":
+                    search = "4";
+                    IsStatus = true;
+                    break;
                 default:
                     break;
             }
