@@ -228,13 +228,13 @@ namespace DBM_SwarVandana.Controllers
         #region Profit Loss Management
 
         [Authenticate]
-        public ActionResult ProfitLoss(string financialyear = "", int month = 0)
+        public ActionResult ProfitLoss(string SelectedFinancialyear = "", int month = 0)
         {
             ProfitLossViewModel p = new ProfitLossViewModel();
             string final = "";
             p.financialYears = GetPreviousFinancialYears();
-            if (!string.IsNullOrEmpty(financialyear))
-                p.SelectedFinancialyear = financialyear;
+            if (!string.IsNullOrEmpty(SelectedFinancialyear))
+                p.SelectedFinancialyear = SelectedFinancialyear;
             else
                 p.SelectedFinancialyear = p.financialYears.FirstOrDefault();
             final = p.SelectedFinancialyear;

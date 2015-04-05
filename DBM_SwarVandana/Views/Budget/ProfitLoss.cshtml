@@ -11,15 +11,16 @@
     <div class="table-info">
         <!-- start table-form -->
         <div class="table-form">
-            <form action="#">
+
+            <form>
                 <label for="From">&nbsp;</label>
                 @Html.DropDownListFor(x => x.month, (typeof(Months).SelectList<Months>(true)), "-- Month --", new { @class = "input" })
                 <label for="From">&nbsp;</label>
                 @Html.DropDownListFor(x => x.SelectedFinancialyear, new SelectList(Model.financialYears), "-- Financial Year --", new { @class = "input" })
                 <label for="From">&nbsp;</label>
                 <input type="submit" value="Show Profit" class="submit-btn" />
-
             </form>
+
         </div>
         <!-- end table-form -->
         <!-- start table -->
@@ -29,14 +30,14 @@
                 <!-- start row -->
                 <tr bgcolor="#ccc">
                     <td class="td">Budget Assign</td>
-                    <td class="td">Revenue</td>                    
+                    <td class="td">Revenue</td>
                     <td class="td">Expenses</td>
                     <td class="td">Profit/Loss (Revenues - Expenses)</td>
                 </tr>
                 <!-- end row -->
                 <tr>
                     <td class="td">@String.Format("{0:0.##}", Model.BudgetAssign)</td>
-                    <td class="td">@String.Format("{0:0.##}", Model.Revenue)</td>                    
+                    <td class="td">@String.Format("{0:0.##}", Model.Revenue)</td>
                     <td class="td">@String.Format("{0:0.##}", Model.Expenseses)</td>
                     <td class="td">@String.Format("{0:0.##}", Model.FinalAmount)</td>
                 </tr>

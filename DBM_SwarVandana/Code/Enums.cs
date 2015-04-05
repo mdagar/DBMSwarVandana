@@ -89,12 +89,7 @@ namespace Code
 
     public enum Months
     {
-        [Description("January")]
-        January = 1,
-        [Description("February")]
-        February = 2,
-        [Description("March")]
-        March = 3,
+       
         [Description("April")]
         April = 4,
         [Description("May")]
@@ -113,6 +108,12 @@ namespace Code
         November = 11,
         [Description("December")]
         December = 12,
+        [Description("January")]
+        January = 1,
+        [Description("February")]
+        February = 2,
+        [Description("March")]
+        March = 3,
     }
 
     public enum TargetType
