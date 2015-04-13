@@ -53,7 +53,7 @@
                         <td class="td">@string.Format("{0:dd MMM yyyy}", v.DateOfExpense)</td>
                         <td class="td">
                             @{ var days = (DateTime.Now - v.DateOfExpense.Value).TotalDays;}
-                            @if (days <= 20)
+                            @if (days <= 45)
                             {
                                 <a href="@Url.Action("AddExpenses", "Budget", new { ExpenseID = v.ExpenseID })" title="Edit">Edit</a>
                             }
