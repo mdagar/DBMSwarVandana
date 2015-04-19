@@ -59,6 +59,8 @@ namespace DBM_SwarVandana.Controllers
         private void GetYears()
         {
             List<string> Years = new List<string>();
+            // this code is on temp bases need to remove soon.
+            //DateTime startYear = DateTime.Now.AddYears(-1);
             DateTime startYear = DateTime.Now;
             while (startYear.Year <= DateTime.Now.AddYears(1).Year)
             {
@@ -252,6 +254,12 @@ namespace DBM_SwarVandana.Controllers
             }
             p.month = month;
             return View(p);
+        }
+
+        public ActionResult PaymentBreakUp()
+        {
+
+            return View();
         }
 
         #endregion

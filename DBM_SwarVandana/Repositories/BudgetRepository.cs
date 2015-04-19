@@ -99,6 +99,22 @@ namespace Repositories
                 return 0;
         }
 
+        public DataTable PaymentBreakUps()
+        {
+
+            //string Query = "";
+            //if (Month != 0)
+            //    Query = "SELECT ISNULL(sum(BudgetAmount),0) as FinancialYearBudget FROM [dbo].[BudgetMaster] WHERE  Month=" + Month + " and centreId =" + centerId + " and FinancialYear ='" + financialYear + "'";
+            //else
+            //    Query = "SELECT ISNULL(sum(BudgetAmount),0) as FinancialYearBudget FROM [dbo].[BudgetMaster] WHERE centreId =" + centerId + " and FinancialYear ='" + financialYear + "'";
+            //var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            //if (d != null)
+            //    return new DataTable();
+            //    //return Convert.ToDecimal(d.Tables[0].Rows[0][0] == null ? 0 : d.Tables[0].Rows[0][0]);
+            //else
+                return new DataTable();
+        }
+
         public List<Expenses> GetAllExpenses(int month, int centerId, out int TotalPages, int PageNumber = 1, string search = "",string selectedfinancialYear="")
         {
             int RowsPerPage = ConfigurationWrapper.PageSize;

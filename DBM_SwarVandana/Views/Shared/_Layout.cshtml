@@ -145,6 +145,19 @@
                                 <li><a href="@Url.Action("Index", "TargetManagement")">Target</a></li>
                             </ul>
                         </li>
+                        if (SessionWrapper.User.RoleId == (int)UserRole.SuperAdmin)
+                        {
+                            <li>
+                                <a href="#">companion</a>
+                                <ul>
+                                    <li><a href="@Url.Action("SendsmsCompanion", "EmailSMSCompanion")">sms Companion</a></li>
+                                    <li><a href="@Url.Action("SendEmailCompanion", "EmailSMSCompanion")">Email Companion</a></li>
+                                    <li><a href="@Url.Action("TestEmai", "EmailSMSCompanion")">Test Email</a></li>
+                                    <li><a href="@Url.Action("Testsms", "EmailSMSCompanion")">test sms</a></li>
+                                </ul>
+
+                            </li>
+                        }
 
                     }
                 </ul>

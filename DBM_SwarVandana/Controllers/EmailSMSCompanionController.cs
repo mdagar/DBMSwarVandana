@@ -7,6 +7,9 @@ using System.Web.Mvc;
 using Code;
 using DBM_SwarVandana.Resources;
 using Models;
+using System.Data;
+using System.Text;
+using ListConversion;
 namespace DBM_SwarVandana.Controllers
 {
     public class EmailSMSCompanionController : Controller
@@ -90,7 +93,7 @@ namespace DBM_SwarVandana.Controllers
         [HttpPost]
         public ActionResult TestEmai(string emailaddress, string message)
         {
-            if(!string.IsNullOrEmpty(emailaddress) && !string.IsNullOrEmpty(message))
+            if (!string.IsNullOrEmpty(emailaddress) && !string.IsNullOrEmpty(message))
             {
                 MailHelper.SendCompanionMail(emailaddress, "Svar Vandana Music & Dance Academy.", message);
                 MessageTransaction m = new MessageTransaction();
@@ -130,6 +133,62 @@ namespace DBM_SwarVandana.Controllers
                 m.SendDate = DateTime.Now;
                 _allmsg.SaveRecord(m);
             }
+            return View();
+        }
+
+
+        [Authenticate]
+        public ActionResult SendsmsCompanion()
+        {
+            return View();
+        }
+
+        [Authenticate]
+        [HttpPost]
+        public ActionResult SendsmsCompanion(string SMS = "")
+        {
+            SMS = SMS.Trim();
+            if (!string.IsNullOrEmpty(SMS))
+            {
+                DataTable dt = new DataTable();
+                StringBuilder sb = new StringBuilder();
+                int[] centerids = new int[] { 1, 2, 3 };
+
+                foreach (var centerid in centerids)
+                {
+                    dt = _allmsg.GetContacts(centerid);
+
+                    foreach (DataRow r in dt.Rows)
+                    {
+                        sb.Append(r[0]);
+                        sb.Append(",");
+                    }
+                    sb.Append("8800648085,7838330700");
+
+                    SMSHelper s = new SMSHelper();
+                    string numbers = sb.ToString();
+                    s.SmsToMultipleContact(SMS, numbers);
+                    MessageTransaction m = new MessageTransaction();
+                    m.IsBrodcast = true;
+                    m.Message = SMS;
+                    m.MsgType = "s";
+                    m.SendTo = numbers;
+                    m.SendBy = SessionWrapper.User.UserId;
+                    m.SendDate = DateTime.Now;
+                    _allmsg.SaveRecord(m);
+                }
+            }
+            else
+            {
+                ViewBag.Error = "Please enter message";
+            }
+
+            return View();
+        }
+
+        [Authenticate]
+        public ActionResult SendEmailCompanion()
+        {
             return View();
         }
 

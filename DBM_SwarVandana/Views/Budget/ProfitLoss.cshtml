@@ -31,15 +31,21 @@
                 <tr bgcolor="#ccc">
                     <td class="td">Budget Assign</td>
                     <td class="td">Revenue</td>
+                    <td class="td">Enrollments</td>
+                    <td class="td">Pending Payments</td>
                     <td class="td">Expenses</td>
                     <td class="td">Profit/Loss (Revenues - Expenses)</td>
+                    
                 </tr>
                 <!-- end row -->
                 <tr>
                     <td class="td">@String.Format("{0:0.##}", Model.BudgetAssign)</td>
                     <td class="td">@String.Format("{0:0.##}", Model.Revenue)</td>
+                    <td class="td"><a href="javascript:void(0)" onclick="Details()"> @String.Format("{0:0.##}", Model.enrollments)</a> </td>
+                    <td class="td"><a href="javascript:void(0)" onclick="Details()" >@String.Format("{0:0.##}", (Model.Revenue - Model.enrollments))</a></td>
                     <td class="td">@String.Format("{0:0.##}", Model.Expenseses)</td>
                     <td class="td">@String.Format("{0:0.##}", Model.FinalAmount)</td>
+                    
                 </tr>
             </table>
             @*@Html.Partial("_Paging")*@

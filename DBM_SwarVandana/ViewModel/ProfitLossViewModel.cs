@@ -10,6 +10,7 @@ namespace ViewModel
 
         public virtual decimal BudgetAssign { get; set; }
         public virtual decimal Revenue { get; set; }
+        public virtual decimal enrollments { get; set; }        
         public virtual decimal Salary { get; set; }
         public virtual decimal Expenseses { get; set; }
         public virtual decimal FinalAmount { get; set; }
