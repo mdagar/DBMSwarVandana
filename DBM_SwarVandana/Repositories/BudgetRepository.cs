@@ -186,5 +186,52 @@ namespace Repositories
                 return new DataSet();
         }
 
+
+        public DataTable getPaymentDetail(int month, string financialYear, int DetailFor)
+        {
+
+            int startyear, endyear;
+            var years = financialYear.Split('-');
+            startyear = Convert.ToInt16(years[0]);
+            endyear = Convert.ToInt16(years[1]);
+            string query = string.Empty;
+
+            if (DetailFor == 1)
+            {
+                if (month == 0)
+                {
+                    query = "select s.UniqueKey,s.Name,p.AmountPaid,p.DateOfPayment from [dbo].[PaymentDetails] p,[dbo].[Student] s where DateOfPayment between cast('1 april '+ cast('"+startyear+"' as varchar(4)) as datetime) and cast( '1 march '+cast('"+endyear+"' as varchar(4)) as datetime)" +
+                             "AND p.StudentId IN(select StudentId from [dbo].[Student] where Centerid="+SessionWrapper.User.CentreId+")" +
+                            "and s.StudentId= p.StudentId and IsPendingPayment =0";
+                }
+                if (month > 0)
+                {
+                    query = "select s.UniqueKey,s.Name,p.AmountPaid,p.DateOfPayment from [dbo].[PaymentDetails] p,[dbo].[Student] s where DATEPART(MM,DateOfPayment)= 4 and DATEPART(yyyy,DateOfPayment) between '"+startyear+"' and '"+endyear+"'"+
+                             "AND p.StudentId IN(select StudentId from [dbo].[Student] where Centerid= "+SessionWrapper.User.CentreId+")"+
+                             "and s.StudentId= p.StudentId and IsPendingPayment =0";
+                }
+            }
+            else
+            {
+                if (month == 0)
+                {
+                    query = "select s.UniqueKey,s.Name,p.AmountPaid,p.DateOfPayment from [dbo].[PaymentDetails] p,[dbo].[Student] s where DateOfPayment between cast('1 april '+ cast('" + startyear + "' as varchar(4)) as datetime) and cast( '1 march '+cast('" + endyear + "' as varchar(4)) as datetime)" +
+                             "AND p.StudentId IN(select StudentId from [dbo].[Student] where Centerid=" + SessionWrapper.User.CentreId + ")" +
+                            "and s.StudentId= p.StudentId and IsPendingPayment =1";
+                }
+                if (month > 0)
+                {
+                    query = "select s.UniqueKey,s.Name,p.AmountPaid,p.DateOfPayment from [dbo].[PaymentDetails] p,[dbo].[Student] s where DATEPART(MM,DateOfPayment)= 4 and DATEPART(yyyy,DateOfPayment) between '" + startyear + "' and '" + endyear + "'" +
+                             "AND p.StudentId IN(select StudentId from [dbo].[Student] where Centerid= " + SessionWrapper.User.CentreId + ")" +
+                             "and s.StudentId= p.StudentId and IsPendingPayment =1";
+                }
+            }
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, query);
+            if (d != null)
+                return d.Tables[0];
+            else
+                return new DataTable();
+
+        }
     }
 }

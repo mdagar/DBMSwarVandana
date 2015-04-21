@@ -28,6 +28,7 @@ namespace ViewModel
             this.AddDate = p.AddDate;
             this.ModifyBy = p.ModifyBy;
             this.ModifyDate = p.ModifyDate;
+            this.IsPendingPayment = p.IsPendingPayment;
         }
 
         public override Int64 PaymentId { get; set; }

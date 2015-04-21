@@ -20,6 +20,8 @@ namespace Models
         public virtual DateTime? AddDate { get; set; }
         public virtual long ModifyBy { get; set; }
         public virtual DateTime? ModifyDate { get; set; }
+        public virtual bool IsPendingPayment { get; set; }
+        
 
         public PaymentDetails()
         {
@@ -36,6 +38,7 @@ namespace Models
             this.AddDate = null;
             this.ModifyBy = 0;
             this.ModifyDate = null;
+            this.IsPendingPayment = true;
 
         }
     }

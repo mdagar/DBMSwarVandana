@@ -11,7 +11,8 @@
     <div class="table-info">
         <!-- start table-form -->
         <div class="table-form">
-
+            @Html.HiddenFor(x=> x.month)
+            @Html.HiddenFor(x => x.SelectedFinancialyear)
             <form>
                 <label for="From">&nbsp;</label>
                 @Html.DropDownListFor(x => x.month, (typeof(Months).SelectList<Months>(true)), "-- Month --", new { @class = "input" })
@@ -41,8 +42,8 @@
                 <tr>
                     <td class="td">@String.Format("{0:0.##}", Model.BudgetAssign)</td>
                     <td class="td">@String.Format("{0:0.##}", Model.Revenue)</td>
-                    <td class="td"><a href="javascript:void(0)" onclick="Details()"> @String.Format("{0:0.##}", Model.enrollments)</a> </td>
-                    <td class="td"><a href="javascript:void(0)" onclick="Details()" >@String.Format("{0:0.##}", (Model.Revenue - Model.enrollments))</a></td>
+                    <td class="td"><a href="javascript:void(0)" onclick="ShowDetail('1')"> @String.Format("{0:0.##}", Model.enrollments)</a> </td>
+                    <td class="td"><a href="javascript:void(0)" onclick="ShowDetail('2')" >@String.Format("{0:0.##}", (Model.Revenue - Model.enrollments))</a></td>
                     <td class="td">@String.Format("{0:0.##}", Model.Expenseses)</td>
                     <td class="td">@String.Format("{0:0.##}", Model.FinalAmount)</td>
                     
@@ -52,8 +53,21 @@
         </div>
     </div>
     <!-- end table -->
+    <div id="Details" style="overflow-y:scroll">
+    </div>
 </div>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
 <script>
+    function ShowDetail(o)
+    {
+        var paymentfor = o;
+        var month = $("#month").val();
+        var financialYear = $("#SelectedFinancialyear").val();
+        $.get('@Url.Action("PaymentBreakUp", "Budget")?month=' + month + "&financialYear=" + financialYear + "&detailfor="+paymentfor, function (data) {
+            $("#Details").html(data).dialog({ maxHeight:450, minWidth: 550, title: "Payment Details" });
+        });
+    }
     function ChangeYear(o) {
         var classId = $(o).val();
         ReplaceValues("financialyear", classId)

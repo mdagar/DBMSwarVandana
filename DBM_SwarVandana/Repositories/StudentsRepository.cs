@@ -105,7 +105,7 @@ namespace Repositories
         public int SaveStudentPayments(PaymentDetails pd, string disciplineId)
         {
             int DisciplineId = Convert.ToInt32(disciplineId);
-            object[] objParam = { pd.StudentId, pd.BankName, pd.PaymentMode, pd.TransactionDetails, pd.DateOfPayment, pd.AmountPaid, pd.DueDate, pd.AddBy, pd.AddDate, pd.ModifyBy, pd.ModifyDate, DisciplineId,pd.EnrollmentId };
+            object[] objParam = { pd.StudentId, pd.BankName, pd.PaymentMode, pd.TransactionDetails, pd.DateOfPayment, pd.AmountPaid, pd.DueDate, pd.AddBy, pd.AddDate, pd.ModifyBy, pd.ModifyDate, DisciplineId,pd.EnrollmentId,pd.IsPendingPayment };
             var d = SqlHelper.ExecuteScalar(db.GetConnection(), "InsertPaymentDetails", objParam);
             return Convert.ToInt32(d);
         }

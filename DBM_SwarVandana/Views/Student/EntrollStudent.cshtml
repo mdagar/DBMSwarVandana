@@ -179,12 +179,17 @@
                 @Html.TextBoxFor(x => x.EndDate, new { @class = "input", @readonly = "readonly" })
             </div>
             <div class="row">
+                <label for="Password">No Due Date :</label>
+                <input type="checkbox" onclick="checkdue(this)" value="1" name="nodue" class="input" /> 
+            </div>
+            <div class="row ndd">
                 <label for="Password">Next Due Date :</label>
                 @Html.TextBoxFor(x => x.DueDate, new { @class = "input", @readonly = "readonly" })
             </div>
-             <div class="row">
+
+            <div class="row">
                 <label for="Password">Remark :</label>
-                 @Html.TextAreaFor(x => x.Remark, new { @class = "textarea" })
+                @Html.TextAreaFor(x => x.Remark, new { @class = "textarea" })
             </div>
             <div class="rowbutton">
                 <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" style="display:none" />
@@ -199,7 +204,16 @@
 <script src="~/Content/js/jquery-ui.js"></script>
 
 <script>
-
+    function checkdue(o) {
+        if ($(o).is(':checked')) {
+            $("#nodue").val("0")
+            $(".ndd").hide();
+        }
+        else {
+            $(".ndd").show();
+            $("#nodue").val("1")
+        }
+    }
     function PEChange(PE) {
         if (PE == 1) {
             $("#peid").hide();
@@ -210,12 +224,12 @@
     }
 
     $(document).ready(function () {
-        $("#SatrtDate").datepicker({ dateFormat: "dd M yy",maxDate: "10d" });
+        $("#SatrtDate").datepicker({ dateFormat: "dd M yy", maxDate: "10d" });
         $("#DueDate").datepicker({ dateFormat: "dd M yy", });
     });
 
 
-  
+
 
     function RedirectToHome() {
         window.location.href = ('@Url.Action("AllStudents", "Student")');
@@ -270,7 +284,7 @@
         $.post('@Url.Action("GetClassEndDate", "Student")', { startdate: $("#SatrtDate").val(), NoofClass: $("#NoOfClasses").val(), batchids: batches.join() }, function (data) {
             if (data != null) {
                 var result = JSON.parse(data);
-                $("#EndDate").val(ConvertDate(result[0].EndDate));                
+                $("#EndDate").val(ConvertDate(result[0].EndDate));
                 $("#btnSubmit").show();
             }
         });

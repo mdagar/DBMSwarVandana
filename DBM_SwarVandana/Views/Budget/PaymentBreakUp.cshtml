@@ -1,8 +1,8 @@
-﻿@model ViewModel.TargetManagementViewModel
-@using Code;
+﻿@using Code;
 @using System.Data;
 @{
     Layout = null;
+    DataTable dt = (DataTable)ViewBag.data;
 }
 
 <!DOCTYPE html>
@@ -135,77 +135,29 @@
 </head>
 <body>
     <div class="CSSTableGenerator">
-        @if ((int)ViewBag.TargetType == (int)TargetType.TE)
-        {
+        
             <table style="border:1px solid;">
                 <tr>
-                    <td>Enquery Id</td>
-                    <td>Name</td>
-                    <td>Disciplane</td>
-                    <td>Contact</td>
+                    <td>Student Id</td>
+                    <td>Name</td>                                        
                     <td>Amount</td>
-                    <td>Date of Enquery</td>
+                    <td>Date</td>
                 </tr>
-                @foreach (DataRow v in Model.ds.Tables[0].Rows)
+                @foreach (DataRow v in dt.Rows)
                 {
                     <tr>
-                        <td>@v["EnquiryNumber"]</td>
-                        <td>@v["Name"]</td>
-                        <td>@v["Discipline"]</td>
-                        <td>@v["ContactNumber"]</td>
-                        <td>@Math.Round((decimal)v["Amount"], 0)</td>
-                        <td class="td">@string.Format("{0:dd MMM yyyy}", v["DateOfEnquiry"])</td>
+                        <td>@v["UniqueKey"]</td>
+                        <td>@v["Name"]</td>                                                
+                        <td>@Math.Round((decimal)v["AmountPaid"], 0)</td>
+                        <td class="td">@string.Format("{0:dd MMM yyyy}", v["DateOfPayment"])</td>
                     </tr>
                 }
 
             </table>
-        }
+        
 
-        @if ((int)ViewBag.TargetType == (int)TargetType.PE)
-        {
-            <table style="border:1px solid;">
-                <tr>
-                    <td>Enquery Id</td>
-                    <td>Name</td>
-                    <td>Disciplane</td>
-                    <td>Contact</td>
-                    <td>Amount</td>
-                    <td>Date of Enquery</td>
-                </tr>
-                @foreach (DataRow v in Model.ds.Tables[0].Rows)
-                {
-                    <tr>
-                        <td>@v["EnquiryNumber"]</td>
-                        <td>@v["Name"]</td>
-                        <td>@v["Discipline"]</td>
-                        <td>@v["ContactNumber"]</td>
-                        <td>@Math.Round((decimal)v["Amount"], 0)</td>
-                        <td class="td">@string.Format("{0:dd MMM yyyy}", v["DateOfEnquiry"])</td>
-                    </tr>
-                }
+      
 
-            </table>
-        }
-
-        @if ((int)ViewBag.TargetType == (int)TargetType.Renewal)
-        {
-            <table style="border:1px solid;">
-                <tr>
-                    <td>Enrollment No</td>
-                    <td>Name</td>
-                    <td>Amount</td>
-                </tr>
-                @foreach (DataRow v in Model.ds.Tables[0].Rows)
-                {
-                    <tr>
-                        <td>@v["EnrollmentNo"]</td>
-                        <td>@v["Name"]</td>
-                        <td>@Math.Round((decimal)v["Amount"], 0)</td>
-                    </tr>
-                }
-
-            </table>
-        }
 
 
     </div>

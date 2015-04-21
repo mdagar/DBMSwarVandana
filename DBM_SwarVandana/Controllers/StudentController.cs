@@ -160,9 +160,14 @@ namespace DBM_SwarVandana.Controllers
 
         [Authenticate]
         [HttpPost]
-        public ActionResult EntrollStudent(StudentEntrollmentViewModel s, List<int> BatchIds, bool PE)
+        public ActionResult EntrollStudent(StudentEntrollmentViewModel s, List<int> BatchIds, bool PE, string nodue)
         {
             List<StudentBatchMapping> batchmapping = new List<StudentBatchMapping>();
+            if (nodue == "1")
+            {
+                s.DueDate = DateTime.Now;
+                ModelState.Remove("DueDate");
+            }
             if (BatchIds.Count <= 0)
                 ModelState.AddModelError(string.Empty, "Please assign batch.");
 
@@ -482,11 +487,16 @@ namespace DBM_SwarVandana.Controllers
 
         [Authenticate]
         [HttpPost]
-        public ActionResult PayemntDetails(PaymentDetailsViewModel pdm, string DisciplineId)
+        public ActionResult PayemntDetails(PaymentDetailsViewModel pdm, string DisciplineId, string nodue)
         {
             var result = 0;
             if (!string.IsNullOrEmpty(DisciplineId))
             {
+                if (nodue == "1")
+                {
+                    ModelState.Remove("DueDate");
+                    pdm.DueDate = DateTime.Now;
+                }
                 if (ModelState.IsValid)
                 {
                     pdm.AddDate = DateTime.Now;

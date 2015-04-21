@@ -113,6 +113,17 @@
         window.location.href = ('@Url.Action("Index", "Main")');
     }
 
+    function checkdue (o) {        
+        if ($(o).is(':checked')) {
+            $("#nodue").val("0")
+            $(".ndd").hide();
+        }
+        else {
+            $(".ndd").show();
+            $("#nodue").val("1")
+        }
+    }
+
 </script>
 <div class="container">
 
@@ -258,13 +269,23 @@
                             <td>
                                 <input id="txtBalance" type="text" readonly="readonly" class="input" />
                             </td>
-                        </tr>
+                        </tr>                  
+
                         <tr class="spaceUnder">
-                            <td>Next Due Date</td>
-                            <td>
+                            <td class="ndd">Next Due Date</td>
+                            <td class="ndd">
                                 @Html.TextBoxFor(x => x.DueDate, new { @class = "input", @readonly = "readonly" })
                             </td>
+                            <td><input type="checkbox" onclick="checkdue(this)" value="1" name="nodue" /> No Due Date </td>
                         </tr>
+
+                        <tr class="spaceUnder">
+                            <td>Is pending payment</td>
+                            <td>
+                                @Html.CheckBoxFor(x => x.IsPendingPayment, new { @class = "input", @readonly = "readonly" })
+                            </td>
+                        </tr>
+
                     </table>
                 </fieldset>
 

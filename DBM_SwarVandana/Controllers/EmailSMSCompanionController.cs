@@ -156,26 +156,26 @@ namespace DBM_SwarVandana.Controllers
 
                 foreach (var centerid in centerids)
                 {
+                    SMSHelper s = new SMSHelper();
                     dt = _allmsg.GetContacts(centerid);
-
+                    s.SMSToSingleContact(SMS, "800648085");
                     foreach (DataRow r in dt.Rows)
                     {
-                        sb.Append(r[0]);
-                        sb.Append(",");
+                        string numbers = r[0].ToString();
+                        s.SMSToSingleContact(SMS, numbers);
+                        MessageTransaction m = new MessageTransaction();
+                        m.IsBrodcast = true;
+                        m.Message = SMS;
+                        m.MsgType = "s";
+                        m.SendTo = numbers;
+                        m.SendBy = SessionWrapper.User.UserId;
+                        m.SendDate = DateTime.Now;
+                        _allmsg.SaveRecord(m);
+                      
                     }
-                    sb.Append("8800648085,7838330700");
+                   // sb.Append("8800648085");
 
-                    SMSHelper s = new SMSHelper();
-                    string numbers = sb.ToString();
-                    s.SmsToMultipleContact(SMS, numbers);
-                    MessageTransaction m = new MessageTransaction();
-                    m.IsBrodcast = true;
-                    m.Message = SMS;
-                    m.MsgType = "s";
-                    m.SendTo = numbers;
-                    m.SendBy = SessionWrapper.User.UserId;
-                    m.SendDate = DateTime.Now;
-                    _allmsg.SaveRecord(m);
+                   
                 }
             }
             else

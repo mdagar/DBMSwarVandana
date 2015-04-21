@@ -256,9 +256,10 @@ namespace DBM_SwarVandana.Controllers
             return View(p);
         }
 
-        public ActionResult PaymentBreakUp()
+        [Authenticate]
+        public ActionResult PaymentBreakUp(string financialyear, int month,int detailfor =1)
         {
-
+             ViewBag.data =  _allbudget.getPaymentDetail(month, financialyear,1);
             return View();
         }
 
