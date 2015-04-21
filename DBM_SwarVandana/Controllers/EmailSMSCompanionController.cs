@@ -123,7 +123,7 @@ namespace DBM_SwarVandana.Controllers
             if (!string.IsNullOrEmpty(contactNumber) && !string.IsNullOrEmpty(message))
             {
                 SMSHelper s = new SMSHelper();
-                s.SMSToSingleContact(message, contactNumber);
+                s.SmsToMultipleContact(message, contactNumber);
                 MessageTransaction m = new MessageTransaction();
                 m.IsBrodcast = false;
                 m.Message = message;
@@ -151,6 +151,7 @@ namespace DBM_SwarVandana.Controllers
             if (!string.IsNullOrEmpty(SMS))
             {
                 DataTable dt = new DataTable();
+                List<string> contactNumbers = new List<string>();
                 StringBuilder sb = new StringBuilder();
                 int[] centerids = new int[] { 1, 2, 3 };
 
@@ -158,24 +159,36 @@ namespace DBM_SwarVandana.Controllers
                 {
                     SMSHelper s = new SMSHelper();
                     dt = _allmsg.GetContacts(centerid);
-                    s.SMSToSingleContact(SMS, "800648085");
+                    contactNumbers.Add("8800648085");
+
                     foreach (DataRow r in dt.Rows)
                     {
-                        string numbers = r[0].ToString();
-                        s.SMSToSingleContact(SMS, numbers);
-                        MessageTransaction m = new MessageTransaction();
-                        m.IsBrodcast = true;
-                        m.Message = SMS;
-                        m.MsgType = "s";
-                        m.SendTo = numbers;
-                        m.SendBy = SessionWrapper.User.UserId;
-                        m.SendDate = DateTime.Now;
-                        _allmsg.SaveRecord(m);
-                      
+                        if (!contactNumbers.Contains(r[0].ToString()))
+                            contactNumbers.Add(r[0].ToString());
                     }
-                   // sb.Append("8800648085");
 
-                   
+
+                    //send and save to database
+                    int loopcounter = contactNumbers.Count / 100;
+                    for (int i = 0; i <= loopcounter; i++)
+                    {
+                        string numbers = string.Join(",", contactNumbers.Take(100));
+                        int numberslength = numbers.Split(',').Length;
+                        if (numberslength > 0)
+                        {
+                            s.SmsToMultipleContact(SMS, numbers);
+                            MessageTransaction m = new MessageTransaction();
+                            m.IsBrodcast = true;
+                            m.Message = SMS;
+                            m.MsgType = "s";
+                            m.SendTo = numbers;
+                            m.SendBy = SessionWrapper.User.UserId;
+                            m.SendDate = DateTime.Now;
+                            _allmsg.SaveRecord(m);
+                            contactNumbers.RemoveRange(0, numberslength);
+                        }
+                    }
+                    contactNumbers.Clear();
                 }
             }
             else

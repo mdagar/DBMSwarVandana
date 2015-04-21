@@ -11,7 +11,7 @@ namespace Code
 {
     public class SMSHelper
     {
-        string uid = "8800648085"; string password = "mohit"; string senderName = "SWARVA";
+        string uid = "8800648085"; string password = "8800648085"; string senderName = "SWARVA";
 
         public SMSHelper()
         {
