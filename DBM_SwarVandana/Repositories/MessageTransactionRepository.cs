@@ -34,5 +34,17 @@ namespace Repositories
                 return new DataTable();
             }
         }
+
+        public DataTable GetEmailAddress(int centerid)
+        {
+            string Query = "select distinct EmailAddress from  [dbo].[Student] where centerid= " + centerid + "";
+            var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
+            if (d != null)
+                return d.Tables[0];
+            else
+            {
+                return new DataTable();
+            }
+        }
     }
 }
