@@ -202,6 +202,62 @@ namespace DBM_SwarVandana.Controllers
         [Authenticate]
         public ActionResult SendEmailCompanion()
         {
+
+            return View();
+        }
+
+        [Authenticate]
+        [HttpPost]
+        public ActionResult SendEmailCompanion(int centerid, string Email = "")
+        {
+            Email = Email.Trim();
+            int counter = 0;
+            if (!string.IsNullOrEmpty(Email))
+            {
+                StringBuilder bcc = new StringBuilder();
+                DataTable dt = new DataTable();
+                List<string> emailAddress = new List<string>();
+
+                dt = _allmsg.GetEmailAddress(centerid);
+                emailAddress.Add("mohitdagar80@gmail.com");
+
+                foreach (DataRow r in dt.Rows)
+                {
+                    if (!emailAddress.Contains(r[0].ToString()))
+                        emailAddress.Add(r[0].ToString());
+                }
+                //send and save to database
+                int loopcounter = emailAddress.Count / 100;
+                for (int i = 0; i <= loopcounter; i++)
+                {
+                    string mailaddress = string.Join(",", emailAddress.Take(90));
+                    int numberslength = mailaddress.Split(',').Length;
+                    counter += numberslength;
+                    if (numberslength > 0)
+                    {
+                        if (counter < 350)
+                            MailHelper.BroadCastMail1("svarvandana@gmail.com", mailaddress, "Svar Vandana Music & Dance Academy.", Email);
+                        else
+                            MailHelper.BroadCastMail2("svarvandana@gmail.com", mailaddress, "Svar Vandana Music & Dance Academy.", Email);
+                        MessageTransaction m = new MessageTransaction();
+                        m.IsBrodcast = true;
+                        m.Message = Email;
+                        m.MsgType = "E";
+                        m.SendTo = mailaddress;
+                        m.SendBy = SessionWrapper.User.UserId;
+                        m.SendDate = DateTime.Now;
+                        _allmsg.SaveRecord(m);
+                        emailAddress.RemoveRange(0, numberslength);
+                    }
+                }
+                emailAddress.Clear();
+            }
+
+            else
+            {
+                ViewBag.Error = "Please enter message";
+            }
+
             return View();
         }
 
