@@ -124,6 +124,19 @@
         }
     }
 
+    function checkPaymentMode(o)
+    {
+        
+        if ($(o).val() == '@((int)PaymentMode.Cash)') {
+            $("#BankName,#TransactionDetails").val("NA")
+            $(".bnkdetail").hide();
+        }
+        else {
+            $(".bnkdetail").show();
+            $("#BankName,#TransactionDetails").val("")
+        }
+    }
+
 </script>
 <div class="container">
 
@@ -245,10 +258,10 @@
                         <tr class="spaceUnder">
                             <td>Payment Mode</td>
                             <td>
-                                @Html.DropDownListFor(x => x.PaymentMode, pmode, "-- Select Mode --", new { @class = "select" })
+                                @Html.DropDownListFor(x => x.PaymentMode, pmode, "-- Select Mode --", new { @class = "select", onchange = "checkPaymentMode(this)" })
                             </td>
-                            <td>Bank Name</td>
-                            <td>
+                            <td class="bnkdetail">Bank Name</td>
+                            <td class="bnkdetail">
                                 @Html.TextBoxFor(x => x.BankName, new { @class = "input" })
                             </td>
                             <td>Amount Paid</td>
@@ -257,8 +270,8 @@
                             </td>
                         </tr>
                         <tr class="spaceUnder">
-                            <td>Cheque/Credit Card No</td>
-                            <td>
+                            <td class="bnkdetail">Cheque/Credit Card No</td>
+                            <td class="bnkdetail">
                                 @Html.TextBoxFor(x => x.TransactionDetails, new { @class = "input" })
                             </td>
                             <td>Pay Date</td>
@@ -280,9 +293,9 @@
                         </tr>
 
                         <tr class="spaceUnder">
-                            <td>Is pending payment</td>
+                            <td>Is Balance payment</td>
                             <td>
-                                @Html.CheckBoxFor(x => x.IsPendingPayment, new { @class = "input", @readonly = "readonly" })
+                                @Html.CheckBoxFor(x => x.IsPendingPayment, new { @class = "input"})
                             </td>
                         </tr>
 

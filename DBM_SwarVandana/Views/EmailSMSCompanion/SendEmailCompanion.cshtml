@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "Email Companion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- start container -->
+<div class="container">
+    <!-- registration-form -->
+    <div class="registration-form">
+        @using (Html.BeginForm("SendEmailCompanion", "EmailSMSCompanion", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+            <div>
+                @if (!string.IsNullOrEmpty(ViewBag.Success))
+                {
+                    <div class="successvalidation">
+                        @ViewBag.Success
+                    </div>
+                }
+                else
+                {
+                    <div>@ViewBag.Error</div>
+                }
+
+            </div>
+            <h3>Email</h3>
+            <div class="row">
+                <label for="Password"><span style="color: red;">*</span>Type Email</label>
+
+                @Html.TextArea("Email", "")
+            </div>
+
+            <div class="row">
+                <label for="Password"><span style="color: red;">*</span>Center Id</label>
+                @Html.TextBox("centerid", "")
+            </div>
+
+            <div class="rowbutton">
+
+                <input type="submit" id="btnSubmit" value="Broadcast " class="submit-btn gap" />
+                @*<input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />*@
+            </div>
+        }
+    </div>
+    <!-- registration-form -->
+</div>
+<!-- end container -->

@@ -161,10 +161,10 @@
                         }
                         <td style="background-color:@backgroundColor" class="td">@(((Status)Enum.Parse(typeof(Status), v.StatusId.ToString())).Desciption())</td>
                         <td class="td">
-                            @if (v.ModifyBy != 1 || SessionWrapper.User.UserId == 1)
-                            {
+                            @*@if (v.ModifyBy != 1 || SessionWrapper.User.UserId == 1)
+                            {*@
                                 <a href="@Url.Action("PhysicalEnquiry", "Enquiries", new { enquiryId = v.EnquiryId })" title="Edit"><span>Edit | </span></a>
-                            }
+                            @*}*@
                             <a href="javascript:void(0)" onclick="AddToTarget('@v.EnquiryId')" title="Add To Target"><span>Target</span></a>
                         </td>
                         <td class="td">

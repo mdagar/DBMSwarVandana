@@ -11,7 +11,7 @@ namespace Code
 {
     public class SMSHelper
     {
-        string uid = "8800648085"; string password = "8800648085"; string senderName = "SWARVA";
+        string uid = "8800648085"; string password = "8800648085"; string senderName = "SWARVA"; string apiKey = "6cddb922-a2a2-4a50-9c4b-6007775b6bee";
 
         public SMSHelper()
         {
@@ -56,20 +56,23 @@ namespace Code
         {
             //Number = "7838330700";
             //Number = "8800648085";
-            HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create("http://46.4.103.196:8080/SMSAPI.jsp?username=" + uid + "&password=" + password + "&sendername=" + senderName + "&mobileno=" + Number + "&message=" + message);
+            string api = "http://46.4.103.196:8090/sendSMS?username=" + uid + "&message=" + message + "&sendername=" + senderName + "&smstype=PROMO&numbers=" + Number + "&apikey=" + apiKey + "";
+            HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create(api);
             HttpWebResponse myResp = (HttpWebResponse)myReq.GetResponse();
             System.IO.StreamReader respStreamReader = new System.IO.StreamReader(myResp.GetResponseStream());
             string responseString = respStreamReader.ReadToEnd();
             respStreamReader.Close();
             myResp.Close();
             return responseString;
+         
         }
 
         public string SmsToMultipleContact(string message, string commaSepratedNumbers)
         {
             //commaSepratedNumbers = "7838330700";
             //commaSepratedNumbers = "8800648085";
-            HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create("http://46.4.103.196:8080/SMSAPI.jsp?username=" + uid + "&password=" + password + "&sendername=" + senderName + "&mobileno=" + commaSepratedNumbers + "&message=" + message);
+            string api = "http://46.4.103.196:8090/sendSMS?username=" + uid + "&message=" + message + "&sendername=" + senderName + "&smstype=PROMO&numbers=" + commaSepratedNumbers + "&apikey=" + apiKey + "";
+            HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create(api);
             HttpWebResponse myResp = (HttpWebResponse)myReq.GetResponse();
             System.IO.StreamReader respStreamReader = new System.IO.StreamReader(myResp.GetResponseStream());
             string responseString = respStreamReader.ReadToEnd();

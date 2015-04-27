@@ -89,6 +89,7 @@ namespace DBM_SwarVandana.Controllers
             return View();
         }
 
+        [ValidateInput(false)]
         [Authenticate]
         [HttpPost]
         public ActionResult TestEmai(string emailaddress, string message)
@@ -206,6 +207,7 @@ namespace DBM_SwarVandana.Controllers
             return View();
         }
 
+        [ValidateInput(false)]
         [Authenticate]
         [HttpPost]
         public ActionResult SendEmailCompanion(int centerid, string Email = "")
@@ -239,14 +241,14 @@ namespace DBM_SwarVandana.Controllers
                             MailHelper.BroadCastMail1("svarvandana@gmail.com", mailaddress, "Svar Vandana Music & Dance Academy.", Email);
                         else
                             MailHelper.BroadCastMail2("svarvandana@gmail.com", mailaddress, "Svar Vandana Music & Dance Academy.", Email);
-                        MessageTransaction m = new MessageTransaction();
-                        m.IsBrodcast = true;
-                        m.Message = Email;
-                        m.MsgType = "E";
-                        m.SendTo = mailaddress;
-                        m.SendBy = SessionWrapper.User.UserId;
-                        m.SendDate = DateTime.Now;
-                        _allmsg.SaveRecord(m);
+                        //MessageTransaction m = new MessageTransaction();
+                        //m.IsBrodcast = true;
+                        //m.Message = Email;
+                        //m.MsgType = "E";
+                        //m.SendTo = mailaddress;
+                        //m.SendBy = SessionWrapper.User.UserId;
+                        //m.SendDate = DateTime.Now;
+                        //_allmsg.SaveRecord(m);
                         emailAddress.RemoveRange(0, numberslength);
                     }
                 }

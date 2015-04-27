@@ -51,17 +51,19 @@ namespace Repositories
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
         }
-        public DataSet GetStudentEnrollmentList(DateTime fromdate, DateTime todate, int datefilter, out int TotalPages, int PageNumber)
+        public DataSet GetStudentEnrollmentList(DateTime fromdate, DateTime todate, int datefilter, out int TotalPages, out decimal TotalAmount, int PageNumber)
         {
             int RowsPerPage = ConfigurationWrapper.PageSize;
             SqlParameter[] spParameter = new SqlParameter[8];
             var pcenterId = new SqlParameter("@centerId", SessionWrapper.User.CentreId);
             var rowsPerpage = new SqlParameter("@RowsPerPage", RowsPerPage);
-            var rowNo = new SqlParameter("@PageNumber", PageNumber);
-            var total = new SqlParameter("@TotalPages", 0) { Direction = System.Data.ParameterDirection.Output };
+            var rowNo = new SqlParameter("@PageNumber", PageNumber);            
             var fdate = new SqlParameter("@fromdate", fromdate);
             var tdate = new SqlParameter("@todate", todate);
             var dfilter = new SqlParameter("@datefilter", datefilter);
+            var total = new SqlParameter("@TotalPages", 0) { Direction = System.Data.ParameterDirection.Output };
+            var totalAmount = new SqlParameter("@SumAmount", 0) { Direction = System.Data.ParameterDirection.Output };
+            
             SqlCommand cmd = new SqlCommand("[GetEnrollmentDetailsList]", db.GetConnection());
             cmd.CommandType = CommandType.StoredProcedure;
             DataSet ds = new DataSet();
@@ -72,17 +74,12 @@ namespace Repositories
             cmd.Parameters.Add(fdate);
             cmd.Parameters.Add(tdate);
             cmd.Parameters.Add(dfilter);
+            cmd.Parameters.Add(totalAmount);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(ds);
             TotalPages = Convert.ToInt32(total.Value);
+            TotalAmount = Convert.ToDecimal(totalAmount.Value);
             return ds;
-            //string Query=string.Empty;
-            //if(!string.IsNullOrEmpty(datefilter))
-            //    Query = "select ST.UniqueKey,ST.Name,ST.Contact1,ST.EmailAddress,(select Discipline from [dbo].[Disciplines] where Disciplineid=SE.DisciplineId)Discipline,CourseAmount,NoOfClasses,convert(varchar,SatrtDate,106)SatrtDate,convert(varchar,EndDate,106)EndDate,convert(varchar,SE.CreatedDate,106)CreatedDate from [dbo].[StudentEnrollment] SE, [dbo].[Student] ST WHERE SE.StudentId=ST.StudentId and ST.CenterId=" + SessionWrapper.User.CentreId + " and SE.CreatedDate  between '" + fromdate + "' and '" + todate + "' order by SE.CreatedDate desc";
-            //else
-            //    Query = "select ST.UniqueKey,ST.Name,ST.Contact1,ST.EmailAddress,(select Discipline from [dbo].[Disciplines] where Disciplineid=SE.DisciplineId)Discipline,CourseAmount,NoOfClasses,convert(varchar,SatrtDate,106)SatrtDate,convert(varchar,EndDate,106)EndDate,convert(varchar,SE.CreatedDate,106)CreatedDate from [dbo].[StudentEnrollment] SE, [dbo].[Student] ST WHERE SE.StudentId=ST.StudentId and ST.CenterId=" + SessionWrapper.User.CentreId + " order by SE.CreatedDate desc";
-            //var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
-            //return d;
         }
 
         public DataSet GetUpCommingPaymentDetail(int month)

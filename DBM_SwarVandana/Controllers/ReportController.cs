@@ -136,6 +136,7 @@ namespace DBM_SwarVandana.Controllers
         {
             ReportViewModel rm = new ReportViewModel();
             int TotalPages = 0, datefilter = 1; ;
+            decimal TotalAmount = 0;
             DateTime fDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             DateTime tDate = fDate.AddMonths(1).AddDays(-1);
             if (!string.IsNullOrEmpty(fromdate))
@@ -143,14 +144,24 @@ namespace DBM_SwarVandana.Controllers
                 fDate = Convert.ToDateTime(fromdate);
             }
             else
-                datefilter = 0;  
+            {
+                datefilter = 0;
+                fromdate = fDate.ToString("dd MMM yyyy");
+                fDate = Convert.ToDateTime(fromdate);
+            }
             if (!string.IsNullOrEmpty(todate))
             {
                 tDate = Convert.ToDateTime(todate);
             }
-            var d = _reports.GetStudentEnrollmentList(fDate, tDate, datefilter, out TotalPages, page);
+            else
+            {
+                todate = tDate.ToString("dd MMM yyyy");
+                tDate = Convert.ToDateTime(todate);
+            }
+            var d = _reports.GetStudentEnrollmentList(fDate, tDate, datefilter, out TotalPages,out TotalAmount, page);
             rm.ReportDataset = d;
             ViewBag.TotalPages = TotalPages;
+            ViewBag.TotalAmount = TotalAmount;
             return View(rm);
         }
 
