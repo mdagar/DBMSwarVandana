@@ -1,167 +1,85 @@
 ﻿@model ViewModel.ReportViewModel
+@using Code;
 @{
-    ViewBag.Title = "Student Attendence";
+    ViewBag.Title = "Attendence details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script src="~/Content/js/jquery-ui.js"></script>
+<link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
 <script>
-    function GetStudentDetails() {
-        var uniqueid = $("#UniqueKey").val();
-        $("#showstudent,#showdiscipline").hide();
-        $("#DisciplineId").html('');
-        $("#AttendenceView").html('');
-        if (uniqueid == '') {
-            alert('Please enter Enrollment No.');
-            return false;
-        }
-        else {
-            $.post('@Url.Action("GetStudentByUniqueId", "Student")', { UniqueId: uniqueid }, function (data) {
-                if (data.StudentId > 0) {
-                    $("#lblName").text(data.Name);
-                    var finalDate = ConvertDate(data.DOB);
-                    $("#DOB").text(finalDate);
-                    $("#ContactNumber").text(data.Contact1);
-                    $("#EmailID").text(data.EmailAddress);
-                    $("#Address").text(data.Address);
-                    $("#GuardianName").text(data.GuardianName);
-                    $("#Occupation").text(data.Occupation);
-                    $("#StudentId").val(data.StudentId);
-                    $("#showstudent").show();
-                    $.post('@Url.Action("GetAllDisciplineForStudent", "Student")', { studentId: data.StudentId }, function (classes) {
-                        var result = JSON.parse(classes)
-                        $("#DisciplineId").html('');
-                        $("#DisciplineId").append('<option value="">-- Select Discipline --</option>');
-                        $.each(result, function (i, Discipline) {
-                            $("#DisciplineId").append('<option info="' + Discipline.EnrollmentId + '" value="' + Discipline.DisciplineId + '" >' +
-                                 Discipline.Discipline + '</option>');
-                        });
-                    });
-                }
-                else {
-                    alert('No Record Found');
-                }
-            });
-        }
-    }
-    function ConvertDate(dat) {
-        var parsedDate = new Date(parseInt(dat.substr(6)));
-        var d = new Date(parsedDate); //Date object
-        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        var finalDate = +d.getDate() + " " + months[(d.getMonth() + 1) - 1] + " " + d.getFullYear();
-        return finalDate;
-    }
-    function GetDisciplineAttendentDetails(o) {
-        var disciplineId = $(o).val();
-        var enrollmentId = $(o).find(':selected').attr('info');
-        $("#EnrollmentId").val(enrollmentId);
-        $.post('@Url.Action("GetDisciplinePaymentDetails", "Student")', { disciplineId: disciplineId, studentID: $("#StudentId").val(), enrollmentId: enrollmentId }, function (data) {
-            if (data != null) {
-                var result = JSON.parse(data)
-                $("#lblNoofClass").text(result[0].NoOfClasses);
-                $("#lblsDate").text(ConvertDate(result[0].SatrtDate));
-                $("#lbleDate").text(ConvertDate(result[0].EndDate));
-                $("#showdiscipline").show();
-            }
-        });
-    }
-    function ShowReport() {
-        var enrol = $("#EnrollmentId").val();
-        var stuid = $("#StudentId").val();
-        if (enrol != "") {
-            $.post('@Url.Action("StudentAttendenceAjaxView", "Report")', { enrollmentId: $("#EnrollmentId").val(), studentId: $("#StudentId").val() }, function (data) {
-                $("#AttendenceView").html(data);
-            });
-        }
+    $(document).ready(function () {
+        var date = new Date();
+        date.setMonth(date.getMonth(), 1);
+        $("#FromDate").datepicker({ dateFormat: "dd M yy", minDate: "-2m", defaultDate: date });
+        $("#ToDate").datepicker({ dateFormat: "dd M yy", minDate: "-1m", maxDate: "d", defaultDate: date });
+
+    });
+    
+    function ShowRecords() {
+        window.location.href = '@Url.Action("StudentAttendence", "Report")?startdate=' + $("#FromDate").val() + '&enddate=' + $("#ToDate").val() + '&DisciplineId=' + $("#DisciplineId").val();
     }
 </script>
+
 <div class="container">
-    <!-- registration-form -->
-    <div class="registration-form">
-        @using (Html.BeginForm())
-        {
-            @Html.HiddenFor(v => v.StudentId);
-            @Html.HiddenFor(v => v.EnrollmentId);
-            <h3>Student Attendence</h3>
-            <div class="row">
-                <label for="Password">Enrollment No :</label>
-                <input id="UniqueKey" type="text" class="input" />
-                <a href="#" id="btnGet" onclick="javascript: GetStudentDetails();">Get Details</a>
-            </div>
-            <div style="padding:1%;height:1px;">
-            </div>
-            <div class="row">
-                <table id="showstudent" style="display: none;border:1px solid;">
-                    <tr style="background-color:gray;">
-                        <td>Name</td>
-                        <td>DOB</td>
-                        <td>Contact</td>
-                        <td>Email</td>
-                        <td>Address</td>
-                        <td>Guardian</td>
-                        <td>Occupation</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div id="lblName"></div>
-                        </td>
-                        <td>
-                            <div id="DOB"></div>
-                        </td>
-                        <td>
-                            <div id="ContactNumber"></div>
-                        </td>
-                        <td>
-                            <div id="EmailID"></div>
-                        </td>
-                        <td>
-                            <div id="Address"></div>
-                        </td>
-                        <td>
-                            <div id="GuardianName"></div>
-                        </td>
-                        <td>
-                            <div id="Occupation"></div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="row" style="padding-top: 1em;">
-                <label for="Password">Discipline :</label>
-                <select name="DisciplineId" id="DisciplineId" class="select" onchange="GetDisciplineAttendentDetails(this)"></select>
-            </div>
-            <div style="padding:1%;height:1px;">
-            </div>
-            <div class="row">
-                <table id="showdiscipline" style="display: none;border:1px solid;">
-                    <tr style="background-color:gray;">
-                        <td>Start Date</td>
-                        <td>End Date</td>
-                        <td>No Of Classes</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div id="lblsDate"></div>
-                        </td>
-                        <td>
-                            <div id="lbleDate"></div>
-                        </td>
-                        <td>
-                            <div id="lblNoofClass"></div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div style="padding:1%;height:1px;">
-            </div>
-            <div class="rowbutton">
-                <input name="button" type="button" value="Show Report" class="submit-btn" onclick="javascript: ShowReport();" />
-            </div>
-            <div style="padding:1%;height:1px;">
-            </div>
-            <div id="AttendenceView" class="row">
+    <!-- table-info -->
 
-            </div>
+    <div class="table-info">
+        <!-- start table-form -->
 
+        <div class="table-form">
+            <form action="#">
+                <label for="Password">From Date: </label>
+                @Html.TextBoxFor(x => x.FromDate, new { @class = "input", @readonly = "readonly", @Value = Model.FromDate.Value.ToString("dd MMM yyyy") })
+                <label for="From">To Date</label>
+                @Html.TextBoxFor(x => x.ToDate, new { @class = "input", @readonly = "readonly", @Value = Model.ToDate.Value.ToString("dd MMM yyyy") })
 
-        }
+                <label for="From">Disciplane</label>
+                @Html.DropDownListFor(x => x.DisciplineId, new SelectList(ViewBag.disciplane, "DisciplineId", "Discipline"), new { @class = "input", @readonly = "readonly" })
+                <input name="button" type="button" value="Show Report" class="submit-btn" onclick="javascript: ShowRecords();" />
+            </form>
+        </div>
+
+        <div class="table-form">
+            <table cellpadding="0" cellspacing="0" class="table">
+                <!-- start row -->
+                <tr bgcolor="#ccc">
+                    <td class="td">Name</td>
+                    <td class="td">Enrollment Number</td>
+                    <td class="td">Presents</td>
+                    <td class="td">Absents</td>
+                    <td class="td">Leaves</td>
+
+                </tr>
+                <!-- end row -->
+                @if (Model.ReportDataset.Tables.Count >0)
+                {
+                    foreach (System.Data.DataRow v in Model.ReportDataset.Tables[0].Rows)
+                    {
+                    <!-- start row -->
+                        <tr>
+                            <td class="td">@v["Name"]</td>
+                            <td class="td">@v["UniqueKey"]</td>
+                            <td class="td">@v["PresentCount"]</td>
+                            <td class="td">@v["AbsentCount"]</td>
+                            <td class="td">@v["LeaveCount"]</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr class="row">
+                        <td class="td" style="text-align: center">No record found.</td>
+                    </tr>
+
+                }
+            </table>
+            <br />
+            @*<div style="border:1px solid;text-align:right;font-weight:bold;padding-right:10px;">
+                    Total Payment   :  @ViewBag.TotalAmount
+                </div>
+                @Html.Partial("_Paging")*@
+        </div>
+
     </div>
+
 </div>

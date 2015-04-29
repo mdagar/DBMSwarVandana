@@ -14,9 +14,11 @@ namespace Repositories
     {
         DBConnections db = new DBConnections();
 
-        public DataSet GetStudentsAttendenceEnrollmentId(long EnrollmentId, long StudentId)
+        public DataSet GetStudentsAttendenceEnrollmentId(DateTime startDate ,DateTime endDate, int disciplaneId)
         {
-            string Query = "select convert(varchar,DateOfAttendence,106) DateOfAttendence,(select Timming from [dbo].[Batches]  where BatchId=SA.BatchId) Timming,AttendenceStatus from [dbo].[StudentAttendence] SA where StuentId=" + StudentId + " and EnrollmentId=" + EnrollmentId + "";
+            string Query = "select s.Name,s.UniqueKey ,count(case when AttendenceStatus = 1 then 1 else null end) as PresentCount,count(case when AttendenceStatus = 2 then 1 else null end) as AbsentCount,"+
+                            "count(case when AttendenceStatus = 3 then 1 else null end) as LeaveCount from [dbo].[StudentAttendence] att ,[dbo].[Student] s where att.DateOfAttendence between '"+startDate+"' and '"+endDate+"' and "+
+                            "att.Enrollmentid in(select EnrollmentId from [dbo].[StudentEnrollment] where DisciplineId =" + disciplaneId + " ) and s.StudentId = att.StuentId  and s.CenterId = "+SessionWrapper.User.CentreId+"   group by att.StuentId,s.Name,s.UniqueKey";
             var d = SqlHelper.ExecuteDataset(db.GetConnection(), CommandType.Text, Query);
             return d;
         }

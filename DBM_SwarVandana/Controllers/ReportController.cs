@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using ViewModel;
 using Repositories;
 using DBM_SwarVandana.Resources;
+using System.Data;
 
 namespace DBM_SwarVandana.Controllers
 {
@@ -16,31 +17,45 @@ namespace DBM_SwarVandana.Controllers
         // GET: /Report/
 
         ReportRepository _reports = new ReportRepository();
+        DisciplineRepository _alldisciplane = new DisciplineRepository();
 
         [Authenticate]
-        public ActionResult StudentAttendence()
+        public ActionResult StudentAttendence(DateTime? startdate, DateTime? enddate, int DisciplineId = 0)
         {
             ReportViewModel rm = new ReportViewModel();
-            return View(rm);
-        }
-
-        [Authenticate]
-        public ActionResult StudentAttendenceAjaxView(string enrollmentId, string studentId)
-        {
-            ReportViewModel rm = new ReportViewModel();
-            if (!string.IsNullOrEmpty(enrollmentId))
+            ViewBag.disciplane = _alldisciplane.GetAllDisciplines(SessionWrapper.User.CentreId);
+            if (startdate == null || enddate == null)
             {
-                long EnrollmentId = Convert.ToInt64(enrollmentId);
-                if (!string.IsNullOrEmpty(studentId))
-                {
-                    long StudentId = Convert.ToInt64(studentId);
-                    var d = _reports.GetStudentsAttendenceEnrollmentId(EnrollmentId, StudentId);
-                    rm.ReportDataset = d;
-                    return View(rm);
-                }
+                rm.FromDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                rm.ToDate = DateTime.Today;
+                rm.ReportDataset = new DataSet();
+            }
+            else
+            {
+                rm.FromDate = startdate.Value;
+                rm.ToDate = enddate.Value;
+                rm.ReportDataset = _reports.GetStudentsAttendenceEnrollmentId(startdate.Value, enddate.Value, DisciplineId);
             }
             return View(rm);
         }
+
+        //[Authenticate]
+        //public ActionResult StudentAttendenceAjaxView(string enrollmentId, string studentId)
+        //{
+        //    ReportViewModel rm = new ReportViewModel();
+        //    if (!string.IsNullOrEmpty(enrollmentId))
+        //    {
+        //        long EnrollmentId = Convert.ToInt64(enrollmentId);
+        //        if (!string.IsNullOrEmpty(studentId))
+        //        {
+        //            long StudentId = Convert.ToInt64(studentId);
+        //            var d = _reports.GetStudentsAttendenceEnrollmentId(EnrollmentId, StudentId);
+        //            rm.ReportDataset = d;
+        //            return View(rm);
+        //        }
+        //    }
+        //    return View(rm);
+        //}
         
         [Authenticate]
         public ActionResult StudentPaymentDetails()
