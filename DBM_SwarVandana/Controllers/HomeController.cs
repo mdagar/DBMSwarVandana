@@ -145,9 +145,9 @@ namespace DBM_SwarVandana.Controllers
 
         public ActionResult TestPage(string caller_id, string call_id, string start_time, string end_time, string timezone, string call_duration, string destination, string action, string extension)
         {
-            ViewBag.Message = caller_id + call_id + start_time + end_time;
+            ViewBag.Message =  "CallerId : " +caller_id + " Call Id :" + call_id +" Start Time : " + start_time +" End Time : "+ end_time;
 
-            MailHelper.SendMail("Mohitdagar80@gmail.com", "Test IVR", ViewBag.Message);
+            MailHelper.SendMail("Mohitdagar80@gmail.com", "IVR Call Alert", ViewBag.Message);
             return View();
         }
 
