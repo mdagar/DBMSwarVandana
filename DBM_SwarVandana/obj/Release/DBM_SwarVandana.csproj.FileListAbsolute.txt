@@ -36,3 +36,14 @@ E:\free Elancing\SwarVandana\DBMSwarVandana\DBM_SwarVandana\bin\System.Web.Razor
 E:\free Elancing\SwarVandana\DBMSwarVandana\DBM_SwarVandana\bin\System.Web.WebPages.xml
 E:\free Elancing\SwarVandana\DBMSwarVandana\DBM_SwarVandana\bin\System.Web.WebPages.Deployment.xml
 E:\free Elancing\SwarVandana\DBMSwarVandana\DBM_SwarVandana\bin\System.Web.WebPages.Razor.xml
+D:\Projects\OthertestSample\DBMSwarVandana\DBM_SwarVandana\bin\DBM_SwarVandana.dll.config
+D:\Projects\OthertestSample\DBMSwarVandana\DBM_SwarVandana\bin\DBM_SwarVandana.dll
+D:\Projects\OthertestSample\DBMSwarVandana\DBM_SwarVandana\bin\DBM_SwarVandana.pdb
+D:\Projects\OthertestSample\DBMSwarVandana\DBM_SwarVandana\obj\Release\DBM_SwarVandana.csprojResolveAssemblyReference.cache
+D:\Projects\OthertestSample\DBMSwarVandana\DBM_SwarVandana\obj\Release\DBM_SwarVandana.Resources.Messages.resources
+D:\Projects\OthertestSample\DBMSwarVandana\DBM_SwarVandana\obj\Release\DBM_SwarVandana.Resources.Procedures.resources
+D:\Projects\OthertestSample\DBMSwarVandana\DBM_SwarVandana\obj\Release\DBM_SwarVandana.csproj.GenerateResource.Cache
+D:\Projects\OthertestSample\DBMSwarVandana\DBM_SwarVandana\obj\Release\DBM_SwarVandana.dll
+D:\Projects\OthertestSample\DBMSwarVandana\DBM_SwarVandana\obj\Release\DBM_SwarVandana.pdb
+D:\Projects\OthertestSample\DBMSwarVandana\DBM_SwarVandana\obj\Release\DBM_SwarVandana.Resources.SmsMessages.resources
+D:\Projects\OthertestSample\DBMSwarVandana\DBM_SwarVandana\bin\NetSpell.SpellChecker.dll

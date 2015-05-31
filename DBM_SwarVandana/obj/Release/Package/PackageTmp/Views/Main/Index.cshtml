@@ -1,38 +1,68 @@
-﻿@{
+﻿@model ViewModel.TransRecordsViewModel
+@{
     ViewBag.Title = "Dash Board";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container">
-            <!-- start update-box -->
-            <div class="update-box">
-                <div class="imgb"><img src="~/Content/images/god_pic.jpg" alt="god" /></div>
-                <!-- column -->
-                <div class="column">
-                    <h3>update1</h3>
-                    <ul>
-                        <li><a href="#" title="Lorem Ipsum is simply dummy text">Lorem Ipsum is simply dummy text</a></li>
-                        <li><a href="#" title="Lorem Ipsum is simply dummy text">Lorem Ipsum is simply dummy text</a></li>
-                        <li><a href="#" title="Lorem Ipsum is simply dummy text">Lorem Ipsum is simply dummy text</a></li>
-                        <li><a href="#" title="Lorem Ipsum is simply dummy text">Lorem Ipsum is simply dummy text</a></li>
-                        <li><a href="#" title="Lorem Ipsum is simply dummy text">Lorem Ipsum is simply dummy text</a></li>
-                        <li><a href="#" title="Lorem Ipsum is simply dummy text">Lorem Ipsum is simply dummy text</a></li>
-                    </ul>
-                </div>
-                <!-- column -->
-                <!-- column -->
-                <div class="column">
-                    <h3>update1</h3>
-                    <ul>
-                        <li><a href="#" title="Lorem Ipsum is simply dummy text">Lorem Ipsum is simply dummy text</a></li>
-                        <li><a href="#" title="Lorem Ipsum is simply dummy text">Lorem Ipsum is simply dummy text</a></li>
-                        <li><a href="#" title="Lorem Ipsum is simply dummy text">Lorem Ipsum is simply dummy text</a></li>
-                        <li><a href="#" title="Lorem Ipsum is simply dummy text">Lorem Ipsum is simply dummy text</a></li>
-                        <li><a href="#" title="Lorem Ipsum is simply dummy text">Lorem Ipsum is simply dummy text</a></li>
-                        <li><a href="#" title="Lorem Ipsum is simply dummy text">Lorem Ipsum is simply dummy text</a></li>
-                    </ul>
-                </div>
-                <!-- column -->
-            </div>
-            <!-- end update-box -->
+    <div class="update-box">
+        <div class="imgb"><img src="~/Content/images/god_pic.jpg" alt="Swar vandana" /></div>
+
+        <div class="column">
+            <h3>Billing</h3>
+            <ul>
+                <li>@Model.DashBoardDataset.Tables[6].Rows[0][0] RS. Collected  on :  @Model.DashBoardDataset.Tables[6].Rows[0][1] </li>
+                <li>@Model.DashBoardDataset.Tables[7].Rows[0][0] RS. Collected for Month : @Model.DashBoardDataset.Tables[7].Rows[0][1] </li>
+            </ul>
         </div>
+        <div class="column">
+            <h3>Enrollments</h3>
+            <ul>
+                <li>@Model.DashBoardDataset.Tables[8].Rows[0][0] students Enrolled  on :  @Model.DashBoardDataset.Tables[8].Rows[0][1] </li>
+                <li>@Model.DashBoardDataset.Tables[9].Rows[0][0] students enrolled for Month : @Model.DashBoardDataset.Tables[9].Rows[0][1] </li>
+            </ul>
+        </div>
+        <div class="column">
+            <h3>Enquiry</h3>
+            <ul>
+                <li>@Model.DashBoardDataset.Tables[2].Rows[0][0] Telephonic Enquiry   on :  @Model.DashBoardDataset.Tables[2].Rows[0][1] </li>
+                <li>@Model.DashBoardDataset.Tables[3].Rows[0][0] Telephonic Enquiry for Month : @Model.DashBoardDataset.Tables[3].Rows[0][1] </li>
+                <li> @Model.DashBoardDataset.Tables[4].Rows[0][0] Physical Enquiry  on : @Model.DashBoardDataset.Tables[4].Rows[0][1]</li>
+                <li>@Model.DashBoardDataset.Tables[5].Rows[0][0] Physical Enquiry for Month : @Model.DashBoardDataset.Tables[5].Rows[0][1] </li>
+
+
+            </ul>
+        </div>
+        <div class="column" style="height:200px;overflow-y:auto;" >
+            <h3>Upcoming  Renewal</h3>
+            <ul>
+                @foreach (System.Data.DataRow v in Model.DashBoardDataset.Tables[1].Rows)
+                {
+                    <li><a style="font-size:10px;" href="#">@v["Name"] (@v["UniqueKey"]) Date : (@v["EndDate"] )</a></li>
+                }
+                @if (Model.DashBoardDataset.Tables[1].Rows.Count == 0)
+                {
+                    <li>No Upcoming Renewal</li>
+                }
+
+            </ul>
+        </div>
+
+        @*<div class="column" style="height:200px;overflow-y:auto;">
+            <h3>Fee To collect</h3>
+            <ul>
+                @foreach (System.Data.DataRow v in Model.DashBoardDataset.Tables[0].Rows)
+                {
+                    <li><a style="font-size:10px;" href="#">@v["Name"] (@v["UniqueKey"]) for @v["Discipline"] ( @Math.Round(Convert.ToDecimal(v["Balance"]), 2) /- on : @(string.IsNullOrEmpty(Convert.ToString(v["DueDate"])) ? "Date Not Defined" : v["DueDate"]) )</a></li>
+                }
+                @if (Model.DashBoardDataset.Tables[0].Rows.Count == 0)
+                {
+                    <li>No Fee Collection</li>
+                }
+
+            </ul>
+        </div>*@
+
+    </div>
+
+</div>

@@ -3,9 +3,6 @@
 @{
     ViewBag.Title = "PhysicalEnquiry";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-
-
     IEnumerable<Status> statusid = Enum.GetValues(typeof(Status))
                                                       .Cast<Status>();
     IEnumerable<SelectListItem> status = from u in statusid
@@ -50,7 +47,7 @@
     }
 
     $(function () {
-        $("#DateOfEnquiry").datepicker({ dateFormat: "dd M yy", minDate: "-1w" });
+        $("#DateOfEnquiry").datepicker({ dateFormat: "dd M yy",maxdate:"0d" });
         $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
             $("#CityId").html('');
             $("#CityId").append('<option value="">-- Select City --</option>');
@@ -73,6 +70,72 @@
     function RedirectToHome() {
         window.location.href = ('@Url.Action("PhysicalEnquiryList", "Enquiries")');
     }
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+
+    function DemoChange(demo) {
+        if (demo == 1) {
+            $("#demoid").show();
+        }
+        else {
+            $("#demoid").hide();
+
+        }
+    }
+
+    function PEChange(PE) {
+        if (PE == 1) {
+            $("#peid").show();
+        }
+        else {
+            $("#TelephonicEnquiryId").val('');
+            $("#peid").hide();
+        }
+    }
+
+    function PopulateTelephonicEnquiry() {
+        var TelephonicEnquiryId = $("#TelephonicEnquiryId").val();
+        if (TelephonicEnquiryId == '') {
+            alert('Please enter TE ID');
+            return false;
+        }
+        $.post('@Url.Action("GetEnquiryByEnquiryNumber", "Enquiries")', { EnquiryNumber: TelephonicEnquiryId }, function (data) {
+            if (data.EnquiryId > 0) {
+
+                $("#SourceId").val(data.SourceId);
+                $("#ContactNumber").val(data.ContactNumber);
+                $("#Name").val(data.Name);
+                $("#Discipline").val(data.Discipline);
+                $("#StateId").val(data.StateId);
+                $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: data.StateId }, function (cities) {
+                    $("#CityId").html('');
+                    $("#CityId").append('<option value="">-- Select City --</option>');
+                    $.each(cities, function (i, City) {
+                        $("#CityId").append('<option value="' + City.CityId + '">' +
+                             City.CityName + '</option>');
+                        // here we are adding option for States
+
+                    });
+                    $("#CityId").find("option").each(function () {
+                        if ($(this).val() == data.CityId) {
+                            $(this).attr("selected", "selected");
+                        }
+                    });
+                });
+                $("#Address").val(data.Address);
+                $("#StatusId").val(data.StatusId);
+                $("#FinalComments").val(data.FinalComments);
+            }
+            else {
+                alert("Enquery no is either invalid or already used.");
+            }
+        });
+    }
+
 </script>
 <!-- start container -->
 <div class="container">
@@ -92,71 +155,211 @@
                 {
                     <div>@Html.ValidationSummary(false)</div>
                 }
-                
+
             </div>
             <h3>Physical Enquiry</h3>
+            if (Model.EnquiryId == 0)
+            {
+                <div class="row">
+                    <label for="Password">Has TE :</label>
+                    <div class="column">
+                        <input type="radio" value="True" onchange="javascript:PEChange(1);" name="PE" id="PE" class="radio">
+                        <label for="male">Yes</label>
+                        <input type="radio" value="False" checked="checked" onchange="javascript:PEChange(0);" name="PE" id="PE" class="radio">
+                        <label for="female">No</label>
+                    </div>
+                </div>
+                <div class="row" id="peid" style="display: none;">
+                    <label for="Password">TE ID :</label>
+                    @Html.TextBoxFor(x => x.TelephonicEnquiryId, new { @class = "input" })
+                    <a href="javascript:void(0)" id="btnGet" onclick="javascript:PopulateTelephonicEnquiry();">Get Details</a>
+                </div>
+            }
+            else
+            {
+                @Html.Hidden("PE", string.IsNullOrEmpty(Model.TelephonicEnquiryId) ? false : true)
+                @Html.Hidden("TelephonicEnquiryId", string.IsNullOrEmpty(Model.TelephonicEnquiryId) ? "" : Model.TelephonicEnquiryId)
+            }
             <div class="row">
                 <label for="Password">Source :</label>
-                @Html.DropDownListFor(x => x.SourceId, new ListBound(Model.SourceId, "Sources").Sources, "-- Select Source --", new { @class = "select" })
-                @Html.HiddenFor(x => x.EnquiryId);
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.DropDownListFor(x => x.SourceId, new ListBound(Model.SourceId, "Sources").Sources, "-- Select Source --", new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.EnquiryId)
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.SourceId, new ListBound(Model.SourceId, "Sources").Sources, "-- Select Source --", new { @class = "select" })
+                }
             </div>
             <div class="row">
                 <label for="Password">Contact Number :</label>
-                @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input", @readonly = "readonly" })
+                }
+                else
+                {
+                    @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "20" })
+                }
+
             </div>
             <div class="row">
                 <label for="Password">Name :</label>
-                @Html.TextBoxFor(x => x.Name, new { @class = "input" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.TextBoxFor(x => x.Name, new { @class = "input", @readonly = "readonly" })
+                }
+                else
+                {
+                    @Html.TextBoxFor(x => x.Name, new { @class = "input" })
+                }
             </div>
             <div class="row">
                 <label for="Password">Date of Visit :</label>
-                @Html.TextBoxFor(x => x.DateOfEnquiry, new { @class = "input" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.TextBox("DateOfEnquiry1", Model.DateOfEnquiry == null ? "" : Model.DateOfEnquiry.Value.ToString("dd MMM yyyy"), new { @class = "input", @Readonly = "readonly" })
+                    @Html.Hidden("DateOfEnquiry", Model.DateOfEnquiry == null ? "" : Model.DateOfEnquiry.Value.ToString("dd MMM yyyy"))
+                }
+                else
+                {
+                    @Html.TextBox("DateOfEnquiry", Model.DateOfEnquiry == null ? "" : Model.DateOfEnquiry.Value.ToString("dd MMM yyyy"), new { @class = "input", @Readonly = "readonly" })
+                }
             </div>
             <div class="row">
                 <label for="Password">Discipline :</label>
-                @Html.DropDownListFor(x => x.Discipline, new ListBound(Model.Discipline, "Disciplines").Disciplines, "-- Select Discipline --", new { @class = "select" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.DropDownListFor(x => x.Discipline, new ListBound(Model.Discipline, "Disciplines").Disciplines, "-- Select Discipline --", new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.Discipline)
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.Discipline, new ListBound(Model.Discipline, "Disciplines").Disciplines, "-- Select Discipline --", new { @class = "select" })
+                }
             </div>
             <div class="row">
                 <label for="Password">Probable Student :</label>
-                @Html.DropDownListFor(x => x.ProbableStudentFor, probablefor, "-- Select --", new { @class = "select" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.DropDownListFor(x => x.ProbableStudentFor, probablefor, "-- Select --", new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.ProbableStudentFor)
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.ProbableStudentFor, probablefor, "-- Select --", new { @class = "select" })
+                }
             </div>
             <div class="row">
                 <label for="Password">Gender :</label>
-                @Html.DropDownListFor(x => x.Gender, gendermf, "-- Select --", new { @class = "select" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.DropDownListFor(x => x.Gender, gendermf, "-- Select --", new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.Gender)
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.Gender, gendermf, "-- Select --", new { @class = "select" })
+                }
             </div>
             <div class="row">
                 <label for="Password">Age :</label>
-                @Html.TextBoxFor(x => x.Age, new { @class = "input" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.TextBoxFor(x => x.Age, new { @class = "input", @readonly = "readonly" })
+                }
+                else
+                {
+                    @Html.TextBoxFor(x => x.Age, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "2" })
+                }
+
             </div>
             <div class="row">
                 <label for="Password">Occupation :</label>
-                @Html.TextBoxFor(x => x.Occupation, new { @class = "input" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.TextBoxFor(x => x.Occupation, new { @class = "input", @readonly = "readonly" })
+                }
+                else
+                {
+                    @Html.TextBoxFor(x => x.Occupation, new { @class = "input" })
+                }
+
             </div>
             <div class="row">
                 <label for="Password">Attended By :</label>
-                @Html.DropDownListFor(x => x.AttendedBy, new ListBound(Model.AttendedBy, "Users").Users, "-- Select User --", new { @class = "select" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.DropDownListFor(x => x.AttendedBy, new ListBound(Model.AttendedBy, "Users").Users, "-- Select User --", new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.AttendedBy)
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.AttendedBy, new ListBound(Model.AttendedBy, "Users").Users, "-- Select User --", new { @class = "select" })
+                }
             </div>
-          
+
             <div class="row">
                 <label for="Password">State :</label>
-                @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.StateId)
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" })
+                }
             </div>
             <div class="row">
                 <label for="Password">City :</label>
-                @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select" })
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.CityId)
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.CityId, Enumerable.Empty<SelectListItem>(), new { @class = "select" })
+                }
             </div>
             <div class="row">
                 <label for="Password">Address :</label>
                 @Html.TextAreaFor(x => x.Address, new { @class = "textarea" })
             </div>
-            <div class="row">
-                <label for="Password">Demo :</label>
-                <div class="column">
-                    @Html.RadioButtonFor(x => x.Demo, true, new { @class = "radio" })
-                    <label for="male">Yes</label>
-                    @Html.RadioButtonFor(x => x.Demo, false, new { @class = "radio" })
-                    <label for="female">No</label>
+            if (Model.EnquiryId != 0)
+            {
+                <div class="row">
+                    <label for="Password">Demo :</label>
+                    <div class="column">
+                        <label for="male">@(Model.Demo == true ? "Yes" : "No")</label>
+                    </div>
                 </div>
+            }
+            else
+            {
+                <div class="row">
+                    <label for="Password">Demo :</label>
+                    <div class="column">
+                        @Html.RadioButtonFor(x => x.Demo, true, new { @class = "radio", onchange = "javascript:DemoChange(1);" })
+                        <label for="male">Yes</label>
+                        @Html.RadioButtonFor(x => x.Demo, false, new { @class = "radio", onchange = "javascript:DemoChange(0);" })
+                        <label for="female">No</label>
+                    </div>
+                </div>
+            }
+            <div class="row" id="demoid" style="@(Model.Demo == false ? "display:none;" : "")">
+                <label for="Password">Faculty :</label>
+                @if (Model.EnquiryId != 0)
+                {
+                    @Html.DropDownListFor(x => x.FacultyID, new ListBound(Model.FacultyID, "Faculties").Faculties, "-- Select Faculty --", new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.FacultyID);
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.FacultyID, new ListBound(Model.FacultyID, "Faculties").Faculties, "-- Select Faculty --", new { @class = "select" })
+                }
             </div>
             <div class="row">
                 <label for="Password">Remarks By Faculty :</label>
@@ -164,15 +367,15 @@
             </div>
             <div class="row">
                 <label for="Password">No of Classes :</label>
-                @Html.TextBoxFor(x => x.NoOfClasses, new { @class = "input" })
+                @Html.TextBoxFor(x => x.NoOfClasses, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "3" })
             </div>
             <div class="row">
                 <label for="Password">Packages :</label>
-                @Html.TextBoxFor(x => x.Package, new { @class = "input" })
+                @Html.TextBoxFor(x => x.Package, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "15" })
             </div>
             <div class="row">
                 <label for="Password">Registration :</label>
-                @Html.TextBoxFor(x => x.RegistrationAmount, new { @class = "input" })
+                @Html.TextBoxFor(x => x.RegistrationAmount, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "15" })
             </div>
             <div class="row">
                 <label for="Password">Status :</label>
@@ -192,7 +395,7 @@
                 <input type="submit" id="btnSubmit" value="Submit" class="submit-btn gap" />
                 <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
             </div>
-    
+
         }
     </div>
 

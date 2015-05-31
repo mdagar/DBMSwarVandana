@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "SMS Companion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- start container -->
+<div class="container">
+    <!-- registration-form -->
+    <div class="registration-form">
+        @using (Html.BeginForm("SendsmsCompanion", "EmailSMSCompanion", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+            <div>
+                @if (!string.IsNullOrEmpty(ViewBag.Success))
+                {
+                    <div class="successvalidation">
+                        @ViewBag.Success
+                    </div>
+                }
+                else
+                {
+                    <div>@ViewBag.Error</div>
+                }
+
+            </div>
+            <h3>Add Budget</h3>
+            <div class="row">
+                <label for="Password"><span style="color: red;">*</span>Type SMS</label>
+
+                @Html.TextArea("SMS", "", new { @onkeyup = "Countword()", rows = "4", cols = "50" })
+            </div>
+
+            <div class="row">
+                <label for="Password"><span style="color: red;">*</span>Total Words : </label>
+
+
+                <label id="lengthofword"></label>
+            </div>
+
+            <div class="rowbutton">
+
+                <input type="submit" id="btnSubmit" value="Broadcast " class="submit-btn gap" />
+                @*<input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />*@
+            </div>
+        }
+    </div>
+    <!-- registration-form -->
+</div>
+<!-- end container -->
+<script type="text/javascript">
+    function Countword() {
+
+        $("#lengthofword").text($("#SMS").val().length);
+    }
+</script>

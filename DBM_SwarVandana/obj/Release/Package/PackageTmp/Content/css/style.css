@@ -364,11 +364,11 @@ body {
     }
 
     .update-box .column {
-        width: 375px;
+        width: 39%;
         float: left;
         border: #da7403 1px solid;
         padding: 2px;
-        margin: 0 54px;
+        margin: 6px 54px;
     }
 
     .update-box h3 {
@@ -389,7 +389,7 @@ body {
 
     .update-box li {
         background: url(../images/ico_list.png) no-repeat 36px center;
-        font-size: 14px;
+        font-size: 10px;
         line-height: 30px;
         color: #000;
         padding-left: 65px;
@@ -512,14 +512,14 @@ body {
 .table-form {
     width: 100%;
     float: left;
-    padding: 49px 0 38px 0;
+    padding: 25px 0 20px 0;
 }
 
     .table-form label {
-        font-size: 18px;
+        font-size: 13px;
         color: #000;
         float: left;
-        line-height: 29px;
+        line-height: 14px;
         padding: 0 14px 0 0;
         float: left;
     }
@@ -527,29 +527,29 @@ body {
     .table-form .input,
     .table-form .select {
         background: #fff;
-        width: 145px;
-        height: 27px;
-        font-size: 14px;
+        width: 105px;
+        height: 20px;
+        font-size: 12px;
         color: #585858;
         line-height: 27px;
-        padding: 0 10px;
+        padding: 0 3px;
         float: left;
-        margin-right: 16px;
+        margin-right: 9px;
         border: #da7403 1px solid;
     }
 
     .table-form .select {
-        width: 145px;
-        height: 29px;
+        width: 105px;
+        height: 20px;
     }
 
     .table-form .submit-btn {
         background: #ff9903;
         width: 95px;
-        height: 29px;
+        height: 24px;
         font-size: 14px;
         color: #fff;
-        line-height: 29px;
+        line-height: 24px;
         float: left;
         border: none;
         -moz-border-radius: 4px;
@@ -595,7 +595,7 @@ body {
     width: auto;
     font-size: 12px;
     color: #3b3b3b;
-    line-height: 40px;
+    line-height: 25px;
     text-align: center;
     border: #c0c0c0 1px solid;
     font-weight: 600;

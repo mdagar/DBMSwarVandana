@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Models.StudentEnrollment>
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    function AddNew() {
+        window.location.href = '@Url.Action("AddStudent","Student")';
+    }
+    function Search() {
+        var va = $("input[type='text'][name='searchtext']").val();
+        window.location.href = '@Url.Action("AllStudents", "Student")?search=' + va;
+    }
+</script>
+<!-- start container -->
+<div class="container">
+    <!-- table-info -->
+    <div class="table-info">
+        <!-- start table-form -->
+        @if (Model.Count() != 0)
+        {
+            <div style="font-weight:bold;font-size:13px;padding:10px;">
+                Student Details( Name: @Model.FirstOrDefault().StudentName)
+            </div>
+        }
+        else
+        {
+            <div style="font-weight:bold;font-size:13px;padding:10px;">
+                Student is not yet enrolled.
+            </div>
+        }
+        <!-- end table-form -->
+        <!-- start table -->
+
+        <div style="float:left;width:70%;padding-left:10%">
+            <table cellpadding="0" cellspacing="0" class="table">
+                <!-- start row -->
+                <tr bgcolor="#ccc">
+                    <td class="td">Discipline</td>
+                    <td class="td">Class Assign</td>
+                    <td class="td">Attended</td>
+                    <td class="td">Absents</td>
+                    <td class="td">Start Date</td>
+                    <td class="td">End Date</td>
+                    <td class="td">Course Amount</td>
+                    <td class="td">Amount Receicved</td>
+                    <td class="td">Registration Amount</td>
+                    <td class="td">Amount Pending</td>
+                </tr>
+                <!-- end row -->
+                @foreach (var v in Model)
+                {
+                    <!-- start row -->
+                    <tr>
+                        <td class="td">@v.DisciplaneName</td>
+                        <td class="td">@v.NoOfClasses</td>
+                        <td class="td">@v.Presents</td>
+                        <td class="td">@v.Absents</td>
+                        <td class="td">@v.SatrtDate.Value.ToString("dd MMM yyyy")</td>
+                        <td class="td">@v.EndDate.Value.ToString("dd MMM yyyy")</td>
+                        <td class="td">@String.Format("{0:0.##}", v.CourseAmount)</td>
+                        <td class="td">@String.Format("{0:0.##}", v.AmountPaid)</td>
+                        <td class="td">@String.Format("{0:0.##}", v.RegistratonAmount)</td>
+                        <td class="td">@String.Format("{0:0.##}", v.PendingAmount)</td>
+                        @*<td class="td">
+                                <a href="@Url.Action("AddStudent", "Student", new { uniqueId = v.UniqueKey })" title="Edit">Edit</a>
+                                | <a href="@Url.Action("Studentdetail", "Student", new { uniqueId = v.UniqueKey })" title="Show details">Details</a>
+                            </td>*@
+                    </tr>
+
+                    <!-- end row -->
+                }
+                @* @{if (Model.Count() == 0)
+                    {
+                        <tr class="row">
+                            <td class="td" style="text-align: center">No record found.</td>
+                        </tr>
+
+                    }}*@
+            </table>
+        </div>
+    </div>
+    <!-- end table -->
+</div>

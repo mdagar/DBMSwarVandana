@@ -17,7 +17,10 @@ namespace Code
         {
             get { return GetValue<string>("PostImages"); }
         }
-
+        public static string TempCollection
+        {
+            get { return GetValue<string>("TempCollection"); }
+        }
 
         public static string ErrorLogs
         {

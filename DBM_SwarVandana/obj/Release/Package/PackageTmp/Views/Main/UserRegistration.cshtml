@@ -8,7 +8,7 @@
     IEnumerable<SelectListItem> roles = from u in userrole
                                         select new SelectListItem
                                         {
-                                            Text = u.ToString(),
+                                            Text = u.Desciption(),
                                             Value = ((int)u).ToString()
                                         };
     if (SessionWrapper.User.RoleId == (int)UserRole.SuperAdmin)
@@ -42,7 +42,13 @@
     }
 
     $(function () {
-        $("#DOB,#DOJ").datepicker({ dateFormat: "dd M yy", minDate: "-1m" });
+        $("#DOB").datepicker({
+            dateFormat: "dd M yy", maxDate: "-15y",
+            changeMonth: true,
+            changeYear: true,
+            inline: true,
+        });
+        $("#DOJ").datepicker({ dateFormat: "dd M yy",maxDate: "1d" });
 
         $.post('@Url.Action("GetCitiesByStateId", "Main")', { StateId: $("#StateId").val() }, function (cities) {
             $("#CityId").html('');
@@ -60,6 +66,12 @@
             });
         });
     });
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
 </script>
 
 <!-- start container -->
@@ -82,9 +94,9 @@
                 {
                     <div>@Html.ValidationSummary(false)</div>
                 }
-                
-            </div>
 
+            </div>
+            @Html.HiddenFor(x => x.UserId)
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>First Name :</label>
                 @Html.TextBoxFor(x => x.FirstName, new { @class = "input" })
@@ -95,15 +107,15 @@
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>DOB :</label>
-                @Html.TextBoxFor(x => x.DOB, new { @class = "input" })
+                @Html.TextBox("DOB", Model.DOB == null ? "" : Model.DOB.Value.ToString("dd MMM yyyy"), new { @class = "input", @readonly = "readonly" })
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>DOJ :</label>
-                @Html.TextBoxFor(x => x.DOJ, new { @class = "input" })
+                @Html.TextBox("DOJ", Model.DOJ == null ? "" : Model.DOJ.Value.ToString("dd MMM yyyy"), new { @class = "input", @readonly = "readonly" })
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Contact Number :</label>
-                @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input" }))
+                @Html.TextBoxFor(x => x.ContactNumber, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "20" })
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Email ID :</label>
@@ -111,7 +123,7 @@
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Salary :</label>
-                @Html.TextBoxFor(x => x.Salary, new { @class = "input" })
+                @Html.TextBoxFor(x => x.Salary, new { @class = "input", @onkeypress = "return isNumberKey(event)", @maxlength = "20" })
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Role ID :</label>
@@ -127,7 +139,7 @@
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>State :</label>
-                @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" }))
+                @Html.DropDownListFor(x => x.StateId, new ListBound(Model.StateId, "States").States, "-- Select State --", new { onchange = "javascript:GetCitiesByStateId();", @class = "select" })
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>City :</label>

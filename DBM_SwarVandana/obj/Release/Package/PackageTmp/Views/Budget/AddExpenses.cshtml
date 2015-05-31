@@ -1,12 +1,64 @@
-﻿@model ViewModel.ExpensesViewModel
+﻿`@model ViewModel.ExpensesViewModel
+@using Code;
 @{
     ViewBag.Title = "AddExpenses";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
 
+    IEnumerable<Months> months = Enum.GetValues(typeof(Months))
+                                                    .Cast<Months>();
+    IEnumerable<SelectListItem> month = from u in months
+                                        select new SelectListItem
+                                        {
+                                            Text = u.ToString(),
+                                            Value = ((int)u).ToString()
+                                        };
+}
+<link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/Content/js/jquery-ui.js"></script>
 <script>
     function RedirectToHome() {
-        window.location.href = ('@Url.Action("BudgetList", "Budget")');
+        window.location.href = ('@Url.Action("ExpenseList", "Budget")');
+    }
+
+    $(function () {
+        $("#DateOfExpense").datepicker({ dateFormat: "dd M yy", minDate: "-1m",maxDate:"1d" });
+    });
+
+    function ClearValues() {
+        $("#BudgetAmount").val(0);
+    }
+
+    function CheckBalance() {
+        var expamt = $("#ExpenseAmount").val();
+        var expFor = $("#ExpenseFor").val();
+        var expmon = $("#Month").val();
+        var expyear = $("#FinancialYear").val();
+        if (expFor == '') {
+            alert('Please select Expense For.');
+            return false;
+        }
+        if (expmon == '' || expyear == '') {
+            alert("Please select Financial Year and Month First");
+            return false;
+        }
+        $.post('@Url.Action("GetBudgetAmountForMonth", "Budget")', { month: expmon, year: expyear, expensefor: $("#ExpenseFor").val() }, function (data) {
+            if (data != null) {
+
+                var result = JSON.parse(data);
+                ClearValues();
+                $("#bgtDiv").show();
+                $("#BudgetAmount").val(result[0].BudgetAmount);
+                //if (result[0].ExpenseAmt == null)
+                //{
+                //    $("#ExpenseAmountNow").val(0);
+                //}
+                //else
+                //{
+                //    $("#ExpenseAmountNow").val(result[0].ExpenseAmt);
+                //}
+
+            }
+        });
     }
 </script>
 <!-- start container -->
@@ -15,6 +67,7 @@
     <div class="registration-form">
         @using (Html.BeginForm("AddExpenses", "Budget", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
+            @Html.HiddenFor(x => x.ExpenseID)
             <div>
                 @if (!string.IsNullOrEmpty(ViewBag.Success))
                 {
@@ -26,31 +79,73 @@
                 {
                     <div>@Html.ValidationSummary(false)</div>
                 }
+            </div>
+            <h3>Add Expenses</h3>
 
+            <div class="row">
+                <label for="Password"><span style="color: red;">*</span>Expense For:</label>
+                @if (@Model.ExpenseID == 0)
+                {
+                    @Html.DropDownListFor(x => x.ExpenseFor, new ListBound(Model.ExpenseFor, "ExpenseFor").ExpenseFor, "-- Select --", new { @class = "select", @onchange = "ClearValues()" })
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.ExpenseFor, new ListBound(Model.ExpenseFor, "ExpenseFor").ExpenseFor, "-- Select --", new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.ExpenseFor)
+                }
             </div>
-            <h3>Add Budget</h3>
+            <div class="row">
+                <label for="Password"><span style="color: red;">*</span>Financial Year:</label>
+                @if (@Model.ExpenseID == 0)
+                {
+                    @Html.DropDownListFor(x => x.FinancialYear, new SelectList(ViewBag.Years as System.Collections.IEnumerable, Model.FinancialYear), new { @class = "select", @onchange = "ClearValues()" })
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.FinancialYear, new SelectList(ViewBag.Years as System.Collections.IEnumerable, Model.FinancialYear), new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.FinancialYear)
+                }
+            </div>
+            <div class="row">
+                <label for="Password"><span style="color: red;">*</span>Select Month:</label>
+                @if (@Model.ExpenseID == 0)
+                {
+                    @Html.DropDownListFor(x => x.Month, month, "-- Select Month --", new { @class = "select" })
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.Month, month, "-- Select Month --", new { @class = "select", @disabled = "disabled" })
+                    @Html.HiddenFor(x => x.Month)
+
+                }
+                <a href="Javascript:void(0)" onclick="CheckBalance()">Show Budget</a>
+            </div>
+            <div class="row" id="bgtDiv" style="display:none">
+                <label for="Password">Budget Assign:</label>
+                @Html.TextBoxFor(x => x.BudgetAmount, new { @class = "input", @readonly = "readonly" })
+            </div>
+            @*<div class="row">
+                    <label for="Password">Total Expense(Till Now):</label>
+                    @Html.TextBoxFor(x => x.ExpenseAmountNow, new { @class = "input", @readonly = "readonly" })
+                </div>*@
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Expense Amount:</label>
                 @Html.TextBoxFor(x => x.ExpenseAmount, new { @class = "input" })
             </div>
             <div class="row">
-                <label for="Password"><span style="color: red;">*</span>Expense Amount:</label>
-                @Html.TextBoxFor(x => x.ExpenseAmount, new { @class = "input" })
+                <label for="Password">Description:</label>
+                @Html.TextAreaFor(x => x.Description, new { @class = "textarea" })
             </div>
             <div class="row">
-                <label for="Password"><span style="color: red;">*</span>Description:</label>
-                @Html.TextBoxFor(x => x.Description, new { @class = "input" })
+                <label for="Password"><span style="color: red;">*</span>Date Of Expense:</label>
+                @*@Html.TextBoxFor(x => x.DateOfExpense, new { @class = "input" })*@
+                @Html.TextBox("DateOfExpense", Model.DateOfExpense == null ? "" : Model.DateOfExpense.Value.ToString("dd MMM yyyy"), new { @class = "input", @readonly = "readonly" })
             </div>
-            <div class="row">
-                <label for="Password"><span style="color: red;">*</span>Expense Amount:</label>
-                @Html.TextBoxFor(x => x.ExpenseAmount, new { @class = "input" })
-            </div>
-            <div class="row">
-                <label for="Password">Is Active :</label>
-                @Html.CheckBoxFor(x => x.IsActive, new { @class = "input" })
-            </div>
+            @*<div class="row">
+                    <label for="Password">Is Active :</label>
+                    @Html.CheckBoxFor(x => x.IsActive, new { @class = "input" })
+                </div>*@
             <div class="rowbutton">
-
                 <input type="submit" id="btnSubmit" value="Submit" class="submit-btn gap" />
                 <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
             </div>
@@ -59,6 +154,3 @@
     <!-- registration-form -->
 </div>
 <!-- end container -->
-
-
-

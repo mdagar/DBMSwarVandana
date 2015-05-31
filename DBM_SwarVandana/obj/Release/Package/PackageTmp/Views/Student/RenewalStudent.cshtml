@@ -1,0 +1,162 @@
+﻿@model ViewModel.StudentRenewalViewModel
+@using Code;
+@{
+    ViewBag.Title = "Student Renewal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    IEnumerable<Status> statusid = Enum.GetValues(typeof(Status))
+                                                      .Cast<Status>();
+    IEnumerable<SelectListItem> status = from u in statusid
+                                         select new SelectListItem
+                                         {
+                                             Text = u.ToString(),
+                                             Value = ((int)u).ToString()
+                                         };
+}
+
+<script>
+    function GetStudentDetails() {
+        var uniqueid = $("#UniqueKey").val();
+        if (uniqueid == '') {
+            alert("Please Enter Enrollment no.");
+            return false;
+        }
+        else {
+            $.post('@Url.Action("GetStudentByUniqueId", "Student")', { UniqueId: uniqueid }, function (data) {
+                if (data.StudentId > 0) {
+                    $("#lblName").text(data.Name);
+                    var finalDate = ConvertDate(data.DOB);
+                    $("#DOB").text(finalDate);
+                    $("#ContactNumber").text(data.Contact1);
+                    $("#EmailID").text(data.EmailAddress);
+                    $("#Address").text(data.Address);
+                    $("#GuardianName").text(data.GuardianName);
+                    $("#Occupation").text(data.Occupation);
+                    $("#StudentId").val(data.StudentId);
+                    $("#EnrollmentNo").val(data.UniqueKey);
+                    $("#showstudent").show();
+                }
+                else {
+                    alert('No Record Found');
+                }
+            });
+        }
+    }
+    function ConvertDate(dat) {
+        var parsedDate = new Date(parseInt(dat.substr(6)));
+        var d = new Date(parsedDate); //Date object
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var finalDate = +d.getDate() + " " + months[(d.getMonth() + 1) - 1] + " " + d.getFullYear();
+        return finalDate;
+    }
+    function RedirectToHome() {
+        window.location.href = ('@Url.Action("RenewalStudentList", "Student")');
+    }
+</script>
+<div class="container">
+    <!-- registration-form -->
+    <div class="registration-form">
+        @using (Html.BeginForm())
+        {
+            @Html.HiddenFor(x => x.EnrollmentNo)
+            @Html.HiddenFor(x => x.StudentId)
+            @Html.HiddenFor(x => x.RenewalId)
+            <div>
+                @if (!string.IsNullOrEmpty(ViewBag.Success))
+                {
+                     <div class="successvalidation">
+                        @ViewBag.Success
+                    </div>
+                }
+                else
+                {
+                    <div>@Html.ValidationSummary(false)</div>
+                }
+                
+            </div>
+            <h3>Renewal of Student</h3>
+            <div class="row">
+                <label for="Password">Enrollment no :</label>
+                @if (Model.RenewalId != 0)
+                {
+                    @Html.TextBoxFor(x => x.EnrollmentNo, new { @class = "input", @readonly = "readonly" })
+                }
+                else
+                {
+                     <input id="UniqueKey" type="text" class="input" />
+                     <a href="#" id="btnGet" onclick="javascript: GetStudentDetails();">Get Details</a>
+                }
+               
+            </div>
+            <div class="row">
+                <table id="showstudent" style="display: none;border:1px solid;">
+                    <tr style="background-color:gray;">
+                        <td>Name</td>
+                        <td>DOB</td>
+                        <td>Contact</td>
+                        <td>Email</td>
+                        <td>Address</td>
+                        <td>Guardian</td>
+                        <td>Occupation</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="lblName"></div>
+                        </td>
+                        <td>
+                            <div id="DOB"></div>
+                        </td>
+                        <td>
+                            <div id="ContactNumber"></div>
+                        </td>
+                        <td>
+                            <div id="EmailID"></div>
+                        </td>
+                        <td>
+                            <div id="Address"></div>
+                        </td>
+                        <td>
+                            <div id="GuardianName"></div>
+                        </td>
+                        <td>
+                            <div id="Occupation"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row">
+                <label for="Password">Action By :</label>
+                @if (Model.RenewalId != 0)
+                {
+                    @Html.DropDownListFor(x => x.FacultyId, new ListBound(Model.FacultyId, "Faculties").Faculties, "-- Select Faculty --", new { @class = "select" ,@disabled="disabled"})
+                    @Html.HiddenFor(x => x.FacultyId);
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.FacultyId, new ListBound(Model.FacultyId, "Faculties").Faculties, "-- Select Faculty --", new { @class = "select" })
+                }
+                
+            </div>
+            <div class="row">
+                <label for="Password">Description :</label>
+                @Html.TextAreaFor(x => x.Description, new { @class = "textarea" })
+            </div>
+            <div class="row">
+                <label for="Password">Remarks :</label>
+                @Html.TextAreaFor(x => x.Remark, new { @class = "textarea" })
+
+            </div>
+            <div class="row">
+                <label for="Password">Status :</label>
+                @Html.DropDownListFor(x => x.Status, status, "-- Select Status --", new { @class = "select" })
+
+            </div>
+            <div class="rowbutton">
+                <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
+                <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
+            </div>
+
+        }
+    </div>
+</div>

@@ -1,31 +1,140 @@
-﻿@model ViewModel.StudentEntrollmentViewModel
+﻿@model ViewModel.PaymentDetailsViewModel
 @using Code;
 @{
     ViewBag.Title = "Payemnt Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    IEnumerable<PaymentMode> modeid = Enum.GetValues(typeof(PaymentMode))
+                                                      .Cast<PaymentMode>();
+    IEnumerable<SelectListItem> pmode = from u in modeid
+                                        select new SelectListItem
+                                        {
+                                            Text = u.ToString(),
+                                            Value = ((int)u).ToString()
+                                        };
 }
+
+<link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/Content/js/jquery-ui.js"></script>
+<style>
+    .newform {
+        margin-left: 1px !important;
+        margin-top: 20px !important;
+    }
+
+    tr.spaceUnder > td {
+        padding-bottom: 1em;
+    }
+</style>
 <script>
 
+    $(document).ready(function () {
+        $("#DateOfPayment").datepicker({ dateFormat: "dd M yy", minDate: "-7d" });
+        $("#DueDate").datepicker({ dateFormat: "dd M yy", minDate: "-1m", minDate: new Date() });
+    });
     function GetStudentDetails() {
         var uniqueid = $("#UniqueKey").val();
-        $.post('@Url.Action("GetStudentsByEnrollmentId", "Student")', { EnrollmentId: uniqueid }, function (data) {
-           var result= JSON.parse(data);
-           if (result[0].Name != "") {
-               $("#lblName").val(result[0].Name);
-               $("#DOB").val(result[0].DOB);
-               $("#ContactNumber").val(result[0].Contact1);
-               $("#EmailID").val(result[0].EmailAddress);
-               $("#Address").val(result[0].Address);
-               $("#GuardianName").val(result[0].GuardianName);
-               $("#Discipline").val(result[0].Disciplines);
-               $("#ClassName").val(result[0].Class);
-               $("#NoOfClass").val(result[0].NoOfClasses);
-               $("#CAmount").val(result[0].CourseAmount);
-               $("#PAmount").val(result[0].AmountPaid);
-               $("#RAmount").val(result[0].RegistratonAmount);
-                $("#showstudent").show();
+        if (uniqueid == '') {
+            alert("Please enter enrollment number.");
+            return false;
+        }
+        else {
+            $.post('@Url.Action("GetStudentByUniqueId", "Student")', { UniqueId: uniqueid }, function (data) {
+                if (data.Name != "") {
+                    $("#lblName").val(data.Name);
+                    $("#ContactNumber").val(data.Contact1);
+                    $("#EmailID").val(data.EmailAddress);
+                    $("#Address").val(data.Address);
+                    $("#GuardianName").val(data.GuardianName);
+                    $("#StudentId").val(data.StudentId);
+                    $.post('@Url.Action("GetClassesForPayments", "Student")', { studentId: data.StudentId }, function (classes) {
+                        var result = JSON.parse(classes)
+                        $("#DisciplineId").html('');
+                        $("#DisciplineId").append('<option value="">-- Select Discipline --</option>');
+                        $.each(result, function (i, Discipline) {
+                            $("#DisciplineId").append('<option info="' + Discipline.EnrollmentId + '" value="' + Discipline.DisciplineId + '" >' +
+                                 Discipline.Discipline + '</option>');
+                        });
+                    });
+                }
+                else {
+                    alert("No record found");
+                }
+
+            });
+        }
+    }
+    function SetDueDatePicker() {
+
+        $("#DueDate").datepicker('option', 'maxDate', $("#ClassEndDate").val());
+    }
+    function GetDisciplinePaymentDetails(o) {
+        var disciplineId = $(o).val();
+        var enrollmentId = $(o).find(':selected').attr('info');
+        $("#EnrollmentId").val(enrollmentId);
+        $("#lblNoofClass").val('');
+        $("#lblCourseamt").val('');
+        $("#lblpaidmat").val('');
+        $("#lblbalamt").val('');
+        $.post('@Url.Action("GetDisciplinePaymentDetails", "Student")', { disciplineId: disciplineId, studentID: $("#StudentId").val(), enrollmentId: enrollmentId }, function (data) {
+            if (data != null) {
+                var result = JSON.parse(data)
+                $("#lblNoofClass").val(result[0].NoOfClasses);
+                $("#lblCourseamt").val(result[0].CourseAmount);
+                $("#lblpaidmat").val(result[0].PaidAmount); 
+                $("#lblbalamt").val(result[0].BalanceAmount);
+                $("#lblsDate").val(ConvertDate(result[0].SatrtDate));
+                $("#lbleDate").val(ConvertDate(result[0].EndDate));
+                $("#ClassEndDate").val(ConvertDate(result[0].EndDate));
+                SetDueDatePicker();
             }
         });
+    }
+    function CheckBalance() {
+        var amtpaid = $("#AmountPaid").val();
+        var balmat = $("#lblbalamt").val();
+        if (parseInt(amtpaid) > parseInt(balmat)) {
+            alert('Paid Amount is not greater then Balance Amount');
+            $("#AmountPaid").val('');
+        }
+        else {
+            var bal = balmat - amtpaid;
+            $("#txtBalance").val(bal);
+        }
+    }
+    function ConvertDate(dat) {
+        var parsedDate = new Date(parseInt(dat.substr(6)));
+        var d = new Date(parsedDate); //Date object
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var finalDate = +d.getDate() + " " + months[(d.getMonth() + 1) - 1] + " " + d.getFullYear();
+        return finalDate;
+    }
+    function RedirectToHome() {
+        window.location.href = ('@Url.Action("Index", "Main")');
+    }
+
+    function checkdue (o) {        
+        if ($(o).is(':checked')) {
+            $("#nodue").val("0")
+            $(".ndd").hide();
+        }
+        else {
+            $(".ndd").show();
+            $("#nodue").val("1")
+        }
+    }
+
+    function checkPaymentMode(o)
+    {
+        
+        if ($(o).val() == '@((int)PaymentMode.Cash)') {
+            $("#BankName,#TransactionDetails").val("NA")
+            $(".bnkdetail").hide();
+        }
+        else {
+            $(".bnkdetail").show();
+            $("#BankName,#TransactionDetails").val("")
+        }
     }
 
 </script>
@@ -33,127 +142,170 @@
 
     <!-- registration-form -->
     <div class="registration-form">
-        @using (Html.BeginForm("EntrollStudent", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("PayemntDetails", "Student", FormMethod.Post, new { @class = "newform" }))
         {
-            @Html.HiddenFor(x => x.StudentId)
+
+            @Html.Hidden("StudentId")
+            @Html.Hidden("ClassEndDate")
+            @Html.HiddenFor(v => v.EnrollmentId);
             <div>
                 @if (!string.IsNullOrEmpty(ViewBag.Success))
                 {
-                    @ViewBag.Success
+                    <div class="successvalidation">
+                        @ViewBag.Success
+                    </div>
                 }
                 else
                 {
-                    @ViewBag.Error
+                    if (!string.IsNullOrEmpty(ViewBag.Error))
+                    {
+                        <div class="row" style="text-align:left;font-size:14px;">
+                            @ViewBag.Error
+                        </div>
+                    }
+                    else
+                    {
+                        <div>@Html.ValidationSummary(false)</div>
+                    }
+
                 }
             </div>
             <div class="row">
-                <label for="Password">Student Enrollment Number :</label>
+                <label for="Password">Enrollment Number :</label>
                 <input id="UniqueKey" type="text" class="input" />
                 <a href="#" id="btnGet" onclick="javascript: GetStudentDetails();">Get Details</a>
             </div>
             <div class="row">
-                <table id="showstudent">
-                    <tr>
-                        <td>Name</td>
-                        <td>
-                            <input id="lblName" readonly="readonly" type="text" class="input" />
-                        </td>
-                        <td>DOB</td>
-                        <td>
-                            <input id="DOB" readonly="readonly" type="text" class="input" />
-                        </td>
-                        <td>Contact Number</td>
-                        <td>
-                            <input id="ContactNumber" readonly="readonly" type="text" class="input" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Email ID</td>
-                        <td>
-                            <input id="EmailID" readonly="readonly" type="text" class="input" />
-                        </td>
-                        <td>Address</td>
-                        <td>
-                            <input id="Address" readonly="readonly" type="text" class="input" />
-                        </td>
-                        <td>Guardian Name</td>
-                        <td>
-                            <input id="GuardianName" readonly="readonly" type="text" class="input" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Discipline</td>
-                        <td>
-                            <input id="Discipline" readonly="readonly" type="text" class="input" />
-                        </td>
-                        <td>Class Name</td>
-                        <td>
-                            <input id="ClassName" readonly="readonly" type="text" class="input" />
-                        </td>
-                        <td>No Of Classes</td>
-                        <td>
-                            <input id="NoOfClass" readonly="readonly" type="text" class="input" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Course Amount</td>
-                        <td>
-                            <input id="CAmount" readonly="readonly" type="text" class="input" />
-                        </td>
-                        <td>Registration Amount</td>
-                        <td>
-                            <input id="RAmount" readonly="readonly" type="text" class="input" />
-                        </td>
-                        <td>Already Paid </td>
-                        <td>
-                            <input id="PAmount" readonly="readonly" type="text" class="input" />
-                        </td>
-                    </tr>
-                </table>
+                <fieldset>
+                    <legend>Student Details</legend>
+                    <table id="showstudent">
+                        <tr class="spaceUnder">
+                            <td>Name</td>
+                            <td>
+                                <input id="lblName" readonly="readonly" type="text" class="input" />
+                            </td>
+                            <td>Contact</td>
+                            <td>
+                                <input id="ContactNumber" readonly="readonly" type="text" class="input" />
+                            </td>
+                        </tr>
+                        <tr class="spaceUnder">
+                            <td>Email</td>
+                            <td>
+                                <input id="EmailID" readonly="readonly" type="text" class="input" />
+                            </td>
+                            <td>Address</td>
+                            <td>
+                                <input id="Address" readonly="readonly" type="text" class="input" />
+                            </td>
+                            <td>Guardian</td>
+                            <td>
+                                <input id="GuardianName" readonly="readonly" type="text" class="input" />
+                            </td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </div>
+            <div style="padding:1%;height:1px;">
+
+            </div>
+            <div class="row" style="padding-top: 1em;">
+                <label for="Password">Discipline :</label>
+                <select name="DisciplineId" id="DisciplineId" class="select" onchange="GetDisciplinePaymentDetails(this)"></select>
+            </div>
+            <div class="row">
+                <fieldset>
+                    <legend>Discipline Payment Details</legend>
+                    <table id="showstudent">
+                        <tr class="spaceUnder">
+                            <td>No of Classes</td>
+                            <td>
+                                <input id="lblNoofClass" readonly="readonly" type="text" class="input" />
+                            </td>
+                            <td>Start Date</td>
+                            <td>
+                                <input id="lblsDate" readonly="readonly" type="text" class="input" />
+                            </td>
+                            <td>End Date</td>
+                            <td>
+                                <input id="lbleDate" readonly="readonly" type="text" class="input" />
+                            </td>
+                        </tr>
+                        <tr class="spaceUnder">
+                            <td>Course Amount</td>
+                            <td>
+                                <input id="lblCourseamt" readonly="readonly" type="text" class="input" />
+                            </td>
+                            <td>Paid Amount</td>
+                            <td>
+                                <input id="lblpaidmat" readonly="readonly" type="text" class="input" />
+                            </td>
+                            <td>Balance Amount</td>
+                            <td>
+                                <input id="lblbalamt" readonly="readonly" type="text" class="input" />
+                            </td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </div>
+            <div style="padding:1%;height:1px;">
+
             </div>
             <div class="row">
                 <fieldset>
                     <legend>Payment Details</legend>
                     <table>
-                        <tr>
-                            <td>Bank Name</td>
-                            <td>
-                                <input id="BankName" type="text" class="input" />
-                            </td>
+                        <tr class="spaceUnder">
                             <td>Payment Mode</td>
                             <td>
-                                <select>
-                                    <option value="">--Select Mode--</option>
-                                    <option value="Cash">Cash</option>
-                                    <option value="Cheque">Cheque</option>
-                                    <option value="Credit card">Credit Card</option>
-                                </select>
+                                @Html.DropDownListFor(x => x.PaymentMode, pmode, "-- Select Mode --", new { @class = "select", onchange = "checkPaymentMode(this)" })
+                            </td>
+                            <td class="bnkdetail">Bank Name</td>
+                            <td class="bnkdetail">
+                                @Html.TextBoxFor(x => x.BankName, new { @class = "input" })
                             </td>
                             <td>Amount Paid</td>
                             <td>
-                                <input id="AmountPaid" type="number" class="input" />
+                                @Html.TextBoxFor(x => x.AmountPaid, new { @class = "input", @onchange = "CheckBalance()" })
                             </td>
                         </tr>
-                        <tr>
-                            <td>Cheque/Credit Card No</td>
-                            <td>
-                                <input id="PayDetails" type="text" class="input" />
+                        <tr class="spaceUnder">
+                            <td class="bnkdetail">Cheque/Credit Card No</td>
+                            <td class="bnkdetail">
+                                @Html.TextBoxFor(x => x.TransactionDetails, new { @class = "input" })
                             </td>
                             <td>Pay Date</td>
                             <td>
-                                <input id="PayDate" type="date" class="input" />
+                                @Html.TextBoxFor(x => x.DateOfPayment, new { @class = "input", @readonly = "readonly" })
                             </td>
                             <td>Balance</td>
                             <td>
-                                <input id="AmountPaid" type="number" class="input" />
+                                <input id="txtBalance" type="text" readonly="readonly" class="input" />
+                            </td>
+                        </tr>                  
+
+                        <tr class="spaceUnder">
+                            <td class="ndd">Next Due Date</td>
+                            <td class="ndd">
+                                @Html.TextBoxFor(x => x.DueDate, new { @class = "input", @readonly = "readonly" })
+                            </td>
+                            <td><input type="checkbox" onclick="checkdue(this)" value="1" name="nodue" /> No Due Date </td>
+                        </tr>
+
+                        <tr class="spaceUnder">
+                            <td>Is Balance payment</td>
+                            <td>
+                                @Html.CheckBoxFor(x => x.IsPendingPayment, new { @class = "input"})
                             </td>
                         </tr>
+
                     </table>
                 </fieldset>
-                
+
             </div>
             <div class="rowbutton">
                 <input type="submit" id="btnSubmit" value="Submit" class="submit-btn" />
+                <input name="button" type="button" value="Cancel" class="submit-btn" onclick="javascript: RedirectToHome();" />
             </div>
         }
     </div>

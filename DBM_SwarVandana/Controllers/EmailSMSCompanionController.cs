@@ -10,6 +10,9 @@ using Models;
 using System.Data;
 using System.Text;
 using ListConversion;
+using System.IO;
+using System.Data.OleDb;
+using System.Net.Mail;
 namespace DBM_SwarVandana.Controllers
 {
     public class EmailSMSCompanionController : Controller
@@ -108,6 +111,128 @@ namespace DBM_SwarVandana.Controllers
             }
             return View();
 
+        }
+
+
+        [Authenticate]
+        public ActionResult BulkEmai()
+        {
+            return View();
+        }
+
+        [ValidateInput(false)]
+        [Authenticate]
+        [HttpPost]
+        public ActionResult BulkEmai(HttpPostedFileBase file ,string message)
+        {
+            if (file == null)
+            {
+                ModelState.AddModelError(string.Empty, "Select a file");
+            }
+            else if (file.ContentLength > 0)
+            {
+                int MaxContentLength = 1024 * 1024 * 4; //4 MB
+                string[] AllowedFileExtensions = new string[] { ".xls", ".xlsx" };
+
+                string fileExtension = file.FileName.Substring(file.FileName.LastIndexOf('.'));
+                if (!AllowedFileExtensions.Contains(fileExtension))
+                {
+                    ModelState.AddModelError(string.Empty, "Only following file type is allowed :" + " :" + string.Join(", ", AllowedFileExtensions));
+                }
+
+                else if (file.ContentLength > MaxContentLength)
+                {
+                    ModelState.AddModelError(string.Empty, "File size is big" + ":" + MaxContentLength + " MB");
+                }
+                else
+                {
+                    //TO:DO
+                    if (ModelState.IsValid)
+                    {
+                        var fileName = Path.GetFileName(file.FileName.Substring(0, file.FileName.LastIndexOf('.')));
+                        fileName = fileName + "_" + SessionWrapper.User.UserId + "_" + DateTime.Now.ToString("dd_MM_yyyy") + "_" + Guid.NewGuid().ToString() + fileExtension;
+                        var path = Path.Combine(Server.MapPath(ConfigurationWrapper.TempCollection), fileName);
+                        List<string> Emails = new List<string>();
+
+                        try
+                        {
+                            if (!Directory.Exists(Server.MapPath(ConfigurationWrapper.TempCollection)))
+                                Directory.CreateDirectory(Server.MapPath(ConfigurationWrapper.TempCollection));
+                            file.SaveAs(path);
+
+                            //User Uploaded Record
+                            var UserUploadedRecord = this.ReadExcelUser(path, "Sheet1");
+                            if (UserUploadedRecord.Rows.Count > 0)
+                            {
+
+                                //  var mainSapId = Convert.ToInt32(_allAccounts.CreateNewMainSapId());
+                                foreach (DataRow row in UserUploadedRecord.Rows)
+                                {
+                                    if (!string.IsNullOrEmpty(row[0] == null ? "" : row[0].ToString()))
+                                    {
+                                        if (IsValid(row[0].ToString()))
+                                            Emails.Add(row[0].ToString());
+                                    }
+                                }                              
+                                int counter = 0;
+                                string mailaddress = "";
+                                //send and save to database
+                                int loopcounter = Emails.Count / 100;
+                                for (int i = 0; i <= loopcounter; i++)
+                                {
+                                     mailaddress = string.Join(",", Emails.Take(150));
+                                    mailaddress = mailaddress + ",mohitdagar80@gmail.com";
+                                    int numberslength = mailaddress.Split(',').Length;
+                                    counter += numberslength;
+                                    if (numberslength > 0)
+                                    {
+                                        if (counter < 950)
+                                            MailHelper.BroadCastMail1("svarvandana@gmail.com", mailaddress, "Svar Vandana Music & Dance Academy.", message);
+                                        else
+                                            MailHelper.BroadCastMail2("svarvandana@gmail.com", mailaddress, "Svar Vandana Music & Dance Academy.", message);
+                                        Emails.RemoveRange(0, numberslength);
+                                         mailaddress = "";
+                                    }
+                                }
+                            }
+                        }
+                        catch { }
+
+                    }
+                }
+            }
+            return View();
+        }
+
+        public bool IsValid(string emailaddress)
+        {
+            try
+            {
+                MailAddress m = new MailAddress(emailaddress);
+
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+        }
+
+        //=======Read excel =========
+        private DataTable ReadExcelUser(string filePath, string sheetName)
+        {
+            DataTable dt = new DataTable("UserUploadedRecord");
+            string con = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filePath + ";Extended Properties=Excel 12.0;";
+            using (OleDbConnection connection = new OleDbConnection(con))
+            {
+                connection.Open();
+                OleDbCommand command = new OleDbCommand("select * from[" + sheetName + "$]", connection);
+                using (OleDbDataReader dr = command.ExecuteReader())
+                {
+                    dt.Load(dr);
+                }
+            }
+            return dt;
         }
 
         [Authenticate]

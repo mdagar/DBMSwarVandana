@@ -40,6 +40,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NetSpell.SpellChecker">
+      <HintPath>..\packages\RichTextEditor.8.1.4\lib\NetSpell.SpellChecker.dll</HintPath>
+    </Reference>
     <Reference Include="NPOI, Version=2.0.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\NPOI.dll</HintPath>
@@ -120,62 +123,180 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Code\Authenticate.cs" />
-    <Compile Include="Code\ConfigurationWrapper.cs" />
-    <Compile Include="Code\Controller.cs" />
-    <Compile Include="Code\CookieWrapper.cs" />
-    <Compile Include="Code\Enums.cs" />
-    <Compile Include="Code\ExcelHelper.cs" />
-    <Compile Include="Code\Extensions.cs" />
-    <Compile Include="Code\ListBound.cs" />
-    <Compile Include="Code\MailHelper.cs" />
-    <Compile Include="Code\RegexExpression.cs" />
-    <Compile Include="Code\SessionWrapper.cs" />
-    <Compile Include="Controllers\BudgetController.cs" />
-    <Compile Include="Controllers\EnquiriesController.cs" />
-    <Compile Include="Controllers\ExamsController.cs" />
-    <Compile Include="Controllers\FacultyController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\MainController.cs" />
-    <Compile Include="Controllers\ReportController.cs" />
-    <Compile Include="Controllers\StudentController.cs" />
-    <Compile Include="DBConnection\DBConnection.cs" />
+    <Compile Include="Code\Authenticate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Code\ConfigurationWrapper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Code\Controller.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Code\CookieWrapper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Code\Enums.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Code\ExcelHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Code\Extensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Code\ListBound.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Code\MailHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Code\RegexExpression.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Code\SessionWrapper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Code\SMSHelper.cs" />
+    <Compile Include="Controllers\BudgetController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\BulkUploadController.cs" />
+    <Compile Include="Controllers\EmailSMSCompanionController.cs" />
+    <Compile Include="Controllers\EnquiriesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\ExamsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\FacultyController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\HomeController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\MainController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\ReportController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\StudentController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\TargetManagementController.cs" />
+    <Compile Include="DBConnection\DBConnection.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Batches.cs" />
-    <Compile Include="Models\Budgets.cs" />
-    <Compile Include="Models\Centres.cs" />
-    <Compile Include="Models\Cities.cs" />
-    <Compile Include="Models\Disciplines.cs" />
-    <Compile Include="Models\Enquiries.cs" />
-    <Compile Include="Models\ExamDetails.cs" />
-    <Compile Include="Models\Expenses.cs" />
-    <Compile Include="Models\ExpensesFor.cs" />
-    <Compile Include="Models\Faculties.cs" />
-    <Compile Include="Models\PaymentDetails.cs" />
-    <Compile Include="Models\Sources.cs" />
-    <Compile Include="Models\States.cs" />
-    <Compile Include="Models\StudentAttendence.cs" />
-    <Compile Include="Models\StudentBatchMapping.cs" />
-    <Compile Include="Models\StudentEnrollment.cs" />
-    <Compile Include="Models\StudentRemarks.cs" />
-    <Compile Include="Models\StudentRenewal.cs" />
-    <Compile Include="Models\Students.cs" />
-    <Compile Include="Models\Users.cs" />
+    <Compile Include="Models\Batches.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Budgets.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Centres.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Cities.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Disciplines.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Enquiries.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ExamDetails.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Expenses.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ExpensesFor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Faculties.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\MessageTransaction.cs" />
+    <Compile Include="Models\PaymentDetails.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Sources.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\States.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\StudentAttendence.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\StudentBatchMapping.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\StudentEnrollment.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\StudentRemarks.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\StudentRenewal.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Students.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\TargetManagement.cs" />
+    <Compile Include="Models\Users.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\AllBatches.cs" />
-    <Compile Include="Repositories\BudgetRepository.cs" />
-    <Compile Include="Repositories\CentreRepository.cs" />
-    <Compile Include="Repositories\ConvertList.cs" />
-    <Compile Include="Repositories\DisciplineRepository.cs" />
-    <Compile Include="Repositories\EnquiryRepository.cs" />
-    <Compile Include="Repositories\ExamRepository.cs" />
-    <Compile Include="Repositories\FacultyRepository.cs" />
-    <Compile Include="Repositories\SourceRepository.cs" />
-    <Compile Include="Repositories\SQLHelper.cs" />
-    <Compile Include="Repositories\StudentsRepository.cs" />
-    <Compile Include="Repositories\UsersRepository.cs" />
+    <Compile Include="Repositories\AllBatches.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Repositories\AllStudentBatchMapping.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Repositories\AllTargetManagement.cs" />
+    <Compile Include="Repositories\BudgetRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Repositories\CentreRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Repositories\ConvertList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Repositories\DisciplineRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Repositories\EnquiryRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Repositories\ExamRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Repositories\FacultyRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Repositories\MessageTransactionRepository.cs" />
+    <Compile Include="Repositories\ReportRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Repositories\SourceRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Repositories\SQLHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Repositories\StudentsRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Repositories\UsersRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Resources\Messages.Designer.cs">
       <DependentUpon>Messages.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -186,26 +307,77 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="ViewModel\BatchesViewModel.cs" />
-    <Compile Include="ViewModel\BudgetViewModel.cs" />
-    <Compile Include="ViewModel\CentresViewModel.cs" />
-    <Compile Include="ViewModel\ChangePasswordViewModel.cs" />
-    <Compile Include="ViewModel\DisciplineViewModel.cs" />
-    <Compile Include="ViewModel\EnquiryViewModel.cs" />
-    <Compile Include="ViewModel\ExamDetailsViewModel.cs" />
-    <Compile Include="ViewModel\ExpensesViewModel.cs" />
-    <Compile Include="ViewModel\FacultyViewModel.cs" />
-    <Compile Include="ViewModel\PaymentDetailsViewModel.cs" />
-    <Compile Include="ViewModel\ProfitLossViewModel.cs" />
-    <Compile Include="ViewModel\SourceViewModel.cs" />
-    <Compile Include="ViewModel\StudentAttendenceViewModel.cs" />
-    <Compile Include="ViewModel\StudentBatchMappingViewModel.cs" />
-    <Compile Include="ViewModel\StudentEntrollmentViewModel.cs" />
-    <Compile Include="ViewModel\StudentRemarksViewModel.cs" />
-    <Compile Include="ViewModel\StudentRenewalViewModel.cs" />
-    <Compile Include="ViewModel\StudentsViewModel.cs" />
-    <Compile Include="ViewModel\TransRecordsViewModel.cs" />
-    <Compile Include="ViewModel\UsersViewModel.cs" />
+    <Compile Include="Resources\SmsMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SmsMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\BatchesViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\BudgetViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\CentresViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\ChangePasswordViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\DashBoardDataset.cs" />
+    <Compile Include="ViewModel\DisciplineViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\EnquiryViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\ExamDetailsViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\ExpensesViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\FacultyViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\PaymentDetailsViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\ProfitLossViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\ReportViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\SourceViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\StudentAttendenceViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\StudentBatchDetailsViewModel.cs" />
+    <Compile Include="ViewModel\StudentBatchMappingViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\StudentEntrollmentViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\StudentRemarksViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\StudentRenewalViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\StudentsViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\TargetManagementViewModel.cs" />
+    <Compile Include="ViewModel\TransRecordsViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\UsersViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -221,7 +393,6 @@
     <Content Include="bin\NPOI.OpenXml4Net.dll" />
     <Content Include="bin\NPOI.OpenXmlFormats.dll" />
     <Content Include="bin\System.Net.Http.Formatting.dll" />
-    <Content Include="bin\System.Net.Http.Formatting.xml" />
     <Content Include="bin\System.Web.Helpers.dll" />
     <Content Include="bin\System.Web.Http.dll" />
     <Content Include="bin\System.Web.Http.WebHost.dll" />
@@ -237,6 +408,11 @@
     <Content Include="Content\css\ie8.css" />
     <Content Include="Content\css\loginstyle.css" />
     <Content Include="Content\css\style.css" />
+    <Content Include="Content\EmalTemplates\Enrollment.html" />
+    <Content Include="Content\EmalTemplates\PEDoneEnrollPending.html" />
+    <Content Include="Content\EmalTemplates\PendingPayment.html" />
+    <Content Include="Content\EmalTemplates\Renewal.html" />
+    <Content Include="Content\EmalTemplates\TEDonePEPending.html" />
     <Content Include="Content\images\bd_pop_up.jpg" />
     <Content Include="Content\images\bg_body.jpg" />
     <Content Include="Content\images\bg_button.png" />
@@ -263,6 +439,71 @@
     <Content Include="Content\js\script.js" />
     <Content Include="Content\Pictures\ico_profile.png" />
     <Content Include="Global.asax" />
+    <Content Include="Views\Budget\AddExpenses.cshtml" />
+    <Content Include="Views\Budget\AssignBudget.cshtml" />
+    <Content Include="Views\Budget\BudgetList.cshtml" />
+    <Content Include="Views\Budget\ExpenseList.cshtml" />
+    <Content Include="Views\Budget\ProfitLoss.cshtml" />
+    <Content Include="Views\Enquiries\PhysicalEnquiry.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Enquiries\PhysicalEnquiryList.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Enquiries\TelephonicEnquiry.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Enquiries\TelephonicEnquiryList.cshtml" />
+    <Content Include="Views\Exams\AddExamDetails.cshtml" />
+    <Content Include="Views\Exams\AllExamDetails.cshtml" />
+    <Content Include="Views\Faculty\FacultyRegistration.cshtml" />
+    <Content Include="Views\Faculty\GetFaculityList.cshtml" />
+    <Content Include="Views\Home\ForgotPassword.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Home\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Main\AddDiscipline.cshtml" />
+    <Content Include="Views\Main\AddSource.cshtml" />
+    <Content Include="Views\Main\CentreList.cshtml" />
+    <Content Include="Views\Main\CentreRegistration.cshtml" />
+    <Content Include="Views\Main\ChangePassword.cshtml" />
+    <Content Include="Views\Main\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Main\ManageDiscipline.cshtml" />
+    <Content Include="Views\Main\UserList.cshtml" />
+    <Content Include="Views\Main\UserRegistration.cshtml" />
+    <Content Include="Views\Report\DemoToEnrollmentAjaxView.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Report\PhysicalEnquiryToEnrollmentAjaxView.cshtml" />
+    <Content Include="Views\Report\ReportsOnEnquiry.cshtml" />
+    <Content Include="Views\Report\StudentAttendence.cshtml" />
+    <Content Include="Views\Report\StudentAttendenceAjaxView.cshtml" />
+    <Content Include="Views\Report\StudentPaymentDetails.cshtml" />
+    <Content Include="Views\Report\StudentPaymentDetailsAjaxView.cshtml" />
+    <Content Include="Views\Report\TelephonicToPhysicalEnquiryAjaxView.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_Paging.cshtml" />
+    <Content Include="Views\Student\AddRemarks.cshtml" />
+    <Content Include="Views\Student\AddStudent.cshtml" />
+    <Content Include="Views\Student\AllRemarks.cshtml" />
+    <Content Include="Views\Student\AllStudents.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Student\EntrollStudent.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Student\MakeAttendence.cshtml" />
+    <Content Include="Views\Student\PayemntDetails.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Student\RenewalStudent.cshtml" />
+    <Content Include="Views\Student\RenewalStudentList.cshtml" />
+    <Content Include="Views\Student\Studentdetail.cshtml" />
+    <Content Include="Views\Web.config" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -272,77 +513,19 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\TempFileCollection\" />
     <Folder Include="ErrorLog\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\_Layout.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Home\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Main\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Main\ChangePassword.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Main\CentreRegistration.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Main\UserRegistration.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Main\AddSource.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Main\AddDiscipline.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Enquiries\TelephonicEnquiry.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Enquiries\PhysicalEnquiry.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Faculty\FacultyRegistration.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="bin\DBM_SwarVandana.dll.config" />
-    <None Include="Properties\PublishProfiles\Swar.pubxml" />
-    <Content Include="Views\Main\ManageDiscipline.cshtml" />
-    <Content Include="Views\Home\ForgotPassword.cshtml" />
-    <Content Include="Views\Enquiries\PhysicalEnquiryList.cshtml" />
-    <Content Include="Views\Enquiries\TelephonicEnquiryList.cshtml" />
-    <Content Include="Views\Faculty\GetFaculityList.cshtml" />
-    <Content Include="Views\Main\CentreList.cshtml" />
-    <Content Include="Views\Student\AddStudent.cshtml" />
-    <Content Include="Views\Student\AllStudents.cshtml" />
-    <Content Include="Views\Student\EntrollStudent.cshtml" />
-    <Content Include="Views\Student\MakeAttendence.cshtml" />
-    <Content Include="Views\Main\UserList.cshtml" />
-    <Content Include="Views\Student\PayemntDetails.cshtml" />
     <Content Include="ScopeDocument\School Management System.docx" />
-    <Content Include="Views\Exams\AddExamDetails.cshtml" />
-    <Content Include="Views\Exams\AllExamDetails.cshtml" />
-    <Content Include="Views\Budget\AddExpenses.cshtml" />
-    <Content Include="Views\Budget\AssignBudget.cshtml" />
-    <Content Include="Views\Budget\BudgetList.cshtml" />
-    <Content Include="Views\Budget\ExpenseList.cshtml" />
-    <Content Include="Views\Budget\ProfitLoss.cshtml" />
-    <Content Include="Views\Shared\_Paging.cshtml" />
-    <Content Include="Views\Student\AddRemarks.cshtml" />
-    <Content Include="Views\Student\AllRemarks.cshtml" />
-    <Content Include="Views\Student\RenewalStudent.cshtml" />
-    <Content Include="Views\Student\RenewalStudentList.cshtml" />
-    <Content Include="Views\Student\Studentdetail.cshtml" />
+    <Content Include="Views\Student\Listbatches.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Messages.resx">
@@ -353,6 +536,35 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Procedures.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SmsMessages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SmsMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Attendence.xlsx" />
+    <Content Include="Content\Downloads\Welcome Presentation.pptx" />
+    <Content Include="Content\SampleTEmplate\EmailUploadSample.xlsx" />
+    <None Include="Properties\PublishProfiles\Swarvandana.pubxml" />
+    <Content Include="Views\BulkUpload\Index.cshtml" />
+    <Content Include="Views\Student\BatchTimingUpdate.cshtml" />
+    <Content Include="Views\Student\GetDisciplineBatchDetails.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Home\TestMessage.cshtml" />
+    <Content Include="Views\TargetManagement\Index.cshtml" />
+    <Content Include="Views\TargetManagement\AddToAgtget.cshtml" />
+    <Content Include="Views\TargetManagement\EnqueryDetai.cshtml" />
+    <Content Include="Views\Report\EnrollmentStudentList.cshtml" />
+    <Content Include="Views\Report\PaymentDetailList.cshtml" />
+    <Content Include="Views\EmailSMSCompanion\Index.cshtml" />
+    <Content Include="Views\Home\TestPage.cshtml" />
+    <Content Include="Views\EmailSMSCompanion\TestEmai.cshtml" />
+    <Content Include="Views\EmailSMSCompanion\Testsms.cshtml" />
+    <Content Include="Views\EmailSMSCompanion\SendsmsCompanion.cshtml" />
+    <Content Include="Views\Budget\PaymentBreakUp.cshtml" />
+    <Content Include="Views\EmailSMSCompanion\SendEmailCompanion.cshtml" />
+    <Content Include="Views\EmailSMSCompanion\BulkEmai.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,0 +1,85 @@
+﻿@model ViewModel.ReportViewModel
+@using Code;
+@{
+    ViewBag.Title = "Attendence details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Content/js/jquery-ui.js"></script>
+<link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
+<script>
+    $(document).ready(function () {
+        var date = new Date();
+        date.setMonth(date.getMonth(), 1);
+        $("#FromDate").datepicker({ dateFormat: "dd M yy", minDate: "-2m", defaultDate: date });
+        $("#ToDate").datepicker({ dateFormat: "dd M yy", minDate: "-1m", maxDate: "d", defaultDate: date });
+
+    });
+    
+    function ShowRecords() {
+        window.location.href = '@Url.Action("StudentAttendence", "Report")?startdate=' + $("#FromDate").val() + '&enddate=' + $("#ToDate").val() + '&DisciplineId=' + $("#DisciplineId").val();
+    }
+</script>
+
+<div class="container">
+    <!-- table-info -->
+
+    <div class="table-info">
+        <!-- start table-form -->
+
+        <div class="table-form">
+            <form action="#">
+                <label for="Password">From Date: </label>
+                @Html.TextBoxFor(x => x.FromDate, new { @class = "input", @readonly = "readonly", @Value = Model.FromDate.Value.ToString("dd MMM yyyy") })
+                <label for="From">To Date</label>
+                @Html.TextBoxFor(x => x.ToDate, new { @class = "input", @readonly = "readonly", @Value = Model.ToDate.Value.ToString("dd MMM yyyy") })
+
+                <label for="From">Disciplane</label>
+                @Html.DropDownListFor(x => x.DisciplineId, new SelectList(ViewBag.disciplane, "DisciplineId", "Discipline"), new { @class = "input", @readonly = "readonly" })
+                <input name="button" type="button" value="Show Report" class="submit-btn" onclick="javascript: ShowRecords();" />
+            </form>
+        </div>
+
+        <div class="table-form">
+            <table cellpadding="0" cellspacing="0" class="table">
+                <!-- start row -->
+                <tr bgcolor="#ccc">
+                    <td class="td">Name</td>
+                    <td class="td">Enrollment Number</td>
+                    <td class="td">Presents</td>
+                    <td class="td">Absents</td>
+                    <td class="td">Leaves</td>
+
+                </tr>
+                <!-- end row -->
+                @if (Model.ReportDataset.Tables.Count >0)
+                {
+                    foreach (System.Data.DataRow v in Model.ReportDataset.Tables[0].Rows)
+                    {
+                    <!-- start row -->
+                        <tr>
+                            <td class="td">@v["Name"]</td>
+                            <td class="td">@v["UniqueKey"]</td>
+                            <td class="td">@v["PresentCount"]</td>
+                            <td class="td">@v["AbsentCount"]</td>
+                            <td class="td">@v["LeaveCount"]</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr class="row">
+                        <td class="td" style="text-align: center">No record found.</td>
+                    </tr>
+
+                }
+            </table>
+            <br />
+            @*<div style="border:1px solid;text-align:right;font-weight:bold;padding-right:10px;">
+                    Total Payment   :  @ViewBag.TotalAmount
+                </div>
+                @Html.Partial("_Paging")*@
+        </div>
+
+    </div>
+
+</div>

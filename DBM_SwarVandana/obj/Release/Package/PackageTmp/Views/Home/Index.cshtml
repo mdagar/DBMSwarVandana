@@ -1,29 +1,23 @@
 ﻿@model ViewModel.UsersViewModel
 @{
     Layout = null;
-    ViewBag.Title = "Swar Vandana";
 }
 
 <!DOCTYPE html>
-
 <html>
 <head>
+    <title>Welcome To DBM - Swar Vandana</title>
     <meta name="viewport" content="width=device-width" />
-
     <link href="~/Content/css/style.css" rel="stylesheet" />
-    <link href="~/Content/css/colorbox.css" rel="stylesheet" />
+    @*<link href="~/Content/css/colorbox.css" rel="stylesheet" />*@
     <link href="~/Content/css/loginstyle.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css' />
     <!--[if IE 7]><link rel="stylesheet" type="text/css" href="css/ie7.css" media="screen" /><![endif]-->
     <!--[if IE 8]><link rel="stylesheet" type="text/css" href="css/ie8.css" media="screen" /><![endif]-->
     <!--[if IE 9]><link rel="stylesheet" type="text/css" href="css/ie.css" media="screen" /><![endif]-->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
-    <script src="~/Content/js/jquery.colorbox.js"></script>
-    <script>
-        $(document).ready(function () {
-            $(".inline").colorbox({ inline: true, width: "50%" });
-        });
-    </script>
+    @*<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>*@
+    @*<script src="~/Content/js/jquery.colorbox.js"></script>*@
+
 </head>
 <body class="login-page">
     <!-- start box -->
@@ -32,7 +26,7 @@
         <div class="header">
             <!-- start logo -->
             <div class="logo">
-                <a href="index.html" title="Svar Vandana">
+                <a href="@Url.Action("Index","Home")" title="Svar Vandana">
                     <img src="~/Content/images/logo.png" alt="Svar Vandana" />
                 </a>
             </div>
@@ -66,45 +60,10 @@
                 <!-- content -->
             </div>
             <!-- end login-box -->
-            <a href="#inline_content" title="Forgot your password?" class="link inline">Forgot your password?</a>
-            <!-- pop up -->
-            <div style='display: none'>
-                <div id='inline_content'>
-                    <!-- start login-box -->
-                    <div class="login-box">
-                        <!-- content -->
-                        <div class="content">
-                            <h3>Happiness@@ Music</h3>
-                            @Html.Action("ForgotPassword")
-                        </div>
-                        <!-- content -->
-                    </div>
-                    <!-- end login-box -->
-                </div>
-            </div>
-            <!-- pop up -->
+            <a href="@Url.Action("ForgotPassword","Home")" title="Forgot your password?" class="link inline">Forgot your password?</a>
         </div>
         <!-- end container -->
     </div>
     <!-- end box -->
 </body>
 </html>
-
-<script type="text/javascript">
-    function GetPassword() {
-        var uName = $("#uName").val();
-        if (uName != '') {
-            $.ajax({
-                url: '@Url.Action("SendPassword","Home")?username=' + uName,
-                context: document.body,
-                Async: false
-            }).done(function (data) {
-                alert(data);
-                $("#uName").val('');
-            });
-        }
-        else
-            alert("Please enter userName");
-    }
-
-</script>

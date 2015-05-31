@@ -1,10 +1,11 @@
 ﻿@using Code;
+@using DBM_SwarVandana.Resources;
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+    <title>DBM - Swar Vandana : @ViewBag.Title</title>
     <script src="~/Content/JS/jquery-1.11.1.js"></script>
     <link href="~/Content/css/style.css" rel="stylesheet" />
     <link href="~/Content/css/loginstyle.css" rel="stylesheet" />
@@ -31,7 +32,7 @@
         <div class="header">
             <!-- start logo -->
             <div class="logo">
-                <a href="index.html" title="Svar Vandana">
+                <a href="@Url.Action("Index","Main")" title="Svar Vandana">
                     <img src="~/Content/images/logo.png" alt="Svar Vandana" />
                 </a>
             </div>
@@ -41,10 +42,8 @@
                 <!-- start top-bar -->
                 <div class="top-bar">
                     <ul>
-
                         <li><a href="#" title="User" style="min-width: 115px">@SessionWrapper.User.FirstName&nbsp;@SessionWrapper.User.LastName</a></li>
                         <li><a href="@Url.Action("LogOut", "Home")">Logout</a></li>
-
                     </ul>
                 </div>
                 <form action="#">
@@ -68,75 +67,105 @@
                 <ul>
                     <li><a href="@Url.Action("Index", "Main")">Home</a></li>
                     <li>
-                        <a href="#" title="Masters">Masters</a>
+                        <a href="#">Masters</a>
                         <ul>
                             <li><a href="@Url.Action("ChangePassword", "Main")">Change Password</a></li>
                             @if (SessionWrapper.User.RoleId == (int)UserRole.SuperAdmin)
                             {
-                                <li><a href="@Url.Action("CentreList", "Main")">Centre Management</a></li>
+                                <li><a href="@Url.Action("CentreList", "Main")">Center Management</a></li>
                                 <li><a href="@Url.Action("AddSource", "Main")">Add Source</a></li>
                                 <li><a href="@Url.Action("ManageDiscipline", "Main")">Discipline Management</a></li>
                             }
                         </ul>
                     </li>
                     <li>
-                        <a href="#" title="Enquiries">Enquiries</a>
+                        <a href="#">Enquiries</a>
                         <ul>
                             <li><a href="@Url.Action("TelephonicEnquiryList", "Enquiries")">Telephonic Enquiry</a></li>
                             <li><a href="@Url.Action("PhysicalEnquiryList", "Enquiries")">Physical Enquiry</a></li>
                         </ul>
                     </li>
-                    @if (SessionWrapper.User.RoleId > (int)UserRole.User)
-                    {
-                        <li>
-                            <a href="@Url.Action("Index", "Main")">Class Management</a>
-                            <ul>
-                                <li><a href="@Url.Action("ClassDetailsList", "Class")">Class Details</a></li>
-                            </ul>
-                        </li>
-                    }
                     <li>
-                        <a href="@Url.Action("Index", "Main")">Student Management</a>
+                        <a href="#">Student Management</a>
                         <ul>
-                            <li><a href="@Url.Action("AllStudents", "Student")">View Students</a></li>
-                            <li><a href="@Url.Action("EntrollStudent", "Student")">Enroll Student</a></li>
-                            <li><a href="@Url.Action("MakeAttendence", "Student")">Student Attendence</a></li>
+                            <li><a href="@Url.Action("AllStudents", "Student")"> Students</a></li>
+                            <li><a href="@Url.Action("EntrollStudent", "Student")">Enrollment</a></li>
+                            <li><a href="@Url.Action("AllRemarks", "Student")">Student Remarks</a></li>
+                            <li><a href="@Url.Action("AllExamDetails", "Exams")">Exam Details</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Student Attendence</a>
+                        <ul>
+                            <li><a href="@Url.Action("MakeAttendence", "Student")">Attendence</a></li>
+                            <li><a href="@Url.Action("BatchTimingUpdate", "Student")">Batch Timing Update</a></li>
                         </ul>
                     </li>
                     @if (SessionWrapper.User.RoleId > (int)UserRole.User)
                     {
                         <li>
-                            <a href="@Url.Action("Index", "Main")">Admin</a>
+                            <a href="#">Admin</a>
                             <ul>
                                 <li><a href="@Url.Action("GetFaculityList", "Faculty")">Faculty Management</a></li>
                                 <li><a href="@Url.Action("UserList", "Main")">User Management</a></li>
-                                <li><a href="@Url.Action("PayemntDetails", "Student")">Payment Details</a></li>
+                                <li><a href="@Url.Action("PayemntDetails", "Student")">Payments</a></li>
+                                <li><a href="@Url.Action("RenewalStudentList", "Student")">Renewal Management</a></li>
                             </ul>
 
                         </li>
                     }
+                    @if (SessionWrapper.User.RoleId > (int)UserRole.User)
+                    {
+                        <li>
+                            <a href="#">Budget Management</a>
+                            <ul>
+                                @if (SessionWrapper.User.RoleId == (int)UserRole.SuperAdmin)
+                                {
+                                    <li><a href="@Url.Action("BudgetList", "Budget")">View Budget</a></li>
+                                }
+                                <li><a href="@Url.Action("ExpenseList", "Budget")">View Expenses</a></li>
+                                <li><a href="@Url.Action("ProfitLoss", "Budget")">Profit Loss</a></li>
+                            </ul>
+                        </li>
 
-                    <li>
-                        <a href="@Url.Action("Index", "Main")">Budget Management</a>
-                        <ul>
-                            <li><a href="@Url.Action("BudgetList", "Budget")">View Budget</a></li>
-                            <li><a href="@Url.Action("ExpenseList", "Budget")">View Expenses</a></li>
+                        <li>
+                            <a href="#">Reports</a>
+                            <ul>
+                                <li><a href="@Url.Action("StudentAttendence", "Report")">Attendence Detail</a></li>
+                                <li><a href="@Url.Action("StudentPaymentDetails", "Report")">Student Payment Details</a></li>
+                                <li><a href="@Url.Action("ReportsOnEnquiry", "Report")">Reports On Enquiry</a></li>
+                                <li><a href="@Url.Action("EnrollmentStudentList", "Report")">Student Enrollment List</a></li>
+                                <li><a href="@Url.Action("PaymentDetailList", "Report")">Due Payment Detail List</a></li>
+                            </ul>
+                        </li>
 
-                        </ul>
-                    </li>
+                        <li>
+                            <a href="#">My Target</a>
+                            <ul>
+                                <li><a href="@Url.Action("Index", "TargetManagement")">Target</a></li>
+                            </ul>
+                        </li>
+                        if (SessionWrapper.User.RoleId == (int)UserRole.SuperAdmin)
+                        {
+                            <li>
+                                <a href="#">companion</a>
+                                <ul>
+                                    <li><a href="@Url.Action("SendsmsCompanion", "EmailSMSCompanion")">sms Companion</a></li>
+                                    <li><a href="@Url.Action("SendEmailCompanion", "EmailSMSCompanion")">Email Companion</a></li>
+                                    <li><a href="@Url.Action("TestEmai", "EmailSMSCompanion")">Test Email</a></li>
+                                    <li><a href="@Url.Action("Testsms", "EmailSMSCompanion")">test sms</a></li>
+                                </ul>
 
+                            </li>
+                        }
+
+                    }
                 </ul>
             </div>
-            <!-- end navigation -->
-            @*}
-                else if (SessionWrapper.User.RoleId == 2)
-                {
 
-                }
-                else
-                {
-
-                }*@
+        </div>
+        <div id="overlay">
+            <span>Please wait...</span>
         </div>
         <!-- end header -->
         <!-- start container -->
@@ -148,14 +177,63 @@
     <div class="footer">
         <!-- start box -->
         <div class="box">
-            Copyright &copy; 2014
+            Copyright &copy; 2015
         </div>
         <!-- end box -->
     </div>
     <!-- end footer -->
 </body>
 </html>
+<style>
+    #overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        background-color: #000;
+        filter: alpha(opacity=50);
+        -moz-opacity: 0.5;
+        opacity: 0.5;
+    }
+
+        #overlay span {
+            padding: 5px;
+            border-radius: 5px;
+            color: #000;
+            background-color: #fff;
+            position: relative;
+            top: 50%;
+        }
+</style>
 <script type="text/javascript">
+
+    $(document).on({
+        ajaxStart: function () { $("#overlay").show() },
+        ajaxStop: function () { $("#overlay").hide() }
+
+    });
+
+    function SendSMS(contactNo, message, isBroadCast, msgType) {
+        if (confirm('Are you sure to send SMS notification ?')) {
+            $.get('@Url.Action("Index", "EmailSMSCompanion")?contactNo=' + contactNo + "&msgType=" + msgType + "&message=" + message + "&IsBrodcast=" + isBroadCast, function (data) {
+                alert(data);
+            });
+        }
+
+    }
+
+    function SendMail(mail, message, isBroadCast, msgType) {
+
+        if (confirm('Are you sure to send mail notification ?')) {
+            $.get('@Url.Action("EmailNotify", "EmailSMSCompanion")?mailAddress=' + mail + "&msgType=" + msgType + "&message=" + message + "&IsBrodcast=" + isBroadCast, function (data) {
+                alert(data);
+            });
+        }
+
+    }
     function UpdateCenter(o) {
         var centerId = $(o).val();
 

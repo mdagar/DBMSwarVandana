@@ -1,0 +1,65 @@
+﻿@model ViewModel.ReportViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<body>
+    <div class="row">
+        <label>Total Conversions: </label>
+        <label>@Model.ReportDataset.Tables[0].Rows.Count </label>
+    </div>
+    <div class="row">
+        <table style="border: 1px solid; width: 70%;">
+            <tr style="background-color:gray;">
+                <td>Enroll Date</td>
+                <td>Name</td>
+                <td>Contact No</td>
+                <td>Demo By</td>
+                <td>Discipline</td>
+                <td>Start Date</td>
+                <td>End Date</td>
+                <td>No Of Classes</td>
+            </tr>
+
+            @foreach (System.Data.DataRow v in Model.ReportDataset.Tables[0].Rows)
+            {
+                <tr>
+                    <td>
+                        @v["CDate"]
+                    </td>
+                    <td>
+                        @v["Name"]
+                    </td>
+                    <td>
+                        @v["ContactNumber"]
+                    </td>
+                    <td>
+                        @v["FacultyId"]
+                    </td>
+                    <td>
+                        @v["DisciplineId"]
+                    </td>
+                    <td>
+                        @v["SatrtDate"]
+                    </td>
+                    <td>
+                        @v["EndDate"]
+                    </td>
+                    <td>
+                        @v["NoOfClasses"]
+                    </td>
+                </tr>
+            }
+            @if (Model.ReportDataset.Tables[0].Rows.Count == 0)
+            {
+                <tr>
+                    <td colspan="2">No Record Found</td>
+                </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>

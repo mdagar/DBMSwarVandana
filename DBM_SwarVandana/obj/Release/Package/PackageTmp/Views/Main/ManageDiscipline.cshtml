@@ -17,7 +17,7 @@
         <div class="table-form">
             <form action="#">
 
-                <input type="text" placeholder="Search" name="search" value="" class="input" />
+                <input type="text" placeholder="Search" name="search" value="@ViewBag.Search" class="input" />
                 <input type="submit" value="Search" class="submit-btn" />
                 <label for="From">&nbsp;</label>
                 <input name="submit" type="button" onclick="AddNew()" value="Add New" class="submit-btn" />
@@ -31,6 +31,7 @@
                 <tr bgcolor="#ccc">
                     <td class="td">Discipline</td>
                     <td class="td">Description</td>
+                    <td class="td">Center Name</td>
                     <td class="td">Created Date</td>
                     <td class="td">Modify Date</td>
                     <td class="td">Action</td>
@@ -42,6 +43,7 @@
                     <tr>
                         <td class="td">@v.Discipline</td>
                         <td class="td">@v.Description</td>
+                        <td class="td">@v.CentreName</td>
                         <td class="td">@string.Format("{0:dd MMM yyyy}", v.AddDate)</td>
                         <td class="td">@string.Format("{0:dd MMM yyyy}", v.ModifyDate)</td>
                         <td class="td"><a href="@Url.Action("AddDiscipline", "Main", new { DisciplineId = v.DisciplineId })" title="Edit">Edit</a></td>

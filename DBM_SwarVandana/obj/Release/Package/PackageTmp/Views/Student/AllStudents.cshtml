@@ -32,7 +32,7 @@
             <table cellpadding="0" cellspacing="0" class="table">
                 <!-- start row -->
                 <tr bgcolor="#ccc">
-                    <td class="td">Unique Key</td>
+                    <td class="td">Enrollment Number</td>
                     <td class="td">Name</td>
                     <td class="td">DOB</td>
                     <td class="td">Contact 1</td>
@@ -79,20 +79,7 @@
 
                 }}
             </table>
-            <!-- start row -->
-            @*<div class="row-last">
-                    <div class="td td2">1 - 8 of 8 items</div>
-                    <div class="td td3">
-                        <ul>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                        </ul>
-                    </div>
-                </div>*@
-            <!-- end row -->
+            @Html.Partial("_Paging")
         </div>
     </div>
     <!-- end table -->

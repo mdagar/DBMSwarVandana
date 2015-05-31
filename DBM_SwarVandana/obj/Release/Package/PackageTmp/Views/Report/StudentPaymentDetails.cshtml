@@ -1,0 +1,202 @@
+﻿@model ViewModel.ReportViewModel
+@{
+    ViewBag.Title = "Student PaymentDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .newform {
+        margin-left: 1px !important;
+        margin-top: 20px !important;
+    }
+
+    tr.spaceUnder > td {
+        padding-bottom: 1em;
+    }
+</style>
+<script>
+    function GetStudentDetails() {
+        var uniqueid = $("#UniqueKey").val();
+        $("#showstudent,#showDiscipline").hide();
+        $("#DisciplineId1").html('');
+        $("#PaymentView").html('');
+        if (uniqueid == '') {
+            alert("Please enter enrollment number.");
+            return false;
+        }
+        else {
+            $.post('@Url.Action("GetStudentByUniqueId", "Student")', { UniqueId: uniqueid }, function (data) {
+                if (data.Name != "") {
+                    $("#lblName").text(data.Name);
+                    var finalDate = ConvertDate(data.DOB);
+                    $("#DOB").text(finalDate);
+                    $("#ContactNumber").text(data.Contact1);
+                    $("#EmailID").text(data.EmailAddress);
+                    $("#Address").text(data.Address);
+                    $("#GuardianName").text(data.GuardianName);
+                    $("#Occupation").text(data.Occupation);
+                    $("#StudentId").val(data.StudentId);
+                    $("#showstudent").show();
+                    $.post('@Url.Action("GetAllDisciplineForStudent", "Student")', { studentId: data.StudentId }, function (classes) {
+                        var result = JSON.parse(classes)
+                        $("#DisciplineId1").html('');
+                        $("#DisciplineId1").append('<option value="">-- Select Discipline --</option>');
+                        $.each(result, function (i, Discipline) {
+                            $("#DisciplineId1").append('<option info="' + Discipline.EnrollmentId + '" value="' + Discipline.DisciplineId + '" >' +
+                                 Discipline.Discipline + '</option>');
+                        });
+                    });
+                }
+                else {
+                    alert("No record found");
+                }
+
+            });
+        }
+    }
+    function GetDisciplinePaymentDetails(o) {
+        var disciplineId = $(o).val();
+        var enrollmentId = $(o).find(':selected').attr('info');
+        $("#EnrollmentId").val(enrollmentId);
+        $("#DisciplineId").val(disciplineId);
+        $("#lblNoofClass").val('');
+        $("#lblCourseamt").val('');
+        $("#lblpaidmat").val('');
+        $("#lblbalamt").val('');
+        $.post('@Url.Action("GetDisciplinePaymentDetails", "Student")', { disciplineId: disciplineId, studentID: $("#StudentId").val(), enrollmentId: enrollmentId }, function (data) {
+            if (data != null) {
+                var result = JSON.parse(data)
+                $("#lblNoofClass").text(result[0].NoOfClasses);
+                $("#lblCourseamt").text(result[0].CourseAmount);
+                $("#lblpaidmat").text(result[0].PaidAmount);
+                $("#lblbalamt").text(result[0].BalanceAmount);
+                $("#lblsDate").text(ConvertDate(result[0].SatrtDate));
+                $("#lbleDate").text(ConvertDate(result[0].EndDate));
+                $("#showDiscipline").show();
+            }
+        });
+    }
+    function ConvertDate(dat) {
+        var parsedDate = new Date(parseInt(dat.substr(6)));
+        var d = new Date(parsedDate); //Date object
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var finalDate = +d.getDate() + " " + months[(d.getMonth() + 1) - 1] + " " + d.getFullYear();
+        return finalDate;
+    }
+
+    function ShowReport() {
+        var enrol = $("#EnrollmentId").val();
+        var stuid = $("#StudentId").val();
+        if (enrol != "") {
+            $.post('@Url.Action("StudentPaymentDetailsAjaxView", "Report")', { enrollmentId: $("#EnrollmentId").val(), studentId: $("#StudentId").val() }, function (data) {
+                $("#PaymentView").html(data);
+            });
+        }
+    }
+</script>
+<div class="container">
+    <!-- registration-form -->
+    <div class="registration-form">
+        @using (Html.BeginForm(new { @class = "newform" }))
+        {
+            @Html.HiddenFor(v => v.StudentId);
+            @Html.HiddenFor(v => v.EnrollmentId);
+            @Html.HiddenFor(v => v.DisciplineId);
+            <h3>Student Payment Details</h3>
+            <div class="row">
+                <label for="Password">Enrollment Number :</label>
+                <input id="UniqueKey" type="text" class="input" />
+                <a href="#" id="btnGet" onclick="javascript: GetStudentDetails();">Get Details</a>
+            </div>
+            <div style="padding:1%;height:1px;">
+            </div>
+            <div class="row">
+                <table id="showstudent" style="display: none;border:1px solid;">
+                    <tr style="background-color:gray;">
+                        <td>Name</td>
+                        <td>DOB</td>
+                        <td>Contact</td>
+                        <td>Email</td>
+                        <td>Address</td>
+                        <td>Guardian</td>
+                        <td>Occupation</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="lblName"></div>
+                        </td>
+                        <td>
+                            <div id="DOB"></div>
+                        </td>
+                        <td>
+                            <div id="ContactNumber"></div>
+                        </td>
+                        <td>
+                            <div id="EmailID"></div>
+                        </td>
+                        <td>
+                            <div id="Address"></div>
+                        </td>
+                        <td>
+                            <div id="GuardianName"></div>
+                        </td>
+                        <td>
+                            <div id="Occupation"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="padding:1%;height:1px;">
+            </div>
+            <div class="row" style="padding-top: 1em;">
+                <label for="Password">Discipline :</label>
+                <select name="DisciplineId1" id="DisciplineId1" class="select" onchange="GetDisciplinePaymentDetails(this)"></select>
+            </div>
+            <div style="padding:1%;height:1px;">
+            </div>
+            <div class="row">
+                <table id="showDiscipline" style="display: none;border:1px solid;">
+                    <tr style="background-color:gray;">
+                        <td>No of Classes</td>
+                        <td>Start Date</td>
+                        <td>End Date</td>
+                        <td>Course Amount</td>
+                        <td>Paid Amount</td>
+                        <td>Balance Amount</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="lblNoofClass"></div>
+                        </td>
+                        <td>
+                            <div id="lblsDate"></div>
+                        </td>
+                        <td>
+                            <div id="lbleDate"></div>
+                        </td>
+                        <td>
+                            <div id="lblCourseamt"></div>
+                        </td>
+                        <td>
+                            <div id="lblpaidmat"></div>
+                        </td>
+                        <td>
+                            <div id="lblbalamt"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="padding:1%;height:1px;">
+            </div>
+            <div class="rowbutton">
+                <input name="button" type="button" value="Show Report" class="submit-btn" onclick="javascript: ShowReport();" />
+            </div>
+            <div style="padding:1%;height:1px;">
+            </div>
+            <div id="PaymentView" class="row">
+
+            </div>
+
+
+        }
+    </div>
+</div>

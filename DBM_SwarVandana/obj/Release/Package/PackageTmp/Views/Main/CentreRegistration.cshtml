@@ -96,7 +96,8 @@
             </div>
             <div class="row">
                 <label for="Password"><span style="color: red;">*</span>Open Date :</label>
-                @Html.TextBoxFor(x => x.CentreOpenDate, new { @class = "input" })
+                @*@Html.TextBoxFor(x => x.CentreOpenDate, new { @class = "input" })*@
+                @Html.TextBox("CentreOpenDate",Model.CentreOpenDate== null ? "" : Model.CentreOpenDate.Value.ToString("dd MMM yyyy"), new { @class = "input",@readonly="readonly" })
             </div>
             <div class="row">
                 <label for="IsActive">Is Active</label>
