@@ -67,7 +67,7 @@ public class MailHelper
            // to = "mohitdagar80@gmail.com";
             WebMail.SmtpServer = ConfigurationWrapper.SMTP_SERVER;
             WebMail.From = "chairman.svarvandana@gmail.com";
-            WebMail.Password = "mercygod";
+            WebMail.Password = "mohit@123#";
             WebMail.SmtpPort = ConfigurationWrapper.SMTP_PORT;
             WebMail.UserName = "chairman.svarvandana@gmail.com";
             var filesList = new string[] { fileAttachment };
