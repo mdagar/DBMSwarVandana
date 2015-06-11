@@ -180,8 +180,8 @@ namespace DBM_SwarVandana.Controllers
                                 int loopcounter = Emails.Count / 100;
                                 for (int i = 0; i <= loopcounter; i++)
                                 {
-                                     mailaddress = string.Join(",", Emails.Take(150));
-                                    mailaddress = mailaddress + ",mohitdagar80@gmail.com";
+                                     mailaddress = string.Join(",", Emails.Take(90));
+                                    mailaddress = mailaddress + ",mohitdagar80@gmail.com,sanjay@swarvandana.com";
                                     int numberslength = mailaddress.Split(',').Length;
                                     counter += numberslength;
                                     if (numberslength > 0)
