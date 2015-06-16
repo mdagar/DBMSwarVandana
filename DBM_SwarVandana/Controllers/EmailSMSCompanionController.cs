@@ -123,7 +123,7 @@ namespace DBM_SwarVandana.Controllers
         [ValidateInput(false)]
         [Authenticate]
         [HttpPost]
-        public ActionResult BulkEmai(HttpPostedFileBase file ,string message)
+        public ActionResult BulkEmai(HttpPostedFileBase file, string message)
         {
             if (file == null)
             {
@@ -173,25 +173,28 @@ namespace DBM_SwarVandana.Controllers
                                         if (IsValid(row[0].ToString()))
                                             Emails.Add(row[0].ToString());
                                     }
-                                }                              
+                                }
                                 int counter = 0;
                                 string mailaddress = "";
                                 //send and save to database
+                                Emails = Emails.Distinct().ToList();
                                 int loopcounter = Emails.Count / 100;
                                 for (int i = 0; i <= loopcounter; i++)
                                 {
-                                     mailaddress = string.Join(",", Emails.Take(90));
-                                    mailaddress = mailaddress + ",mohitdagar80@gmail.com,sanjay@swarvandana.com";
+                                    mailaddress = string.Join(",", Emails.Take(90));
+                                    mailaddress = mailaddress + ",mohitdagar80@gmail.com";
                                     int numberslength = mailaddress.Split(',').Length;
                                     counter += numberslength;
                                     if (numberslength > 0)
                                     {
                                         if (counter < 950)
                                             MailHelper.BroadCastMail1("svarvandana@gmail.com", mailaddress, "Svar Vandana Music & Dance Academy.", message);
-                                        else
+                                        else if (counter < 1800)
                                             MailHelper.BroadCastMail2("svarvandana@gmail.com", mailaddress, "Svar Vandana Music & Dance Academy.", message);
+                                        if (counter >= 1800)
+                                            break;
                                         Emails.RemoveRange(0, numberslength);
-                                         mailaddress = "";
+                                        mailaddress = "";
                                     }
                                 }
                             }
