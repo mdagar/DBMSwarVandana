@@ -56,7 +56,7 @@ namespace Code
         {
             //Number = "7838330700";
             //Number = "8800648085";
-            string api = "http://46.4.103.196:8090/sendSMS?username=" + uid + "&message=" + message + "&sendername=" + senderName + "&smstype=PROMO&numbers=" + Number + "&apikey=" + apiKey + "";
+            string api = "http://sms.hspsms.com/sendSMS?username=" + uid + "&message=" + message + "&sendername=" + senderName + "&smstype=PROMO&numbers=" + Number + "&apikey=" + apiKey + "";
             HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create(api);
             HttpWebResponse myResp = (HttpWebResponse)myReq.GetResponse();
             System.IO.StreamReader respStreamReader = new System.IO.StreamReader(myResp.GetResponseStream());
@@ -71,7 +71,7 @@ namespace Code
         {
             //commaSepratedNumbers = "7838330700";
             //commaSepratedNumbers = "8800648085";
-            string api = "http://46.4.103.196:8090/sendSMS?username=" + uid + "&message=" + message + "&sendername=" + senderName + "&smstype=PROMO&numbers=" + commaSepratedNumbers + "&apikey=" + apiKey + "";
+            string api = "http://sms.hspsms.com/sendSMS?username=" + uid + "&message=" + message + "&sendername=" + senderName + "&smstype=PROMO&numbers=" + commaSepratedNumbers + "&apikey=" + apiKey + "";
             HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create(api);
             HttpWebResponse myResp = (HttpWebResponse)myReq.GetResponse();
             System.IO.StreamReader respStreamReader = new System.IO.StreamReader(myResp.GetResponseStream());

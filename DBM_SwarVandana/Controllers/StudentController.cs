@@ -157,7 +157,6 @@ namespace DBM_SwarVandana.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-
         [Authenticate]
         [HttpPost]
         public ActionResult EntrollStudent(StudentEntrollmentViewModel s, List<int> BatchIds, bool PE, string nodue)
@@ -234,9 +233,6 @@ namespace DBM_SwarVandana.Controllers
                     string attachment = Server.MapPath(@"~\Content\Downloads\Welcome Presentation.pptx");
                     MailHelper.AutoEmail(student.EmailAddress, "m", Emailmsg, false, attachment);
                     //});
-
-
-
                     ViewBag.Success = Messages.SubmitEnroll;
                 }
                 else
