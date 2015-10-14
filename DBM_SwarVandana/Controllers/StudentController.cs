@@ -379,11 +379,11 @@ namespace DBM_SwarVandana.Controllers
                 s.ModifyDate = DateTime.Now;
                 AttendenceCollection.Add(s);
             }
-            if (m.DateOfAttendence.Value.Date < DateTime.Now.Date)
-            {
-                var studentIds = AttendenceCollection.Where(x => x.AttendenceStatus != (int)AttendenceStatus.Absent).Select(s => s.StuentId);
-                m.students = m.students.Where(x => studentIds.Contains(x.StudentId));
-            }
+            //if (m.DateOfAttendence.Value.Date < DateTime.Now.Date)
+            //{
+            //    var studentIds = AttendenceCollection.Where(x => x.AttendenceStatus != (int)AttendenceStatus.Absent).Select(s => s.StuentId);
+            //    m.students = m.students.Where(x => studentIds.Contains(x.StudentId));
+            //}
             Session["Atendence"] = AttendenceCollection;
             //m.studentAttendence = AttendenceCollection;
             return View(m);
