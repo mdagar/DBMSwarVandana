@@ -26,7 +26,7 @@ namespace Code
                     States = new SelectList((new CentreRepository().GetStates()), "StateId", "StateName");
                     break;
                 case "Centres":
-                    Centres = new SelectList((new UsersRepository().GetAllCentres()), "CentreId", "CentreName", SLvalue);
+                    Centres = new SelectList((new UsersRepository().GetAllCentres().Where(x=> x.IsActive== true)), "CentreId", "CentreName", SLvalue);
                     break;
                 case "Sources":
                     Sources = new SelectList((new SourceRepository().GetAllSources()), "SourceId", "Source");

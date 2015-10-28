@@ -9,11 +9,12 @@ namespace DBConnection
 {
     public class DBConnections
     {
+        SqlConnection _connection;
         public SqlConnection GetConnection()
         {
             string connStr = ConfigurationManager.ConnectionStrings["Repository"].ConnectionString;
-            SqlConnection conn = new SqlConnection(connStr);
-            return conn;
+            _connection = new SqlConnection(connStr);
+            return _connection;
         }
     }
 }
