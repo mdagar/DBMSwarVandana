@@ -83,6 +83,7 @@ namespace DBM_SwarVandana.Controllers
                 {
                     evm = new EnquiryViewModel(_allenquiry.FindByEnquirieID(en.EnquiryId));
                     evm.ActionId = 1;
+                    evm.Name = en.Name;
                     evm.StatusId = en.StatusId;
                     evm.FinalComments = en.FinalComments;
                     evm.ModifyDate = DateTime.Now;
@@ -198,6 +199,10 @@ namespace DBM_SwarVandana.Controllers
                     evm = new EnquiryViewModel(_allenquiry.FindByEnquirieID(en.EnquiryId));
                     evm.ActionId = 1;
                     evm.StatusId = en.StatusId;
+                    evm.Name = en.Name;
+                    evm.Age = en.Age;
+                    evm.Gender = en.Gender;
+                    evm.ProbableStudentFor = en.ProbableStudentFor;
                     evm.RemarksByFaculty = en.RemarksByFaculty;
                     evm.NoOfClasses = en.NoOfClasses;
                     evm.Package = en.Package;

@@ -111,14 +111,15 @@
             </div>
             <div class="row">
                 <label for="Password">Name :</label>
-                @if (Model.EnquiryId != 0)
+                @Html.TextBoxFor(x => x.Name, new { @class = "input" })
+                @*@if (Model.EnquiryId != 0)
                 {
                     @Html.TextBoxFor(x => x.Name, new { @class = "input", @readonly = "readonly" })
                 }
                 else
                 {
                     @Html.TextBoxFor(x => x.Name, new { @class = "input" })
-                }
+                }*@
             </div>
             <div class="row">
                 <label for="Password">Date of Enquiry :</label>
